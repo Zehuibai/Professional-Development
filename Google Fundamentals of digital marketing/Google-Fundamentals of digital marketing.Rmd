@@ -1,0 +1,126 @@
+---
+title: 'Google-Fundamentals of digital marketing'
+author: "Zehui Bai"
+date: '`r format(Sys.time())`'
+output:
+  html_document:
+    df_print: paged
+    number_sections: no
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+  pdf_document:
+    toc: yes
+fontsize: 10pt
+editor_options:
+  chunk_output_type: console
+colorlinks: yes
+---
+
+```{r setup, include=FALSE, echo = FALSE,message = FALSE, error = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# <!-- ---------------------------------------------------------------------- -->
+# <!--                    1. load the required packages                       -->
+# <!-- ---------------------------------------------------------------------- --> 
+
+## if(!require(psych)){install.packages("psych")}
+
+packages<-c("tidyverse", "knitr", "papeR")
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+ipak(packages)
+# <!-- ---------------------------------------------------------------------- --> 
+
+
+# <!-- ---------------------------------------------------------------------- -->
+# <!--                        2. Basic system settings                        -->
+# <!-- ---------------------------------------------------------------------- -->
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+getwd()
+Sys.setlocale("LC_ALL","English")
+```
+
+
+
+```{r mind map,echo = F,message = FALSE, error = FALSE, warning = FALSE}
+## Convert to mind map text, markdown outline, R script, and HTML widget ####
+library(mindr)
+# text -> widget
+# input <- c("# Chapter 1", "## Section 1.1", "### Section 1.1.1", "## Section 1.2", "# Chapter 2")
+# mm(from = input, root = "mindr")
+
+
+input <- rstudioapi::getSourceEditorContext()$path 
+## file.show(input) # Open the input file with the default program, if any
+input_txt <- readLines(input, encoding = "UTF-8")
+## Convert to mind map text, markdown outline, R script, and HTML widget ####
+# markmap(input_txt)
+```
+
+# Intro to the Digital Garage
+
+**Your digital opportunity**
+
+For many businesses, the biggest challenge to being online isn’t getting used to the tools, but putting together a plan. We’ve got lots of videos that are going to help you do just that, but let’s run down a quick list of the major things you want to consider.
+
+The first is scope. Web, mobile, social … there are so many options. Where do you want to start, and where do you want to go?
+
+Next is Technology and Content: Decide if you’ll handle the technical and creative aspects of the site yourself—which may take more time—or get help, which may take more money.
+
+Finally you’ll want to consider Cost and Time: Set a realistic budget and an achievable schedule with clear milestones—and commit fully to both. Every day, thousands of small business owners are making the web work for them. The opportunity to reach customers from around the corner and around the globe is too big to ignore.
+ 
+ 
+# Your first steps in online success
+
+1. Taking your business online offers a lot of opportunities, but with so many options, it's easy to spin your wheels and lose focus. Setting specific goals can help as you begin to navigate the digital world.
+2. Let’s take a look at all the options for launching your business online, step by step. We’ll cover:
+    * local listings
+    * social media and video
+    * websites and mobile apps.
+3. You’re online, so now it’s time to bring in the customers you want. We’ll review how to best help them find you, using some tried-­and-­tested online marketing avenues:
+    * search engines
+    * other websites
+    * social media
+    * email.
+4. To go digital and do it the right way, you need a well-thought­-out and flexible plan. In this lesson we’ll talk through:
+    * setting realistic expectations
+    * tracking and measuring how you’re doing
+    * adapting to changes in technology and your industry.
+
+**Your online goals**
+
+Whatever your ultimate digital goals are, or where you currently stand, your priorities will naturally change and grow with your business. Now to make sure you’re meeting your objectives, it’s really important to measure your progress along the way.
+
+This is called “analytics”. Analytics lets you know what’s working well, and what could be tweaked.
+
+**Marketing your online presence**
+
+Now, there are two main ways you can use search engines, and we’ve got lots of info to share on both.
+
+The first is search engine optimisation, or SEO, which helps you promote your business in the unpaid search results.
+
+The second is search engine marketing, or SEM, which lets you buy ad space in the search results. SEO is all about getting your site in front of the right people who are searching for your products and services.
+
+**Analyse and adapt**
+
+To set yourself up for success online, you need to look before you leap. And don’t stop looking! A good plan will consider three things: first, know your online goals, and set yourself realistic expectations. Next, use analytics to track and measure what you’re doing and how it’s working. And last, always keep up-to-date and adapt to changes in technology and the industry you work in. If your plan tackles all these things and you stay flexible, you’ll be well on your way.
+
+# Build your web presence
+<!-- ---------------------------------------------------------------------- -->
+
+<!--               Example for including figure in local path               -->
+
+<!-- ---------------------------------------------------------------------- -->
+
+```{r , echo=FALSE, fig.align="center", out.width = '100%',fig.cap=""}
+## knitr::include_graphics("./02_Plots/christmas logo_small.png")
+```
+
+<!-- ---------------------------------------------------------------------- -->
+
