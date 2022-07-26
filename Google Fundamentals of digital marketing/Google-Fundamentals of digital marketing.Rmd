@@ -5,7 +5,7 @@ date: '`r format(Sys.time())`'
 output:
   html_document:
     df_print: paged
-    number_sections: no
+    number_sections: yes
     toc: yes
     toc_float: yes
   word_document:
@@ -60,7 +60,7 @@ input <- rstudioapi::getSourceEditorContext()$path
 ## file.show(input) # Open the input file with the default program, if any
 input_txt <- readLines(input, encoding = "UTF-8")
 ## Convert to mind map text, markdown outline, R script, and HTML widget ####
-# markmap(input_txt)
+markmap(input_txt, root = "Fundamentals of digital marketing")
 ```
 
 # Intro to the Digital Garage
@@ -112,6 +112,842 @@ The second is search engine marketing, or SEM, which lets you buy ad space in th
 To set yourself up for success online, you need to look before you leap. And don’t stop looking! A good plan will consider three things: first, know your online goals, and set yourself realistic expectations. Next, use analytics to track and measure what you’re doing and how it’s working. And last, always keep up-to-date and adapt to changes in technology and the industry you work in. If your plan tackles all these things and you stay flexible, you’ll be well on your way.
 
 # Build your web presence
+
+**How websites work**
+
+There are many companies and services that will rent you space on a server and host your website. Just like a brick-and-mortar shop, you pay an ongoing hosting fee, which is a bit like paying rent, leaving them to take care the technical aspects of running a server so you don’t have to.
+
+
+**Websites and your business goals**
+
+When creating your website, consider how to combine your business goals with what your visitors want. In this lesson, we'll talk about:
+
+1. using your site to further your business goals
+2. thinking like a customer
+3. telling your story online.
+
+
+**Make your website easy to use**
+
+Visitors to your website should be able to navigate and interact with your site easily – that's called usability. Bring them back again and again by:
+
+1. providing simple and clear navigation
+2. creating a consistent layout
+3. writing relevant and effective content.
+
+**Website design do’s and don’ts**
+
+When designing your website, watch out for mistakes that often chase customers away. In this lesson, we'll outline some ways to avoid frustration, such as:
+
+1. *quick-loading pages*
+2. *mobile friendliness*
+3. *general accessibility*
+
+You’ve heard the expression “you only get one chance to make a first impression,” right? Well, it holds true online, too.
+
+This lesson can help you avoid common mistakes in your website design that can drive visitors away. We’ll cover how to make sure your pages load fast, making your site mobile friendly, general accessibility and the quality of your content.
+
+First, you need speed. Internet users aren’t famous for patience, and if your pages take too long to load, they’ll leave.
+
+There are lots of technical things that you, or whoever builds your website, can do to speed things up, like choosing the right technologies and hosting solutions. But there are also some simple fixes.
+
+If you have images on your pages, use the smallest ones you need. Ditch large, high-resolution files if they’re only going to appear as thumbnails. Plenty of software programs can resize or compress images to make them smaller, and this translates to faster loading times.
+
+Simplify your design. Generally, the more you limit what your visitors’ browsers have to download and re-use, the faster pages will load. Use the same background image across many pages, and ask whoever is building your website to be efficient with code and scripts. If you want to test how you’re doing, try opening the site on your mobile - using a data connection, not WiFi - and see how quickly it loads.
+
+Next, make sure your website is easy to use on a mobile. More and more people are using their smartphones as their primary device for browsing the web, and if your site is difficult to use on these devices, you’ll potentially lose customers.
+
+The easiest way to have a mobile-friendly website is to build it that way from the start, using an approach like “responsive design,” which automatically detects the type of screen being used and displays the site accordingly—doing things like stacking text and photos vertically on a smartphone being held upright.
+
+If you want to get a sense for whether your site is mobile-friendly, try Google’s Mobile-Friendly Test tool.
+
+Keep in mind things like swiping or tapping, which are unique to touchscreens. Be sure the components of your website respond properly to these kinds of “inputs.”
+Using widely recognised icons and making content clear and well organised will help visitors using smaller screens to find what they need.
+
+Next, make it easy to find your address and phone number. Many devices are equipped with GPS and mapping features, which can help visitors on-the-go. And of course, when accessing your website from a mobile, it should be easy for visitors to give you a ring.
+
+You’ll also want to remember that people will be viewing your site on different browsers—like Chrome or Firefox—and different platforms, like Windows or Mac. Do a test run from as many computers, devices and browsers as you can. Does your site look right in every case? Are you prompted to download plug-ins? That’s an extra step that may send visitors away.
+
+Last, remember that your website is not just for selling—it’s for solving.
+
+Imagine you’re a visitor. Ask yourself, why am I here? What am I trying to do? What problem am I trying to solve?
+
+For example, if you own a bakery that makes custom cakes, someone is probably visiting your site because they need one. You could write pages about your decorating style and inspirations. But a testimonial and photos from a real-life customer might be a better bet.
+
+So those are some common mistakes that trip up many websites. To avoid them, make sure your pages load quickly, and look and behave properly, no matter what device and browser a visitor uses.
+
+And think of your customers when you create content. Answer their needs, and you have the best chance of bringing them in.
+
+
+# Plan your online business strategy
+
+**key differences between a customer in a physical shop and a customer online**
+
+Imagine you just set a personal goal to improve your fitness, and now need new running shoes. In the offline world your journey might go a bit like this:
+
+You visit the local shopping centre, going from shop to shop. Ultimately, you make a decision based on price, quality, returns policy, friendliness of staff, and stock availability. You process all that information, head back to the store with the shoes you liked best, and make the purchase.
+
+When it comes to online purchasing, you’re likely to engage in four distinct stages throughout your online shopping journey. Theses principles are described in the “See, Think, Do, Care” framework, and offer a useful way to identify where a business should invest effort in connecting with customers. Let’s take a look at our shoe shopping example, while highlighting these four stages:
+
+In the SEE stage, you notice that some of your friends have taken up running, and are posting maps of their favourite routes on their social media accounts. This inspires you to start running yourself. In the THINK stage, you get your phone and type ‘what are the best running shoes for beginners?’. This introduces you to a whole lot of online content, from blog articles to targeted ads, giving you more factors to base your decision on. Eventually, you make your purchase, which makes up the DO stage, and perhaps post a photo on social media. This last step of sharing your purchase is part of the CARE stage.
+
+Keep in mind that customers don’t necessarily experience all four stages every time - your individual journey might begin at the THINK stage, or end at the DO stage.
+
+Now let’s combine offline and online activities together. Imagine you are in the sport shop having just tried on the new running shoes. You get out your phone and search for them online - perhaps checking if they are cheaper elsewhere. The chances are you might buy online after visiting a physical store- an approach called ‘showrooming’.
+
+**audience segmentation**
+
+So how can you identify where to focus your efforts online? To choose the right channels, find out out who you’re talking to, when you should talk to them, and what you should talk about. This is called audience segmentation.
+
+You can segment customers in many ways, from basic demographics like age and gender, to specific interests. For example, segmenting customers by location may benefit an e-commerce store if certain products are only available to ship to specific areas. Segmentation can also help with your online advertising; as most channels allow you to target paid advertising to specific audiences, based on information like what an audience likes or dislikes. You can also make your ads appear only to people within a certain radius of your shop or business, which can be handy when offering promotions to local shoppers.
+
+**Understanding customer behaviour**
+
+Create the best possible online experience for customers by understanding how to make the most of the moments when they interact with a brand. In this lesson, we'll explore:
+
+1. what customer touchpoints are
+2. how to map common online customer journeys
+3. how to identify customer touchpoints that generate business goals.
+
+Customers are the key to success, which is why understanding and nurturing them is so important. In this lesson we’ll look at the importance of customer touchpoints, how to use them to map the journey customers take online, as well as how improving the customer experience can help you achieve your goals.
+
+So how can you make a customer’s experience better? Let’s start by explaining customer touchpoints and why they’re important. A touchpoint is any stage when a customer, or potential customer, comes into contact with a business.
+
+Touchpoints are used a lot in offline business, particularly in retail. They can be receipts, bags, signage, customer service counters, and many other points along the way. Online, they can be a valuable way for businesses to build brand loyalty and trust. When a customer encounters a touchpoint multiple times, such as online ads, this provides consistent value and creates ongoing positive associations with a brand.
+
+While people don’t all look and think the same, the way they buy things, and the touchpoints they interact with, have many similarities. To understand online user behaviour, you need to establish what those touchpoints are and where they take place.
+
+To identify them, try mapping the journey a customer takes. Once you know the steps they take to get to you, you can plan how to impress them at every stage. Imagine a marathon - once you know the route, you can plan in strategic points to rest, drink, or top up your energy levels. The purchase journey is the same - knowing the route gives you an understanding of exactly how you need to strategise your online approach.
+
+Because there are so many potential interaction points, figuring out the journey may seem overwhelming at first. To make it easier, try putting yourself in the customer’s shoes.
+
+Ask yourself:
+
+where do I go when I need answers?
+
+where do I normally spot new brands or businesses?
+
+what helps me make a purchase decision? and
+
+do I see a brand again after I’ve made the purchase?
+
+Another option is to ask customers directly about the route they took to find you. A simple face-to-face or online survey can break this journey down step-by-step, making it clearer and easier to visualise.
+
+Once you understand the route a customer takes, it’s all about making sure the relevant touchpoints chosen are effective in drawing people in. If you have a website, does it tell a potential customer what they want to know whilst keeping existing customers interested? The more value a site has to someone, the more likely it is they will want to return to it.
+
+Social media is another great tool to develop touchpoints and can help give a business character and a personal feel. Remember your customers are real people - so connect with them in a way that’s relatable and engaging.
+
+Once your touchpoints are set up, remember to regularly review how they’re performing. For example, if your product or service is suddenly becoming popular with a new audience, like teens, you may need to make adjustments to your touchpoints, so that they resonate directly with that age-group.
+
+To wrap up, here are some quick reminders to help you work on your own touchpoints:
+
+think about the journey you take as a customer when you buy something, and apply this information to your business scenario
+
+if you can, talk to customers to get real-world info on the touchpoints they encounter
+
+analyse touchpoint performance and optimise your message if required, so that the customer’s needs always come first.
+
+**How to stand out from the competition**
+
+As a physical store you need to stand out. The same is true in digital. When we identify what makes us different from the competition online, we call that our Unique Selling Point, or USP.
+
+4 key questions to ask yourself when defining your USP are:
+
+* who is my target audience?
+* who are my competitors?
+* what problems does my target audience have?, and
+* how can I solve them?
+
+Other things to consider while working on your USP are your strengths and weaknesses. To do this, use a SWOT analysis, which will help ensure business decisions are well informed. SWOT stands for Strengths, Weaknesses, Opportunities and Threats.
+
+Ask yourself:
+
+* what is it we’re good at? These are your strengths
+* what can we do better? These are your weaknesses
+* how can we grow, change and improve? These are your opportunities
+* what is happening or could happen, both internally and externally, that might affect us negatively? Those are the threats.
+
+While constructing your USP, it’s a good idea to check what the competition is up to. When starting a competitor analysis, make sure to utilise the free tools available online. Start with search engines, which can offer the most immediate answers.
+
+**KPI**
+
+Let’s dive in: Key Performance Indicators, or KPIs, are quantifiable measurements used to focus attention on the metrics most important to meet business goals. They are also useful in helping a team understand how progress will be tracked and measured.
+
+So how do you know what your KPIs should be, and how do you measure them? KPIs should be specific, measurable, attainable, relevant and time-bound. By creating them this way, you can ensure they will be clear and achievable. Try creating your own KPIs and see if you can answer the following: a. Is this KPI specific enough? b. Can it be measured? c. Can employees attain this? d. How relevant is it to the wider business objective? e. And lastly, when is it due to be delivered or carried out?
+
+# Get started with search
+
+**Organic search explained**
+
+Organic results typically appear in the centre of the page, and are the results the search engine decides are the best match for the search query, or words, that were typed in.
+
+Results pages will also display advertisements, or paid results, though they’ll be separate and labeled as ads. Although organic results and ads appear on the same page, there’s one big difference: there’s no cost to appear in the organic results.
+
+Websites do not—and cannot—pay to appear here. So how can you improve your website’s chances of appearing in the unpaid results?
+
+It all comes down to quality.
+
+
+**Paid search explained**
+
+Hey there, ready to learn a bit about advertising on search engines? We’ll cover how advertising on search engines works—that’s called SEM, or search engine marketing. We’ll explain why it’s so effective, and how businesses compete to show ads.
+
+Imagine you live in the Cotswolds, you’re out running errands and are desperate for a coffee. You pull out your mobile and search for 'coffee shop Cotswolds'.
+
+Now you have a page full of options to consider. Every section on the page —the map, the ads, and the search results — presents options. Who knew there would be so many?
+
+Some of these results are selected by the search engine’s organic formula. These pages are considered the most relevant web pages the search engine can find for this search. The other sections are ads.
+
+If you take a moment to compare the ads you see to those in a print magazine, you might notice one big difference - every ad is for a coffee shop.
+
+You don’t see ads for unrelated things, and interestingly enough, the adverts seem quite similar to the organic results.
+
+This is by design, and it’s what makes paid search advertising so effective. A search engine’s most important job is to show people the results they are looking for, and this extends to the ads. The ads you see complement the search results page, with the ultimate goal of helping a searcher find what they’re looking for. So how exactly does search engine advertising work? There are several models. Let’s take a look at one popular option, the text ads you see on search engine results pages.
+
+Every time someone searches advertisers compete for the opportunity to display ads. It happens in milliseconds and the searcher won’t see the details, only the winners: the ads that appear on the page.
+
+So, how do search engines decide who wins? The primary components are the bid and the quality.
+
+The bid is the maximum amount an advertiser is willing to pay for a click on an ad. If someone clicks the ad, the advertiser is charged an amount equal to—or sometimes less than—the bid.
+
+So, if an advertiser bids £2 for a keyword, that’s the most they would pay for a single ad click. If an ad shows on the page but no one clicks, it doesn’t cost the advertiser anything at all.
+
+Ideally, bids correspond to the value of the keywords to the business but the amount is up to each advertiser. Some advertisers may be willing to bid 50p for a keyword; others may be willing to bid £10.
+
+Bid averages vary industry-by-industry, and keyword-by-keyword. Bids are important, but so is quality.
+
+Winning the auction doesn’t always hinge on having the highest bid. Search engines reward ads and keywords with strong relevance to the search. In fact, it’s possible that relevant ads can “win” higher spots on the search results page, even with lower bids. In some cases, no matter how high a bid, a search engine will not display the ad if it’s irrelevant. To summarise, paid ads offer another way to promote your products and services on search engine results pages.
+
+With a well-constructed search advertising campaign you can reach customers at the very moment they’re looking for what you offer.
+
+# Get discovered with search
+
+**Intro to search engine optimisation (SEO)**
+
+SEO helps search engines understand better what you have to offer. That means, when someone searches using a word or phrase related to your business, like, say, heirloom tomatoes, you’re more likely to appear in their results. When a search engine returns results some of them are paid advertisements. The rest are unpaid results that the search engines believe are relevant to the phrase entered into the search box. These are referred to as “organic results.”
+
+Search engines have formulas, or algorithms, that help them order the list of results. The search engines constantly scour the web for new content and try to make sense of it.
+
+They might look at how popular sites are, or what other people or sites are saying about them. They might consider words on web pages or keywords in the code of a page to better understand the topic.
+
+Each of these components will help search engines find the best match for your search. Search engines can now also consider the searcher’s geographic location. 
+
+**SEO process**
+
+There is no shortcut for search engine optimisation (SEO), which helps you improve your website’s visibility to people who are searching for products or services like yours.
+
+The first step is called keyword research: discovering what words or phrases people are looking for when they are searching for products and services related to your business.
+
+The work of SEO is never done, because trends come and go, users can change their behavior, and search engines evolve over time. Your job is to consider how changes will impact your site and what you need to do to continue to attract unpaid (organic) traffic. Here are 4 quick tips on how to stay up-to-date on search.
+
+1: Learn how search engines work.
+
+Many have blogs that offer updates on new features, algorithm changes and suggestions on how to better optimise your website.
+
+2: Keep an eye on changes and monitor how they affect your website.
+
+For instance, you might read that the major search engines made a change that improves users’ experience on mobile search results. If your website isn’t optimized for mobile devices you’d probably want to update your website to be more mobile-friendly.
+
+3: Find inspiration from other websites.
+
+Do they offer free shipping? Are they active on social networks? Do they regularly update their website with photos? Adopt the practices that will work for your own business.
+
+4: Talk to your customers. 
+
+They have the best insights on what content your site is missing, features that are needed, or products they are looking for. Even the way your customers describe your products can be a form of keyword research—they likely use those same terms to search. And there you have it: the ongoing SEO process. It’s simply understanding what visitors want, creating and sharing the content they’re searching for and being willing to change tactics when necessary.
+
+# Make search work for you
+
+You can improve your search visibility across the web by thinking about off-site optimisation; that is, using what happens on other websites to promote yours. This video will show you some ways to start, including:
+
+* encouraging links to your website
+* engaging with your audience through good content
+* promoting your site with social media.
+
+If your potential customers are in different countries or speak multiple languages, there are many aspects to consider. We’ll go over the most important ones: language, localisation and country targeting.
+
+First things first: you need to speak your customers’ language—literally.
+
+There are some SEO guidelines for websites that offer content in multiple languages. The first is to make sure that each page in a different language has its own unique web page.
+
+A better approach is to separate each translated version on its own web page.
+
+The second thing to keep in mind: mixing languages on the same page. This is a big no-no. For example, when half your content is in French and the other half is in English, search engines can’t decide what language your content is in. It’s better to use different pages for different languages. Next: Avoid using automated services to translate your content. Have a piece of content about organic produce that needs to be in French? Get a real live person to translate it for you.
+
+Why is this necessary? Search engines don't value content generated from automated translation tools. Even worse, the page might be considered spam. Translation service may cost you a bit more upfront, but you’ll likely have higher quality content that can drive better results for your business.
+
+# Be noticed with search ads
+
+**Introduction to search engine marketing (SEM)**
+
+SEM lets you use this space to advertise to potential customers when they search for certain words and phrases relevant to your business. These are known as keywords.
+
+Another really unique thing to know about SEM is the advertiser only pays when someone clicks on their ad. So if your ad appears, but no one clicks on it, you won’t be charged.
+
+**relevance**
+
+In fact, if relevance is too low, the search engines may not display your ads at all. To improve your performance, stay focused on improving the relevance of all your adverts. Make sure that your adverts always closely match the terms that people have just searched for. By doing this, you can win better positions for your ads, without having to pay more money.
+
+# Improve your search campaigns
+
+**keyword**
+
+keyword research tools can help you find keywords that attract customers… but they also help you discover keywords to avoid. It’s also a good idea to try and revisit these tools regularly. People’s search behavior tends to change over time, and if you let your campaigns sit untouched for too long, their performance could start to dip.
+
+
+**One of the best ways to measure how well your search engine marketing is working is by tracking conversions, or actions you’d like website visitors to take.**
+
+# Get noticed locally
+
+how can you build a local online presence for your business?
+
+First and foremost, be sure your location details are on your website. If you have a shop, be sure to include your address, and maybe even an interactive map so a customer can get directions, plus your telephone number, and your working hours.
+
+And if you have a service area business, be sure your website explains what areas you serve, and how people can get in touch with you.
+
+But there are some very specific things you can do to help local people become your local customers, and in the lessons that follow, we’ll cover the importance of local search listings like Google My Business, Bing Local and Yahoo! Local that can help lead searchers to your local business, local advertising opportunities on review sites, social networks and search engines, some unique things you can do with local customers and mobile devices, and finally some tips around search engine optimisation to help you find your local audience.
+
+Local businesses need to be seen by searchers in the neighbourhood, on any device. Someone looking to buy in a specific location is usually ready to pull out his wallet—and you want to be his go-to shop. If you stick with us, you’ll learn how you can build and promote an online presence that ensures that’s just what happens.
+
+**Local directories**
+
+Local directories are a great way for local businesses to connect with potential customers in their area. The first step is to create a listing in local directories.
+
+These online listings include your key information, like your business name, your address and your telephone number.
+
+Just like with your business name, enter your address in the same exact way for every directory.
+
+Telephone numbers should be local as well, including area and country code, so generally you won’t want to use a freephone number.
+
+You’ve got to have these three things—name, address, telephone number—to land local customers.
+
+You always want to keep your local listings consistent and up-to-date. Remember if your name, address or phone number change, you need to update all those listings immediately.
+
+To sum up, you want to connect with your local customers, and that means taking advantage of the major search engines’ local business listings and creating profiles on business directory websites, review sites and more.
+
+# Help people nearby find you online
+
+1. Local advertising is a great, affordable (sometimes even free) way to connect with customers who are close at hand. 
+2. Take advantage of the ways that mobile and local complement each other to connect with customers closest to you.
+3. If you want to increase the chance of local customers finding your business, you need to know a bit about:
+    * including key information on your website
+    * how search engines choose local results
+    * the importance of mobile.
+    
+# Get noticed with social media   
+
+**Social media basics**
+
+Online networks, or “social media” as we call it, allow people to link, interact, share and exchange information. They’ve quickly become something we can’t seem to live without. Literally millions of people connect and share on social media every single day.
+
+But it can also be a great tool for businesses. Social media can be a platform that lets you talk directly to your customers and prospective customers alike, share content, get involved in conversations, build trust, reach more people, grow your sphere of influence, and ultimately understand your customers better.
+
+Social media can also help you build trust with your audience. Imagine a potential customer reading reviews, or watching videos of real people—not models—wearing and raving about your clothes.
+
+Social media provides an opportunity for your customers and fans to promote your products, and when this happens, you earn trust. Why? When someone else says how great you are, it carries more weight. You’re not promoting yourself—your customers are doing it for you.
+
+And, there’s one last benefit of social media for your business: You can learn by watching how people interact with your brand online.
+
+**Getting on social media**
+
+Different social networks offer different things, so take some time to explore your options, not forgetting your plan.
+
+Remember the tone of voice you decided to use and the business goals you want to support. This will help you as you write the descriptions of your business, as you list your products, choose the images or videos you want to showcase, and even personalise your profile page with background images.
+
+Your profile page is often the place where you’ll be sharing your content, having conversations, and displaying your activity. Generally, all that information you’ve entered about yourself will be accessible to people when they visit this page, and all the things you’re posting and sharing, along with the comments and activity on those posts, will show up here as well. This creates a kind of living history of your business’s virtual life in the network.
+
+Also, don’t forget many of these profile pages are also accessible by search engines, so the more great content you provide here, the better the chances that your social pages might even show up when people are searching on search engines!
+
+Whether people find you through search or by seeing something they’re interested in that you shared, they’ll likely click over to this profile page, and it can give them a great overview of who you are and what you offer. Even better, they’ll be able to easily interact with you, and hopefully become your next customer!
+
+Finally, many social networks offer advertising opportunities, or special features for a price. For example, you may be able to pay for the right to see who else in the network has been looking at you, or you may be able to pay to put the content you’re sharing in front of specific groups of people on those networks. Have a look at the paid programs offered by your social networks, and see if they’re valuable to you.
+
+# Deep dive into social media
+
+1. Once you start engaging with social media, you’ll realise pretty quickly: it helps to get organised. Putting together a serious plan for how you want to invest in social media will really help.
+2. If you want to reach specific audiences online, advertising on social media sites is a great option. 
+3. Social media can be a powerful tool, but it’s also been known to cause some issues for businesses. We’ll show you what not to do, like:
+    * bore people to tears
+    * put your posts on autopilot
+    * spread yourself too thin.
+
+**Avoiding social media pitfalls**
+
+The first rule of social media: It’s not all about you.
+
+People go online to share news, how-to tips and funny cat videos. They’re not there to hear your sales pitch—and brands that have nothing else to say tend to get boring and ignored fast.
+
+If you’re a business, remember that anyone who follows you on social media is already interested in you. There’s no need to aggressively sell. Just focus on providing a good experience and keeping their attention.
+
+So if you own that vintage clothing shop we’ve been talking about, let your followers know what’s new, what’s coming soon and how you do what you do. You don’t have to recreate your product pages and try to push them down people’s throats.
+
+Building on that, people don’t want one-way pushes crowding up their feeds. They want to be on a two-way street. They want to know that you’re listening.
+
+Make sure you ‘man the phones’ online to monitor when people are responding to you, and have a plan for answering comments.
+
+Be understanding, be considerate, but most of all be consistent. Follow up on complaints, and give people the information they ask for. Negative feedback doesn’t necessarily have to end in disaster. It can be an opportunity to show your customers - and everyone else who might be watching - that you truly want to help them.
+
+The next pitfall: Don’t spread yourself too thin on social media. With all the networks out there, there are almost unlimited opportunities to talk to customers, but those conversations take time.
+
+If you’re not careful, you’ll get overwhelmed trying to juggle too many sites. Focus on the ones that matter most and branch out as it makes sense and as you can handle it.
+
+Have you ever checked out the social media page for a brand or product you’re interested in, only to find nothing’s been updated for months? Another big mistake.
+
+It might make people wonder if anything’s stirring over there or if you’re even in business anymore. Growing, innovative, exciting businesses have a lot to say. Stodgey, slow-moving ones might not say much.
+
+Which would you rather be?
+
+Finally, it can’t be emphasised enough that you’ll want to measure what your efforts are actually doing for you. Using social media and analytics tools, you can see firsthand how your social media efforts are contributing to your bottom line, and learn which are more valuable than others.
+
+It’s easy to sidestep a social media disaster.
+
+Stay true to yourself, respond to comments, focus on the sites that make sense, be consistent and measure your results. Do all this and your social media efforts can thrive.
+
+# Discover the possibilities of mobile
+
+1. Today, people have so many different ways to access the Internet. We use computers, smartphones, tablets and now even smartwatches. Mobile marketing is constantly evolving; embrace it and your business will stay well ahead of the curve. 
+2. When people search for businesses, they are quite likely to be searching on a mobile device. Search engines are adapting to this new approach, and businesses need to adapt as well
+3. People interact with businesses through both mobile websites and mobile apps. Mobile-friendly websites are now a necessity, and many businesses can also benefit from a mobile app.
+
+# Make mobile work for you
+
+**Introduction for advertising on mobile**
+
+Try to focus on shorter keywords and phrases mobile users might search. Remember, many people are all thumbs when it comes to typing on their phone! They’re not searching the same way they do on a computer. They’re much less likely to search for detailed, long phrases. You can also use display ads to target people who are browsing mobile sites. The ads can appear in text, image or video form, on those websites.
+
+Since mobile ads are naturally small, they should present a strong, concise message with a clear call to action. You can even advertise to people while they are using mobile apps. For example, if you wanted more people in your local area to know about your plumbing services, you could post ads inside apps like Yelp or Which? where customers leave reviews. While there are many opportunities within mobile advertising, there’s also a few important things you should consider before investing money.
+
+Running brilliant ads is only half the battle. It’s equally important to have a mobile-friendly website, or your impressive ads on Google or Facebook could still fall flat. Because your mobile ads will send people to a site that hasn’t been optimised for their device. Leaving them with a less-than-stellar customer experience. Also, remember that not all mobile devices are the same. So another useful trick is customising ads. That way, they’ll work well across a variety of screens.
+
+One way to do this is to use short, clear text in your ads. You can also use what are called “ad extensions”. These are special features that will help people call you, or get directions to your shop’s address. These features will automatically resize themselves to best fit any device. So that’s mobile advertising.
+
+Just remember: these days, people are using their mobiles more than ever. So it’s important to think about how you can reach them while they’re using those devices. You can advertise on search results, other websites, social networks, or even within apps.
+ 
+**Highlight**
+ 
+* By running mobile search ads, you can get your business in front of potential customers right when they are looking for products or services you offer. 
+* Whether you’re focused on driving sales or building a brand, mobile is more important than ever. That’s why a display ad approach that doesn’t include mobile is incomplete.
+* As more people move towards using social media on their mobiles, a well-oiled social mobile marketing campaign could really help boost your advertising efforts.
+* Mobile video consumption is on the rise, which means businesses should be following the trend towards advertising with video.
+
+# Get started with content marketing
+
+**Intro to content marketing**
+
+With so many businesses operating online, standing out from the crowd is essential. Content marketing is a great way to help you attract your audience’s attention. Content marketing is based on the creation and sharing of online material, like videos, blogs, and social media posts. It’s designed to generate interest in a company’s products or services by capturing people’s attention.
+
+let’s cover some effective content marketing practices. The key to success is creating a content marketing campaign that accomplishes three things: (1) answering your audience’s questions, (2) providing something of value and (3) keeping them wanting more.
+
+Here are a few best practices to keep in mind as you put together your own strategy:
+
+* take the time to get to know your audience better. Look at which accounts they follow on social media to get a sense of their likes and interests
+* experiment to find the best types of content for reaching your audience and don’t be afraid to use multiple formats
+* choose the right places to publish your content and make sure you’re talking directly to your audience
+* throw away the business speak and stock responses, and prioritise natural language to interact with your audience
+* make your content unique, interesting and exciting. Use engaging headlines, eye-catching pictures and informative language to capture your audience's attention.
+
+By keeping these pointers in mind when creating a content marketing strategy, you can boost your potential reach and strengthen your presence online.
+
+When starting to write your own content marketing strategy remember the three keys to success mentioned earlier:
+
+* focus on answering your audience’s needs
+* create content they’ll find valuable
+* keep them engaged so that they’ll visit you in the future for more content.
+
+Now, try brainstorming how content marketing can be used to engage your audience online, and consider what goals it could help you achieve.
+
+**Get to know your online customers**
+
+Making sure you are saying the right thing, to the right people, and are connecting with them at the right time is critical when it comes to content marketing.
+
+Everyone is different, so when it comes to creating online content it’s good to think about who your audience is, and what they want to know. This is where audience segmentation can help. Segmentation involves dividing your audience into groups of who they are and what they like. Rather than spending time and money targeting a wide range of people, segmentation helps to identify the groups most interested in your product or service. The result is a more cost effective and persuasive way to connect with potential customers.
+
+
+**Choosing the right format for your content**
+
+Content is much more than just text on a screen. From entertaining GIFs to blog posts, whitepapers, and full-length videos, understanding which content format can make the most impact on your audience is critical. 
+
+In content marketing, there are typically four main purposes of content, which are:
+
+1. to entertain
+2. to inspire
+3. to educate, and
+4. to convince.
+
+**Writing for online audiences**
+
+When it comes to creating content, there are some key differences between writing for online audiences and offline audiences. In this lesson we’ll cover some best practices for content copywriting, as well as explore tools to help you choose engaging topics for your audience.
+
+Reading habits can vary a lot between online and offline content, with factors like style, length and structure all having a big impact when it comes to writing for different channels. To capture your online audience's attention, you’ll need to adapt the way you approach writing. For example, while reading a long article in a newspaper could be enjoyable, reading multi-page articles online are more likely to be frustrating. This is because as online readers we are constantly flooded with information, so our need to multitask and consume online data quickly and efficiently has left us with shorter attention spans.
+
+Keeping this in mind, here are a few best practices for successful content writing:
+
+Start with a good hook that clearly explains to the reader what they can expect. A great hook or opening sentence is important to draw people in. This could be a statistic, like “60% of people say owning a dog makes them happier”, or a question, like “are you up to date with the latest in puppy fashion?”.
+
+Make sure that as you’re writing, you always keep your target audience in mind, and focus on what you can offer them. Try to read your content through their eyes, and don’t be too salesy - you want to engage your audience, not bombard them with too many sales messages.
+
+Another valuable tip is to incorporate a “call to action”, or CTA. CTAs are short statements designed to entice a website visitor to take a specific action, so you should make them as creative and persuasive as possible. It could be ‘start now’ or ‘sign up today’. Tailor your CTA to your strategy, and make sure it helps you achieve your objectives.
+
+Creating content regularly means it can be tough to stay inspired, so here are a few ways to come up with engaging topics.
+
+Try researching your competitors to see what topics they cover. As you research, keep a list of potential topics and refer back to it when it’s time to brainstorm new content. In addition, tools like Answer the Public allow you to type in a specific subject or key term and receive a list of some of the most searched queries involving those words. This is great for creating content topics that respond to real user demand.
+
+Other tools to help you get an idea of how popular a topic is include Search Console, which can help you see the terms people use to find your website, and Keyword Planner, which shows you how many people search for a specific term.
+
+Finally, make sure you’re consistent in your writing style, so that when readers read your content, they immediately associate your brand or business voice with it. A clear and recognisable tone of voice will help to establish a relationship with your audience and differentiate you from competitors. Try writing down the attributes you want readers to associate with your brand, such as honesty and enthusiasm, and always write with these qualities in mind.
+
+To wrap up, consider how writing styles differ between online and offline, review our top tips for writing for an online audience, and consider how you can tap into online resources to get inspiration for new content ideas.
+
+
+**Help your content be seen**
+
+Once you've created content, knowing how to distribute and promote it online is key to getting the reaction that you want. 
+
+Once you know which channels to promote your content through, it’s time to create a content calendar. A content calendar is a detailed timeline that organises your content marketing activity. By clearly outlining what to publish and when, it can help make your content process consistent and efficient, as well as give everyone involved a clear action plan to follow.
+
+Here are some tips to get you started on your own content calendar:
+
+* make it achievable. Your content calendar should include realistic time frames - if it’s not achievable, you’ll fall behind schedule and your content won’t reach its full potential
+* highlight key dates. Things like public holidays or relevant events are great for releasing seasonal content
+* consider multiple channels. Think about how a variety of marketing channels, such as a blog and social media, can work together to promote your content marketing campaigns
+* remember the audience. Clearly define your audience at each stage of the calendar. If you segment your audience, specify which group you’re targeting
+* explore online tools. There’s a variety of free and paid tools available to help you create a calendar, publish content to social media accounts, or collaborate on content with your team. These tools can save you time by automating some of the content creation and distribution process.
+
+
+**Measuring your success in content marketing**
+
+While it may be tempting to focus on creating as much exciting content as possible, it’s important to regularly sit down and review your goals. This ensures the time you are spending on your content is time well spent.
+
+Whether your target is to increase sales or spread the word about your business, if you don’t monitor your progress against your goals, it will be hard to know if what you’re doing works.
+
+Knowing how well your content performs once it's published online will help you understand your audience, as well as provide you with insights as to how to improve campaigns in the future. 
+
+1. the tools available to help track the success of your published content
+2. key metrics used to measure the success of content marketing campaigns
+
+# Connect through email
+
+**Email marketing basics**
+
+Sending newsletters and special offers to customers via email can play a key part in your overall marketing plan, building and strengthening relationships with your customers. 
+
+As you identify your different audiences, you can customise communications, based on their particular interests. By offering useful and engaging content, you can build loyalty over time. A strong customer base will help your business grow.
+
+ 
+**Crafting great marketing emails**
+
+Let’s now talk about grabbing your customers’ attention with strong subject lines, keeping their attention with concise and relevant content, and offering links for more information.
+
+Ok, let’s say you own a pet supply shop. You’ve been collecting names, emails and ‘pet types’ of both prospective and loyal customers. And now, you’re ready to launch your first email marketing campaign.
+
+You want to send an email announcement aimed at dog and cat owners, telling them all about the latest and greatest all-natural pet foods you offer.
+
+But in order to get customers to read your newsletter, you first have to get them to open the email. It’s all about making a good first impression here. Think about what customers see when they glance at their inbox. Will your email make them want to open it?
+
+The two things they’ll see, are your business name in the “From” field, and the subject line of your email.
+
+Be sure to use a name and email address in your “From” field that clearly identifies your business. People are more likely to open an email, from someone they recognise and trust. The subject line of your email can make or break your campaign. An effective subject line will compel people to open it. A poorly composed subject line might mean your email gets deleted or trapped in spam filters.
+
+Keep your subject line short and simple—ideally under ten words. Try to capture the most valuable and relevant information contained in the email.
+
+When possible, personalise or localise the subject line. For example: “Jane, is your pup the healthiest in London?”
+
+It’s best to avoid words like “free,” “percent off,” “reminder,” and “specials,” as well as pound (£) symbols and exclamation points. These are all known to trigger spam filters. Now, you’ve captured your customers’ attention, and they’ve opened your email. Congratulations! That’s half the battle.
+
+At this point, keep in mind how busy your customers are, and how many other emails they get every day. Even if you’ve crafted the most intriguing message possible, they’ll likely just scan it. So keep your content concise, and get right to the point.
+
+Your paragraphs should be short—maybe one to three sentences, and keep them focused on a single idea. You can always link to longer articles and additional information, on your website.
+
+Make your writing as persuasive and engaging as possible. And use the right tone of voice for your audience. You want to have consistency across your brand, but email newsletters offer opportunities to be a bit more casual in tone. Links in your email should include calls to action. Encourage recipients to click through, to offers on your website.
+
+For example, a link could say something like “Click here to save 25 percent off your next order of all-natural cat chow”. Or maybe “Click here for free shipping on orders over £50.”
+
+Use bold text and design, to highlight important offers and content. There’s one last thing you’ll want to include. And that’s some links at the bottom of the email that allow recipients to unsubscribe, change their email preferences, or update their contact information.
+
+Providing an easy way for users to opt out of your newsletter, is not only good customer service, but it’s also required by law in many countries. So remember: Take the time to craft a short, but strong subject line. Write concise content with a fun and engaging tone. And include helpful links that will improve your customer experience, and possibly lead to increased sales.
+
+Each email marketing campaign will teach you more about what works, and what doesn’t. Over time you can create better emails for your customers, which in turn can build your business.
+
+
+ 
+
+# Advertise on other websites
+
+ 
+
+**Search advertising vs. display advertising**
+
+With search engine marketing, your ad can only show up when people are searching. So when they’ve left the search engine and are browsing around the web, you can’t reach them with search engine marketing.
+
+With search engine marketing, your ad can only show up when people are searching. So when they’ve left the search engine and are browsing around the web, you can’t reach them with search engine marketing.
+
+But with display advertising, your ads can show up on any website that’s offering advertising space, and it means that you can tap into millions of additional websites beyond search engines.
+
+There’s one last difference between search and display: the ads themselves. The ads on search engines are usually just made up of text. There’s typically some kind of a headline, some descriptive text, a link you can click, and maybe a few other things, like an address or phone number, depending on what options the search engine offers.
+
+Display advertising, on the other hand, gives advertisers a lot more creative options: different sizes and formats, images, video, and more. This means there are lots more opportunities to get a potential customer’s attention.
+ 
+
+# Deep dive into display advertising
+
+
+**Making display ads meet your goals**
+
+From the start, you should design your display advertising campaigns to help you achieve your goals. Here we'll go over some of the many things display advertising can do for you, including:
+
+* making a great first impression
+* moving customers through the sales funnel
+* turning interested people into paying customers.
+
+ If display advertising sounds like something that might be interesting to you, before you start, it’s important to understand what display does well and decide what your goals are. This can not only help you set the right expectations, it can also help you focus and get the biggest benefit for your business.
+
+So, what are you hoping to do with display advertising? Get your name out to people who might not know about you? Tell existing customers something new about your business? Bring customers back again and again? You can use display advertising to do all these things, but it helps to decide what makes sense for you and then build your display advertising campaigns around those goals.
+
+If you have lots of goals, a single ad or a single campaign can’t do it all. But don’t worry. If you clearly lay out what you want to achieve up front, you can then build out different adverts targeting different people for all the right reasons.
+
+A simple way to break down what you want to achieve with display advertising is to think about the different steps of the customer journey as a funnel. The widest part at the top is awareness.
+
+Let’s go back to our film podcast example. Before you can turn people into subscribers, they need to know you’re there. Display advertising can help you here, giving you a way to reach a broad target audience. So if building awareness of your business is a goal, you’ll want to target a broad audience and use adverts that make a great first impression. This is a good time to think about what might catch someone’s attention - remember, they’re not actively searching for you when your adverts show up.
+
+Is your film podcast the most popular one online? Do you feature exclusive interviews with the best directors? These could be great attention-getters. You can even consider giving film fans a taste of your brilliant content in a rich media video advert.
+
+See how setting your goals can help guide you as you build out your display advertising campaigns? OK, let’s keep going. The next stage in the funnel is all about shaping people’s opinions of you, and making sure that they remember you in the future when they want what you’re selling.
+
+So if this is one of your goals, you can create new display advertising campaigns that use messaging to reinforce your competitive advantages and really highlight the benefits of whatever product or service you offer.
+
+At this point, you might narrow down your audience a bit more to include people who have been to your site before, or maybe people who are really interested in the products and services you offer.
+
+Next on the sales “funnel”, is to focus on people who are already considering the solution you’re offering. Here, you might really refine your message, zeroing in on what exactly makes your product or service so great.
+
+So for your film podcast, you could talk about how many subscribers you have, or use testimonials from happy customers. Remember, you won’t be targeting everyone with this message...these adverts will be limited to people who you know have been looking into you. The last step in the sales funnel is the purchase. If your ultimate goal is to get people to become paying customers, you need to focus on conversion. For example, you can use adverts with special offers or incentives targeted at people who you know have shown interest in your podcast, but who haven’t become subscribers.
+
+Retargeting is especially useful at this point in the funnel. Remember, you want to target people that you know have been researching you online, and get them to consider you and eventually convert. Well, retargeting is a way to accomplish that. It lets you show adverts to people after they visit your website, or do specific things that indicate their interest.
+
+Say someone visited your podcast’s website after spotting an ad, looked at some pages, and even made it all the way to the subscription page — but they didn’t quite make the final leap.
+
+With retargeting campaigns, you can define these “near misses” as your target audience.
+
+Then, you can show this very specific audience adverts to help entice them back to your site. This time, they might visit your site and finish that subscription form. Just like that, you’ve got yourself a new customer! Defining exactly what you want to get out of your display advertising will help you create campaigns that are focused on your different business goals. So whether you want more people to know about your business or you’d like to turn more visitors into paying customers, display advertising can help.
+
+**How retargeting works**
+
+One really powerful type of display advertising is called retargeting, and lets you use what people do on your website in order to target them with a specific advertising message, even after they’ve left.
+
+* tracking what people do on your site
+* using that information to identify people you want to target
+* creating ads specifically for those people.
+
+# Make the most of video
+
+As technology has improved, the popularity of online video has skyrocketed. 
+
+Analytics can give you insights into the people who watch your videos and how they engage with your content. With this information at hand, you can improve your videos and grow your audience. In this lesson you’ll learn:
+
+* how to determine who watches your videos
+* ways to find out what they like and don’t like
+* opportunities to improve and engage new audiences.
+
+# Get started with analytics
+
+1. Web analytics can answer questions about what people are doing – and not doing – on your website.
+2. One of the biggest benefits of going online is that digital marketing is extremely measurable. Throughout the entire customer journey, web analytics provides insight on where your website visitors are coming from, what they’re doing and how you can get more of them to “convert” on your site. 
+3. Used properly, web analytics tools can give you valuable information to help you meet your objectives. You can do this by setting up your web analytics tool to track the specific goals that you care about.
+
+# Find success with analytics
+
+1. Web analytics is great for measuring all kinds of traffic to your site, including traffic from organic search results. But you can do much more than just count up your website visitors.
+2. Analytics tools provide loads of data, but they don’t always give easy answers. To understand why things are happening differently for different groups, you can use a simple technique called **segmentation**
+
+
+# Turn data into insights
+
+We all interpret things in different ways. Some people like colourful image-based visuals, likes graphs and infographics, whilst others absorb numbers and text more easily in tables or lists. Because of this, it is important to base the presentation of your information on the needs of your audience.
+
+# Build your online shop
+
+**E-commerce**
+
+what is e-commerce? Well, it’s really just a fancy name for selling things online.
+
+**Taking payments and managing orders**
+
+We’re now going to talk about how you can accept payments and manage orders as part of your e-commerce activities. And we’ll show you how this can help your business. One of the primary features of your e-commerce shop is being able to accept payments online. There are many options that can do this for you, and they range from relatively simple to fairly complex. Let’s say you’re a furniture craftsman who offers limited edition artisan pieces, such as bookcases, tables and chairs. You have a website that showcases a gallery of bespoke furniture. But as it stands, customers have to ring, or visit your shop, to make an actual purchase. Of course, you want to make things easier for your customers, by accepting payments online. You can do this using any number of online payment solutions, or what’s known as third-party payment processing, with services such as PayPal and Nochex.
+
+These types of payment solutions let you add a button to your website, which customers can click to make a payment. This takes them to a separate payment website, which takes care of the transaction for you. Then after the order is complete, the customer is sent back to your site.
+
+As transactions occur, you will receive all the information you need to fulfill the actual customer orders. So this approach means you can just focus on your business, while someone else takes care of the complex electronic transactions. At some point, you might want to integrate the transaction experience into your website, such as offering online payments and a shopping cart that lets customers buy multiple items in one session. Despite the additional costs, this integrated process provides very real benefits. One way to start is to use an “off-the-shelf” service, like Squarespace. These services give you more control over the shopping and checkout process and let you make changes and improvements.
+
+For example, you might want to customise the thank-you page with specific offers. Or promote other furniture designs relevant to what the customer has already purchased. Another benefit? You can track the entire customer experience, including the digital marketing campaign that brought visitors to your site. You can get more information about these people and see what website content they interacted with. And, you can learn what the most likely prospects tend to do on your site.
+
+Now, let’s say your furniture design business has grown. And now you want to expand and offer furniture sets for every room, in every possible wood finish, to customers throughout the UK.
+
+When you have loads of products to sell online to a broad audience, it’s probably time to consider a full e-commerce solution. There are many on the market— such as Shopify, Volusion or Magento.
+
+Some are free, others you’ll need to pay for. And they all offer a wide range of features. But one common thing many of them offer is the ability to create and manage a fully functional online store. A fully functional online store has a big benefit: a backend system with order management.
+
+Let’s take a closer look at how a backend system can help you.
+
+Well, first, your customers can create accounts and manage their personal information, billing preferences, and shipping addresses. You can offer them coupon codes, integrate multiple payment options, and even customise the checkout process.
+
+And rather than program all of this yourself, you can use these e-commerce services to upload and manage product and inventory details, create and organise category, subcategory and product pages, and offer advanced product search.
+
+Many solutions manage orders, track shipping and fulfillment details, and integrate with your financial and accounting systems. Let’s sum up.
+
+As an merchant growing your business online, you’ll need the right tools to accept payments and manage orders. Depending on your needs, a variety of options are available: from simple, third-party payment processing services to a fully developed e-commerce platforms.
+
+Whatever option you choose, selling online is a great way to grow your business.
+
+# Sell more online
+
+**Creating a smooth e-commerce experience**
+
+Once you’ve taken your first steps into e-commerce, your next job is to improve the shopping experience. From getting more people to use your online shopping basket to streamlining the checkout process, there are lots of ways to improve your site for shoppers. In this video, you’ll learn how to use analytics to optimise:
+
+* for different devices
+* navigation and search
+* product pages
+* checkout by using customer accounts.
+
+you’ve started selling online and customers are buying right from your website. Great. But are your customers as happy as they could be? Is the shopping experience and checkout process as smooth as possible?
+
+One great option is to implement a “responsive design” into your website. This type of design can adapt to different screen sizes. Or, if you want to guarantee a more consistent shopping experience on smartphones, you could even create a dedicated mobile website. OK, that’s got you covered for all types of devices. Here’s another opportunity for improving the shopping experience. Say your analytics show that lots of people visit your home page, but they aren’t taking the next step and actually looking at your products.
+
+You’ll want to make it easy for your visitors to browse and find what they’re looking for. This starts with navigation that your customers can easily understand and use. Typically, you’ll use categories and subcategories to organise your inventory in any number of ways. Let’s use the example of a furniture maker. You could start out with broad categories of, say, different rooms in a home. Then, you could add subcategories of furniture pieces in each, like “bed frames” or “desks” or “dining room tables.” So what’s the best way to go about this? Well, the answer is the one that your customers like best. You can conduct formal testing to see how your visitors react to different arrangements, or you could simply survey your friends, family and some trusted clients to see what they prefer. No matter how you arrange your site navigation, there will always be people who prefer to search for something specific rather than browse through various categories and subcategories. That’s why it’s best to cover both options and include a search function on your website. Your product pages are another great way to optimise the shopping experience. What if you’re seeing that lots of people visit your product pages, but they don’t add any products to the shopping basket?
+
+You might add video of a craftsman in action, or a gallery of photos from various angles to help customers get a closer look at a particular piece of furniture. Make sure those photos are professional quality, and load quickly.
+
+You can also write up great descriptions and provide all kinds of details and measurements—whatever helps customers feel confident that they’re ready to buy. The last thing we’re going to look at is how you can optimise the e-commerce experience by using customer accounts.
+
+You might notice in your analytics data that customers shop on your site, and put products in the cart, but then leave before completing their purchase. Encouraging customers to create an account can streamline the process so this happens less frequently in the future.
+
+As a customer completes an online purchase, you can allow them to store their shipping and billing information and payment preferences in an account on your site. This will also make future purchases that much easier. If you’re ready to get super advanced, you can also use a customer’s past purchases, recent searches, or recently viewed products to recommend specific items that might interest them. If they just purchased a dining room table, for example, you might recommend the best sets of chairs to go with that design and wood finish.
+
+And of course, you can always reward your loyal customers with offers and discounts tailored especially for them—lots of shopping cart solutions offer these features by default. To sum up: Optimising e-commerce is an ongoing process that requires a consistent experience across devices, smart site organisation, and smooth checkout using customer accounts.
+
+Taking this approach will help you on your quest to provide current, and future, customers the very best service possible.
+
+**Product promotion and merchandising**
+
+If you have an e-commerce store, you probably offer a number of different products. Sometimes it can be difficult for customers to find the best match for their needs. Product promotion and merchandising can help.
+
+* promoting products and specials
+* predicting products your customers might like
+* showcasing products visitors might not normally see.
+
+**Retargeting for e-commerce**
+
+After shoppers have interacted with your website, product retargeting campaigns can help you get them back by showing them related ads across the web.
+
+# Expand internationally
+
+**Introduction to international marketing and export**
+
+We’re going to look at the opportunities and realities of international marketing, focusing on how to evaluate international markets for your product and which practical and cultural issues you need to be ready for.
+
+Let’s say you have a vintage record shop with a stellar reputation. Your high-end equipment and expertise have helped you stand out and attract an elite customer base. Business is good, but you want to reach more of those customers. You’ve eyed some of the markets abroad and reckon it’d be a good move to sell your products in Europe—and beyond.
+
+So where do you start? First, you need to learn about the target market in each area you’re considering, and find out how best to reach them.
+
+For instance, with digital advertising, look at search traffic, competition and pricing. This will give you a clear view of your potential markets, so you can decide where your products will be well-received.
+
+You can use search trend reports, geographic data in your web analytics, and marketing insight tools to help determine which markets would be the best place to start expanding your business.
+
+Once you know where you want to go, you may need to overcome language barriers. How do you communicate and market to customers and prospects without losing anything in translation?
+
+You might need to translate and localise your website’s content. Automated translation services are rarely 100% accurate, so it’s probably a good idea to have a native speaker who can help you confirm the content has the right tone.
+
+Your new customers and prospects from different cultures and languages will need to communicate with you, too. Be ready from the start with a plan to support those customer service needs. Next, think about your infrastructure and the systems you’ll need to properly support your expansion into international markets.
+
+Don’t forget about packaging considerations for fragile components, VAT, and any legal or regulatory issues. Once that’s resolved, it’s time to review your e-commerce and payment solutions.
+
+Although many e-commerce systems are able to set up multinational transactions, you’ll have to customise payment options and other settings. We’ll discuss this further in a later video.
+
+Even with great cross-border e-commerce systems, you’ll still want to think ahead to the next step—getting your products to your new international customers.
+
+What’s required to ship and deliver your orders? What about refunds? Customer service and support?
+
+Marketing to new customers in international markets is an exciting prospect and one that could expand your business tremendously. Mapping out your plan in advance sets the stage for success. Are you ready to fully explore international expansion?
+
+expand_more
+
+
+**Being understood abroad**
+
+To expand globally, you need to communicate in other languages and provide support to customers wherever they are. 
+
+But simply translating content might not be enough. Words and phrases that work in an Italian market may not resonate with a French audience.
+Localisation is the process that makes locals feel like you “speak their language”.
+
+For example, you might want to make sure your translated website reflects that region’s units of measure, currency, and addresses. You might want to change the website navigation. You might even change specific cultural references to feel local to the customers you’re marketing to.
+
+It seems like a fair bit to think about...but there are many companies and freelancers out there who specialise in exactly this type of work. Once your site is translated and localised, it’s worth the effort to have a native speaker review the work. To sum up: branching out of your home market is an important step for growing your business.
+
+Translating and localising your website can help potential customers find you, and understand what you have to offer.
+
+
+
+**Advertise across borders**
+
+If you’re wondering which keywords are commonly searched in your new market, try using a tool like Google’s Keyword Planner or Bing’s Keyword Research Tool. These tools can tell you which keywords are popular, as well as other useful information. Like how much they might cost, and how many competitors you’re likely to face. But what about people who aren’t already searching for your products? Remember, when you expand into a new market, people are unlikely to be familiar with your business already.
+
+Display advertising and social media are two great ways to raise awareness.
+
+
+**The support systems you will need**
+
+Expanding into new markets is exciting – but it isn't just about marketing. You need the right technical infrastructure, a strong supply chain and compliance with laws and regulations.
+
+we’ll look at technical capabilities, managing your supply chain, and what local rules or regulations you may need to follow.
+
+Addressing these details will help reduce risks and identify potential issues before you’re too far down the line.
+
+First, you might want to check how your website performs in the countries where you want to sell products. Some regions may have slower Internet connection speeds—make sure your web pages can load and your site works well in places where you want to sell.
+
+Next, look at your supply chain and make sure you’re able to deliver your products to all the far corners where you want to sell them.
+
+Don’t forget to review all taxes and laws affecting businesses in these markets. Local government agencies can sometimes provide this information and may offer consulting services to help you figure out what you need to know about the market you plan to export to. Remember, you want all your customers to be able to reach you, no matter where they are. An easy way to start is to provide customer support via email and contact forms on your website.
+
+At some point you should probably establish a way to communicate beyond just your website, like through a telephone line. If you use a toll-free number or freephone number, make sure it’s properly formatted so that customers in other countries can easily call you. Now, think about how a customer would interact with your business, starting from discovering your products and services all the way to placing an order. Do you need to make any adjustments to your processes to keep things running smoothly?
+
+Reviewing your business processes—especially supply chain management—will play an important part in your success. Say you own a vintage record shop in the UK. You heard that the vintage vinyl scene in Lisbon is booming. So you want to start selling your records in Portugal to get in on the trend. Managing your supply chain might include sourcing local suppliers, factoring in shipping supplies, and determining the most efficient way of getting the product to the customer in Lisbon.
+
+Look at the tax requirements and import or export restrictions for your products and services. Some countries have agreements that may impact tax collection, and additional customs or tariffs could affect your bottom line. The way your business is incorporated may also make a difference in your ability to operate across borders. Some countries may require that you register with proper authorities in order to sell there. To recap: Make your business is accessible to new customers. Examine your supply chain processes and how they’ll work across borders. Research legal and governmental regulations that affect doing business.
+
+Expanding your markets into new regions and countries may seem like a lot of work, but taking these steps will ensure you’re properly set up for success.
+
+
+ 
+**Delivering to customers across the globe**
+
+You might have all your systems in place to accept international orders. But can you deliver your products accurately and on time? What about customer service and support? Are you prepared to handle refunds and exchanges across borders? In this video, we'll explore:
+
+* processes involved in deliveries
+* choosing reliable shipping partners and services
+* post-sales customer service and support.
+
+Let’s have a look at your inventory and supply chain process. You’ll want to monitor demand and ensure your products are adequately stocked so you can fulfill orders as they come in. And as your orders are received, they’ll need to be shipped in a timely manner according to the promised delivery dates.
+
+Have you thought about your ability to ship, and the time and costs involved? Shipping across borders may involve extra costs that you’ll need to factor into your pricing model.
+
+Now let’s think about shipping partners. Not all shipping companies have access to all markets, so you’ll want to partner with a reliable cross-border shipping company or agency.
+
+Some cross-border shipping partners may have better access to certain markets, as well as the ability to collect and pay import or customs taxes on your behalf.
+
+Your shipping company—or companies, if needed—can also advise you on packaging and labelling for shipping across borders.
+
+Be sure to explore all your options. Reliable shipping partners can truly drive your success when orders are shipped accurately and received in a timely manner. Even when a customer has successfully received his order, your job isn’t finished. This post-sales period can be a crucial time for your business as you try to cultivate this one-time customer into a loyal, repeat buyer.
+
+What happens if your customers in other markets need to return or exchange their purchase? How will your business handle exchanges? How will you process refunds? It’s really important to provide clear, up front instructions to your customers about the policies and processes involved in refunds or exchanges.
+
+No matter where they’re located, customers expect prompt and friendly service. You can provide support online or via the telephone, but either way, you want your customers to be able to contact you directly.
+
+As you put these processes in place, be mindful not only of language differences, but possible cultural differences as well, so that you provide the best possible customer service, during and after a sale. To sum up:
+
+Before offering product delivery to international customers, think about your inventory and supply chain, cross-border shipping, and customer support—no matter what their location.
+
+When you take the time to properly adapt your process, you’ll be setting up your business for international success.
+
+
 <!-- ---------------------------------------------------------------------- -->
 
 <!--               Example for including figure in local path               -->
