@@ -1,5 +1,5 @@
 ---
-title: 'IBM Data Science Professional Certificate'
+title: 'IBM Data Analyst Professional Certificate'
 author: "Zehui Bai"
 date: '`r format(Sys.time())`'
 output:
