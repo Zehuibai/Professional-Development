@@ -159,6 +159,13 @@ Transformation of raw data includes the tasks you undertake to:
 
 A variety of software and tools are available for the Data Wrangling process. Some of the popularly used ones include Excel Power Query, Spreadsheets, OpenRefine, Google DataPrep, Watson Studio Refinery, Trifacta Wrangler, Python, and R, each with their own set of characteristics, strengths, limitations, and applications. 
 
+Data Wrangling or Munging is a process in which we clean up the data set and make it ready for data analysis. In this assignment you will perform the following tasks:
+
+* Identify duplicate rows in the data frame.
+* Remove duplicate rows from the dataframe.
+* Find the number of missing values for all columns.
+* Find the value counts for the column "Employment".
+* Normalize the data using two existing columns.  
 
 <!-- ---------------------------------------------------------------------- -->
 
