@@ -911,6 +911,1054 @@ plt.show()
 
 ![Image](https://i.imgur.com/lfFZZXi.png)
 
+## Evaluation Metrics in Classification
+
+Classification Algorithms
+
++ Decision trees
++ Naive Bayes
++ Linear Discriminant Analysis
++ k-Nearest Neighbor
++ Logistic Regression
++ Neural Networks
++ Support Vector Machines (SVM)
+
++ comparing actual labels $y$ with predicted labels $\hat y$
+
+### Jaccard index
+
++ $y$: Actual labels
++ $\hat y$: Predicted labels
+
+```{r , echo=FALSE, fig.align="center", out.width = '100%',fig.cap=""}
+knitr::include_graphics("./01_Plots/JaccardIndex.JPG")
+```
+
+Higher accuracy = higher Jaccard index
+
+### F1-Score
+
+```{r , echo=FALSE, fig.align="center", out.width = '100%',fig.cap=""}
+knitr::include_graphics("./01_Plots/F1-Score.JPG")
+```
 
 
 
++ Precision = TP / (TP + FP)
++ Recall (True positive rate) = TP / (TP + FN)
++ F1-Score = 2 * (Precision * Recall) / (Precision + Recall)
+
+The classifier with F1-score close to one means more ideal.
+
+
+### Log Loss
+ 
+```{r , echo=FALSE, fig.align="center", out.width = '100%',fig.cap=""}
+knitr::include_graphics("./01_Plots/LogLos.JPG")
+```
+ 
+Output is a probability value between 0 and 1.
+ 
+Lower log loss has better accuracy.
+
+
+## K-Nearest Neighbors
+
+### Algorithms
+
++ A method for classifying cases based on their similarity to other cases
++ Cases that are near each other are said to be 'neighbors'
++ based on **similar cases with same class labels are near each other**
++ can also be used for regression
+
+**Algorithms**
+
+1. Pick a value for **K**
+    1. K = 1: might choose the noise
+    2. K = 20: overly generalized
+    3. Testing the accuracy of data loss
+        ![Image](https://i.imgur.com/lv3QaYg.png)
+2. **Calculate** the distance of unknown case from all cases
+    1. for 3 variables: ![Image](https://i.imgur.com/yFhHXMi.png)
+3. Select the K-observations in the training data that are "nearest" to the unknown data point
+4. Predict the response of the unknown data point using the most popular response value from the K-nearest neighbors
+
+### Python Code for K-Nearest Neighbors
+
+#### Imported libraries:
+
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+from sklearn import preprocessing
+%matplotlib inline
+
+import pandas as pd
+import numpy as np
+import mgt2001
+
+from matplotlib import pyplot as plt
+import matplotlib.cm as cm
+import matplotlib.gridspec as gridspec
+from matplotlib.ticker import MaxNLocator
+import matplotlib.mlab as mlab
+%matplotlib inline
+
+plt.style.use('ggplot') # refined style
+```
+#### Normalize the Data
+
+```py
+# Normalize Data first
+X = preprocessing.StandardScaler().fit(X).transform(X.astype(float))
+X[0:5]
+```
+
+#### Train Test Split
+```py
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.2, random_state=4)
+print ('Train set:', X_train.shape,  y_train.shape)
+print ('Test set:', X_test.shape,  y_test.shape)
+```
+#### Training
+```py
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn import metrics
+
+k = 4
+#Train Model and Predict  
+neigh = KNeighborsClassifier(n_neighbors = k).fit(X_train,y_train)
+
+yhat = neigh.predict(X_test)
+
+print("Train set Accuracy: ", metrics.accuracy_score(y_train, neigh.predict(X_train)))
+print("Test set Accuracy: ", metrics.accuracy_score(y_test, yhat))
+```
+
+For every other $k$s:
+```py
+Ks = 10
+mean_acc = np.zeros((Ks-1))
+std_acc = np.zeros((Ks-1))
+
+for n in range(1,Ks):
+    
+    #Train Model and Predict  
+    neigh = KNeighborsClassifier(n_neighbors = n).fit(X_train,y_train)
+    yhat=neigh.predict(X_test)
+    mean_acc[n-1] = metrics.accuracy_score(y_test, yhat)
+
+    
+    std_acc[n-1]=np.std(yhat==y_test)/np.sqrt(yhat.shape[0])
+
+mean_acc
+```
+
+#### Including plot:
+```py
+plt.plot(range(1,Ks),mean_acc,'g')
+plt.fill_between(range(1,Ks),mean_acc - 1 * std_acc,mean_acc + 1 * std_acc, alpha=0.10)
+plt.fill_between(range(1,Ks),mean_acc - 3 * std_acc,mean_acc + 3 * std_acc, alpha=0.10,color="green")
+plt.legend(('Accuracy ', '+/- 1xstd','+/- 3xstd'))
+plt.ylabel('Accuracy ')
+plt.xlabel('Number of Neighbors (K)')
+plt.tight_layout()
+plt.show()
+```
+
+![Image](https://i.imgur.com/tZR2Q8J.png)
+
+
+## Decision Trees
+
+### Introduction
+
+Example:
+![Image](https://i.imgur.com/BGpi93n.png)
+
+1. Choose an attribute from your dataset
+2. Calculate the significance of attribute in splitting of data
+3. Split data based on the value of the best attribute
+4. Go to step 1
+
+**Building Decision Trees**
+
+Choose the attribute that has:
+
++ More predictiveness
++ less impurity
++ lower *entropy*
+    + measure of randomness or uncertainty
+    + the lower the entropy, the less uniform the distribution, the purer the node
+    + ![Image](https://i.imgur.com/RaTUurm.png)
+    + the model/package will calculate it for us
+
+
+After trying out every attribute in the dataset, how do we determine which attribute is the best?
+
+![Image](https://i.imgur.com/38jDdcm.png)
+
+Answer: **The tree with the *higher* *information gain* after splitting.**
+
+> Information gain: the information that can increase the level of certainty after splitting
+> $\text{Information Gain} = \text{(Entropy before split)} - \text{(weighted entropy after split)}$
+
+
+### Python Code
+
+```py
+from sklearn.tree import DecisionTreeClassifier
+```
+
+Sklearn Decision Trees do not handle categorical variables. 
+```py
+from sklearn import preprocessing
+le_sex = preprocessing.LabelEncoder()
+le_sex.fit(['F','M'])
+X[:,1] = le_sex.transform(X[:,1]) 
+
+
+le_BP = preprocessing.LabelEncoder()
+le_BP.fit([ 'LOW', 'NORMAL', 'HIGH'])
+X[:,2] = le_BP.transform(X[:,2])
+
+
+le_Chol = preprocessing.LabelEncoder()
+le_Chol.fit([ 'NORMAL', 'HIGH'])
+X[:,3] = le_Chol.transform(X[:,3]) 
+
+X[0:5]
+```
+
+Setting up the Decision Tree:
+```py
+from sklearn.model_selection import train_test_split
+X_trainset, X_testset, y_trainset, y_testset = train_test_split(X, y, test_size=0.3, random_state=3)
+```
+
+**Modeling**
+
+```py
+drugTree = DecisionTreeClassifier(criterion="entropy", max_depth = 4)
+# drugTree # it shows the default parameters
+
+drugTree.fit(X_trainset,y_trainset)
+```
+
+**Making Prediction**
+```py
+predTree = drugTree.predict(X_testset)
+
+print (predTree [0:5])
+print (y_testset [0:5])
+```
+
+**Evaluation**
+```py
+from sklearn import metrics
+import matplotlib.pyplot as plt
+print("DecisionTrees's Accuracy: ", metrics.accuracy_score(y_testset, predTree))
+```
+
+**Visualization**
+
+```py
+from  io import StringIO
+import pydotplus
+import matplotlib.image as mpimg
+from sklearn import tree
+%matplotlib inline 
+```
+```py
+dot_data = StringIO()
+filename = "drugtree.png"
+featureNames = my_data.columns[0:5]
+targetNames = my_data["Drug"].unique().tolist()
+out=tree.export_graphviz(drugTree,feature_names=featureNames, out_file=dot_data, class_names= np.unique(y_trainset), filled=True,  special_characters=True,rotate=False)  
+graph = pydotplus.graph_from_dot_data(dot_data.getvalue())  
+graph.write_png(filename)
+img = mpimg.imread(filename)
+plt.figure(figsize=(100, 200))
+plt.imshow(img,interpolation='nearest')
+plt.show()
+```
+
+![Image](https://i.imgur.com/xGkHD9A.png)
+
+
+
+
+## Python Code for Logistic Regression
+
+### Normalization
+```py
+
+X = np.asarray(churn_df[['tenure', 'age', 'address', 'income', 'ed', 'employ', 'equip']])
+X[0:5]
+
+y = np.asarray(churn_df['churn'])
+y [0:5]
+
+
+from sklearn import preprocessing
+X = preprocessing.StandardScaler().fit(X).transform(X)
+X[0:5]
+```
+
+### Train/Test Split
+```py
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.2, random_state=4)
+print ('Train set:', X_train.shape,  y_train.shape)
+print ('Test set:', X_test.shape,  y_test.shape)
+```
+
+### Modeling (Logistic Regression)
++ `C` parameter indicates **inverse of regularization strength** which must be a positive float. Smaller values specify stronger regularization. 
++ `predict_proba` returns estimates for all classes, ordered by the label of classes.
+
+```py
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix
+LR = LogisticRegression(C=0.01, solver='liblinear').fit(X_train,y_train)
+LR
+
+yhat = LR.predict(X_test)
+yhat
+
+yhat_prob = LR.predict_proba(X_test)
+yhat_prob
+```
+
+
+### Evaluation
+#### Jaccard Index
+```py
+from sklearn.metrics import jaccard_score
+jaccard_score(y_test, yhat,pos_label=0)
+```
+
+
+
+#### Confusion Index
+```py
+from sklearn.metrics import classification_report, confusion_matrix
+import itertools
+
+def plot_confusion_matrix(cm, classes,
+                          normalize=False,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+    """
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        print("Normalized confusion matrix")
+    else:
+        print('Confusion matrix, without normalization')
+
+    print(cm)
+
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
+
+    fmt = '.2f' if normalize else 'd'
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, format(cm[i, j], fmt),
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+```
+
+```py
+# Compute confusion matrix
+cnf_matrix = confusion_matrix(y_test, yhat, labels=[1,0]) # result
+# np.set_printoptions(precision=2)
+
+
+# Plot non-normalized confusion matrix
+plt.figure()
+plot_confusion_matrix(cnf_matrix, classes=['churn=1','churn=0'],normalize= False,  title='Confusion matrix')
+
+print (classification_report(y_test, yhat))
+```
+
+#### Log Loss
+```py
+from sklearn.metrics import log_loss
+log_loss(y_test, yhat_prob)
+```
+
+Lower log loss means better accuracy.
+
+Trying different solvers:
+```py
+# write your code here
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix
+
+lls = list()
+solvers=['newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga']
+
+for solver in solvers:
+    LR = LogisticRegression(C=0.01, solver=solver).fit(X_train,y_train)
+    yhat = LR.predict(X_test)
+    yhat_prob = LR.predict_proba(X_test)
+    print(yhat)
+    ll = log_loss(y_test, yhat_prob)
+    lls.append(ll)
+    print(f'{solver}\'s Log Loss: {ll}')
+    
+print(f"{min(lls)} at {solvers[lls.index(min(lls))]}")
+```
+
+
+## Support Vector Machine
+
+### Introduction
+
+SVM is a supervised algorithm that classifies cases by finding a separator.
+
+1. Mapping data to a high-dimensional feature space so that data points can be categorized even when the data are not otherwise linearly separable
+2. Finding a separator
+
+
+Basically, SVMs are based on the idea of finding a hyperplane that best divides a data set into two classes as shown here. One reasonable choice as the best hyperplane is the one that represents the largest separation or margin between the two classes. So the goal is to choose a hyperplane with as big a margin as possible. Examples closest to the hyperplane are support vectors. It is intuitive that only support vectors matter for achieving our goal. And thus, other trending examples can be ignored. We tried to find the hyperplane in such a way that it has the maximum distance to support vectors. 
+
+SVM is good for image analysis tasks, such as image classification and hand written digit recognition. Also, SVM is very effective in text mining tasks, particularly due to its effectiveness in dealing with high-dimensional data. For example, it is used for detecting spam, text category assignment and sentiment analysis. Another application of SVM is in gene expression data classification, again, because of its power in high-dimensional data classification. SVM can also be used for other types of machine learning problems, such as regression, outlier detection and clustering. I'll leave it to you to explore more about these particular problems. This concludes this video, thanks for watching. 
+
+
+### Python Code
+
+#### Split
+```py
+feature_df = cell_df[['Clump', 'UnifSize', 'UnifShape', 'MargAdh', 'SingEpiSize', 'BareNuc', 'BlandChrom', 'NormNucl', 'Mit']]
+X = np.asarray(feature_df)
+
+cell_df['Class'] = cell_df['Class'].astype('int')
+y = np.asarray(cell_df['Class'])
+
+X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.2, random_state=4)
+print ('Train set:', X_train.shape,  y_train.shape)
+print ('Test set:', X_test.shape,  y_test.shape)
+```
+
+#### Modeling
+
+Four kernal types:
+
+1. Linear 
+2. Polynomial
+3. Radial Basis Function (RBF)
+4. Sigmoid
+
+```
+['linear', 'poly', 'rbf', 'sigmoid', 'precomputed']
+```
+
+```py
+from sklearn import svm
+clf = svm.SVC(kernel='rbf')
+clf.fit(X_train, y_train) 
+
+yhat = clf.predict(X_test)
+```
+
+### Evaluation
+
+```py
+from sklearn.metrics import classification_report, confusion_matrix
+import itertools
+```
+
+```py
+def plot_confusion_matrix(cm, classes,
+                          normalize=False,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+    """
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        print("Normalized confusion matrix")
+    else:
+        print('Confusion matrix, without normalization')
+
+    print(cm)
+
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
+
+    fmt = '.2f' if normalize else 'd'
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, format(cm[i, j], fmt),
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+```
+
+#### Confusion Matrix
+```py
+# Compute confusion matrix
+cnf_matrix = confusion_matrix(y_test, yhat, labels=[2,4])
+np.set_printoptions(precision=2)
+
+print (classification_report(y_test, yhat))
+
+# Plot non-normalized confusion matrix
+plt.figure()
+plot_confusion_matrix(cnf_matrix, classes=['Benign(2)','Malignant(4)'],normalize= False,  title='Confusion matrix')
+```
+```
+
+              precision    recall  f1-score   support
+
+           2       1.00      0.94      0.97        90
+           4       0.90      1.00      0.95        47
+
+    accuracy                           0.96       137
+   macro avg       0.95      0.97      0.96       137
+weighted avg       0.97      0.96      0.96       137
+```
+
+![Image](https://i.imgur.com/8x1O1i3.png)
+
+#### F1-Score
+```py
+from sklearn.metrics import f1_score
+f1_score(y_test, yhat, average='weighted') 
+```
+
+#### Jaccard
+```py
+from sklearn.metrics import jaccard_score
+jaccard_score(y_test, yhat,pos_label=2)
+```
+
+
+
+
+
+## Clustering
+
+Clustering means finding clusters in a dataset, unsupervised. So what is a cluster? A cluster is a group of data points or objects in a dataset that are similar to other objects in the group, and dissimilar to datapoints in other clusters
+
+In the retail industry, clustering is used to find associations among customers based on their demographic characteristics and use that information to identify buying patterns of various customer groups. Also, it can be used in recommendation systems to find a group of similar items or similar users and use it for collaborative filtering, to recommend things like books or movies to customers. In banking, analysts find clusters of normal transactions to find the patterns of fraudulent credit card usage. Also they use clustering to identify clusters of customers. For instance, to find loyal customers versus churned customers. In the insurance industry, clustering is used for fraud detection in claims analysis, or to evaluate the insurance risk of certain customers based on their segments. In publication media, clustering is used to auto categorize news based on his content or to tag news, then cluster it so as to recommend similar news articles to readers. In medicine, it can be used to characterize patient behavior, based on their similar characteristics. So as to identify successful medical therapies for different illnesses or in biology, clustering is used to group genes with similar expression patterns or to cluster genetic markers to identify family ties. If you look around you can find many other applications of clustering, but generally clustering can be used for one of the following purposes: exploratory data analysis, summary generation or reducing the scale, outlier detection- especially to be used for fraud detection or noise removal, finding duplicates and datasets or as a pre-processing step for either prediction, other data mining tasks or as part of a complex system. Let's briefly look at different clustering algorithms and their characteristics. Partition-based clustering is a group of clustering algorithms that produces sphere-like clusters, such as; K-Means, K-Medians or Fuzzy c-Means. These algorithms are relatively efficient and are used for medium and large sized databases. Hierarchical clustering algorithms produce trees of clusters, such as agglomerative and divisive algorithms. This group of algorithms are very intuitive and are generally good for use with small size datasets. Density-based clustering algorithms produce arbitrary shaped clusters. They are especially good when dealing with spatial clusters or when there is noise in your data set. 
+
+### Python Code for k-Means Clustering
+
+A k-Means algorithm works by randomly placing k centroids, one for each cluster. The farther apart the clusters are placed, the better. The next step is to calculate the distance of each data point or object from the centroids. Euclidean distance is used to measure the distance from the object to the centroid. Please note, however, that you can also use different types of distance measurements, not just Euclidean distance. Euclidean distance is used because it's the most popular. Then, assign each data point or object to its closest centroid creating a group. Next, once each data point has been classified to a group, recalculate the position of the k centroids. The new centroid position is determined by the mean of all points in the group. Finally, this continues until the centroids no longer move. Now, the questions is, how can we evaluate the goodness of the clusters formed by k-Means? In other words, how do we calculate the accuracy of k-Means clustering? One way is to compare the clusters with the ground truth, if it's available. However, because k-Means is an unsupervised algorithm we usually don't have ground truth in real world problems to be used. But there is still a way to say how bad each cluster is, based on the objective of the k-Means. This value is the average distance between data points within a cluster. Also, average of the distances of data points from their cluster centroids can be used as a metric of error for the clustering algorithm. Essentially, determining the number of clusters in a data set, or k as in the k-Means algorithm, is a frequent problem in data clustering. The correct choice of K is often ambiguous because it's very dependent on the shape and scale of the distribution of points in a dataset. There are some approaches to address this problem, but one of the techniques that is commonly used is to run the clustering across the different values of K and looking at a metric of accuracy for clustering.
+
+This metric can be mean, distance between data points and their cluster's centroid, which indicate how dense our clusters are or, to what extent we minimize the error of clustering. Then, looking at the change of this metric, we can find the best value for K.
+
+But the problem is that with increasing the number of clusters, the distance of centroids to data points will always reduce. This means increasing K will always decrease the error. So, the value of the metric as a function of K is plotted and the elbow point is determined where the rate of decrease sharply shifts. It is the right K for clustering. This method is called the elbow method. So let's recap k-Means clustering: k-Means is a partition-based clustering which is A, relatively efficient on medium and large sized data sets; B, produces sphere-like clusters because the clusters are shaped around the centroids; and C, its drawback is that we should pre-specify the number of clusters, and this is not an easy task. 
+
+**Imported libraries**
+```py
+import random 
+import numpy as np 
+import matplotlib.pyplot as plt 
+from sklearn.cluster import KMeans 
+from sklearn.datasets import make_blobs
+# depracated: samples_generator
+%matplotlib inline
+plt.style.use('ggplot') # refined style
+```
+
+**Randomly generate dataset**
+```py
+from sklearn.datasets import make_blobs
+
+X, y = make_blobs(n_samples=5000, centers=[[4,4], [-2, -1], [2, -3], [1, 1]], cluster_std=0.9) # for four clusters with 5000 samples
+
+plt.scatter(X[:, 0], X[:, 1], marker='.')
+plt.show()
+```
+
+K-Means:
+
+```py
+k_means = KMeans(init = "k-means++", n_clusters = 4, n_init = 12)
+
+k_means.fit(X)
+k_means_labels = k_means.labels_
+k_means_cluster_centers = k_means.cluster_centers_
+```
+
+**Plot**
+(Dope)
+
+```py
+# Initialize the plot with the specified dimensions.
+fig = plt.figure(figsize=(6, 4))
+
+# Colors uses a color map, which will produce an array of colors based on
+# the number of labels there are. We use set(k_means_labels) to get the
+# unique labels.
+colors = plt.cm.Spectral(np.linspace(0, 1, len(set(k_means_labels))))
+
+# Create a plot
+ax = fig.add_subplot(1, 1, 1)
+
+# For loop that plots the data points and centroids.
+# k will range from 0-3, which will match the possible clusters that each
+# data point is in.
+for k, col in zip(range(len([[4,4], [-2, -1], [2, -3], [1, 1]])), colors):
+
+    # Create a list of all data points, where the data poitns that are 
+    # in the cluster (ex. cluster 0) are labeled as true, else they are
+    # labeled as false.
+    my_members = (k_means_labels == k)
+    
+    # Define the centroid, or cluster center.
+    cluster_center = k_means_cluster_centers[k]
+    
+    # Plots the datapoints with color col.
+    ax.plot(X[my_members, 0], X[my_members, 1], 'w', markerfacecolor=col, marker='.')
+    
+    # Plots the centroids with specified color, but with a darker outline
+    ax.plot(cluster_center[0], cluster_center[1], 'o', markerfacecolor=col,  markeredgecolor='k', markersize=6)
+
+# Title of the plot
+ax.set_title('KMeans')
+
+# Remove x-axis ticks
+ax.set_xticks(())
+
+# Remove y-axis ticks
+ax.set_yticks(())
+
+# Show the plot
+plt.show()
+```
+
+![Image](https://i.imgur.com/6xZ6PTJ.png)
+
+**Application: Customer Segmentation**
+
+```py
+import pandas as pd
+cust_df = pd.read_csv("data/Cust_Segmentation.csv")
+cust_df.head()
+```
+
+**Pre-processing**
+```py
+df = cust_df.drop('Address', axis=1)
+df.head()
+
+# Normalizing
+from sklearn.preprocessing import StandardScaler
+X = df.values[:,1:]
+X = np.nan_to_num(X)
+Clus_dataSet = StandardScaler().fit_transform(X)
+Clus_dataSet
+```
+
+**Modeling**
+```py
+clusterNum = 3
+k_means = KMeans(init = "k-means++", n_clusters = clusterNum, n_init = 12)
+k_means.fit(X)
+labels = k_means.labels_
+print(labels)
+```
+
+**Insights**
+```py
+df["Clus_km"] = labels
+# df.head(5)
+df.groupby('Clus_km').mean()
+```
+
+Based on age and income:
+```py
+area = np.pi * ( X[:, 1])**2  
+plt.scatter(X[:, 0], X[:, 3], s=area, c=labels.astype(np.float), alpha=0.5)
+plt.xlabel('Age', fontsize=18)
+plt.ylabel('Income', fontsize=16)
+
+plt.show()
+```
+![Image](https://i.imgur.com/cGXBob6.png)
+```py
+from mpl_toolkits.mplot3d import Axes3D 
+fig = plt.figure(1, figsize=(8, 6))
+plt.clf()
+ax = Axes3D(fig, rect=[0, 0, .95, 1], elev=48, azim=134)
+
+plt.cla()
+# plt.ylabel('Age', fontsize=18)
+# plt.xlabel('Income', fontsize=16)
+# plt.zlabel('Education', fontsize=16)
+ax.set_xlabel('Education')
+ax.set_ylabel('Age')
+ax.set_zlabel('Income')
+
+ax.scatter(X[:, 1], X[:, 0], X[:, 3], c= labels.astype(np.float))
+plt.show()
+```
+![Image](https://i.imgur.com/WujKlKw.png)
+
+
+- AFFLUENT, EDUCATED AND OLD AGED
+- MIDDLE AGED AND MIDDLE INCOME
+- YOUNG AND LOW INCOME
+
+
+### Hierarchical Clustering
+
+Hierarchical clustering algorithms build a hierarchy of clusters where each node is a cluster consisting of the clusters of its daughter nodes. Strategies for hierarchical clustering generally fall into two types, divisive and agglomerative. Divisive is top down, so you start with all observations in a large cluster and break it down into smaller pieces. Think about divisive as dividing the cluster. Agglomerative is the opposite of divisive. So it is bottom up, where each observation starts in its own cluster and pairs of clusters are merged together as they move up the hierarchy. Agglomeration means to amass or collect things, which is exactly what this does with the cluster. The agglomerative approach is more popular among data scientists and so it is the main subject of this video. Let's look at a sample of agglomerative clustering. This method builds the hierarchy from the individual elements by progressively merging clusters.
+
+
+Hierarchical clustering algorithms build a hierarchy of clusters where *each node is a cluster* consists of the clusters of its daughter nodes.
+
+
+![Image](https://i.imgur.com/wCeYkzP.png)
++ Divisive
+    + top-down
+    + dividing the cluster
++ Agglomerative
+    + pair to similar clusters together
+    + more popular
+    
+    
+There are three main advantages to using hierarchical clustering. First, we do not need to specify the number of clusters required for the algorithm. Second, hierarchical clustering is easy to implement. And third, the dendrogram produced is very useful in understanding the data. 
+There are some disadvantages as well. First, the algorithm can never undo any previous steps. So for example, the algorithm clusters two points and later on, we see that the connection was not a good one. The program can not undo that step. 
+Second, the time complexity for the clustering can result in very long computation times in comparison with efficient algorithms such as K-means. Finally, if we have a large data set, it can become difficult to determine the correct number of clusters by the dendrogram. 
+Now, lets compare hierarchical clustering with K-means. K-means is more efficient for large data sets. In contrast to K-means, hierarchical clustering does not require the number of cluster to be specified. Hierarchical clustering gives more than one partitioning depending on the resolution or as K-means gives only one partitioning of the data. Hierarchical clustering always generates the same clusters, in contrast with K-means, that returns different clusters each time it is run, due to random initialization of centroids    
+
+**Pros and Cons**
+![Image](https://i.imgur.com/zvzzdyJ.png)
+
+**Hierarchical Clustering vs. K-Means**
+![Image](https://i.imgur.com/VPCFzxm.png)
+
+
+
+### Python Code for Hierarchical Clustering
+Imported Packages:
+
+```py
+import numpy as np 
+import pandas as pd
+from scipy import ndimage 
+from scipy.cluster import hierarchy 
+from scipy.spatial import distance_matrix 
+from matplotlib import pyplot as plt 
+from sklearn import manifold, datasets 
+from sklearn.cluster import AgglomerativeClustering 
+from sklearn.datasets import make_blobs 
+%matplotlib inline
+
+plt.style.use('ggplot') # refined style
+```
+
+Random Data:
+```py
+X1, y1 = make_blobs(n_samples=50, centers=[[4,4], [-2, -1], [1, 1], [10,4]], cluster_std=0.9)
+
+plt.scatter(X1[:, 0], X1[:, 1], marker='o') 
+plt.show()
+```
+
+**Agglomerative Clustering**
+```py
+agglom = AgglomerativeClustering(n_clusters = 4, linkage = 'average')
+
+agglom.fit(X1,y1)
+```
++ `linkage : {'ward', 'complete', 'average', 'single'}, default='ward'`
+
+
+Plot
+```py
+# Create a figure of size 6 inches by 4 inches.
+plt.figure(figsize=(6,4))
+
+# These two lines of code are used to scale the data points down,
+# Or else the data points will be scattered very far apart.
+
+# Create a minimum and maximum range of X1.
+x_min, x_max = np.min(X1, axis=0), np.max(X1, axis=0)
+
+# Get the average distance for X1.
+X1 = (X1 - x_min) / (x_max - x_min)
+
+# This loop displays all of the datapoints.
+for i in range(X1.shape[0]):
+    # Replace the data points with their respective cluster value 
+    # (ex. 0) and is color coded with a colormap (plt.cm.spectral)
+    plt.text(X1[i, 0], X1[i, 1], str(y1[i]),
+             color=plt.cm.nipy_spectral(agglom.labels_[i] / 10.),
+             fontdict={'weight': 'bold', 'size': 9})
+    
+# Remove the x ticks, y ticks, x and y axis
+plt.xticks([])
+plt.yticks([])
+#plt.axis('off')
+
+
+
+# Display the plot of the original data before clustering
+plt.scatter(X1[:, 0], X1[:, 1], marker='.')
+# Display the plot
+plt.show()
+```
+![Image](https://i.imgur.com/q9nmxQP.png)
+
+
+**Dendrogram**
+```py
+dist_matrix = distance_matrix(X1,X1) 
+print(dist_matrix)
+Z = hierarchy.linkage(dist_matrix, 'average')
+dendro = hierarchy.dendrogram(Z)
+```
+![Image](https://i.imgur.com/4mGnwJM.png)
+
+**Data Cleaning**
+```py
+print ("Shape of dataset before cleaning: ", pdf.size)
+pdf[[ 'sales', 'resale', 'type', 'price', 'engine_s',
+       'horsepow', 'wheelbas', 'width', 'length', 'curb_wgt', 'fuel_cap',
+       'mpg', 'lnsales']] = pdf[['sales', 'resale', 'type', 'price', 'engine_s',
+       'horsepow', 'wheelbas', 'width', 'length', 'curb_wgt', 'fuel_cap',
+       'mpg', 'lnsales']].apply(pd.to_numeric, errors='coerce')
+pdf = pdf.dropna()
+pdf = pdf.reset_index(drop=True)
+print ("Shape of dataset after cleaning: ", pdf.size)
+pdf.head(5)
+
+
+featureset = pdf[['engine_s',  'horsepow', 'wheelbas', 'width', 'length', 'curb_wgt', 'fuel_cap', 'mpg']]
+
+# Normalize
+from sklearn.preprocessing import MinMaxScaler
+x = featureset.values #returns a numpy array
+min_max_scaler = MinMaxScaler()
+feature_mtx = min_max_scaler.fit_transform(x)
+```
+**Clustering using Scipy**
+```py
+import scipy
+leng = feature_mtx.shape[0]
+D = np.zeros([leng,leng])
+for i in range(leng):
+    for j in range(leng):
+        D[i,j] = scipy.spatial.distance.euclidean(feature_mtx[i], feature_mtx[j])
+
+
+import pylab
+import scipy.cluster.hierarchy
+Z = hierarchy.linkage(D, 'complete')
+"""
+- single
+- complete
+- average
+- weighted
+- centroid
+"""
+from scipy.cluster.hierarchy import fcluster
+max_d = 3
+clusters = fcluster(Z, max_d, criterion='distance')
+clusters
+
+fig = pylab.figure(figsize=(18,50))
+def llf(id):
+    return '[%s %s %s]' % (pdf['manufact'][id], pdf['model'][id], int(float(pdf['type'][id])) )
+    
+dendro = hierarchy.dendrogram(Z,  leaf_label_func=llf, leaf_rotation=0, leaf_font_size =12, orientation = 'right')
+```
+![Image](https://i.imgur.com/7vi2nw6.png)
+
+
+**Clustering using scikit-learn**
+
+```py
+from sklearn.metrics.pairwise import euclidean_distances
+dist_matrix = euclidean_distances(feature_mtx,feature_mtx) 
+print(dist_matrix)
+
+Z_using_dist_matrix = hierarchy.linkage(dist_matrix, 'complete')
+
+fig = pylab.figure(figsize=(18,50))
+def llf(id):
+    return '[%s %s %s]' % (pdf['manufact'][id], pdf['model'][id], int(float(pdf['type'][id])) )
+    
+dendro = hierarchy.dendrogram(Z_using_dist_matrix,  leaf_label_func=llf, leaf_rotation=0, leaf_font_size =12, orientation = 'right')
+```
+
+```py
+agglom = AgglomerativeClustering(n_clusters = 6, linkage = 'complete')
+agglom.fit(dist_matrix)
+
+pdf['cluster_'] = agglom.labels_
+pdf.head()
+```
+
+Plot:
+```py
+import matplotlib.cm as cm
+n_clusters = max(agglom.labels_)+1
+colors = cm.rainbow(np.linspace(0, 1, n_clusters))
+cluster_labels = list(range(0, n_clusters))
+
+# Create a figure of size 6 inches by 4 inches.
+plt.figure(figsize=(16,14))
+
+for color, label in zip(colors, cluster_labels):
+    subset = pdf[pdf.cluster_ == label]
+    for i in subset.index:
+            plt.text(subset.horsepow[i], subset.mpg[i],str(subset['model'][i]), rotation=25) 
+    plt.scatter(subset.horsepow, subset.mpg, s= subset.price*10, c=color, label='cluster'+str(label),alpha=0.5)
+#    plt.scatter(subset.horsepow, subset.mpg)
+plt.legend()
+plt.title('Clusters')
+plt.xlabel('horsepow')
+plt.ylabel('mpg')
+```
+
+
+```py
+agg_cars = pdf.groupby(['cluster_','type'])['horsepow','engine_s','mpg','price'].mean()
+agg_cars
+```
+![Image](https://i.imgur.com/bJTq91o.png)
+
+```py
+plt.figure(figsize=(16,10))
+for color, label in zip(colors, cluster_labels):
+    subset = agg_cars.loc[(label,),]
+    for i in subset.index:
+        plt.text(subset.loc[i][0]+5, subset.loc[i][2], 'type='+str(int(i)) + ', price='+str(int(subset.loc[i][3]))+'k')
+    plt.scatter(subset.horsepow, subset.mpg, s=subset.price*20, c=color, label='cluster'+str(label))
+plt.legend()
+plt.title('Clusters')
+plt.xlabel('horsepow')
+plt.ylabel('mpg')
+plt.show()
+```
+![Image](https://i.imgur.com/q356rzs.png)
+
+### DBSCAN
+
++ DBSCAN (Density-based spatial clustering of Applications with Noise)
+    + is one of the most common clustering algorithms
+    + works based on density of objects
++ R (Radius of neighborhood)
+    + Radius (R) that if includes enough number of points within, we call it a dense area
++ M (Min number of neighbors)
+    + The minimum number of data points we want in a neighborhood to define a cluster
+
++ Core Points
++ Border Points
++ Outliers
+
+![Image](https://i.imgur.com/6dlrT31.png)
+
+### k-Means vs. DBSCAN
+
+![Image](https://i.imgur.com/CFztO69.png)
+
+**Pros**
+
+1. Arbitrarily shaped clusters
+2. Robust to outliers
+3. Does not require specification of the number of clusters
+
+
+**Python Code**
+
+**Imported libraries**
+
+```py
+import numpy as np 
+from sklearn.cluster import DBSCAN 
+from sklearn.datasets import make_blobs 
+from sklearn.preprocessing import StandardScaler 
+import matplotlib.pyplot as plt 
+%matplotlib inline
+
+plt.style.use('ggplot') # refined style
+```
+
+Data Generation:
+```py
+def createDataPoints(centroidLocation, numSamples, clusterDeviation):
+    # Create random data and store in feature matrix X and response vector y.
+    X, y = make_blobs(n_samples=numSamples, centers=centroidLocation, 
+                                cluster_std=clusterDeviation)
+    
+    # Standardize features by removing the mean and scaling to unit variance
+    X = StandardScaler().fit_transform(X)
+    return X, y
+
+X, y = createDataPoints([[4,3], [2,-1], [-1,4]] , 1500, 0.5)
+```
+
+**Modeling**
+
++ `Epsilon` determine a specified radius that if includes enough number of points within, we call it dense area
++ `minimumSamples` determine the minimum number of data points we want in a neighborhood to define a cluster.
+```py
+epsilon = 0.3
+minimumSamples = 7
+db = DBSCAN(eps=epsilon, min_samples=minimumSamples).fit(X)
+labels = db.labels_
+
+# Outliers
+# Firts, create an array of booleans using the labels from db.
+core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
+core_samples_mask[db.core_sample_indices_] = True
+n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
+unique_labels = set(labels)
+```
+
+**Visualization**
+
+```py
+# Create colors for the clusters.
+colors = plt.cm.Spectral(np.linspace(0, 1, len(unique_labels)))
+
+# Plot the points with colors
+for k, col in zip(unique_labels, colors):
+    if k == -1:
+        # Black used for noise.
+        col = 'k'
+
+    class_member_mask = (labels == k)
+
+    # Plot the datapoints that are clustered
+    xy = X[class_member_mask & core_samples_mask]
+    plt.scatter(xy[:, 0], xy[:, 1],s=50, c=[col], marker=u'o', alpha=0.5)
+
+    # Plot the outliers
+    xy = X[class_member_mask & ~core_samples_mask]
+    plt.scatter(xy[:, 0], xy[:, 1],s=50, c=[col], marker=u'o', alpha=0.5)
+```
+![Image](https://i.imgur.com/rECAC68.png)
