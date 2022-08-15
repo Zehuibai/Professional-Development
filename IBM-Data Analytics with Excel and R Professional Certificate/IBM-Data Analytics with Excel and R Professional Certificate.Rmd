@@ -1,0 +1,183 @@
+---
+title: 'IBM-Data Analytics with Excel and R Professional Certificate'
+author: "Zehui Bai"
+date: '`r format(Sys.time())`'
+output:
+  html_document:
+    df_print: paged
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+  pdf_document:
+    toc: yes
+fontsize: 10pt
+editor_options:
+  chunk_output_type: console
+colorlinks: yes
+---
+
+```{r setup, include=FALSE, echo = FALSE,message = FALSE, error = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# <!-- ---------------------------------------------------------------------- -->
+# <!--                    1. load the required packages                       -->
+# <!-- ---------------------------------------------------------------------- --> 
+
+## if(!require(psych)){install.packages("psych")}
+
+packages<-c("tidyverse", "knitr", "papeR")
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+ipak(packages)
+# <!-- ---------------------------------------------------------------------- --> 
+
+
+# <!-- ---------------------------------------------------------------------- -->
+# <!--                        2. Basic system settings                        -->
+# <!-- ---------------------------------------------------------------------- -->
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+getwd()
+Sys.setlocale("LC_ALL","English")
+```
+
+
+
+```{r mind map,echo = F,message = FALSE, error = FALSE, warning = FALSE}
+## Convert to mind map text, markdown outline, R script, and HTML widget ####
+library(mindr)
+# text -> widget
+# input <- c("# Chapter 1", "## Section 1.1", "### Section 1.1.1", "## Section 1.2", "# Chapter 2")
+# mm(from = input, root = "mindr")
+
+
+input <- rstudioapi::getSourceEditorContext()$path 
+## file.show(input) # Open the input file with the default program, if any
+input_txt <- readLines(input, encoding = "UTF-8")
+## Convert to mind map text, markdown outline, R script, and HTML widget ####
+mm_output <- mm(input_txt, 
+                output_type = c("widget"),
+                root = "")
+mm_output$widget
+
+
+
+```
+
+
+# Data Analysis with R
+
+## Basic SQL
+
+* SQL is a query language used for relational databases. 
+* A database is a repository of data. 
+* A relational database contains tables of related data stored in a tabular format, which is often related to other tables of data. 
+* A DBMS is software used to manage databases.  
+* A RDMS is a set of software tools that control the data in a relational database. 
+* You use the five main SQL commands to create a table, and insert, select, update, and delete data. 
+
+## Introduction to Relational Databases and Tables
+
+* A database is a repository of data that provides functionality for adding, modifying, and querying the data.  
+* SQL is a language used to query or retrieve data from a relational database.  
+* The Relational Model is the most used data model for databases because it allows for data independence.  
+* The primary key of a relational table uniquely identifies each tuple or row, preventing duplication of data and providing a way of defining relationships between tables.  
+* SQL statements fall into two different categories: Data Definition Language (DDL) statements and Data Manipulation Language (DML) statements. 
+
+## Connecting to Databases from R
+
+* The main R packages for relational database access include: RODBC, RMySQL, RPostgreSQL, ROracle, RSQLite, and RJDBC.
+* To connect to a relational database using RJDBC, load the RJDBC library, load the drivers, and then create a connection object for the database.
+* To connect to a relational database using RODBC, install the ODBC driver for your database server and configure the ODBC DSN outside of R, and then install and load the RODBC package from CRAN, and create a connection object for the database in R. 
+* From R, you can return metadata about your database, including the ODBC driver and level, the data types supported, and the tables, views, and columns in the database.
+
+
+# Data Visualization with R
+
+## Customization and Maps
+
+* Annotations provide metadata (or additional information about the data being displayed) for the plot. 
+* Customize the titles associated with the plot, axes, and legends using the labs() function. 
+* Automatically remove overlapping labels from a plot by using check_overlap = TRUE in the geom_text() function. 
+* Faceting provides a way to visualize each level of a discrete or categorical variable by dividing a plot into subplots based on a variable. 
+* The ggplot() function has several built-in themes, including theme_bw(), theme_minimal(), theme_classic(), theme_void(), theme_linedraw(), theme_light(), and theme_dark(). 
+* You can also customize themes by changing the borders, backgrounds, lines, text, and more by using the theme() function. 
+* The ggthemes package includes more themes and color scales and you can easily try different themes by first storing the base plot. 
+* Create interactive maps using the Leaflet library. 
+* A map tile can appear in many different styles. 
+* Add markers and captions to a map individually or from a data frame and then adjust the way they appear. 
+
+## Shiny
+
+There are two main parts that make up a Shiny application. The first part is the user interface, or UI, which is a web document that displays the application to the user. It is made up of HTML components that you create using Shiny functions. The second part is the Server. This is where the application logic sits. 
+
+An interactive dashboard is made up of four components: Analyze, visualize, interact, and Serve. 
+
+The Shiny package helps you build interactive dashboard apps using R. 
+
+A Shiny app works by defining a user interface (UI) and back-end server logic that work together to generate visualizations based on user input. 
+
+There are two standards for creating Shiny application files: a single file or two files named server.R and ui.R located in a single folder 
+
+Control widgets, called inputs, are web elements that users can interact with, including HTML tags, layouts, and widgets. 
+
+The Server performs the logic whenever input widgets change and then sends the result back to the respective UI output elements. 
+
+You construct the UI for a Shiny app using the shinyUI() function. 
+
+The fluidPage() function holds the title and defines the layout for the app. 
+
+A Shiny dashboard can have one of several layouts. A common layout is the sidebar layout, which has web controls in a sidebar on the left and plots on the main area on the right of the dashboard. 
+
+To construct the user interface (UI) for a simple Shiny application with a sidebar layout: 
+
+* Add a title panel using titlePanel(). 
+* Define a layout using sidebarLayout(). 
+* Add sidebarPanel() and mainPanel() panels to the layout. 
+* Add interactive web components to the sidebar panel, such as sliderInput(). 
+* Create a plot element in the main panel using plotOutput(), passing in an id that the server logic will use to return the plot. 
+
+The server logic for the Shiny application: 
+
+* Retrieves the input from a web control. 
+* Gets the dataset. 
+* Performs the application logic on the data using the control input.  
+* Generates the plot using the data from the result of the application logic. 
+* Sends the plot back to the UI output element.
+
+## Create a Dashboard Application
+
+You add web controls to a sidebar panel using various functions, for example, use the varSelectInput() function to create a control that contains a drop-down list of choice or the sliderInput() function to create a slider control. 
+
+You can add HTML elements to a panel. For example, you can add heading text by using the heading functions, like h3(), add text using the paragraph function, p(), or insert a line break using br(). 
+
+In the main panel, you can define a tabbed panel that contains multiple tabs of content. The tabsetPanel() function creates the tabset panel and then you use the tabPanel() function to add each new tab. 
+
+In the UI, you specify the location of a plot by using the plotOutput() function passing in an id that the server logic will use to return the plot, for example “p1”. 
+
+In the server logic for the Shiny app, you construct the plots and then render them using the renderPlot() function. You assign the plot to the output parameter using the id that you assigned to the plotOutput() function in the UI, for example, output$p1.  
+
+There are three ways to deploy a Shiny app: 
+
+1. shinyapps.io 
+2. Shiny Server 
+3. RStudio Connect 
+
+To publish a Shiny dashboard using shinyapps.io: 
+
+* Create an shinyapp.io account. 
+* Publish the app from RStudio and connect it to your shinyapp.io account. 
+
+R Markdown files combine code and text, they can be knitted to create a reproducible report in different formats like HTML or PDF. 
+
+There are three main components of R Markdown files: 
+
+* YAML header 
+* Text and markdown 
+* R code chunks 
+
