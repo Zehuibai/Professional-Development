@@ -1,0 +1,431 @@
+---
+title: 'Google Data Analytics Professional Certificate'
+author: "Zehui Bai"
+date: '`r format(Sys.time())`'
+output:
+  html_document:
+    df_print: paged
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+  pdf_document:
+    toc: yes
+fontsize: 10pt
+editor_options:
+  chunk_output_type: console
+colorlinks: yes
+---
+
+```{r setup, include=FALSE, echo = FALSE,message = FALSE, error = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# <!-- ---------------------------------------------------------------------- -->
+# <!--                    1. load the required packages                       -->
+# <!-- ---------------------------------------------------------------------- --> 
+
+## if(!require(psych)){install.packages("psych")}
+
+packages<-c("tidyverse", "knitr", "papeR")
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+ipak(packages)
+# <!-- ---------------------------------------------------------------------- --> 
+
+
+# <!-- ---------------------------------------------------------------------- -->
+# <!--                        2. Basic system settings                        -->
+# <!-- ---------------------------------------------------------------------- -->
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+getwd()
+Sys.setlocale("LC_ALL","English")
+```
+
+
+
+```{r mind map,echo = F,message = FALSE, error = FALSE, warning = FALSE}
+## Convert to mind map text, markdown outline, R script, and HTML widget ####
+library(mindr)
+# text -> widget
+# input <- c("# Chapter 1", "## Section 1.1", "### Section 1.1.1", "## Section 1.2", "# Chapter 2")
+# mm(from = input, root = "mindr")
+
+
+input <- rstudioapi::getSourceEditorContext()$path 
+## file.show(input) # Open the input file with the default program, if any
+input_txt <- readLines(input, encoding = "UTF-8")
+## Convert to mind map text, markdown outline, R script, and HTML widget ####
+mm_output <- mm(input_txt, 
+                output_type = c("widget"),
+                root = "")
+mm_output$widget
+
+
+
+```
+
+
+# Foundations: Data, Data, Everywhere
+
+## Key data analyst skills
+
+Analytical skills are qualities and characteristics associated with solving problems using facts.
+
+5 essential points
+
+1. Curiosity : Curiosity is all about wanting to learn something. Curious people usually seek out new challenges and experiences. This leads to knowledge.
+2. Understanding context : Context is the condition in which something exists or happens. This can be a structure or an environment.
+3. Having technical mindset : A technical mindset involves the ability to break things down into smaller steps or pieces and work with them in an orderly and logical way.
+4. Data design : Data design is how you organize information.
+5. Data strategy : Data strategy is the management of the people, processes, and tools used in data analysis. You manage people by making sure they know how to use the right data to find solutions to the problem you're working on. For processes, it's about making sure the path to that solution is clear and accessible. For tools, you make sure the right technology is being used for the job.
+
+
+"The qualities and characteristics associated with solving problems using facts"
+
+A : Analytical skills
+
+"The analytical skill that involves breaking processes down into smaller steps and working with them in an orderly, logical way"
+
+A : A technical mindset
+
+"Analytical skills that involve how you organize information"
+
+A : Data design
+
+"The analytical skill that has to do with how you group things into categories"
+
+A : Understanding context
+
+"The analytical skill that involves managing the processes and tools used in data analysis"
+
+A : Data strategy
+
+## Analytical thinking
+
+Analytical thinking involves identifying and defining a problem and then solving it by using data in an organized, step-by-step manner.
+
+5 key aspects to analytical thinking
+
+1. Visualization : Visualization is the graphical representation of information. Visuals can help data analysts understand and explain information more effectively.
+2. Strategy : Having a strategic mindset is key to staying focused and on track. Strategizing helps data analysts see what they want to achieve with the data and how they can get there. Strategy also helps improve the quality and usefulness of the data we collect. By strategizing, we know all our data is valuable and can help us accomplish our goals.
+3. Problem-orientation : Data analysts use a problem-oriented approach in order to identify, describe, and solve problems. It's all about keeping the problem top of mind throughout the entire project.
+4. Correlation : Being able to identify a correlation between two or more pieces of data. A correlation is like a relationship. Correlation does not equal causation. In other words, just because two pieces of data are both trending in the same direction, that doesn't necessarily mean they are all related.
+5. Big-picture and Detail-oriented thinking : This means being able to see the big picture as well as the details. It helps you zoom out and see possibilities and opportunities. This leads to exciting new ideas or innovations. On the flip side, detail-oriented thinking is all about figuring out all of the aspects that will help you execute a plan.
+
+
+
+# Ask Questions to Make Data-Driven Decisions
+
+**Successful data analysts learn to balance needs and expectations. In this part of the course, you’ll learn strategies for managing the expectations of stakeholders while establishing clear communication with your team to achieve your objectives.**
+
+
+## From issue to action: The six data analysis phases
+
+There are six data analysis phases that will help you make seamless decisions: ask, prepare, process, analyze, share, and act. Keep in mind, these are different from the data life cycle, which describes the changes data goes through over its lifetime.
+
+### Ask
+
+It’s impossible to solve a problem if you don’t know what it is. These are some things to consider:
+
+* Define the problem you’re trying to solve
+* Make sure you fully understand the stakeholder’s expectations
+* Focus on the actual problem and avoid any distractions
+* Collaborate with stakeholders and keep an open line of communication
+* Take a step back and see the whole situation in context
+
+### Prepare
+
+You will decide what data you need to collect in order to answer your questions and how to organize it so that it is useful. You might use your business task to decide:
+
+* What metrics to measure
+* Locate data in your database
+* Create security measures to protect that data
+
+
+### Process
+
+Clean data is the best data and you will need to clean up your data to get rid of any possible errors, inaccuracies, or inconsistencies. This might mean:
+
+* Using spreadsheet functions to find incorrectly entered data
+* Using SQL functions to check for extra spaces
+* Removing repeated entries
+* Checking as much possible for bias in the data
+
+### Analyze
+
+
+You will want to think analytically about your data. At this stage, you might sort and format your data to make it easier to:
+
+* Perform calculations
+* Combine data from multiple sources
+* Create tables with your results
+
+
+### Share
+
+
+Everyone shares their results differently so be sure to summarize your results with clear and enticing visuals of your analysis using data viz tools like graphs or dashboards. This is your chance to show the stakeholders you have solved their problem and how you got there. Sharing will certainly help your team:
+
+* Make better decisions
+* Make more informed decisions
+* Lead to stronger outcomes
+* Successfully communicate your findings
+
+### Act
+
+Now it’s time to act on your data. You will take everything you have learned from your data analysis and put it to use. This could mean providing your stakeholders with recommendations based on your findings so they can make data-driven decisions.
+
+Questions to ask yourself in this step:
+How can I use the feedback I received during the share phase (step 5) to actually meet the stakeholder’s needs and expectations?
+These six steps can help you to break the data analysis process into smaller, manageable parts, which is called structured thinking. This process involves four basic activities:
+
+* Recognizing the current problem or situation
+* Organizing available information
+* Revealing gaps and opportunities
+* Identifying your options
+
+## Solve problems with data
+
+Data analysts work with six basic problem types:
+
+1. Making predictions
+2. Categorizing things
+3. Spotting something unusual
+4. Identifying themes
+5. Discovering connections
+6. Finding patterns
+
+## SMART methodology
+
+1. Specific : Specific questions are simple, significant and focused on a single topic or a few closely related ideas.
+2. Measurable : Measurable questions can be quantified and assessed
+3. Action-oriented : Action-oriented questions encourage change.
+4. Relevant : Relevant questions matter, are important and have significance to the problem you're trying to solve
+5. Time-bound : Time-bound questions specify the time to be studied
+
+The type of questions you ask as you begin this "deep dive" are very important. Some common questions are:
+
+* Objectives: What are the goals of this deep dive? What, if any, questions are expected to be answered?
+* Audience: Who are the stakeholders? Who is interested or concerned about the results of this deep dive? Who will you be presenting to?
+* Time: What is the time frame for completion? By what date does this need to be done?
+* Resources: What resources are available to accomplish the deep dive's goals?
+* Security: Who should have access to the information?
+
+## Two Data Presentation Tools
+
+Data analysts will generally use both types of data in their work. Usually, qualitative data can help analysts better understand their quantitative data by providing a reason or more thorough explanation. In other words, quantitative data generally gives you the what, and qualitative data generally gives you the why. By using both quantitative and qualitative data, we can learn when people like to go to the movies and why they chose the theater. Maybe they really like the reclining chairs, so your manager can purchase more recliners. Maybe the theater is the only one that serves root beer. Maybe a later show time gives them more time to drive to the theater from where popular restaurants are located. Maybe they go to matinees because they have kids and want to save money. We wouldn’t have discovered this information by analyzing only the quantitative data for attendance, profit, and showtimes.
+
+
+1. Report - a static collection of data given to stakeholders periodically.
+    * Pros
+      + High-level historical data
+      + Easy to design
+      + Pre-cleaned and sorted data
+    * Cons
+      + Continual maintenance
+      + Less visually appealing
+      + Static
+2. Dashboard - monitors live, incoming data.
+    * Pros
+      + Dynamic, automatic, and interactive
+      + More stakeholder access
+      + Low maintenance
+    * Cons
+      + Labor-intensive design
+      + Can be confusing
+      + Potentially uncleaned data
+       
+## Always remember the stakeholder
+
+Stakeholders : people that have invested time, interest, and resources into the projects that you'll be working on as a data analyst
+
+You might remember that stakeholders are people who have invested time, interest, and resources into the projects that you are  working on. This can be a pretty broad group, and your project stakeholders may change from project to project. But there are three common stakeholder groups that you might find yourself working with: the executive team, the customer-facing team, and the data science team.
+
+1. Executive team: The executive team provides strategic and operational leadership to the company. They set goals, develop strategy, and make sure that strategy is executed effectively. The executive team might include vice presidents, the chief marketing officer, and senior-level professionals who help plan and direct the company’s work. These stakeholders think about decisions at a very high level and they are looking for the headline news about your project first.  They are less interested in the details. Time is very limited with them, so make the most of it by leading your presentations with the answers to their questions. You can keep the more detailed information handy in your presentation appendix or your project documentation for them to dig into when they have more time.
+2. Customer-facing team: The customer-facing team includes anyone in an organization who has some level of interaction with customers and potential customers. Typically they compile information, set expectations, and communicate customer feedback to other parts of the internal organization. These stakeholders have their own objectives and may come to you with specific asks. It is important to let the data tell the story and not be swayed by asks from your stakeholders to find certain patterns that might not exist.
+3. Data science team
+
+**Communication is key**
+
+Before you communicate, think about:
+1. Who your audience is
+    * In this case, you'll want to connect with other data analysts working on the project, as well as your project manager and eventually the VP of sales, who is your stakeholder.
+2. What they already know
+    * The other data analysts working on this project know all the details about which data-set you are using already, and your project manager knows the timeline you're working towards. Finally, the VP of sales knows the high-level goals of the project.
+3. What they need to know
+    * Your fellow data analysts need to know the details of where you have tried so far and any potential solutions you've come up with. Your project manager would need to know the different teams that could be affected and the implications for the project, especially if this problem changes the timeline. Finally, the VP of sales will need to know that there is a potential issue that would delay or affect the project.
+4. How you can communicate that effectively to them
+    * Instead of a long, worried e-mail which could lead to lots back and forth, you decide to quickly book in a meeting with your project manager and fellow analysts. In the meeting, you let the team know about the missing online sales data and give them more background info. Together, you discuss how this impacts other parts of the project. As a team, you come up with a plan and update the project timeline if needed. In this case, the VP of sales didn't need to be invited to your meeting, but would appreciate an e-mail update if there were changes to the timeline which your project manager might send along herself.
+    
+    
+## Balancing expectations and realistic project goals
+
+1. Set a reasonable and realistic timeline
+    * It can be tempting to tell your stakeholders that you'll have this done in no time, no problem. But setting expectations for a realistic timeline will help you in the long run. Your stakeholders will know what to expect when, and you won't be overworking yourself and missing deadlines because you overpromised.
+2. Flag problems early for stakeholders
+    * The earlier you can flag the problems, the better. That way your stakeholders can make necessary changes as soon as possible.
+3. Set realistic expectations at every stage of the project
+    * This takes some balance. You've learned about balancing the needs of your team members and stakeholders, but you also need to balance stakeholder expectations and what's possible with the projects, resources, and limitations. That's why it's important to be realistic and objective and communicate clearly. This will help stakeholders understand the timeline and have confidence in your ability to achieve those goals.
+    
+## Tell a clear story
+
+Avinash Kaushik, a Digital Marketing Evangelist for Google, has lots of great tips for data analysts in his blog: Occam's Razor. Below are some of the best practices he recommends for good data storytelling:
+
+* Compare the same types of data: Data can get mixed up when you chart it for visualization. Be sure to compare the same types of data and double check that any segments in your chart definitely display different metrics.
+* Visualize with care: A 0.01% drop in a score can look huge if you zoom in close enough. To make sure your audience sees the full story clearly, it is a good idea to set your Y-axis to 0.
+* Leave out needless graphs: If a table can show your story at a glance, stick with the table instead of a pie chart or a graph. Your busy audience will appreciate the clarity.
+* Test for statistical significance: Sometimes two datasets will look different, but you will need a way to test whether the difference is real and important. So remember to run statistical tests to see how much confidence you can place in that difference.
+* Pay attention to sample size: Gather lots of data. If a sample size is small, a few unusual responses can skew the results. If you find that you have too little data, be careful about using it to form judgments. Look for opportunities to collect more data, then chart those trends over longer periods.
+
+# Process Data from Dirty to Clean
+
+## Common data-cleaning pitfalls
+
+* Not checking for spelling errors: Misspellings can be as simple as typing or input errors. Most of the time the wrong spelling or common grammatical errors can be detected, but it gets harder with things like names or addresses. For example, if you are working with a spreadsheet table of customer data, you might come across a customer named “John” whose name has been input incorrectly as “Jon” in some places. The spreadsheet’s spellcheck probably won’t flag this, so if you don’t double-check for spelling errors and catch this, your analysis will have mistakes in it.
+* Forgetting to document errors: Documenting your errors can be a big time saver, as it helps you avoid those errors in the future by showing you how you resolved them. For example, you might find an error in a formula in your spreadsheet. You discover that some of the dates in one of your columns haven’t been formatted correctly. If you make a note of this fix, you can reference it the next time your formula is broken, and get a head start on troubleshooting. Documenting your errors also helps you keep track of changes in your work, so that you can backtrack if a fix didn’t work.
+* Not checking for misfielded values: A misfielded value happens when the values are entered into the wrong field. These values might still be formatted correctly, which makes them harder to catch if you aren’t careful. For example, you might have a dataset with columns for cities and countries. These are the same type of data, so they are easy to mix up. But if you were trying to find all of the instances of Spain in the country column, and Spain had mistakenly been entered into the city column, you would miss key data points. Making sure your data has been entered correctly is key to accurate, complete analysis.
+* Overlooking missing values: Missing values in your dataset can create errors and give you inaccurate conclusions. For example, if you were trying to get the total number of sales from the last three months, but a week of transactions were missing, your calculations would be inaccurate. As a best practice, try to keep your data as clean as possible by maintaining completeness and consistency.
+* Only looking at a subset of the data: It is important to think about all of the relevant data when you are cleaning. This helps make sure you understand the whole story the data is telling, and that you are paying attention to all possible errors. For example, if you are working with data about bird migration patterns from different sources, but you only clean one source, you might not realize that some of the data is being repeated. This will cause problems in your analysis later on. If you want to avoid common errors like duplicates, each field of your data requires equal attention.
+* Losing track of business objectives: When you are cleaning data, you might make new and interesting discoveries about your dataset-- but you don’t want those discoveries to distract you from the task at hand. For example, if you were working with weather data to find the average number of rainy days in your city, you might notice some interesting patterns about snowfall, too. That is really interesting, but it isn’t related to the question you are trying to answer right now. Being curious is great! But try not to let it distract you from the task at hand.
+* Not fixing the source of the error: Fixing the error itself is important. But if that error is actually part of a bigger problem, you need to find the source of the issue. Otherwise, you will have to keep fixing that same error over and over again. For example, imagine you have a team spreadsheet that tracks everyone’s progress. The table keeps breaking because different people are entering different values. You can keep fixing all of these problems one by one, or you can set up your table to streamline data entry so everyone is on the same page. Addressing the source of the errors in your data will save you a lot of time in the long run.
+* Not analyzing the system prior to data cleaning: If we want to clean our data and avoid future errors, we need to understand the root cause of your dirty data. Imagine you are an auto mechanic. You would find the cause of the problem before you started fixing the car, right? The same goes for data. First, you figure out where the errors come from. Maybe it is from a data entry error, not setting up a spell check, lack of formats, or from duplicates. Then, once you understand where bad data comes from, you can control it and keep your data clean.
+* Not backing up your data prior to data cleaning: It is always good to be proactive and create your data backup before you start your data clean-up. If your program crashes, or if your changes cause a problem in your dataset, you can always go back to the saved version and restore it. The simple procedure of backing up your data can save you hours of work-- and most importantly, a headache.
+* Not accounting for data cleaning in your deadlines/process: All good things take time, and that includes data cleaning. It is important to keep that in mind when going through your process and looking at your deadlines. When you set aside time for data cleaning, it helps you get a more accurate estimate for ETAs for stakeholders, and can help you know when to request an adjusted ETA.
+
+
+## Data-cleaning-Correct the most common problems
+
+Make sure you identified the most common problems and corrected them, including:
+
+* Sources of errors: Did you use the right tools and functions to find the source of the errors in your dataset?
+* Null data: Did you search for NULLs using conditional formatting and filters?
+* Misspelled words: Did you locate all misspellings?
+* Mistyped numbers: Did you double-check that your numeric data has been entered correctly?
+* Extra spaces and characters: Did you remove any extra spaces or characters using the TRIM function?
+* Duplicates: Did you remove duplicates in spreadsheets using the Remove Duplicates function or DISTINCT in SQL?
+* Mismatched data types: Did you check that numeric, date, and string data are typecast correctly?
+* Messy (inconsistent) strings: Did you make sure that all of your strings are consistent and meaningful?
+* Messy (inconsistent) date formats: Did you format the dates consistently throughout your dataset?
+* Misleading variable labels (columns): Did you name your columns meaningfully?
+* Truncated data: Did you check for truncated or missing data that needs correction?
+* Business Logic: Did you check that the data makes sense given your knowledge of the business?
+
+
+# Analyze Data to Answer Questions
+
+## The 4 phases of analysis
+
+1. Organize data
+2. Format and adjust data: You can adjust the data in a way that makes it easy to digest by filtering and sorting your data.
+3. Get input from others: Gaining input from others is important because it gives you a viewpoint you might not understand or have access to. On top of gaining input from other people, it's also important to seek out others' perspectives early.
+4. Transform data by observing relationships: Transforming data means identifying relationships and patterns between the data, and making calculations based on the data you have.
+
+
+## Data validation process
+
+**Checking and rechecking the quality of your data so that it is complete, accurate, secure and consistent**
+
+Types of data validation
+
+The following table describes the purpose, examples, and limitations of six types of data validation. The first five are validation types associated with the data (type, range, constraint, consistency, and structure) and the sixth type focuses on the validation of application code used to accept data from user input.
+
+As a junior data analyst, you might not perform all of these validations. But you could ask if and how the data was validated before you begin working with a dataset. Data validation helps to ensure the integrity of data. It also gives you confidence that the data you are using is clean. The following list outlines six types of data validation and the purpose of each, and includes examples and limitations.
+
+1. Data Type
+    * Purpose: Check that the data matches the data type defined for a field.
+    * Example: Data values for school grades 1-12 must be a numeric data type.
+    * Limitations: The data value 13 would pass the data type validation but would be an unacceptable value. For this case, data range validation is also needed.
+2. Data Range
+    * Purpose: Check that the data falls within an acceptable range of values defined for the field.
+    * Example: Data values for school grades should be values between 1 and 12.
+    * Limitations: The data value 11.5 would be in the data range and would also pass as a numeric data type. But, it would be unacceptable because there aren't half grades. For this case, data constraint validation is also needed.
+3. Data Constraints
+    * Purpose: Check that the data meets certain conditions or criteria for a field. This includes the type of data entered as well as other attributes of the field, such as number of characters.
+    * Example: Content constraint: Data values for school grades 1-12 must be whole numbers.
+    * Limitations: The data value 13 is a whole number and would pass the content constraint validation. But, it would be unacceptable since 13 isn’t a recognized school grade. For this case, data range validation is also needed.
+4. Data Consistency
+    * Purpose: Check that the data makes sense in the context of other related data.
+    * Example: Data values for product shipping dates can’t be earlier than product production dates.
+    * Limitations: Data might be consistent but still incorrect or inaccurate. A shipping date could be later than a production date and still be wrong.
+5. Data Structure
+    * Purpose: Check that the data follows or conforms to a set structure.
+    * Example: Web pages must follow a prescribed structure to be displayed properly.
+    * Limitations: A data structure might be correct with the data still incorrect or inaccurate. Content on a web page could be displayed properly and still contain the wrong information.
+6. Code Validation
+    * Purpose: Check that the application code systematically performs any of the previously mentioned validations during user data input.
+    * Example: Common problems discovered during code validation include: more than one data type allowed, data range checking not done, or ending of text strings not well defined.
+    * Limitations: Code validation might not validate all possible variations with data input.
+
+
+# Share Data Through the Art of Visualization
+
+## Frameworks for organizing your thoughts about visualization
+
+Frameworks can help you organize your thoughts about data visualization and give you a useful checklist to reference. Here are two frameworks that may be useful for you as you create your own data viz:
+
+1) The McCandless Method
+
+You learned about the David McCandless method in the first lesson on effective data visualizations, but as a refresher, the McCandless Method lists four elements of good data visualization:
+
+1. Information: the data you are working with
+2. Story: a clear and compelling narrative or concept
+3. Goal: a specific objective or function for the visual
+4. Visual form: an effective use of metaphor or visual expression
+
+Note: One useful way of approaching this framework is to notice the parts of the graphic where there is incomplete overlap between all four elements. For example, visual form without a goal, story, or data could be a sketch or even art. Data plus visual form without a goal or function is eye candy. Data with a goal but no story or visual form is boring. All four elements need to be at work to create an effective visual.
+
+2) Kaiser Fung’s Junk Charts Trifecta Checkup
+
+This approach is a useful set of questions that can help consumers of data visualization critique what they are consuming and determine how effective it is. The Checkup has three questions:
+
+1. What is the practical question?
+2. What does the data say?
+3. What does the visual say?
+
+Note: This checklist helps you think about your data viz from the perspective of your audience and decide if your visual is communicating your data effectively to them or not. In addition to these frameworks, there are some other building blocks that can help you construct your data visualizations.
+
+## Principles of design
+
+1. Balance: The design of a data visualization is balanced when the key visual elements, like color and shape, are distributed evenly. This doesn’t mean that you need complete symmetry, but your visualization shouldn’t have one side distracting from the other. If your data visualization is balanced, this could mean that the lines used to create the graphics are similar in length on both sides, or that the space between objects is equal. For example, this column chart (also shown below) is balanced; even though the columns are different heights and the chart isn’t symmetrical, the colors, width, and spacing of the columns keep this data visualization balanced. The colors provide sufficient contrast to each other so that you can pay attention to both the motivation level and the energy level displayed.
+2. Emphasis: Your data visualization should have a focal point, so that your audience knows where to concentrate. In other words, your visualizations should emphasize the most important data so that users recognize it first. Using color and value is one effective way to make this happen. By using contrasting colors, you can make certain that graphic elements—and the data shown in those elements—stand out.
+3. Movement: Movement can refer to the path the viewer’s eye travels as they look at a data visualization, or literal movement created by animations. Movement in data visualization should mimic the way people usually read. You can use lines and colors to pull the viewer’s attention across the page.
+4. Pattern: You can use similar shapes and colors to create patterns in your data visualization. This can be useful in a lot of different ways. For example, you can use patterns to highlight similarities between different data sets, or break up a pattern with a unique shape, color, or line to create more emphasis.
+5. Repetition: Repeating chart types, shapes, or colors adds to the effectiveness of your visualization. Think about the book sales chart from the previous example: the repetition of the colors helps the audience understand that there are distinct sets of data. You may notice this repetition in all of the examples we have reviewed so far. Take some time to review each of the previous examples and notice the elements that are repeated to create a meaningful visual story.
+6. Proportion: Proportion is another way that you can demonstrate the importance of certain data. Using various colors and sizes helps demonstrate that you are calling attention to a specific visual over others. If you make one chart in a dashboard larger than the others, then you are calling attention to it. It is important to make sure that each chart accurately reflects and visualizes the relationship among the values in it. In this dashboard (also shown below), the slice sizes and colors of the pie chart compared to the data in the table help make the number of donuts eaten by each person the focal point.
+7. Rhythm: This refers to creating a sense of movement or flow in your visualization. Rhythm is closely tied to the movement principle. If your finished design doesn’t successfully create a flow, you might want to rearrange some of the elements to improve the rhythm.
+8. Variety: Your visualizations should have some variety in the chart types, lines, shapes, colors, and values you use. Variety keeps the audience engaged. But it is good to find balance since too much variety can confuse people. The variety you include should make your dashboards and other visualizations feel interesting and unified.
+9. Unity: The last principle is unity. This means that your final data visualization should be cohesive. If the visual is disjointed or not well organized, it will be confusing and overwhelming.
+
+
+## Four elements of successful visualizations
+
+The Venn diagram by David McCandless identifies four elements of successful visualizations:
+
+* Information (data): The information or data that you are trying to convey is a key building block for your data visualization. Without information or data, you cannot communicate your findings successfully.
+* Story (concept): Story allows you to share your data in meaningful and interesting ways. Without a story, your visualization is informative, but not really inspiring.
+* Goal (function): The goal of your data visualization makes the data useful and usable. This is what you are trying to achieve with your visualization. Without a goal, your visualization might still be informative, but can’t generate actionable insights.
+* Visual form (metaphor): The visual form element is what gives your data visualization structure and makes it beautiful. Without visual form, your data is not visualized yet.
+data(penguins)
+penguins_1 = penguins
+penguins %>%
+    drop_na() %>%
+    group_by(species) %>%
+    mutate(max=max(flipper_length_mm)) %>%
+    filter(species=="Gentoo")
+
+
+
+
+
+
+
+
+
+
+
+
