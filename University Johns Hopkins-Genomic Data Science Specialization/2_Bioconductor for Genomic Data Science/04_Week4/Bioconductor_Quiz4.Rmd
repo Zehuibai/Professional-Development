@@ -1,0 +1,174 @@
+---
+title: "Bioconductor Quiz 4"
+author: "dillonchewwx"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+---
+
+# Question 1
+**The yeastRNASeq experiment data package contains FASTQ files from an RNA seq experiment in yeast. Question: What fraction of reads in this file has an A nucleotide in the 5th base of the read?**
+
+```{r q1, message=FALSE, warning=FALSE}
+## Run this the first time to install the "yeastRNASeq" package.
+# BiocManager::install("yeastRNASeq")
+library(yeastRNASeq)
+fastqFilePath<-system.file("reads", "wt_1_f.fastq.gz", package = "yeastRNASeq")
+
+## Run this the first time to install the "ShortRead" package.
+# BiocManager::install("ShortRead")
+library(ShortRead)
+q1_reads<-readFastq(fastqFilePath)
+q1_sequences<-sread(q1_reads)
+
+q1_consensusMatrix<-consensusMatrix(q1_sequences, as.prob=TRUE, baseOnly=TRUE)
+q1_consensusMatrix[1,5]
+```
+
+# Question 2
+**This is a continuation of Question 1. What is the average numeric quality value of the 5th base of these reads?**
+
+```{r q2, message=FALSE, warning=FALSE}
+q2_quality<-as(quality(q1_reads), "matrix")
+head(q2_quality,5)
+
+mean(q2_quality[,5])
+```
+
+# Question 3
+**The leeBamViews experiment data package contains aligned BAM files from an RNA seq experiment in yeast (the same experiment as in Questions 1 and 2, but that is not pertinent to the question). These reads are short reads (36bp) and have been aligned to the genome using a standard aligner, ie. potential junctions have been ignored (this makes some sense as yeast has very few junctions and the reads are very short).**
+
+**A read duplicated by position is a read where at least one more read shares the same position. We will focus on the interval from 800,000 to 801,000 on yeast chromosome 13. In this interval, how many reads are duplicated by position?**
+
+```{r q3, message=FALSE, warning=FALSE}
+## Run this the first time to install the "leeBamViews" package.
+# BiocManager::install("leeBamViews")
+library(leeBamViews)
+# BiocManager::install("Rsamtools")
+library(Rsamtools)
+bamFilePath<-system.file("bam", "isowt5_13e.bam", package="leeBamViews")
+q3_bamFile<-BamFile(bamFilePath)
+
+# Focus on 800,000 to 801,000 on yeast chromosome 13
+q3_GRange<-GRanges(seqnames="Scchr13", ranges=IRanges(start=800000, end=801000))
+q3_params<-ScanBamParam(which=q3_GRange, what=scanBamWhat())
+q3_aln<-scanBam(q3_bamFile, param=q3_params)
+
+q3_aln_pos<-q3_aln$`Scchr13:800000-801000`$pos
+sum(table(q3_aln_pos))-sum(table(q3_aln_pos)==1)
+```
+
+# Question 4
+**This is a continuation of Question 3. The package contains 8 BAM files in total, representing 8 different samples from 4 groups. An objective of the original paper was the discovery of novel transcribed regions in yeast. One such region is Scchr13:807762-808068. What is the average number of reads across the 8 samples falling in this interval?**
+
+```{r q4, message=FALSE, warning=FALSE}
+# Get Data - copied from lecture
+bpaths<-list.files(system.file("bam", package="leeBamViews"), pattern = "bam$", full=TRUE)
+q4_bamView<-BamViews(bpaths)
+q4_GRange<-GRanges(seqnames="Scchr13", ranges=IRanges(start=807762, end=808068))
+bamRanges(q4_bamView)<-q4_GRange
+q4_aln<-scanBam(q4_bamView)
+
+sum=0
+for (i in 1:length(q4_aln)){
+    sum=sum+length(q4_aln[[i]]$`Scchr13:807762-808068`$seq)
+}
+
+sum/length(q4_aln)
+```
+
+# Question 5
+**In the lecture on the oligo package an ExpressionSet with 18 samples is constructed, representing normalized data from an Affymetrix gene expression microarray. The samples are divided into two groups given by the `group` variable. What is the average expression across samples in the control group for the “8149273” probeset (this is a character identifier, not a row number).**
+
+```{r q5, warning=FALSE, message=FALSE}
+## Run this the first time to install the "oligo" package.
+# BiocManager::install("oligo")
+library(oligo)
+library(GEOquery)
+
+# Read in Data - copied from lecture
+# Run these once only to download the files
+# getGEOSuppFiles("GSE38792") 
+# untar("GSE38792/GSE38792_RAW.tar", exdir = "GSE38792/CEL")
+q5_celfiles<-list.files("GSE38792/CEL", full = TRUE)
+q5_rawData <- read.celfiles(q5_celfiles)
+
+# Clean up Data - copied from lecture
+q5_filename<-sampleNames(q5_rawData)
+pData(q5_rawData)$filename<-q5_filename
+q5_sampleNames<-sub(".*_", "", q5_filename)
+q5_sampleNames<-sub(".CEL.gz$", "", q5_sampleNames)
+sampleNames(q5_rawData)<-q5_sampleNames
+pData(q5_rawData)$group<-ifelse(grepl("^OSA", sampleNames(q5_rawData)),
+                               "OSA", "Control")
+
+# Normalize Data
+q5_normalizedData<-rma(q5_rawData)
+exprs(q5_normalizedData)["8149273",1:8]
+mean(exprs(q5_normalizedData)["8149273",1:8])
+```
+
+# Question 6
+**This is a continuation of Question 5. Use the limma package to fit a two group comparison between the control group and the OSA group, and borrow strength across the genes using `eBayes()`. Include all 18 samples in the model fit. What is the absolute value of the log foldchange `logFC` of the gene with the lowest `P.value`?**
+
+```{r q6, warning=FALSE, message=FALSE}
+## Run this the first time to install the "limma" package.
+# BiocManager::install("limma")
+library(limma)
+
+q5_normalizedData$group<-factor(q5_normalizedData$group)
+design<-model.matrix(~q5_normalizedData$group)
+fit<-lmFit(q5_normalizedData, design)
+fit<-eBayes(fit)
+topTable(fit)
+```
+
+Answer is 0.7126.
+
+# Question 7
+**This is a continuation of Question 6. How many genes are differentially expressed between the two groups at an `adj.P.value` cutoff of 0.05?**
+
+From the table in the previous question, we can see that the `adj.P.value` is 0.4345 > 0.05 and thus none of the genes are differentially expressed.
+
+# Question 8
+**An example 450k dataset is contained in the minfiData package. This dataset contains 6 samples; 3 cancer and 3 normals. Cancer has been shown to be globally hypo-methylated (less methylated) compared to normal tissue of the same kind.**
+
+**Take the RGsetEx dataset in this package and preprocess it with the preprocessFunnorm function. For each sample, compute the average Beta value (percent methylation) across so-called OpenSea loci. What is the mean difference in beta values between the 3 normal samples and the 3 cancer samples, across OpenSea CpGs?**
+
+```{r q8, warning=FALSE, message=FALSE}
+## Run this the first time to install the "minfi" package.
+# BiocManager::install("minfi")
+# library(minfi)
+```
+Skipping this question as I can't install the minfi & minfiData packages. Answer is 0.0886.
+
+# Question 9
+
+**This is a continuation of Question 8. The Caco2 cell line is a colon cancer cell line profiled by ENCODE. Obtain the narrowPeak DNase hyper sensitive sites computed by the analysis working group (AWG). Question: How many of these DNase hypersensitive sites contain one or more CpGs on the 450k array?**
+
+Likewise, I can't do anything here. The workflow would probably be to get the Caco2 data from AnnotationHub and then find overlaps with the 450k array. The answer is 40151.
+
+# Question 10
+**The zebrafishRNASeq package contains summarized data from an RNA-seq experiment in zebrafish in the form of a data.frame called `zfGenes`. The experiment compared 3 control samples to 3 treatment samples.**
+
+**Each row is a transcript; the data.frame contains 92 rows with spikein transcripts; these have a rowname starting with “ERCC”. Exclude these rows from the analysis.**
+
+**Use DESeq2 to perform a differential expression analysis between control and treatment. Do not discard (filter) genes and use the `padj` results output as the p-value. How many features are differentially expressed between control and treatment (ie. `padj` <= 0.05)?**
+
+```{r q10, warning=FALSE, message=FALSE}
+## Run this the first time to install the "zebrafishRNASeq" package.
+# BiocManager::install("zebrafishRNASeq")
+library(zebrafishRNASeq)
+data("zfGenes")
+
+## Run this the first time to install the "DESeq2" package.
+# BiocManager::install("DESeq2")
+# library(DESeq2)
+```
+Can't install DESeq2 package. Probably just follow the method in the lecture. Answer is 87.
+
+```{r sesinfo}
+sessionInfo()
+```

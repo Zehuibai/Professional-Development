@@ -1,0 +1,113 @@
+---
+title: "Exploratory analysis of RNAseq data"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+    toc_depth: 3
+    highlight: pygments
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, rows.print = 10)
+```
+
+[back to lesson's homepage](https://tavareshugo.github.io/data-carpentry-rnaseq/)
+
+# Lesson objectives
+
+* Understand the dataset being used
+* Setup an R project, import the data files and do a first exploration of what they are
+
+
+# Summary of dataset
+
+In this lesson, we will apply some of the skills that we've gained so far to manipulate 
+and explore a dataset from an RNAseq experiment. 
+
+This lesson uses data from an experiment included in the 
+[`fission` R/Bioconductor package](https://bioconductor.org/packages/release/data/experiment/vignettes/fission/inst/doc/fission.html). 
+Very briefly, we have transcriptome data for:
+
+* Two yeast strains: wild type ("wt") and _atf21del_ mutant ("mut")
+* Each has 6 time points of osmotic stress time (0, 15, 30, 60, 120 and 180 mins)
+* Three replicates for each strain at each time point
+
+Let's say that you did this experiment yourself, and that a bioinformatician 
+analysed it and provided you with four files of data:
+
+* `sample_info.csv` - information about each sample.
+* `counts_raw.csv` - "raw" read counts for all genes, which gives a measure of the genes' expression. 
+(these are simply scaled to the size of each library to account for the fact that 
+different samples have more or less total number of reads).
+* `counts_transformed.csv` - normalised read counts for all genes, on a log scale and transformed to correct 
+for a dependency between the mean and the variance. This is typical of count data,
+and we will look at it in the [exploratory data analysis lesson](02_rnaseq_exploratory.html)).
+* `test_result.csv` - results from a statistical test that assessed the probability of observed expression differences  
+between the first and each of the other time points in WT cells, assuming a null hypothesis of no difference.
+
+
+# Getting started
+
+The data are provided as CSV files, which you can download and read 
+into your R session.
+
+* create a new RStudio project in a new directory (`File > New Project...`). 
+* create a new folder called `scripts` 
+* create a new script called `01_prepare_data.R`.
+
+Use the code below to download the data into a new directory called `data`:
+
+```{r, eval = FALSE}
+# Create a "data" directory
+dir.create("data")
+
+# Download the data provided by your collaborator
+# using a for loop to automate this step
+for(i in c("counts_raw.csv", "counts_transformed.csv", "sample_info.csv", "test_result.csv")){
+  download.file(
+    url = paste0("https://github.com/tavareshugo/data-carpentry-rnaseq/blob/master/data/", i, "?raw=true"),
+    destfile = paste0("data/", i)
+  )
+}
+```
+
+
+Finally, load the `tidyverse` package and do the exercises below:
+
+```{r, message=FALSE}
+# load the package
+library(tidyverse)
+```
+
+
+----
+
+**Exercise:**
+
+> Import data into R and familiarise yourself with it.
+>
+> Create four objects called `raw_cts`, `trans_cts`, `sample_info` and `test_result`.
+
+[Link to full exercise](00_exercises.html#11_import_data)
+
+----
+
+```{r, echo = FALSE, message = FALSE}
+##### setup ####
+
+# load packages
+library(tidyverse)
+
+# read the data
+raw_cts <- read_csv("./data/counts_raw.csv")
+trans_cts <- read_csv("./data/counts_transformed.csv")
+sample_info <- read_csv("./data/sample_info.csv")
+test_result <- read_csv("./data/test_result.csv")
+```
+
+
+----
+
+[back to lesson's homepage](https://tavareshugo.github.io/data-carpentry-rnaseq/)
