@@ -1,0 +1,32 @@
+Subqueries to Select Data
+
+https://go.documentation.sas.com/doc/en/pgmsascdc/9.4_3.4/sqlproc/p1st65qbmqdks3n1mch4yfcctexi.htm
+
+Building an SQL subquery in SAS Enterprise Guide
+
+https://blogs.sas.com/content/sasdummy/2013/06/28/building-an-sql-subquery-in-sas-enterprise-guide/
+
+Combining Queries with Set Operators
+
+https://go.documentation.sas.com/doc/en/pgmsascdc/9.4_3.4/sqlproc/n0vo2lglyrnexwn14emi8m0jqvrj.htm
+
+
+Getting things in order with PROC SQL, macro and a SAS function
+
+
+https://blogs.sas.com/content/sastraining/2014/07/11/getting-things-in-order-with-proc-sql-macro-and-a-sas-function/
+
+
+
+Doing More with SAS Programming
+https://www.youtube.com/watch?v=LlgYwZxzx-I
+
+
+We'll see three specific ways of using arrays in this course: 
+1. processing repetitive code, 
+2. rotating data, 
+3. performing table lookups.
+
+Referencing an Array in a DO Loop
+
+

@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+
+*.log
+
+itsatest.R
+
+*.history
+
+*.history

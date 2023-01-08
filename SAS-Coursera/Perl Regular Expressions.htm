@@ -1,0 +1,785 @@
+<!DOCTYPE html> <html lang=en style><!--
+ Page saved with SingleFile 
+ url: https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/p1vz3ljudbd756n19502acxazevk.htm 
+ saved date: Fri Jan 06 2023 20:38:25 GMT+0100 (Mitteleuropäische Normalzeit)
+--><meta charset=utf-8><meta name=viewport content="width=device-width,height=device-height,initial-scale=1"><meta name=theme-color content=#000000><meta id=MetaDescription name=description content="SAS® 9.4 Functions and CALL Routines: Reference, Fifth Edition
+documentation.sas.com"><title>SAS Help Center: Using Perl Regular Expressions in the DATA Step </title><style>code[class*="language-"],pre[class*="language-"]{color:#686868;background:none;font-weight:400;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;-moz-tab-size:4;-o-tab-size:4;text-rendering:optimizeSpeed;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*="language-"]{position:relative;margin:.5em 0}pre[class*="language-"]>code{position:relative;background-color:white}code[class*="language"]{max-height:inherit;height:inherit;display:block;overflow:auto}:not(pre)>code[class*="language-"],pre[class*="language-"]{background-color:white;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin-bottom:1em}:not(pre)>code[class*="language-"]{position:relative;padding:.2em;border-radius:0.3em;color:#c92c2c;border:1px solid rgba(0,0,0,0.1);display:inline;white-space:normal}pre[class*="language-"]:before,pre[class*="language-"]:after{content:"";z-index:-2;display:block;position:absolute;bottom:0.75em;left:0.18em;width:40%;height:20%;max-height:13em;-webkit-transform:rotate(-2deg);-moz-transform:rotate(-2deg);-ms-transform:rotate(-2deg);-o-transform:rotate(-2deg);transform:rotate(-2deg)}:not(pre)>code[class*="language-"]:after,pre[class*="language-"]:after{right:0.75em;left:auto;-webkit-transform:rotate(2deg);-moz-transform:rotate(2deg);-ms-transform:rotate(2deg);-o-transform:rotate(2deg);transform:rotate(2deg)}.token.punctuation{color:#686868}.token.number{color:#08726D}.token.step.keyword{color:#000080;font-weight:600}.token.datalines.string{color:#89632B}.token.string{color:#800080}.token.operator{color:#a67f59}.token.keyword{color:#0000FF}@media screen and (max-width:767px){pre[class*="language-"]:before,pre[class*="language-"]:after{bottom:14px;box-shadow:none}}/*!
+ * Bootstrap v4.5.0 (https://getbootstrap.com/)
+ * Copyright 2011-2020 The Bootstrap Authors
+ * Copyright 2011-2020 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */:root{--blue:#007bff;--indigo:#6610f2;--purple:#6f42c1;--pink:#e83e8c;--red:#dc3545;--orange:#fd7e14;--yellow:#ffc107;--green:#28a745;--teal:#20c997;--cyan:#17a2b8;--white:#fff;--gray:#6c757d;--gray-dark:#343a40;--primary:#007bff;--secondary:#6c757d;--success:#28a745;--info:#17a2b8;--warning:#ffc107;--danger:#dc3545;--light:#f8f9fa;--dark:#343a40;--breakpoint-xs:0;--breakpoint-sm:576px;--breakpoint-md:768px;--breakpoint-lg:992px;--breakpoint-xl:1200px;--font-family-sans-serif:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--font-family-monospace:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}*,:after,:before{box-sizing:border-box}html{font-family:sans-serif;line-height:1.15;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}article,footer,header,nav,section{display:block}body{font-weight:400;text-align:left}[tabindex="-1"]:focus:not(:focus-visible){outline:0!important}p{margin-bottom:1rem}dl,ol,ul{margin-bottom:1rem}ol,ul{margin-top:0}ul ul{margin-bottom:0}dd{margin-bottom:.5rem}a{color:#007bff;text-decoration:none;background-color:transparent}a:hover{color:#0056b3;text-decoration:underline}a:not([href]),a:not([href]):hover{color:inherit;text-decoration:none}pre{margin-bottom:1rem;-ms-overflow-style:scrollbar}svg{vertical-align:middle}svg{overflow:hidden}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}button,textarea{margin:0;font-family:inherit;font-size:inherit;line-height:inherit}button{overflow:visible}button{text-transform:none}[role=button]{cursor:pointer}button{-webkit-appearance:button}[type=button]:not(:disabled),[type=reset]:not(:disabled),[type=submit]:not(:disabled),button:not(:disabled){cursor:pointer}textarea{overflow:auto;resize:vertical}::-webkit-file-upload-button{font:inherit;-webkit-appearance:button}template{display:none}code{word-wrap:break-word}pre{display:block;color:#212529}pre code{color:inherit;word-break:normal}.dropdown,.dropup{position:relative}.dropdown-toggle:after{display:inline-block;margin-left:.255em;vertical-align:.255em;content:"";border-top:.3em solid;border-right:.3em solid transparent;border-bottom:0;border-left:.3em solid transparent}.dropdown-toggle:empty:after{margin-left:0}.dropup .dropdown-toggle:after{display:inline-block;margin-left:.255em;vertical-align:.255em;content:"";border-top:0;border-right:.3em solid transparent;border-bottom:.3em solid;border-left:.3em solid transparent}.dropup .dropdown-toggle:empty:after{margin-left:0}.nav-link{display:block;padding:.5rem 1rem}.nav-link:focus,.nav-link:hover{text-decoration:none}.navbar{position:relative}.navbar{display:flex;flex-wrap:wrap;align-items:center}.navbar-brand{display:inline-block;padding-top:.3125rem;padding-bottom:.3125rem;margin-right:1rem;line-height:inherit;white-space:nowrap}.navbar-brand:focus,.navbar-brand:hover{text-decoration:none}.navbar-nav{display:flex;padding-left:0;margin-bottom:0;list-style:none}.navbar-expand{flex-flow:row nowrap}.navbar-expand .navbar-nav{flex-direction:row}.navbar-expand .navbar-nav .nav-link{padding-right:.5rem;padding-left:.5rem}.navbar-dark .navbar-brand,.navbar-dark .navbar-brand:focus,.navbar-dark .navbar-brand:hover{color:#fff}.navbar-dark .navbar-nav .nav-link:focus,.navbar-dark .navbar-nav .nav-link:hover{color:hsla(0,0%,100%,.75)}@-webkit-keyframes progress-bar-stripes{0%{background-position:1rem 0}to{background-position:0 0}}@keyframes progress-bar-stripes{0%{background-position:1rem 0}to{background-position:0 0}}@-webkit-keyframes spinner-border{to{transform:rotate(1turn)}}@keyframes spinner-border{to{transform:rotate(1turn)}}@-webkit-keyframes spinner-grow{0%{transform:scale(0)}50%{opacity:1;transform:none}}@keyframes spinner-grow{0%{transform:scale(0)}50%{opacity:1;transform:none}}@supports ((position:-webkit-sticky) or (position:sticky)){.sticky-top{position:-webkit-sticky;position:sticky;top:0;z-index:1020}}.Divider_dividerGroup__DU9qb{display:flex;align-items:center}.Divider_divider__3utla{width:1px;height:1.125rem}.Divider_divider__3utla.dark{border-left:1px solid hsla(0,0%,100%,.3)}.LanguageSelector_dropdown__2gLq9 .LanguageSelector_toggle__bch8q{text-decoration:none;font-size:.875rem;padding:.125rem}.LanguageSelector_dropdown__2gLq9 .LanguageSelector_toggle__bch8q svg{fill:#fff}.LanguageSelector_dropdown__2gLq9 .LanguageSelector_toggle__bch8q:focus,.LanguageSelector_dropdown__2gLq9 .LanguageSelector_toggle__bch8q:hover,.LanguageSelector_dropdown__2gLq9 .LanguageSelector_toggle__bch8q:visited{color:#fff}.LanguageSelector_dropdown__2gLq9 .LanguageSelector_toggle__bch8q:hover{border-radius:1px;background-color:rgba(159,182,198,.3)}.LanguageSelector_dropdown__2gLq9 .LanguageSelector_toggle__bch8q:active{border-radius:1px;background-color:rgba(159,182,198,.35)}#footer-language-toggle{display:flex}#footer-language-toggle svg{margin:auto}.Footer_footer__7dIj9>.Footer_navbar__27Plw{line-height:1.5rem;height:2rem;display:flex;justify-content:space-between;background-color:#01355b;color:#fff;fill:#fff}.Footer_footer__7dIj9 .Footer_right__3Lpxo{display:flex;align-items:center}.Footer_footer__7dIj9 .Footer_right__3Lpxo .nav-item,.Footer_footer__7dIj9 .Footer_right__3Lpxo .nav-link{font-size:.6875rem}.Footer_footer__7dIj9 .dropdown-toggle.nav-link:after{display:none}.Header_header__1v0yI.Header_topHeader__1cLaj{height:40px;background-color:#01355b;justify-content:space-between}.Header_header__1v0yI.Header_topHeader__1cLaj .Header_logo__3T0lc{padding:5px;display:flex;width:25px;height:25px;margin:auto}.Header_header__1v0yI.Header_topHeader__1cLaj .Header_logo__3T0lc:hover{border-radius:1px;background-color:rgba(159,182,198,.3)}.Header_header__1v0yI.Header_topHeader__1cLaj .Header_logo__3T0lc:active{border-radius:1px;background-color:rgba(159,182,198,.35)}.Header_header__1v0yI.Header_topHeader__1cLaj .Header_logo__3T0lc svg{fill:#fff;height:14px;width:14px;margin:auto}.Header_header__1v0yI.Header_topHeader__1cLaj .Header_link__1uLZ-{font-size:.875rem}.Header_header__1v0yI.Header_topHeader__1cLaj .Header_link__1uLZ-:focus,.Header_header__1v0yI.Header_topHeader__1cLaj .Header_link__1uLZ-:hover{text-decoration:underline}.Header_brand__1Eas8{margin-left:1rem}.Header_brand__1Eas8.navbar-brand{font-size:.875rem;align-self:center;font-weight:400}.MainNav_mainnav__2qKvQ{font-size:.875rem;display:flex;justify-content:space-between;height:36px;background-color:#025088;color:#fff;fill:#fff}.MainNav_mainnav__2qKvQ svg{height:14px;width:14px;fill:#fff}.MainNav_mainnav__2qKvQ .MainNav_vertDivider__Q8UNX{color:hsla(0,0%,100%,.3);margin:auto 0}#mainnav-help-menu-dropdown{padding:1px 4px}#mainnav-help-menu-dropdown:after{display:none}.MainNav_title__3NWOu{overflow:hidden;text-overflow:ellipsis;font-size:.875rem;padding:.25rem 0}.MainNav_leftnav__2C9z-{flex:1 1;min-width:0}.MainNav_leftnav__2C9z- .MainNav_titleElem__2sPH3{overflow:hidden;white-space:nowrap}.MainNav_rightnav__3p4nZ .MainNav_iconLink__Cd5ra.MainNav_searchIcon__25D--{width:25px;height:25px;padding:5px}.MainNav_rightnav__3p4nZ .nav-item .dropdown-toggle.nav-link .overflowIconContainer{padding:0 2px 4px;background-color:transparent}.MainNav_rightnav__3p4nZ .nav-item .dropdown-toggle.nav-link .overflowIconContainer svg{vertical-align:bottom}.MainNav_tocToggle__38nK5{width:25px;height:25px;padding:5px}.MainNav_iconLink__Cd5ra:hover,.MainNav_logo__YOKBi:hover{background-color:rgba(159,182,198,.3)}.MainNav_iconLink__Cd5ra:active,.MainNav_logo__YOKBi:active{background-color:rgba(159,182,198,.35)}.MainNav_iconLink__Cd5ra div{border:transparent;overflow-y:auto;border-radius:0}.MainNav_searchIcon__25D--,.MainNav_tocToggle__38nK5{display:flex}.MainNav_searchIcon__25D-- svg,.MainNav_tocToggle__38nK5 svg{margin:auto}.DocumentationLayout_documentation__3fEp-{display:flex;flex-grow:1;flex-direction:column;height:100%;background-color:#fff}.DocumentationLayout_footer__2gBLl,.DocumentationLayout_header__1gyD6{flex-shrink:0}.DocumentationLayout_main__j6x2Z{display:flex;flex-grow:1;overflow-y:hidden}.DocumentationLayout_side__MLbxv{margin-top:.5rem;width:19.125rem;min-width:19.125rem;flex-shrink:0;overflow-x:hidden;overflow-y:auto;padding-right:.5rem;margin-right:.5rem}.DocumentationLayout_side__MLbxv::-webkit-scrollbar{width:4px}.DocumentationLayout_side__MLbxv::-webkit-scrollbar-thumb{background:#788497;border-radius:7px;-webkit-border-radius:7px;background-clip:padding-box}.DocumentationLayout_sidebarContainer__jZhHc{display:flex;background-color:#f9fafb}@media (-ms-high-contrast:active),(-ms-high-contrast:none){.DocumentationLayout_sidebarContainer__jZhHc{display:block;overflow-x:hidden;overflow-y:auto;word-break:break-all}}.DocumentationLayout_content__2ewLS{flex-grow:1;max-width:100%;overflow-x:hidden}.ContentNavigation_contentnavigation__3nQTs{display:flex}.ContentNavigation_contentnavigation__3nQTs svg{height:1.25rem;width:1.25rem;padding-top:2px}.ContentNavigation_contentnavigation__3nQTs .ContentNavigation_prevBtn__2SGhb svg{padding-right:3px}.ContentNavigation_contentnavigation__3nQTs .ContentNavigation_nextBtn__1l_iq svg{padding-left:3px}.ContentNavigation_navbutton__jOVhU{margin:5px;border-radius:50%;width:24px;height:24px;border:1px solid #788497;background-color:rgba(120,132,151,.1);color:#000;display:flex;justify-content:center}.ContentNavigation_navbutton__jOVhU:focus,.ContentNavigation_navbutton__jOVhU:hover{background-color:rgba(120,132,151,.2)}.ContentNavigation_navbutton__jOVhU:active{background-color:rgba(120,132,151,.25)}.MainContentArea_maxHeight__2WjaK{height:100%}.MainContentArea_content__vW8W8{padding:0 20px 20px;flex-grow:1;overflow-y:auto}.MainContentArea_main__2iNC3{display:flex;height:100%;flex-direction:column}.MainContentArea_mainContentNav__1G3Q6{flex-flow:row nowrap;justify-content:flex-start;display:flex;align-items:center}.MainContentArea_mainContentNav__1G3Q6 .MainContentArea_leftNav__20Qv_{display:flex;flex-direction:row;flex:1 1;min-width:0}.MainContentArea_mainContentNav__1G3Q6 .MainContentArea_leftNav__20Qv_ .MainContentArea_title__38xiz{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin:0 .5rem;display:flex}.MainContentArea_mainContentNav__1G3Q6 .MainContentArea_leftNav__20Qv_ .MainContentArea_title__38xiz a,.MainContentArea_mainContentNav__1G3Q6 .MainContentArea_leftNav__20Qv_ .MainContentArea_title__38xiz a:focus,.MainContentArea_mainContentNav__1G3Q6 .MainContentArea_leftNav__20Qv_ .MainContentArea_title__38xiz a:hover{color:#10599e}.MainContentArea_scrollToTop__1eNqh{position:fixed;bottom:60px;right:25px;background-color:#000;width:50px;height:50px;border-radius:35px;transition:all .3s ease}.MainContentArea_scrollToTop__1eNqh.MainContentArea_visible__3glpD{opacity:.7;visibility:visible}.MainContentArea_scrollToTop__1eNqh>svg{bottom:0;transition:all .3s ease}.MainContentArea_scrollToTop__1eNqh:hover{background:rgba(0,0,0,.9)}.MainContentArea_scrollToTop__1eNqh:hover>svg{bottom:5px}.MainContentArea_scrollToTop__1eNqh>svg{position:relative;fill:#fff;width:32px;height:32px}@-webkit-keyframes Loading_spin__2KgBV{0%{opacity:1}to{opacity:0}}@keyframes Loading_spin__2KgBV{0%{opacity:1}to{opacity:0}}.Tree_treeview__zxw4w{padding-left:0}.Item_treeitem__2_eOE{list-style:none}.Item_item__3ROS5{width:100%;cursor:pointer;display:flex}.Item_item__3ROS5:focus{outline-color:-webkit-focus-ring-color;outline-style:auto;outline-width:1px}.Item_item_selected___3fur{background-color:rgba(120,132,151,.25)}.Item_item__3ROS5:hover{background-color:rgba(120,132,151,.2)}.Item_children__1LJ3d{height:auto;margin:0;padding:0 0 0 20px}.Item_show__2Fk6P{display:block}.Item_selectedText__2uIkc{font-weight:700}.Item_iconContainer__3QgbW{display:inline-block;padding:3px}.TOC_toc__7gwio{font-size:.875rem}.TOC_label__uZc-0{display:block;color:#000;width:100%;padding:.25rem .5rem .25rem 0;margin-left:.25rem}.TOC_label__uZc-0:focus,.TOC_label__uZc-0:hover{color:#000;text-decoration:none;outline:none}.TOC_topNode__x-bbb{padding-left:.25rem}.TOC_childNode__1160A{padding-left:1.25rem}.VersionPicker_versionPicker__hoPBe.nav-item{margin:auto 0}.VersionPicker_versionPicker__hoPBe.dark{margin-left:.25rem}.VersionPicker_versionPicker__hoPBe.dark #content-version-picker{padding-left:.25rem;padding-right:.25rem}.VersionPicker_versionPicker__hoPBe .dropdown-toggle{padding:.25rem;background-color:transparent}.VersionPicker_versionPicker__hoPBe.dark .dropdown-toggle{fill:#fff}.VersionPicker_versionPicker__hoPBe.dark .dropdown-toggle:active,.VersionPicker_versionPicker__hoPBe.dark .dropdown-toggle:hover{border-radius:1px}.VersionPicker_versionPicker__hoPBe.dark .dropdown-toggle:hover{background-color:rgba(159,182,198,.3)}.VersionPicker_versionPicker__hoPBe.dark .dropdown-toggle:active{background-color:rgba(159,182,198,.35)}.CDC_cdcTocContainer__2Kgc0{padding-left:1rem}.Document_document__28cje{line-height:normal;height:100%}.CopyCode_copyCode__2RUVr{display:flex;align-items:flex-start}.CopyCode_copyCode__2RUVr .CopyCode_content__3D03n{border:1px solid transparent}.CopyCode_copyCode__2RUVr .CopyCode_button__1JM7a{border:1px solid #788497;border-radius:1px;background-color:rgba(120,132,151,.1);position:relative;min-width:32px;min-height:32px;transition:background-color .5s ease-in-out}.CopyCode_copyCode__2RUVr .CopyCode_button__1JM7a:focus{border:1px solid #788497}.CopyCode_copyCode__2RUVr .CopyCode_button__1JM7a:hover{background-color:rgba(120,132,151,.2)}.CopyCode_copyCode__2RUVr .CopyCode_button__1JM7a:active{background-color:rgba(120,132,151,.25);outline:none}.CopyCode_copyCode__2RUVr .CopyCode_button__1JM7a .CopyCode_svgContainer__2w2bZ{position:absolute;top:.5rem;transition:opacity .5s ease-in-out}.CopyCode_copyCode__2RUVr .CopyCode_button__1JM7a .CopyCode_svgContainer__2w2bZ.CopyCode_check__3pkU3 svg{fill:#fff}.CopyCode_copyCode__2RUVr .CopyCode_button__1JM7a .CopyCode_svgContainer__2w2bZ.CopyCode_show__1IfSg{opacity:1}.CopyCode_copyCode__2RUVr .CopyCode_button__1JM7a .CopyCode_svgContainer__2w2bZ.CopyCode_hide__3LcyA{opacity:0}.CopyCode_copyCode__2RUVr .CopyCode_button__1JM7a:hover~.CopyCode_content__3D03n{border-color:#ced2d9}.CopyCode_copyCode__2RUVr button{line-height:0;padding:.5rem}.CopyCode_text__3Nacj{position:absolute;left:-1000px;top:-1000px}#root,body,html{display:flex;flex-direction:column;height:100vh;overflow:hidden}html{font-size:16px;height:-webkit-fill-available}body{margin:0;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;line-height:normal;font-size:.875rem;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background-color:#fff;color:#000;min-height:100vh;min-height:-webkit-fill-available}button{border:1px solid #788497;color:#000;font-size:.875rem;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;cursor:pointer;padding:.25rem}button:hover{background-color:rgba(120,132,151,.2)}button:focus{background-color:rgba(120,132,151,.25)}pre code{white-space:pre-wrap}.navbar{padding:0 2.75rem 0 2rem}.navbar .navbar-nav .nav-link{color:#fff;padding-top:0;padding-bottom:0}.navbar .navbar-nav .nav-link:focus,.navbar .navbar-nav .nav-link:hover,.navbar .navbar-nav .nav-link:visited{color:#fff}.nav-item{margin-left:.5rem;margin-right:.5rem}.nav-item,.nav-link{white-space:nowrap}@-webkit-keyframes xm-upbit{from{-webkit-transform:translate3d(0,30px,0);opacity:0.3}to{-webkit-transform:translate3d(0,0,0);opacity:1}}@keyframes xm-upbit{from{transform:translate3d(0,30px,0);opacity:0.3}to{transform:translate3d(0,0,0);opacity:1}}@-webkit-keyframes loader{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes loader{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}div.xisDoc-eDocBody{font-family:Helvetica,Arial,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:1rem;font-weight:400;color:#000000;background-color:#FFFFFF;margin-top:5px;margin-left:15px;margin-right:10px;line-height:1.4rem}.xisDoc-eDocBody code,.xisDoc-eDocBody pre{font-family:Consolas,Menlo,"Lucida Console",Courier,Monaco,monospace;line-height:1.5rem;font-size:1rem}p.xisDoc-paragraph{font-style:normal;margin-top:1.4rem;margin-bottom:0px}div p.xisDoc-leadIn{margin-top:1.4rem}p.xisDoc-paragraph code.xisDoc-inlineCode{font-size:1rem;font-weight:400;color:#353535;background-color:transparent;border:0px;border-radius:0px;padding:0px}h1.xisDoc-title{font-size:1.802rem;margin-top:2rem;margin-bottom:1.7rem;color:#013459;font-weight:400;line-height:2.4rem}h2.xisDoc-title{border-top:2px solid #CDD1D8;font-size:1.602rem;font-weight:600;margin-top:3rem;margin-bottom:1.4rem;padding-top:.25rem;color:#013459;line-height:2.2rem}.xisDoc-topicToc+h2.xisDoc-title{margin-top:2rem}h3.xisDoc-title{font-size:1.424rem;font-weight:600;margin-top:2rem;margin-bottom:.5rem;color:#013459;line-height:1.9rem}h3.xisDoc-title+p.xisDoc-paragraph{margin-top:0px}h4.xisDoc-title{padding-bottom:0px}ul.xisDoc-topicToc{list-style-type:none;padding-left:2.5rem;font-size:1rem;color:#5d6065;font-weight:600}h1.xisDoc-title+.xisDoc-topicToc{padding-top:0}ul.xisDoc-topicToc ul.xisDoc-topicToc{padding-top:0}li.xisDoc-topicTocItem:first-child a{margin-top:0px;text-indent:-1rem;font-weight:400;color:#10599e;text-decoration:none}li.xisDoc-topicTocItem:first-child a:hover{margin-top:0px;text-indent:-1rem;font-weight:400;text-decoration:underline}li.xisDoc-topicTocItem{margin-top:0.5rem;text-indent:-1rem;font-weight:400;color:#10599e;text-decoration:none}li.xisDoc-topicTocItem a{margin-top:0.5rem;text-indent:-1rem;font-weight:400;color:#10599e;text-decoration:none}li.xisDoc-topicTocItem a:hover{margin-top:0px;text-indent:-1rem;font-weight:400;text-decoration:underline}ul.xisDoc-listUnordered{list-style-image:none;list-style-type:disc;margin-top:1.4rem;margin-bottom:0px;margin-left:0px;padding-left:2.5rem}ul.xisDoc-listUnordered li.xisDoc-item p.xisDoc-paragraph{margin-top:0.7rem}li.xisDoc-item{margin-top:.7rem}.xisDoc-calloutAnchor{font-weight:600;font-size:1rem;color:#353535;background:#C2E1F5 none repeat scroll 0% 0%;margin-left:1rem;margin-right:1rem}ol.xisDoc-calloutList{font-size:1rem;font-weight:400;padding-top:0px}ol.xisDoc-calloutList li.xisDoc-calloutExplanation p.xisDoc-paragraph:first-child{margin-top:0.7rem}ol.xisDoc-calloutList li.xisDoc-calloutExplanation p.xisDoc-paragraph{margin-top:0.7rem}li.xisDoc-calloutExplanation p.xisDoc-paragraph:first-child{margin-top:1.4rem}dl.xisDoc-listTermDef{display:block;text-align:left;margin-top:1.4rem}dt.xisDoc-term{font-weight:normal;margin:1.4rem 0px 0px}dd.xisDoc-definition{margin-top:0px;margin-left:3rem}dd.xisDoc-definition p.xisDoc-paragraph:first-child{margin-top:0px}dd.xisDoc-definition p.xisDoc-paragraph{margin-top:0.7rem}.xisDoc-userSuppliedValue{margin-top:0.3rem}.xisDoc-paragraph code{font-size:1rem;font-weight:400;color:#353535;background-color:transparent;border:0px;border-radius:0px;padding:0px}.xisDoc-selection{white-space:nowrap;font-weight:600}pre.xisDoc-code{font-size:1rem;color:#353535;background-color:transparent;border:0px;border-radius:0px;overflow:visible;word-wrap:inherit;padding:0px}.xisDoc-codeBlock{font-size:1rem;color:#353535;padding:0px;margin-bottom:0px;margin-left:0px;background-color:transparent;border:0px;border-radius:0px;overflow:auto;word-wrap:inherit}.xisDoc-codeBlock ol.xisDoc-calloutList{margin-left:0;clear:left}.xisDoc-logBlock .xisDoc-title{margin-top:1.4rem;font-size:1rem;line-height:1.4rem;color:#4F5968;margin-bottom:.75rem;font-style:italic;font-weight:600}.xisDoc-codeBlock pre.xisDoc-code{margin-top:0px;margin-left:0px;padding-left:0.75rem!important;padding-right:0.75rem!important;padding-bottom:0!important}.xisDoc-codeBlock,.xisDoc-logBlock{margin-top:1rem}.xisDoc-codeBlock{position:relative;width:100%}.xisDoc-logBlock pre{margin-top:0px;padding:0px;margin-left:1.5rem;margin-bottom:0px;padding-bottom:0px;overflow:auto;word-wrap:inherit;background-color:transparent;border:0px;border-radius:0px}.xisDoc-codeFragment{margin-bottom:0}pre.xisDoc-codeFragment{font-size:1rem;font-weight:400;color:#353535;margin-left:1rem;padding:0px;background-color:transparent;border:0px;border-radius:0px;overflow:visible;word-wrap:inherit;margin-top:1.4rem}pre.xisDoc-outputFragment{margin-top:1.4rem;margin-left:1.5rem;padding:0px;font-size:1rem;font-weight:400;color:#353535;background-color:transparent;border:0px;border-radius:0px;overflow:auto;word-wrap:inherit}.xisDoc-userSuppliedValue{font-style:italic}table.xisDoc-listValueDescription{font-size:1rem;border:none;border-collapse:collapse;margin-top:0.7rem;margin-bottom:1rem;overflow:auto}table td.xisDoc-value{text-align:left;padding:.75rem 1rem 0px 0px}table td.xisDoc-valueDescription{text-align:left;padding:.75rem 1rem 0px 0px}.xisDoc-listValueDescription td{vertical-align:top}section.xisDoc-tableWrap{overflow:auto;display:block}p.xisDoc-paragraph a:link{color:#10599e;text-decoration:none}p.xisDoc-paragraph a:hover{text-decoration:underline}.xisDoc-navLine{border-top:1px solid #e3e3e3;margin-top:2.2rem}.xisDoc-dateStamp{font-size:.702rem;margin-top:0px}</style><meta name=description content="Using Perl Regular Expressions in the DATA Step"><meta name=authoringtool content=XIS:17.0.0><meta name=docsettitle content="SAS® 9.4 Functions and CALL Routines: Reference, Fifth Edition"><meta name=releasesystem content=9.4><meta name=spr content=9.4qq_BASEyy_9.4xx><meta name=product content="Base SAS"><meta name=contenttype content="Usage and Reference"><meta name=date content=2022-08-15><meta name=locale content=en><meta name=authoringtool content=XIS:17.0.0><link rel=canonical href=https://documentation.sas.com/doc/en/lefunctionsref/9.4/p1vz3ljudbd756n19502acxazevk.htm><link rel=icon href="data:image/x-icon;base64,AAABAAQAEBAAAAEACABoBQAARgAAACAgAAABAAgAqAgAAK4FAAAQEAAAAQAgAGgEAABWDgAAICAAAAEAIACoEAAAvhIAACgAAAAQAAAAIAAAAAEACAAAAAAAQAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAgACAAIAAAADDfQAAAIAAAACAgAAAAIAA4r+CAO/dvADozp4AgICAAP8A/wD/AAAA//8AAAD/AAAA//8AAAD/AP///wDw+/8ApKCgANTw/wCx4v8AjtT/AGvG/wBIuP8AJar/AACq/wAAktwAAHq5AABilgAASnMAADJQANTj/wCxx/8Ajqv/AGuP/wBIc/8AJVf/AABV/wAASdwAAD25AAAxlgAAJXMAABlQANTU/wCxsf8Ajo7/AGtr/wBISP8AJSX/AAAA/wAAANwAAAC5AAAAlgAAAHMAAABQAOPU/wDHsf8Aq47/AI9r/wBzSP8AVyX/AFUA/wBJANwAPQC5ADEAlgAlAHMAGQBQAPDU/wDisf8A1I7/AMZr/wC4SP8AqiX/AKoA/wCSANwAegC5AGIAlgBKAHMAMgBQAP/U/wD/sf8A/47/AP9r/wD/SP8A/yX/AP8A/wDcANwAuQC5AJYAlgBzAHMAUABQAP/U8AD/seIA/47UAP9rxgD/SLgA/yWqAP8AqgDcAJIAuQB6AJYAYgBzAEoAUAAyAP/U4wD/sccA/46rAP9rjwD/SHMA/yVXAP8AVQDcAEkAuQA9AJYAMQBzACUAUAAZAPHgwwDfuncA4sCDANmtXgD/SEgA/yUlAP8AAADcAAAAuQAAAJYAAABzAAAAUAAAAPLixwDozZ0A27JnANqvYgDNkywAyYkYAMaEDQDHhhEAw34BAMR/BABzJQAAUBkAAP/w1ADr06gA58yaANy0awDSnkEA2axcAMmLGwDPljIAxYIKAMSABQBzSgAAUDIAAP//1AD//7EA5siTANuxZgD//0gA//8lAP//AADOlC4AxIAGAMR/AwDFgQcAUFAAAPD/1ADozp8A5MSLAN21bQDSnT8Ay40gAKr/AADHhRAAxoMMAMWCCQBKcwAAMlAAAOP/1ADH/7EAq/+OAI//awBz/0gAV/8lAFX/AABJ3AAAPbkAADGWAAAlcwAAGVAAANT/1ACx/7EAjv+OAGv/awBI/0gAJf8lAAD/AAAA3AAAALkAAACWAAAAcwAAAFAAANT/4wCx/8cAjv+rAGv/jwBI/3MAJf9XAAD/VQAA3EkAALk9AACWMQAAcyUAAFAZANT/8ACx/+IAjv/UAGv/xgBI/7gAJf+qAAD/qgAA3JIAALl6AACWYgAAc0oAAFAyANT//wCx//8Ajv//AGv//wBI//8AJf//AAD//wAA3NwAALm5AACWlgAAc3MAAFBQAPLy8gDm5uYA2traAOnPoQDozZwA3rdxANmsXQCenp4AkpKSAIaGhgB6enoAbm5uAGJiYgBWVlYASkpKAD4+PgAyMjIAJiYmABoaGgAODg4AAAAAAACboAOrk/AAAAAAAAAAAACJA6yhAwMDqAAAAAAAAACb7wAAAPCIAwODAAAAAAAAAAAAAAAAgAMDA6UAAAAAAAAAAACpAADyAwOCAAAAAAAAAAADA5oApgMD8QAAAAAAAACFA58AAPIDrQgAAAAAAACoA4YAAAADA3YAAAAAAAAHAwMAAACUA5AAAAAAAAB0ogN3AACEA5IAAAAAAAAAdQMDpgB2AwMAAAAAAAAAAKcDA5EAAIcAAAAAAAAAAACNAwMDgAAAAAAAAAAAAAAAAIMDA4iOAAAAgYIAAAAAAAAAkAMDA6GUA5UAAAAAAAAAAAAJk5QDoI8AAAAAAPgf///wD///5wf///+D///+w////EP///jD///xx///44///8Mf///CP///w3///8H////g5///8A////gf//8oAAAAIAAAAEAAAAABAAgAAAAAAIAEAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAgACAAAAAgIAAAACAAAAAgIAAAACAAMDAwADA3MAA6M6fAICAgAD/AP8A/wAAAP//AAAA/wAAAP//AAAA/wD///8A8Pv/AKSgoADU8P8AseL/AI7U/wBrxv8ASLj/ACWq/wAAqv8AAJLcAAB6uQAAYpYAAEpzAAAyUADU4/8Ascf/AI6r/wBrj/8ASHP/ACVX/wAAVf8AAEncAAA9uQAAMZYAACVzAAAZUADU1P8AsbH/AI6O/wBra/8ASEj/ACUl/wAAAP8AAADcAAAAuQAAAJYAAABzAAAAUADj1P8Ax7H/AKuO/wCPa/8Ac0j/AFcl/wBVAP8ASQDcAD0AuQAxAJYAJQBzABkAUADw1P8A4rH/ANSO/wDGa/8AuEj/AKol/wCqAP8AkgDcAHoAuQBiAJYASgBzADIAUAD/1P8A/7H/AP+O/wD/a/8A/0j/AP8l/wD/AP8A3ADcALkAuQCWAJYAcwBzAFAAUAD/1PAA/7HiAP+O1AD/a8YA/0i4AP8lqgD/AKoA3ACSALkAegCWAGIAcwBKAFAAMgD/1OMA/7HHAP+OqwD/a48A/0hzAP8lVwD/AFUA3ABJALkAPQCWADEAcwAlAFAAGQD/1NQA/7GxAP+OjgD/a2sA/0hIAP8lJQD/AAAA3AAAALkAAACWAAAAcwAAAFAAAAD/49QA7NavAN22cADarmAA1qZQAP9XJQD/VQAA3EkAALk9AACWMQAAcyUAAFAZAAD/8NQA8N6/AOXGjwDhvn8A0p5AAM6VMAD/qgAAx4UQAMN9AACWYgAAc0oAAFAyAAD//9QA//+xAP//jgD//2sA//9IAP//JQD//wAA3NwAAMuNIACWlgAAc3MAAFBQAADw/9QA4v+xANT/jgDG/2sAuP9IAKr/JQCq/wAAktwAAHq5AABilgAASnMAADJQAADj/9QAx/+xAKv/jgCP/2sAc/9IAFf/JQBV/wAASdwAAD25AAAxlgAAJXMAABlQAADU/9QAsf+xAI7/jgBr/2sASP9IACX/JQAA/wAAANwAAAC5AAAAlgAAAHMAAABQAADU/+MAsf/HAI7/qwBr/48ASP9zACX/VwAA/1UAANxJAAC5PQAAljEAAHMlAABQGQDU//AAsf/iAI7/1ABr/8YASP+4ACX/qgAA/6oAANySAAC5egAAlmIAAHNKAABQMgDU//8Asf//AI7//wBr//8ASP//ACX//wAA//8AANzcAAC5uQAAlpYAAHNzAABQUADy8vIA5ubmANra2gDOzs4AwsLCALa2tgCqqqoAnp6eAJKSkgCGhoYAenp6AG5ubgBiYmIAVlZWAEpKSgA+Pj4AMjIyACYmJgAaGhoADg4OAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAmEkJCQkI8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI+TlJSUlJSUlJSDAAAAAAAAAAAAAAAAAAAAAAAAAACRlJSUlJSUlJSUlJSTAAAAAAAAAAAAAAAAAAAAAAAAkZSEj4GBj5GUlJSUlJSTAAAAAAAAAAAAAAAAAAAAAI+EAAAAAAAAAI2RlJSUlJSQAAAAAAAAAAAAAAAAAAAAggAAAAAAAAAAAACRlJSUlJQJkZMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACTlJSUlIORkQAAAAAAAAAAAAAAAAAAAAAAAIOUoAAAAI+UlJSUgwAAAAAAAAAAAAAAAAAAAAAAAACDlJSUhAAAjZSUlJSDAAAAAAAAAAAAAAAAAAAAAAAAAJSUlJSDAACNlJSUlI8AAAAAAAAAAAAAAAAAAAAAAACTlJSUkQAAAAmUlJSUAAAAAAAAAAAAAAAAAAAAAAAAoJSUlJMAAAAAoJSUlJAAAAAAAAAAAAAAAAAAAAAAAJGUlJSTAAAAAIOUlJSUAAAAAAAAAAAAAAAAAAAAAACClJSUlAkAAACPlJSUlI8AAAAAAAAAAAAAAAAAAAAAAJSUlJSPAAAACZSUlJSDAAAAAAAAAAAAAAAAAAAAAACDlJSUkwAAAACUlJSUkQAAAAAAAAAAAAAAAAAAAAAAAJOUlJSQAAAAk5SUlKAAAAAAAAAAAAAAAAAAAAAAAAAAlJSUlJAAAACUlJSTAAAAAAAAAAAAAAAAAAAAAAAAAACUlJSUkwAAAJGUlAAAAAAAAAAAAAAAAAAAAAAAAAAAAJSUlJSUjgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhJSUlJSTAAAAAAAAAAAAAACCAAAAAAAAAAAAAAAAAAAAlJSUlJSTgQAAAAAAAAAAkY8AAAAAAAAAAAAAAAAAAACDlJSUlJSUkY6NjY2OhJSOAAAAAAAAAAAAAAAAAAAAAACQlJSUlJSUlJSUlJSUgwAAAAAAAAAAAAAAAAAAAAAAAACPlJSUlJSUlJSUkwkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAj5CUlJSTkAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////////////////8B///8AH//+AA///AAH//n8A//7/wB///+Af//jgf//wYH//8GB//+Dg///B4P//g8H//wOB//8HA//+Dwf//g4P//4OH//+Dj///gf///4H/3//Af5//wAA//+AAf//wAP///AP/////////////////ygAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////Cv///03///+G////mf///5n///+Z////hv///zr///8A////AP///wD///8A////AP///wD///8A////Cvjv4ITZrV/Mx4YR78N9AP/DfQD/w30A/8iHFPLhvn+/////c////wr///8A////AP///wD///8A////APft23LGhA3aw30A/8N9AM/DfQDvw30A/8N9AP/DfQD/w30A/82SKuX16tVh////AP///wD///8A////AP///wDGgwy4w30AYAAAAAAAAAAA////E8N9ACDDfQC/w30A/8N9AP/DfQD/1qZR0v///wD///8A////AP///wD///8Aw30AMAAAAAAAAAAA////OvPmzqb///+PAAAAAMWBCLXDfQD/w30A/8N9AP////8A////AP///wD///8A////AAAAAAAAAAAA////HeG+f7/DfQD/xYIJ+P///wrDfQAgw30A/8N9AP/DfQD/////AP///wD///8A////AP///wAAAAAA////He3ZtKTDfQD/w30A/8N+AvHDfQAQ////Q8N9AP/DfQD/w30A/////wD///8A////AP///wD///8A////Cu3ZtKTFggr5w30A/8R/A/LDfQAw////Ot22b8bDfQD/w30A/8SABqP///8A////AP///wD///8A////APbr2GnFggr5w30A/8N9AP/DfQBQ////HeC8e7nDfQD/w30A/8N+AvHDfQAQ////AP///wD///8A////AP///wDToETZw30A/8N9AP/DfQBw////E+3ZtKTFggr5w30A/8N+AvHDfQAwAAAAAP///wD///8A////AP///wD///8Aw30A/8N9AP/DfQD/////E9iqWDHFggn4w30A/8N9AP/DfQAwAAAAAAAAAAD///8A////AP///wD///8A////AMN9AP/DfQD/w30A/+/dvXzDfQAgw34B8MN9AP/DfQBgAAAAAAAAAAD///8d////AP///wD///8A////AP///wDDfQD/w30A/8N9AP/QmTff////aePChyLDfQAgAAAAAAAAAAD///866dCjhf///wD///8A////AP///wD///8AxYEHk8N9AP/DfQD/w30A/9CZN9/z5s6m////j////3z///+Z3rdxrcR/BLL///8A////AP///wD///8A////AMN9ABDDfQC/w30A/8N9AP/DfQD/w30A/8WCCvnJixvow30A/8N+AtHDfQAQ////AP///wD///8A////AP///wAAAAAAAAAAAMN9AGDDfQDfw30A/8N9AP/DfQD/w30A38N9AIDDfQAQAAAAAP///wD///8A8A///+AD///gA///5gP//+xD///4A///8AP//+AD///gA///4Af//+AP///gG///4DP//+AD///gA///+Af//ygAAAAgAAAAQAAAAAEAIAAAAAAAgBAAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAUAAAAMAAAAEQAAABMAAAATAAAAEwAAABIAAAAOAAAABwAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wD///8A////AP///wD///8A////AP///wD///8A////AAAAAAAAAAAAAAAAAQAAAAUAAAAPAAAAHQAAACsAAAA1AAAAOQAAADoAAAA6AAAANwAAAC8AAAAhAAAAEgAAAAcAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////AP///wD///8A////AP///wD///8A////AP///wD///8AAAAAAAAAAAEAAAAIAAAAGIBSAGKrbQC2wHsA88N9AP/DfQD/w30A/8N9AP+xcgDShVUAjQAAAEAAAAAyAAAAHgAAAAsAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wAAAAAAAAAAB3FJADe3dQDMw30A/8N9AP/DfQD/w30A/8N9AP/DfQD/w30A/8N9AP/DfQD/u3gA6WpEAHYAAAA6AAAAIgAAAAsAAAABAAAAAAAAAAAAAAAAAAAAAP///wD///8A////AP///wD///8A////AP///wD///8A////AAAAAASUXwA/wXwA8sN9AP/DfQD/w30A/8N9AP/DfQD/w30A/8N9AP/DfQD/w30A/8N9AP/DfQD/w30A/4RUAI4AAAA6AAAAHgAAAAgAAAAFAAAABQAAAAIAAAAA////AP///wD///8A////AP///wD///8A////AP///wD///8Ah1cAF8F8AOLAewDjuHYAmK5vAEixcQA1uHYAM7t4AEO/ewCSwn0A8MN9AP/DfQD/w30A/8N9AP/DfQD/w30A/2pEAHYAAAAyAAAAGgAAABgAAAAXAAAACAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wC/ewCiuHYAiAAAAAsAAAACAAAAAAAAAAAAAAAAAAAAAQAAAAOkaQATwXwAocN9AP/DfQD/w30A/8N9AP/DfQD/u3gA6QAAAECWYAB9i1kAcAAAACgAAAAOAAAAAP///wD///8A////AP///wD///8A////AP///wD///8A////AMF8AGEAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAAMAAAANAAAAGAAAABUAAAAJwXwAocN9AP/DfQD/w30A/8N9AP/DfQD/mWIAo7FyAMDDfQD/AAAAIQAAAAsAAAAA////AP///wD///8A////AP///wD///8A////AP///wD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAEIVVAF5MMQBSAAAANAAAABwAAAAHwn0A4MN9AP/DfQD/w30A/8N9AP+nawC6s3MAv7t4ALcAAAAKAAAAAwAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA6ycgCuw30A/8N9AP97TwB/AAAAKgAAAAu9eQBjw30A/8N9AP/DfQD/w30A/7JyANEAAAAsAAAADQAAAAAAAAAAAAAAAP///wD///8A////AP///wD///8A////AP///wD///8A////AAAAAAAAAAAAAAAAAAAAAAEAAAAKsXEAnsN9AP/DfQD/w30A/7RzAM8AAAAjAAAACLRzADTDfQD/w30A/8N9AP/DfQD/rnAAxAAAACUAAAAJAAAAAAAAAAAAAAAA////AP///wD///8A////AP///wD///8A////AP///wD///8AAAAAAAAAAAAAAAABAAAACKNoAHPDfQD/w30A/8N9AP/DfQD/pWoAlwAAABIAAAADp2sAOMN9AP/DfQD/w30A/8N9AP+fZgCdAAAAGwAAAAQAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wAAAAAAAAAAAAAAAAaGVgBGw30A/8N9AP/DfQD/w30A/7p3ANkAAAAXAAAABQAAAASucAB9w30A/8N9AP/DfQD/w30A/25HAFUAAAAPAAAAAQAAAAAAAAAAAAAAAP///wD///8A////AP///wD///8A////AP///wD///8A////AAAAAAAAAAAEkFwAQcF8APLDfQD/w30A/8N9AP+9eQDmTDEAKQAAAAcAAAADYj8AIL56AOXDfQD/w30A/8N9AP+0dADOAAAAGwAAAAUAAAAAAAAAAAAAAAAAAAAA////AP///wD///8A////AP///wD///8A////AP///wD///8AAAAAAWxFAB28eQDXw30A/8N9AP/DfQD/wHsA835RAEoAAAAJAAAAAwAAAA61dAC8w30A/8N9AP/DfQD/w30A/3hNAE4AAAALAAAAAQAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wAAAAAFt3UAqsN9AP/DfQD/w30A/8N9AP+FVQBeAAAADAAAAAIAAAAKsXEAnsN9AP/DfQD/w30A/8N9AP+hZwCIAAAADwAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAP///wD///8A////AP///wD///8A////AP///wD///8A////AKtuAEnDfQD/w30A/8N9AP/DfQD/oGYAnAAAABgAAAADAAAAB6RpAHLDfQD/w30A/8N9AP/DfQD/r3AAsQAAABMAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////AP///wD///8A////AP///wD///8A////AP///wD///8AvHkApcN9AP/DfQD/w30A/797APQyIAA/AAAAEAAAAAKUXwA/w30A/8N9AP/DfQD/w30A/7p3ANkAAAAXAAAABQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wDCfQDww30A/8N9AP/DfQD/snIA0QAAADIAAAAPpGkAE8F8APHDfQD/w30A/8N9AP+9eQDmSjAAKgAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wD///8A////AP///wD///8A////AP///wD///8A////AMN9AP/DfQD/w30A/8N9AP+xcgDSAAAAOAAAABa9eQBCw30A/8N9AP/DfQD/wXwA8oBSAEkAAAAJAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////AP///wD///8A////AP///wD///8A////AP///wD///8Aw30A/8N9AP/DfQD/w30A/797APQAAABCAAAAJQAAAAvCfQDQw30A/8N9AP+magBeAAAACQAAAAIAAAAAAAAAAAAAAAAAAAACAAAAAwAAAAIAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wDDfQD/w30A/8N9AP/DfQD/w30A/49cAJkAAAA5AAAAHgAAAAm9eQBCsnIAIwAAAAIAAAABAAAAAAAAAAAAAAABAAAABgAAAA0AAAAMAAAABAAAAAAAAAAAAAAAAP///wD///8A////AP///wD///8A////AP///wD///8A////AMF8ALHDfQD/w30A/8N9AP/DfQD/v3sA9Fg4AGoAAAA4AAAAIgAAABEAAAAIAAAABQAAAAMAAAAFAAAACAAAAA5OMgAommMAZQAAABAAAAADAAAAAAAAAAAAAAAA////AP///wD///8A////AP///wD///8A////AP///wD///8AwXwAUcN9AP/DfQD/w30A/8N9AP/DfQD/v3sA9HhNAIIAAAA/AAAAMAAAACQAAAAcAAAAGQAAABwAAAAjWTkARrt4ANhqRAA7AAAACgAAAAEAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wAAAAAAwn0AsMN9AP/DfQD/w30A/8N9AP/DfQD/w30A/7FyANKFVQCNbkcAcSobAEpxSQBuilkAh6ptALfDfQD/qm0AkwAAABAAAAACAAAAAAAAAAAAAAAAAAAAAP///wD///8A////AP///wD///8A////AP///wD///8A////AAAAAADDfQAQwn0A0MN9AP/DfQD/w30A/8N9AP/DfQD/w30A/8N9AP/DfQD/w30A/8N9AP/DfQD/w30A/7NzAK0AAAAQAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAA////AP///wD///8A////AP///wD///8A////AP///wD///8AAAAAAAAAAAAAAAAAwXwAkMN9AP/DfQD/w30A/8N9AP/DfQD/w30A/8N9AP/DfQD/w30A/8F8APGycgCMAAAACwAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wAAAAAAAAAAAAAAAAAAAAAAvXkAIcF8AKHCfQDgw30A/8N9AP/DfQD/w30A/8B7ANK5dwCHnGQAKAAAAAQAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A///////gA///gAD//wAAf/8AAD/+AAAH/gAAB/4cAAf+OAAH//AAB//gAB//wAAf/4AAH/+AAB//AAA//gAAP/4AAH/+AAD//gAB//4AA//+AAP//gAHH/4ADB/+AAAf/gAAH/8AAD//AAB//8AA///gAf////////////////8="><style>.sf-hidden{display:none!important}</style><meta http-equiv=content-security-policy content="default-src 'none'; font-src 'self' data:; img-src 'self' data:; style-src 'unsafe-inline'; media-src 'self' data:; script-src 'unsafe-inline' data:; object-src 'self' data:;"><style>img[src="data:,"],source[src="data:,"]{display:none!important}</style><body class=theme-classic data-new-gr-c-s-check-loaded=14.1091.0 data-gr-ext-installed><noscript>You need to enable JavaScript to run this app.</noscript><div id=root><div class=DocumentationLayout_documentation__3fEp-><header class=DocumentationLayout_header__1gyD6 role=banner><nav role=none class="Header_header__1v0yI Header_topHeader__1cLaj navbar navbar-expand navbar-dark"><div class=navbar-nav><a title="SAS Logo" href=http://support.sas.com/en/navigation/sas-com-redirect.html data-rb-event-key=http://support.sas.com/en/navigation/sas-com-redirect.html class=Header_logo__3T0lc><svg xmlns=http://www.w3.org/2000/svg class=BannerSASLogo width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=bannerIconColor d="M9.687 6.379c2.749 3.336.235 6.227-2.014 6.79-2.594.649-4.94-.701-5.64-2.764.902 1.47 3.522 1.789 4.948.893 1.619-1.017 2.153-2.803.959-4.251L6.175 4.923c-.31-.375-.199-.888.177-1.197.373-.308.88-.31 1.191.06l2.144 2.593zm-4.838 2.56l-.007.006.464.561c.311.37.817.367 1.191.059.376-.31.486-.822.177-1.198l-.187-.226.004-.004-1.54-1.852c-1.193-1.447-.66-3.233.959-4.25 1.426-.896 4.046-.578 4.948.894C10.159.865 7.812-.484 5.218.164 2.968.726.454 3.617 3.204 6.954l1.645 1.985zm6.778 1.313l.144.227h-.086l-.134-.223h-.088v.223h-.076v-.514h.192c.12 0 .18.045.18.146 0 .092-.057.132-.132.141zm-.072-.062c.066 0 .123-.006.123-.084 0-.064-.057-.075-.11-.075h-.105v.159h.092zm.445.031a.441.441 0 01-.443.445.441.441 0 01-.446-.445c0-.256.205-.444.446-.444a.44.44 0 01.443.444zm-.089 0a.357.357 0 00-.355-.37.357.357 0 00-.357.37c0 .214.156.372.357.372.198 0 .355-.158.355-.372z"></path></svg></a><span class="Header_brand__1Eas8 navbar-brand">SAS® Help Center</span></div><div class=navbar-nav><span class=Divider_dividerGroup__DU9qb><a href=https://support.sas.com/en/support-home.html data-rb-event-key=https://support.sas.com/en/support-home.html class="Header_link__1uLZ- nav-link">Customer Support</a><span class="Divider_divider__3utla dark">&nbsp;</span><a href=https://support.sas.com/en/documentation.html data-rb-event-key=https://support.sas.com/en/documentation.html class="Header_link__1uLZ- nav-link">SAS Documentation</a></span></div></nav><nav role=none class="MainNav_mainnav__2qKvQ navbar navbar-expand navbar-dark"><a aria-expanded=true aria-label="Hide table of contents" title="Hide table of contents" href=https://documentation.sas.com/# class="MainNav_tocToggle__38nK5 MainNav_iconLink__Cd5ra" role=button><svg xmlns=http://www.w3.org/2000/svg class=SideMenuButton width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v13H0z"></path><path class=iconColor d="M13 4H1V2h12v2zm0 2H1v2h12V6zm0 4H1v2h12v-2z"></path></svg></a><div class="MainNav_leftnav__2C9z- navbar-nav"><div class=MainNav_titleElem__2sPH3><div class="MainNav_title__3NWOu nav-item">SAS® 9.4 and SAS® Viya® 3.2 Programming Documentation </div></div><span class=MainNav_vertDivider__Q8UNX>|</span><div class="VersionPicker_versionPicker__hoPBe dark dropdown nav-item"><a aria-haspopup=true aria-expanded=false id=content-version-picker href=https://documentation.sas.com/# class="dropdown-toggle nav-link" role=button> SAS 9.4 / Viya 3.2</a></div></div><div class="MainNav_rightnav__3p4nZ navbar-nav"><a aria-label=Search title="Show search pane" href=https://documentation.sas.com/# class="MainNav_iconLink__Cd5ra MainNav_searchIcon__25D--" role=button><svg xmlns=http://www.w3.org/2000/svg class=BannerSearch width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M12.812 11.903L9.947 9.037A4.958 4.958 0 0011 6a5 5 0 10-5 5 4.958 4.958 0 003.037-1.053l2.866 2.866a.645.645 0 00.91-.001.644.644 0 00-.001-.909zM2 6c0-2.205 1.795-4 4-4s4 1.795 4 4-1.795 4-4 4-4-1.795-4-4z"></path></svg></a><span class=Divider_dividerGroup__DU9qb><a tabindex=0 class=nav-link target=_blank rel=noopener href="https://documentation.sas.com/api/collections/pgmsascdc/9.4_3.2/docsets/lefunctionsref/content/lefunctionsref.pdf?locale=en#nameddest=p1vz3ljudbd756n19502acxazevk">PDF</a><span class="Divider_divider__3utla dark">&nbsp;</span><a tabindex=0 class=nav-link target=_blank rel=noopener href="https://documentation.sas.com/api/collections/pgmsascdc/9.4_3.2/docsets/lefunctionsref/content/lefunctionsref.epub?locale=en">EPUB</a><span class="Divider_divider__3utla dark">&nbsp;</span><a title="Email yourturn@sas.com" href="mailto:yourturn@sas.com?subject=SAS%20Help%20Center:%20Using%20Perl%20Regular%20Expressions%20in%20the%20DATA%20Step&amp;body=Feedback:%0D%0A%0D%0APage:%20https%3A%2F%2Fdocumentation.sas.com%2Fdoc%2Fen%2Fpgmsascdc%2F9.4_3.2%2Flefunctionsref%2Fp1vz3ljudbd756n19502acxazevk.htm" data-rb-event-key="mailto:yourturn@sas.com?subject=SAS Help Center: Using Perl Regular Expressions in the DATA Step&amp;body=Feedback:%0D%0A%0D%0APage: https%3A%2F%2Fdocumentation.sas.com%2Fdoc%2Fen%2Fpgmsascdc%2F9.4_3.2%2Flefunctionsref%2Fp1vz3ljudbd756n19502acxazevk.htm" class=nav-link>Feedback</a></span><div class="MainNav_iconLink__Cd5ra dropdown nav-item"><a aria-haspopup=true aria-expanded=false id=mainnav-help-menu-dropdown href=https://documentation.sas.com/# class="dropdown-toggle nav-link" role=button><div class=overflowIconContainer aria-label="More drop down" data-testid=overflow-icon title=More><svg xmlns=http://www.w3.org/2000/svg class=Overflow width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8.5 1.5a1.5 1.5 0 11-3.001-.001A1.5 1.5 0 018.5 1.5zM7 5a1.5 1.5 0 10.001 3.001A1.5 1.5 0 007 5zm0 5a1.5 1.5 0 10.001 3.001A1.5 1.5 0 007 10z"></path></svg></div></a></div></div></nav></header><div class=DocumentationLayout_main__j6x2Z><div class="DocumentationLayout_sidebarContainer__jZhHc false"><nav class=DocumentationLayout_side__MLbxv role=none><div class=CDC_cdcTocContainer__2Kgc0><nav class=TOC_toc__7gwio id=TOC><ul class=Tree_treeview__zxw4w role=tree><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="A Guide to the SAS Programming Documentation Tree level 1. Node 1 of 28" role=treeitem><a class="TOC_label__uZc-0 TOC_topNode__x-bbb" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/pgmmvaov/pgmsasov.htm>A Guide to the SAS Programming Documentation</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="What's New Tree level 1. Node 2 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><div class=TOC_label__uZc-0 tabindex=-1>What's New </div></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Syntax Quick Links Tree level 1. Node 3 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><div class=TOC_label__uZc-0 tabindex=-1>Syntax Quick Links </div></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Data Access Tree level 1. Node 4 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><div class=TOC_label__uZc-0 tabindex=-1>Data Access </div></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Base SAS Procedures Tree level 1. Node 5 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><div class=TOC_label__uZc-0 tabindex=-1>Base SAS Procedures </div></div><li class=Item_treeitem__2_eOE><div aria-expanded=true aria-selected=false class="Item_item__3ROS5 false Item_selectedText__2uIkc visibleNode" tabindex=-1 aria-label="DATA Step Programming Tree level 1. Node 6 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandOpened width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M13 3v5H8l5-5z"></path></svg></div><div class=TOC_label__uZc-0 tabindex=-1>DATA Step Programming </div></div><ul class="Item_children__1LJ3d Item_show__2Fk6P"><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="DATA Step Programming for CAS Tree level 2. Node 1 of 11" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/casdspgm/titlepage.htm>DATA Step Programming for CAS</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Data Set Options Tree level 2. Node 2 of 11" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/ledsoptsref/titlepage.htm>Data Set Options</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Formats and Informats Tree level 2. Node 3 of 11" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/leforinforref/titlepage.htm>Formats and Informats</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=true aria-selected=false class="Item_item__3ROS5 false Item_selectedText__2uIkc visibleNode" tabindex=-1 aria-label="Functions and CALL Routines Tree level 2. Node 4 of 11" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandOpened width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M13 3v5H8l5-5z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/titlepage.htm>Functions and CALL Routines</a></div><ul class="Item_children__1LJ3d Item_show__2Fk6P"><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="About This Book Tree level 3. Node 1 of 5" role=treeitem><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/p0h6cun31ihdqtn1io0sv70zh5l8.htm>About This Book</a></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Whatʼs New Tree level 3. Node 2 of 5" role=treeitem><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/lefunctionsrefwhatsnew94.htm>Whatʼs New</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=true aria-selected=false class="Item_item__3ROS5 false Item_selectedText__2uIkc visibleNode" tabindex=-1 aria-label="About SAS Functions and CALL Routines Tree level 3. Node 3 of 5" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandOpened width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M13 3v5H8l5-5z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/n1ml4y3h5p9rw3n1jwrh2foo2rjp.htm>About SAS Functions and CALL Routines</a></div><ul class="Item_children__1LJ3d Item_show__2Fk6P"><li class=Item_treeitem__2_eOE><div aria-expanded=true aria-selected=false class="Item_item__3ROS5 false Item_selectedText__2uIkc visibleNode" tabindex=-1 aria-label="SAS Functions and CALL Routines Tree level 4. Node 1 of 1" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandOpened width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M13 3v5H8l5-5z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/p0n609kcs3dmqfn1jrhi0fiitpwk.htm>SAS Functions and CALL Routines</a></div><ul class="Item_children__1LJ3d Item_show__2Fk6P"><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Definitions of Functions and CALL Routines Tree level 5. Node 1 of 15" role=treeitem><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/p0cbdzgrjala4sn1vamojmh5gmhl.htm>Definitions of Functions and CALL Routines</a></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Syntax of Functions and CALL Routines Tree level 5. Node 2 of 15" role=treeitem><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/p1u7ioka3nk1azn1acbxzqz4n3ii.htm>Syntax of Functions and CALL Routines</a></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Using Functions and CALL Routines Tree level 5. Node 3 of 15" role=treeitem><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/p07c8e0ktns1c7n1vtowjev5g724.htm>Using Functions and CALL Routines</a></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Function Compatibility Character Sets Tree level 5. Node 4 of 15" role=treeitem><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/n1vehcxmw6p0son1p403c07vuz2s.htm>Function Compatibility Character Sets</a></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Using Random-Number Functions and CALL Routines in the DATA
+Step Tree level 5. Node 5 of 15" role=treeitem><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/p026ygl6toz3tgn14lt4iu6cl5bb.htm>Using Random-Number Functions and CALL Routines in the DATA
+Step</a></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Using SYSRANDOM and SYSRANEND Macro Variables to Produce Random
+Number Streams Tree level 5. Node 6 of 15" role=treeitem><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/p0wl5clld5bl24n1w6wm7s6sheie.htm>Using SYSRANDOM and SYSRANEND Macro Variables to Produce Random
+Number Streams</a></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Hashing Functions and Hash-Based Message Authentication Code Tree level 5. Node 7 of 15" role=treeitem><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/n05ptq6zr5amxkn18mjkyvbkjjos.htm>Hashing Functions and Hash-Based Message Authentication Code</a></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Date and Time Intervals Tree level 5. Node 8 of 15" role=treeitem><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/p0syn64amroombn14vrdzksh459w.htm>Date and Time Intervals</a></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Pattern Matching Using Perl Regular Expressions (PRX)  Tree level 5. Node 9 of 15" role=treeitem><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/n13as9vjfj7aokn1syvfyrpaj7z5.htm>Pattern Matching Using Perl Regular Expressions (PRX) </a></div><li class=Item_treeitem__2_eOE><div aria-selected=true class="Item_item__3ROS5 Item_item_selected___3fur selectedNode Item_selectedText__2uIkc visibleNode" tabindex=0 aria-label="Using Perl Regular Expressions in the DATA Step Tree level 5. Node 10 of 15" role=tab><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/p1vz3ljudbd756n19502acxazevk.htm>Using Perl Regular Expressions in the DATA Step</a></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Writing Perl Debug Output to the SAS Log Tree level 5. Node 11 of 15" role=treeitem><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/n1hx4p3di7qzqfn18cy7crg2k00y.htm>Writing Perl Debug Output to the SAS Log</a></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Perl Artistic License Compliance Tree level 5. Node 12 of 15" role=treeitem><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/p0tw80fkqqpow5n1f7xwvd6bsonq.htm>Perl Artistic License Compliance</a></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="SAS Functions for Web Applications Tree level 5. Node 13 of 15" role=treeitem><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/p1thxrff1938svn1k8iq4j3sp1vq.htm>SAS Functions for Web Applications</a></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Functions in SAS and CAS Tree level 5. Node 14 of 15" role=treeitem><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/n1ajdn61edqo70n1jfu3h5bcu0f5.htm>Functions in SAS and CAS</a></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Using Git Functions in SAS Tree level 5. Node 15 of 15" role=treeitem><a class="TOC_label__uZc-0 TOC_childNode__1160A" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/n1mlc3f9w9zh9fn13qswiq6hrta0.htm>Using Git Functions in SAS</a></div></ul></ul><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Functions and CALL Routines Tree level 3. Node 4 of 5" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/n1ig09qs4g2k9yn1tgxbi8eta35y.htm>Functions and CALL Routines</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Appendixes Tree level 3. Node 5 of 5" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/p0oecz7acyku3un1vn8reok6r8e9.htm>Appendixes</a></div></ul><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="DATA Step Statements Tree level 2. Node 5 of 11" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lestmtsref/titlepage.htm>DATA Step Statements</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="SAS Component Objects Tree level 2. Node 6 of 11" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lecompobjref/titlepage.htm>SAS Component Objects</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="National Language Support (NLS) Tree level 2. Node 7 of 11" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/nlsref/titlepage.htm>National Language Support (NLS)</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="SAS Logging Facility Tree level 2. Node 8 of 11" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/logug/titlepage.htm>SAS Logging Facility</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Base SAS Utilities Tree level 2. Node 9 of 11" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lebaseutilref/titlepage.htm>Base SAS Utilities</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="SAS Language Reference: Concepts Tree level 2. Node 10 of 11" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lrcon/titlepage.htm>SAS Language Reference: Concepts</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="SAS Syntax Conventions Tree level 2. Node 11 of 11" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lesyntaxconv/titlepage.htm>SAS Syntax Conventions</a></div></ul><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Global Statements Tree level 1. Node 7 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lestmtsglobal/titlepage.htm>Global Statements</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="System Options Tree level 1. Node 8 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lesysoptsref/titlepage.htm>System Options</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="SAS 14.3 Analytics Tree level 1. Node 9 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><div class=TOC_label__uZc-0 tabindex=-1>SAS 14.3 Analytics </div></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="SAS Viya Programming Tree level 1. Node 10 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><div class=TOC_label__uZc-0 tabindex=-1>SAS Viya Programming </div></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="DS2 Reference Tree level 1. Node 11 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><div class=TOC_label__uZc-0 tabindex=-1>DS2 Reference </div></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="FedSQL Reference Tree level 1. Node 12 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/fedsqlref/titlepage.htm>FedSQL Reference</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Macro Language Reference Tree level 1. Node 13 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/mcrolref/titlepage.htm>Macro Language Reference</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Controlling Output and Generating Graphics Tree level 1. Node 14 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><div class=TOC_label__uZc-0 tabindex=-1>Controlling Output and Generating Graphics </div></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Operating Environments Tree level 1. Node 15 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><div class=TOC_label__uZc-0 tabindex=-1>Operating Environments </div></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Moving and Accessing SAS Files Tree level 1. Node 16 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/movefile/titlepage.htm>Moving and Accessing SAS Files</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Encryption in SAS 9.4 Tree level 1. Node 17 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/secref/titlepage.htm>Encryption in SAS 9.4</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="In-Database Technology Tree level 1. Node 18 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><div class=TOC_label__uZc-0 tabindex=-1>In-Database Technology </div></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Metadata Tree level 1. Node 19 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><div class=TOC_label__uZc-0 tabindex=-1>Metadata </div></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="SAS Interface to Application Response Measurement (ARM) Tree level 1. Node 20 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/armref/titlepage.htm>SAS Interface to Application Response Measurement (ARM)</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="SAS Servers Tree level 1. Node 21 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><div class=TOC_label__uZc-0 tabindex=-1>SAS Servers </div></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Grid Computing Tree level 1. Node 22 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><a class=TOC_label__uZc-0 tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/gridref/titlepage.htm>Grid Computing</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="SAS Data Quality Services Tree level 1. Node 23 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><div class=TOC_label__uZc-0 tabindex=-1>SAS Data Quality Services </div></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Learning SAS Programming Tree level 1. Node 24 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><div class=TOC_label__uZc-0 tabindex=-1>Learning SAS Programming </div></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Accessibility for Base Tree level 1. Node 25 of 28" role=treeitem><a class="TOC_label__uZc-0 TOC_topNode__x-bbb" tabindex=-1 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/basea11y/n1uyx4mbjg39ezn1uvk9bp0zsvyw.htm>Accessibility for Base</a></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="SAS Intelligence Platform: Administration Tree level 1. Node 26 of 28" role=treeitem><a class="TOC_label__uZc-0 TOC_topNode__x-bbb" href="https://documentation.sas.com/?cdcId=bicdc&amp;cdcVersion=9.4&amp;locale=en" rel="noopener noreferrer" tabindex=-1>SAS Intelligence Platform: Administration</a></div><li class=Item_treeitem__2_eOE><div aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="SAS Viya: Administration Tree level 1. Node 27 of 28" role=treeitem><a class="TOC_label__uZc-0 TOC_topNode__x-bbb" href="https://documentation.sas.com/?cdcId=calcdc&amp;cdcVersion=3.2&amp;locale=en" rel="noopener noreferrer" tabindex=-1>SAS Viya: Administration</a></div><li class=Item_treeitem__2_eOE><div aria-expanded=false aria-selected=false class="Item_item__3ROS5 false visibleNode" tabindex=-1 aria-label="Other Resources Tree level 1. Node 28 of 28" role=treeitem><div class=Item_iconContainer__3QgbW><svg xmlns=http://www.w3.org/2000/svg class=TreeExpandClosed width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M8 2v7l5-3.5L8 2zm1 1.921L11.256 5.5 9 7.079V3.921z"></path></svg></div><div class=TOC_label__uZc-0 tabindex=-1>Other Resources </div></div></ul></nav></div></nav></div><div class=DocumentationLayout_content__2ewLS><div class=MainContentArea_main__2iNC3><div role=none class="MainContentArea_mainContentNav__1G3Q6 navbar navbar-expand navbar-light"><div class=MainContentArea_leftNav__20Qv_><div class=MainContentArea_title__38xiz><a class=breadcrumb-link href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/titlepage.htm>Functions and CALL Routines</a></div></div><div class=MainContentArea_pagenav__A9Xkt><div class="ContentNavigation_contentnavigation__3nQTs contentnavigation"><div class="ContentNavigation_prevBtn__2SGhb prevBtn" role=application><a class="ContentNavigation_navbutton__jOVhU false" title="Previous page" href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/n13as9vjfj7aokn1syvfyrpaj7z5.htm><svg xmlns=http://www.w3.org/2000/svg class=DisclosurePrevious width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M5.171 6.624l4-3.5a.5.5 0 11.659.752L6.259 7l3.57 3.124a.5.5 0 01-.659.752l-4-3.5a.5.5 0 01.001-.752z"></path></svg></a></div><div class="ContentNavigation_nextBtn__1l_iq nextBtn" role=application><a class="ContentNavigation_navbutton__jOVhU false" title="Next page" href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/n1hx4p3di7qzqfn18cy7crg2k00y.htm><svg xmlns=http://www.w3.org/2000/svg class=DisclosureNext width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M9 7a.497.497 0 01-.171.376l-4 3.5a.5.5 0 11-.659-.752L7.741 7l-3.57-3.124a.5.5 0 01.659-.752l4 3.5A.5.5 0 019 7z"></path></svg></a></div></div></div></div><section id=MainContentSection class=MainContentArea_content__vW8W8 tabindex=0><div tabindex=-1 class=MainContentArea_maxHeight__2WjaK><article id=document-content class=Document_document__28cje><div><div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ </div>
+ <div>
+ <div class=xisDoc-eDocBody>
+ <div data-xis-css-ref=help-center-xisDocStyle-00></div>
+ <h1 class=xisDoc-title>Using Perl Regular Expressions in the DATA Step</h1>
+ <ul class=xisDoc-topicToc>
+ <li class=xisDoc-topicTocItem><a tabindex=0 href=#p1ebmz6g0nmx2mn18e8ahci2twsb>Syntax of Perl Regular Expressions</a><ul class=xisDoc-topicToc>
+ <li class=xisDoc-topicTocItem><a tabindex=0 href=#n07tgr9r2iqygpn1c6qzv1rd0fhk>The Components of a Perl Regular Expression</a></li>
+ <li class=xisDoc-topicTocItem><a tabindex=0 href=#p0mb6kx7rikzwvn1xlgyvtujltaj>Basic Syntax for Finding a Match in a String</a></li>
+ <li class=xisDoc-topicTocItem><a tabindex=0 href=#n0cw1uzj8e88vpn10ba13g63be9t>Basic Syntax for Searching and Replacing Text</a></li>
+ <li class=xisDoc-topicTocItem><a tabindex=0 href=#n06uvs1u1k4s4vn1j3zzyzqbni88>Another Example of Using Basic Syntax for Searching and Replacing
+ Text </a></li>
+ <li class=xisDoc-topicTocItem><a tabindex=0 href=#p1j24owronm61un1dfsizz6lmm0b>Replacing Text</a></li>
+ </ul>
+ </li>
+ <li class=xisDoc-topicTocItem><a tabindex=0 href=#n0217zfdp9olixn1js8qy4eoal8z>Example 1: Validating Data</a></li>
+ <li class=xisDoc-topicTocItem><a tabindex=0 href=#n1tx2kbty2s9dvn1hrzs0l9an3n4>Example 2: Matching and Replacing Text</a></li>
+ <li class=xisDoc-topicTocItem><a tabindex=0 href=#p0kr2da7xxen4fn0zznv5t4jkwgb>Example 3: Extracting a Substring from a String</a></li>
+ <li class=xisDoc-topicTocItem><a tabindex=0 href=#p15djlp4h65rfrn1l07fedpv8v1o>Example 4: Another Example of Extracting a Substring from a
+ String</a></li>
+ </ul>
+ <h2 class=xisDoc-title id=p1ebmz6g0nmx2mn18e8ahci2twsb>Syntax of Perl Regular Expressions</h2>
+ <h3 class=xisDoc-title id=n07tgr9r2iqygpn1c6qzv1rd0fhk>The Components of a Perl Regular Expression</h3>
+ <p class=xisDoc-paragraph> Perl regular expressions
+ consist of characters and special characters that are called metacharacters.
+ When performing a match, SAS searches a source string for a substring
+ that matches the Perl regular expression that you specify. Using metacharacters
+ enables SAS to perform special actions. These actions include forcing
+ the match to begin in a particular location, and matching a particular
+ set of characters. Paired forward slashes are the default delimiters.
+ The following two examples show metacharacters and the values that
+ they match: </p>
+ <ul class=xisDoc-listUnordered>
+ <li class=xisDoc-item>If you use the metacharacter
+ \d, SAS matches a digit between 0–9.</li>
+ <li class=xisDoc-item>If you use /\d+/, SAS
+ finds the digits in the string “Raleigh, NC 27506”.
+ <div class=xisDoc-codeBlock id=p09fz0vqgb81fpn1kjrhmpeu3sd8>
+ <div class=xisDoc-codeBlockCode>
+ <div class=CopyCode_copyCode__2RUVr><button class=CopyCode_button__1JM7a title aria-label="Copy to clipboard" role=button><div class="CopyCode_svgContainer__2w2bZ CopyCode_show__1IfSg"><svg xmlns=http://www.w3.org/2000/svg class=Copy width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M5 8H1V0h5l2 2v3H7V3H5V1H2v6h3v1zm8 0v6H6V6h5l2 2zm-1 1h-2V7H7v6h5V9z"></path></svg></div><div class="CopyCode_svgContainer__2w2bZ CopyCode_hide__3LcyA CopyCode_check__3pkU3"><svg xmlns=http://www.w3.org/2000/svg class=Apply width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M5.832 13a.87.87 0 01-.648-.289L1.225 8.317a.873.873 0 011.296-1.171l3.178 3.527 5.685-9.257a.873.873 0 111.486.915L6.575 12.583a.871.871 0 01-.743.417z"></path></svg></div></button><textarea tabindex=-1 aria-hidden=true class=CopyCode_text__3Nacj>data _null_;
+  re = prxparse('/\d+/');
+  string = 'Raleigh, NC 27506, USA';
+  x = prxmatch(re, string);
+  put x=;
+  num=prxposn(re, 0, string); 
+  put num=;
+run;</textarea><div class=CopyCode_content__3D03n>
+ <pre class=xisDoc-code><code>data _null_;
+  re = prxparse('/\d+/');
+  string = 'Raleigh, NC 27506, USA';
+  x = prxmatch(re, string);
+  put x=;
+  num=prxposn(re, 0, string); 
+  put num=;
+run;</code></pre>
+ </div></div>
+ </div>
+ </div>
+ <p class=xisDoc-paragraph>SAS writes the following output to the log:</p>
+ <pre class=xisDoc-outputFragment>x=13
+num=27506</pre>
+ </li>
+ </ul>
+ <p class=xisDoc-paragraph>You can see lists of
+ PRX metacharacters in <a tabindex=0 href=https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.2/lefunctionsref/p0s9ilagexmjl8n1u7e1t1jfnzlk.htm>Tables of Perl Regular Expression (PRX) Metacharacters</a>. For a complete list of metacharacters,
+ see the Perl documentation. </p>
+ <h3 class=xisDoc-title id=p0mb6kx7rikzwvn1xlgyvtujltaj>Basic Syntax for Finding a Match in a String</h3>
+ <p class=xisDoc-paragraph>You use the PRXMATCH
+ function to find the position of a matched value in a source string.
+ PRXMATCH has the following general form: </p>
+ <pre class=xisDoc-codeFragment><code>PRXMATCH('<em class=xisDoc-userSuppliedValue>/search-string/ </em>','<em class=xisDoc-userSuppliedValue>source-string</em>'</code></pre>
+ <p class=xisDoc-paragraph>The following example
+ uses the PRXMATCH function to find the position of <em class=xisDoc-userSuppliedValue>search-string</em> in <em class=xisDoc-userSuppliedValue>source-string</em>: </p>
+ <pre class=xisDoc-codeFragment><code>prxmatch('/world/', 'Hello world!');</code></pre>
+ <p class=xisDoc-paragraph>The result of PRXMATCH
+ is the value 7, because <em class=xisDoc-userSuppliedValue>world</em> occurs
+ in the seventh position of the string <em class=xisDoc-userSuppliedValue>Hello world!</em>.</p>
+ <h3 class=xisDoc-title id=n0cw1uzj8e88vpn10ba13g63be9t>Basic Syntax for Searching and Replacing Text</h3>
+ <p class=xisDoc-paragraph>The basic syntax for
+ searching and replacing text has the following form: </p>
+ <pre class=xisDoc-codeFragment><code>s/<em class=xisDoc-userSuppliedValue>regular-expression</em>/<em class=xisDoc-userSuppliedValue>replacement-string</em>/ </code></pre>
+ <p class=xisDoc-paragraph>The following example
+ uses the PRXCHANGE function to show how substitution is performed:
+ </p>
+ <pre class=xisDoc-codeFragment><code>prxchange('s/world/planet/', 1, 'Hello world!'); </code></pre>
+ <p class=xisDoc-paragraph><span class=xisDoc-selection>Arguments</span></p>
+ <dl class=xisDoc-listTermDef>
+ <dt class=xisDoc-term id=p1w77rf2hak06tn1gh928eor0qvs>s</dt>
+ <dd class=xisDoc-definition>
+ <p class=xisDoc-paragraph>specifies the metacharacter
+ for substitution.</p>
+ </dd>
+ <dt class=xisDoc-term id=n0cuvm8v5sjmdzn1jh4yriiz8rxz><em class=xisDoc-userSuppliedValue>world</em></dt>
+ <dd class=xisDoc-definition>
+ <p class=xisDoc-paragraph>specifies the regular
+ expression. </p>
+ </dd>
+ <dt class=xisDoc-term id=p0efqfkv5h69m1n14wv4lskrym2u><em class=xisDoc-userSuppliedValue>planet</em></dt>
+ <dd class=xisDoc-definition>
+ <p class=xisDoc-paragraph>specifies the replacement
+ value for <em class=xisDoc-userSuppliedValue>world</em>.</p>
+ </dd>
+ <dt class=xisDoc-term id=p1xsu9ze7pbvuyn16sxo9ry59b33>1</dt>
+ <dd class=xisDoc-definition>
+ <p class=xisDoc-paragraph>specifies that the search
+ ends when one match is found.</p>
+ </dd>
+ <dt class=xisDoc-term id=n05udwkz9wc4m7n1rd9n82n7eq0j><em class=xisDoc-userSuppliedValue>Hello world!</em></dt>
+ <dd class=xisDoc-definition>
+ <p class=xisDoc-paragraph>specifies the source
+ string to be searched.</p>
+ </dd>
+ </dl>
+ <p class=xisDoc-paragraph>The result of the substitution
+ is <code class=xisDoc-variableValue>Hello planet</code>.</p>
+ <h3 class=xisDoc-title id=n06uvs1u1k4s4vn1j3zzyzqbni88>Another Example of Using Basic Syntax for Searching and Replacing
+ Text </h3>
+ <p class=xisDoc-paragraph>Another example of using
+ the PRXCHANGE function changes the value <em class=xisDoc-userSuppliedValue>Jones,
+ Fred</em> to <em class=xisDoc-userSuppliedValue>Fred Jones</em>:
+ </p>
+ <pre class=xisDoc-codeFragment><code>prxchange('s/(\w+), (\w+)/$2 $1/',-1, 'Jones, Fred');</code></pre>
+ <p class=xisDoc-paragraph>In this example, the
+ Perl regular expression is <code class=xisDoc-inlineCode>s/(\w+), (\w+)/$2 $1</code>.
+ The number of times to search for a match is –1. The source
+ string is 'Jones, Fred'. The value –1 specifies that matching
+ patterns continue to be replaced until the end of the source is reached. </p>
+ <p class=xisDoc-paragraph>The Perl regular expression
+ can be divided into its elements:</p>
+ <dl class=xisDoc-listTermDef>
+ <dt class=xisDoc-term id=p0danfsfcx2o6cn18v9lwue1q7jq>s</dt>
+ <dd class=xisDoc-definition>
+ <p class=xisDoc-paragraph>specifies a substitution
+ regular expression.</p>
+ </dd>
+ <dt class=xisDoc-term id=n0s71ytfvyvankn1e6ukh7evjg3r>(\w+)</dt>
+ <dd class=xisDoc-definition>
+ <p class=xisDoc-paragraph>matches one or more
+ word characters (alphanumeric and underscore). The parentheses indicate
+ that the value is stored in capture buffer 1.</p>
+ </dd>
+ <dt class=xisDoc-term id=n1c9w6msp0g2oen1ji28ar2l365h>,&lt;space&gt;</dt>
+ <dd class=xisDoc-definition>
+ <p class=xisDoc-paragraph>matches a comma and
+ a space.</p>
+ </dd>
+ <dt class=xisDoc-term id=n08hhub9w2ymhxn1vylphz1l5nz8>(\w+)</dt>
+ <dd class=xisDoc-definition>
+ <p class=xisDoc-paragraph>matches one or more
+ word characters (alphanumeric and underscore). The parentheses indicate
+ that the value is stored in capture buffer 2.</p>
+ </dd>
+ <dt class=xisDoc-term id=p0qluhuj3id4w8n1dusgwdvc1xo4>/</dt>
+ <dd class=xisDoc-definition>
+ <p class=xisDoc-paragraph>separator between the
+ regular expression and the replacement string.</p>
+ </dd>
+ <dt class=xisDoc-term id=n19yimkvhakjjon10eu3s6czjht8>$2</dt>
+ <dd class=xisDoc-definition>
+ <p class=xisDoc-paragraph>part of the replacement
+ string that substitutes the value in capture buffer 2, which in this
+ case is the word after the comma, puts the substitution in the results.</p>
+ </dd>
+ <dt class=xisDoc-term id=p0bvnxqkk599bnn19xmsqzz00fr6>&lt;space&gt;</dt>
+ <dd class=xisDoc-definition>
+ <p class=xisDoc-paragraph>puts a space in the
+ result.</p>
+ </dd>
+ <dt class=xisDoc-term id=p0dqmq4hwmuqe4n104hjlk7o2lbt>$1</dt>
+ <dd class=xisDoc-definition>
+ <p class=xisDoc-paragraph>puts capture buffer
+ 1 into the result. In this case, it is the word before the comma.</p>
+ </dd>
+ </dl>
+ <h3 class=xisDoc-title id=p1j24owronm61un1dfsizz6lmm0b>Replacing Text</h3>
+ <p class=xisDoc-paragraph>The following example
+ uses the \u and \L metacharacters to replace the second character
+ in MCLAUREN with a lowercase letter: </p>
+ <pre class=xisDoc-codeFragment><code>data _null_;
+   x = 'MCLAUREN';
+   x = prxchange("s/(MC)/\u\L$1/i", -1, x);
+   put x=;
+run;
+</code></pre>
+ <p class=xisDoc-paragraph>SAS writes the following
+ output to the log: </p>
+ <pre class=xisDoc-codeFragment><code>x=McLAUREN</code></pre>
+ <h2 class=xisDoc-title id=n0217zfdp9olixn1js8qy4eoal8z>Example 1: Validating Data</h2>
+ <p class=xisDoc-paragraph> You can test for
+ a pattern of characters within a string. For example, you can examine
+ a string to determine whether it contains a correctly formatted telephone
+ number. This type of test is called data validation. </p>
+ <p class=xisDoc-paragraph>The following example
+ validates a list of phone numbers. To be valid, a phone number must
+ have one of the following forms: <code class=xisDoc-inlineCode>(XXX) XXX-XXXX</code> or <code class=xisDoc-inlineCode>XXX-XXX-XXXX</code>.</p>
+ <div class=xisDoc-codeBlock id=p1h8u49f2xtkt5n1t1dfrxbof5zj>
+ <div class=xisDoc-codeBlockCode>
+ <div class=CopyCode_copyCode__2RUVr><button class=CopyCode_button__1JM7a title aria-label="Copy to clipboard" role=button><div class="CopyCode_svgContainer__2w2bZ CopyCode_show__1IfSg"><svg xmlns=http://www.w3.org/2000/svg class=Copy width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M5 8H1V0h5l2 2v3H7V3H5V1H2v6h3v1zm8 0v6H6V6h5l2 2zm-1 1h-2V7H7v6h5V9z"></path></svg></div><div class="CopyCode_svgContainer__2w2bZ CopyCode_hide__3LcyA CopyCode_check__3pkU3"><svg xmlns=http://www.w3.org/2000/svg class=Apply width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M5.832 13a.87.87 0 01-.648-.289L1.225 8.317a.873.873 0 011.296-1.171l3.178 3.527 5.685-9.257a.873.873 0 111.486.915L6.575 12.583a.871.871 0 01-.743.417z"></path></svg></div></button><textarea tabindex=-1 aria-hidden=true class=CopyCode_text__3Nacj>data _null_;  
+   if _N_ = 1 then 
+      do;  
+         paren = "\([2-9]\d\d\) ?[2-9]\d\d-\d\d\d\d";  
+         dash = "[2-9]\d\d-[2-9]\d\d-\d\d\d\d";  
+         expression = "/(" || paren || ")|(" || dash || ")/";   
+         retain re; 
+         re = prxparse(expression);  
+         if missing(re) then  
+            do;
+               putlog "ERROR: Invalid expression " expression;  
+               stop;
+            end;     
+      end; 
+
+length first last home business $ 16;
+input first last home business;
+
+   if ^prxmatch(re, home) then  
+      putlog "NOTE: Invalid home phone number for " first last home;
+
+   if ^prxmatch(re, business) then  
+      putlog "NOTE: Invalid business phone number for " first last business;
+
+   datalines;   
+Jerome Johnson (919)319-1677 (919)846-2198 
+Romeo Montague 800-899-2164 360-973-6201
+Imani Rashid (508)852-2146 (508)366-9821 
+Palinor Kent . 919-782-3199
+Ruby Archuleta . . 
+Takei Ito 7042982145 .
+Tom Joad 209/963/2764 2099-66-8474
+;
+run;</textarea><div class=CopyCode_content__3D03n>
+ <pre class="xisDoc-code language-sas"><code class=language-sas><span class="token step keyword">data</span> <span class="token keyword">_null_</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>1</span></span>
+   <span class="token keyword">if</span> _N_ <span class="token operator">=</span> <span class="token number">1</span> <span class="token keyword">then 
+      do</span><span class="token punctuation">;</span>  
+         paren <span class="token operator">=</span> <span class="token string">"\([2-9]\d\d\) ?[2-9]\d\d-\d\d\d\d"</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>2</span></span>
+         dash <span class="token operator">=</span> <span class="token string">"[2-9]\d\d-[2-9]\d\d-\d\d\d\d"</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>3</span></span>
+         expression <span class="token operator">=</span> <span class="token string">"/("</span> <span class="token operator">||</span> paren <span class="token operator">||</span> <span class="token string">")|("</span> <span class="token operator">||</span> dash <span class="token operator">||</span> <span class="token string">")/"</span><span class="token punctuation">;</span>   <span class="token number"><span class=xisDoc-calloutAnchor>4</span></span>
+         <span class="token keyword">retain</span> re<span class="token punctuation">;</span> 
+         re <span class="token operator">=</span> <span class="token function keyword">prxparse</span><span class="token punctuation">(</span>expression<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>5</span></span>
+         <span class="token keyword">if</span> <span class="token function keyword">missing</span><span class="token punctuation">(</span>re<span class="token punctuation">)</span> <span class="token keyword">then</span>  <span class="token number"><span class=xisDoc-calloutAnchor>6</span></span>
+            <span class="token keyword">do</span><span class="token punctuation">;</span>
+               putlog <span class="token string">"ERROR: Invalid expression "</span> expression<span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>7</span></span>
+               stop<span class="token punctuation">;</span>
+            <span class="token keyword">end</span><span class="token punctuation">;</span>     
+      <span class="token keyword">end</span><span class="token punctuation">;</span> 
+
+<span class="token keyword">length</span> first last home business <span class="token punctuation">$</span> <span class="token number">16</span><span class="token punctuation">;</span>
+<span class="token input"><span class="token input keyword">input</span> first last home business;</span>
+
+   <span class="token keyword">if</span> <span class="token operator">^</span><span class="token function keyword">prxmatch</span><span class="token punctuation">(</span>re<span class="token punctuation">,</span> home<span class="token punctuation">)</span> <span class="token keyword">then</span>  <span class="token number"><span class=xisDoc-calloutAnchor>8</span></span>
+      putlog <span class="token string">"NOTE: Invalid home phone number for "</span> first last home<span class="token punctuation">;</span>
+
+   <span class="token keyword">if</span> <span class="token operator">^</span><span class="token function keyword">prxmatch</span><span class="token punctuation">(</span>re<span class="token punctuation">,</span> business<span class="token punctuation">)</span> <span class="token keyword">then</span>  <span class="token number"><span class=xisDoc-calloutAnchor>9</span></span>
+      putlog <span class="token string">"NOTE: Invalid business phone number for "</span> first last business<span class="token punctuation">;</span>
+
+   <span class="token datalines string"><span class="token keyword">datalines</span><span class="token punctuation">;</span>   
+Jerome Johnson (919)319-1677 (919)846-2198 
+Romeo Montague 800-899-2164 360-973-6201
+Imani Rashid (508)852-2146 (508)366-9821 
+Palinor Kent . 919-782-3199
+Ruby Archuleta . . 
+Takei Ito 7042982145 .
+Tom Joad 209/963/2764 2099-66-8474
+<span class="token punctuation">;</span></span>
+<span class="token step keyword">run</span><span class="token punctuation">;</span></code></pre>
+ </div></div>
+ </div>
+ <div class=xisDoc-calloutListContainer>
+ <p class=xisDoc-leadIn>The following items correspond to the lines that are numbered
+ in the preceding DATA step. </p>
+ <ol class=xisDoc-calloutList>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph> Create a DATA step.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Build a Perl regular expression
+ to identify a phone number that matches (XXX)XXX-XXXX, and assign
+ the variable PAREN to hold the result. Use the following syntax elements
+ to build the Perl regular expression: </p>
+ <section class=xisDoc-tableWrap>
+ <table class=xisDoc-listValueDescription><tbody><tr><td class=xisDoc-value>\(<td class=xisDoc-valueDescription>matches the open parenthesis in the area code. <tr><td class=xisDoc-value>[2–9]<td class=xisDoc-valueDescription>matches the digits 2–9, which is the first
+ number in the area code. <tr><td class=xisDoc-value>\d<td class=xisDoc-valueDescription>matches a digit, which is the second number in the
+ area code.<tr><td class=xisDoc-value>\d<td class=xisDoc-valueDescription>matches a digit, which is the third number in the
+ area code.<tr><td class=xisDoc-value>\)<td class=xisDoc-valueDescription>matches the closed parenthesis in the area code.<tr><td class=xisDoc-value>&lt;space&gt;?<td class=xisDoc-valueDescription>matches the space (which is the preceding subexpression)
+ zero or one time. Spaces are significant in Perl regular expressions.
+ They match a space in the text that you are searching. If a space
+ precedes the question mark metacharacter (as it does in this case),
+ the pattern matches either zero spaces or one space in this position
+ in the phone number.</table>
+ </section>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Build a Perl regular expression
+ to identify a phone number that matches XXX-XXX-XXXX, and assign the
+ variable DASH to hold the result.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Build a Perl regular expression
+ that concatenates the regular expressions for (XXX)XXX-XXXX and XXX—XXX—XXXX.
+ The concatenation enables you to search for both phone number formats
+ from one regular expression.</p>
+ <p class=xisDoc-paragraph>The PAREN and DASH regular
+ expressions are placed within parentheses. The bar metacharacter (|)
+ that is located between PAREN and DASH instructs the compiler to match
+ either pattern. The slashes around the entire pattern tell the compiler
+ where the start and end of the regular expression is located. </p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Pass the Perl regular expression
+ to PRXPARSE and compile the expression. PRXPARSE returns a value to
+ the compiled pattern. Using the value with other Perl regular expression
+ functions and CALL routines enables SAS to perform operations with
+ the compiled Perl regular expression.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Use the MISSING function to check
+ whether the regular expression was successfully compiled. </p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Use the PUTLOG statement to write
+ an error message to the SAS log if the regular expression did not
+ compile.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Search for a valid home phone number.
+ PRXMATCH uses the value from PRXPARSE along with the search text and
+ returns the position where the regular expression was found in the
+ search text. If there is no match for the home phone number, the PUTLOG
+ statement writes a note to the SAS log.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Search for a valid business phone
+ number. PRXMATCH uses the value from PRXPARSE along with the search
+ text and returns the position where the regular expression was found
+ in the search text. If there is no match for the business phone number,
+ the PUTLOG statement writes a note to the SAS log.</p>
+ </li>
+ </ol>
+ </div>
+ </div>
+ <div class=xisDoc-logBlock id=p0xk715y8m6xrkn1bc81ptvstl6g>
+ <h4 class=xisDoc-title>Output from Validating Data</h4>
+ <pre>NOTE: Invalid home phone number for Palinor Kent  
+NOTE: Invalid home phone number for Ruby Archuleta  
+NOTE: Invalid business phone number for Ruby Archuleta  
+NOTE: Invalid home phone number for Takei Ito 7042982145
+NOTE: Invalid business phone number for Takei Ito  
+NOTE: Invalid home phone number for Tom Joad 209/963/2764
+NOTE: Invalid business phone number for Tom Joad 2099-66-8474
+</pre>
+ </div>
+ <h2 class=xisDoc-title id=n1tx2kbty2s9dvn1hrzs0l9an3n4>Example 2: Matching and Replacing Text</h2>
+ <p class=xisDoc-paragraph>This example uses a
+ Perl regular expression to find a match and replace the matching characters
+ with other characters. PRXPARSE compiles the regular expression and
+ uses PRXCHANGE to find the match and perform the replacement. The
+ example replaces all occurrences of a less than sign with <code class=xisDoc-inlineCode>&amp;lt;</code>,
+ a common substitution when converting text to HTML. </p>
+ <div class=xisDoc-codeBlock id=n15alp32njphn7n1gp8f4e5sizml>
+ <div class=xisDoc-codeBlockCode>
+ <div class=CopyCode_copyCode__2RUVr><button class=CopyCode_button__1JM7a title aria-label="Copy to clipboard" role=button><div class="CopyCode_svgContainer__2w2bZ CopyCode_show__1IfSg"><svg xmlns=http://www.w3.org/2000/svg class=Copy width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M5 8H1V0h5l2 2v3H7V3H5V1H2v6h3v1zm8 0v6H6V6h5l2 2zm-1 1h-2V7H7v6h5V9z"></path></svg></div><div class="CopyCode_svgContainer__2w2bZ CopyCode_hide__3LcyA CopyCode_check__3pkU3"><svg xmlns=http://www.w3.org/2000/svg class=Apply width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M5.832 13a.87.87 0 01-.648-.289L1.225 8.317a.873.873 0 011.296-1.171l3.178 3.527 5.685-9.257a.873.873 0 111.486.915L6.575 12.583a.871.871 0 01-.743.417z"></path></svg></div></button><textarea tabindex=-1 aria-hidden=true class=CopyCode_text__3Nacj>data _null_;  
+   input;  
+   _infile_ = prxchange('s/&lt;/&amp;lt;/', -1, _infile_);  
+   put _infile_;  
+   datalines;  
+x + y &lt; 15
+x &lt; 10 &lt; y
+y &lt; 11
+;
+run;</textarea><div class=CopyCode_content__3D03n>
+ <pre class="xisDoc-code language-sas"><code class=language-sas><span class="token step keyword">data</span> <span class="token keyword">_null_</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>1</span></span>
+   input<span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>2</span></span>
+   _infile_ <span class="token operator">=</span> <span class="token function keyword">prxchange</span><span class="token punctuation">(</span><span class="token string">'s/&lt;/&amp;lt;/'</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> _infile_<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>3</span></span>
+   <span class="token keyword">put</span> _infile_<span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>4</span></span>
+   <span class="token datalines string"><span class="token keyword">datalines</span><span class="token punctuation">;</span>  <span class=xisDoc-calloutAnchor>5</span>
+x + y &lt; 15
+x &lt; 10 &lt; y
+y &lt; 11
+<span class="token punctuation">;</span></span>
+<span class="token step keyword">run</span><span class="token punctuation">;</span></code></pre>
+ </div></div>
+ </div>
+ <div class=xisDoc-calloutListContainer>
+ <p class=xisDoc-leadIn>The following items correspond to the numbered lines in the
+ preceding DATA step. </p>
+ <ol class=xisDoc-calloutList>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Create a DATA step. </p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Bring an input data record into
+ the input buffer without creating any SAS variables.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Call the PRXCHANGE routine to perform
+ the pattern exchange. The format for the regular expression is <code class=xisDoc-inlineCode>s/regular-expression/replacement-text/</code>.
+ The <code class=xisDoc-inlineCode>s</code> before the regular expression signifies
+ that this is a substitution regular expression. The –1 is a
+ special value that is passed to PRXCHANGE and indicates that all possible
+ replacements should be made.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Write the current output line to
+ the log by using the _INFILE_ option with the PUT statement. </p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Identify the input file.</p>
+ </li>
+ </ol>
+ </div>
+ </div>
+ <div class=xisDoc-logBlock id=p0ygi1nz6prtjjn0ztagcpe8wuhl>
+ <h4 class=xisDoc-title>Output from Replacing Text</h4>
+ <pre>x + y &amp;lt; 15
+x &amp;lt; 10 &amp;lt; y
+y &amp;lt; 11
+</pre>
+ </div>
+ <p class=xisDoc-paragraph>The ability to pass
+ a regular expression to PRXCHANGE and return a result enables calling
+ PRXCHANGE from a PROC SQL query. The following query produces a column
+ with the same character substitution as in the preceding example.
+ From the input table the query reads <code class=xisDoc-inlineCode>text_lines</code>,
+ changes the text for the column <code class=xisDoc-inlineCode>line</code>, and
+ places the results in a column named <code class=xisDoc-inlineCode>html_line</code>:
+ </p>
+ <pre class=xisDoc-codeFragment><code>proc sql;
+   select prxchange('s/&lt;/&amp;lt;/', -1, line)
+   as html_line
+   from text_lines;
+quit;</code></pre>
+ <h2 class=xisDoc-title id=p0kr2da7xxen4fn0zznv5t4jkwgb>Example 3: Extracting a Substring from a String</h2>
+ <p class=xisDoc-paragraph> You can use Perl
+ regular expressions to find and easily extract text from a string.
+ In this example, the DATA step creates a subset of North Carolina
+ business phone numbers. The program extracts the area code and checks
+ it against a list of area codes for North Carolina. </p>
+ <div class=xisDoc-codeBlock id=n1840omqn8rvl0n15z49voh972g8>
+ <div class=xisDoc-codeBlockCode>
+ <div class=CopyCode_copyCode__2RUVr><button class=CopyCode_button__1JM7a title aria-label="Copy to clipboard" role=button><div class="CopyCode_svgContainer__2w2bZ CopyCode_show__1IfSg"><svg xmlns=http://www.w3.org/2000/svg class=Copy width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M5 8H1V0h5l2 2v3H7V3H5V1H2v6h3v1zm8 0v6H6V6h5l2 2zm-1 1h-2V7H7v6h5V9z"></path></svg></div><div class="CopyCode_svgContainer__2w2bZ CopyCode_hide__3LcyA CopyCode_check__3pkU3"><svg xmlns=http://www.w3.org/2000/svg class=Apply width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M5.832 13a.87.87 0 01-.648-.289L1.225 8.317a.873.873 0 011.296-1.171l3.178 3.527 5.685-9.257a.873.873 0 111.486.915L6.575 12.583a.871.871 0 01-.743.417z"></path></svg></div></button><textarea tabindex=-1 aria-hidden=true class=CopyCode_text__3Nacj>data _null_;  
+   if _N_ = 1 then 
+      do; 
+         paren = "\(([2-9]\d\d)\) ?[2-9]\d\d-\d\d\d\d";   
+		      dash = "([2-9]\d\d)-[2-9]\d\d-\d\d\d\d";   
+         regexp = "/(" || paren || ")|(" || dash || ")/";  
+         retain re; 
+         re = prxparse(regexp);  
+         if missing(re) then  
+            do;
+               putlog "ERROR: Invalid regexp " regexp;  
+               stop;
+            end;     
+ 
+         retain areacode_re;
+         areacode_re = prxparse("/828|336|704|910|919|252/");  
+         if missing(areacode_re) then 
+            do;
+               putlog "ERROR: Invalid area code regexp";
+               stop;
+            end;
+      end; 
+
+   length first last home business $ 25;
+   length areacode $ 3;
+   input first last home business;
+
+   if ^prxmatch(re, home) then  
+      putlog "NOTE: Invalid home phone number for " first last home;
+
+   if prxmatch(re, business) then  
+      do;
+         which_format = prxparen(re);  
+         call prxposn(re, which_format, pos, len);  
+         areacode = substr(business, pos, len); 
+         if prxmatch(areacode_re, areacode) then  
+            put "In North Carolina: " first last business;
+      end;
+      else
+         putlog "NOTE: Invalid business phone number for " first last business;
+   datalines; 
+Jerome Johnson (919)319-1677 (919)846-2198 
+Romeo Montague 800-899-2164 360-973-6201
+Imani Rashid (508)852-2146 (508)366-9821 
+Palinor Kent 704-782-4673 704-782-3199
+Ruby Archuleta 905-384-2839 905-328-3892 
+Takei Ito 704-298-2145 704-298-4738
+Tom Joad 515-372-4829 515-389-2838
+;</textarea><div class=CopyCode_content__3D03n>
+ <pre class="xisDoc-code language-sas"><code class=language-sas><span class="token step keyword">data</span> <span class="token keyword">_null_</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>1</span></span>
+   <span class="token keyword">if</span> _N_ <span class="token operator">=</span> <span class="token number">1</span> <span class="token keyword">then 
+      do</span><span class="token punctuation">;</span> 
+         paren <span class="token operator">=</span> <span class="token string">"\(([2-9]\d\d)\) ?[2-9]\d\d-\d\d\d\d"</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>2</span></span> 
+		      dash <span class="token operator">=</span> <span class="token string">"([2-9]\d\d)-[2-9]\d\d-\d\d\d\d"</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>3</span></span> 
+         regexp <span class="token operator">=</span> <span class="token string">"/("</span> <span class="token operator">||</span> paren <span class="token operator">||</span> <span class="token string">")|("</span> <span class="token operator">||</span> dash <span class="token operator">||</span> <span class="token string">")/"</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>4</span></span>
+         <span class="token keyword">retain</span> re<span class="token punctuation">;</span> 
+         re <span class="token operator">=</span> <span class="token function keyword">prxparse</span><span class="token punctuation">(</span>regexp<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>5</span></span>
+         <span class="token keyword">if</span> <span class="token function keyword">missing</span><span class="token punctuation">(</span>re<span class="token punctuation">)</span> <span class="token keyword">then</span>  <span class="token number"><span class=xisDoc-calloutAnchor>6</span></span>
+            <span class="token keyword">do</span><span class="token punctuation">;</span>
+               putlog <span class="token string">"ERROR: Invalid regexp "</span> regexp<span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>7</span></span>
+               stop<span class="token punctuation">;</span>
+            <span class="token keyword">end</span><span class="token punctuation">;</span>     
+ 
+         <span class="token keyword">retain</span> areacode_re<span class="token punctuation">;</span>
+         areacode_re <span class="token operator">=</span> <span class="token function keyword">prxparse</span><span class="token punctuation">(</span><span class="token string">"/828|336|704|910|919|252/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>8</span></span>
+         <span class="token keyword">if</span> <span class="token function keyword">missing</span><span class="token punctuation">(</span>areacode_re<span class="token punctuation">)</span> <span class="token keyword">then 
+            do</span><span class="token punctuation">;</span>
+               putlog <span class="token string">"ERROR: Invalid area code regexp"</span><span class="token punctuation">;</span>
+               stop<span class="token punctuation">;</span>
+            <span class="token keyword">end</span><span class="token punctuation">;</span>
+      <span class="token keyword">end</span><span class="token punctuation">;</span> 
+
+   <span class="token keyword">length</span> first last home business <span class="token punctuation">$</span> <span class="token number">25</span><span class="token punctuation">;</span>
+   <span class="token keyword">length</span> areacode <span class="token punctuation">$</span> <span class="token number">3</span><span class="token punctuation">;</span>
+   <span class="token input"><span class="token input keyword">input</span> first last home business;</span>
+
+   <span class="token keyword">if</span> <span class="token operator">^</span><span class="token function keyword">prxmatch</span><span class="token punctuation">(</span>re<span class="token punctuation">,</span> home<span class="token punctuation">)</span> <span class="token keyword">then</span>  
+      putlog <span class="token string">"NOTE: Invalid home phone number for "</span> first last home<span class="token punctuation">;</span>
+
+   <span class="token keyword">if</span> <span class="token function keyword">prxmatch</span><span class="token punctuation">(</span>re<span class="token punctuation">,</span> business<span class="token punctuation">)</span> <span class="token keyword">then</span>  <span class="token number"><span class=xisDoc-calloutAnchor>9</span></span>
+      <span class="token keyword">do</span><span class="token punctuation">;</span>
+         which_format <span class="token operator">=</span> <span class="token function keyword">prxparen</span><span class="token punctuation">(</span>re<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>10</span></span>
+         <span class="token keyword">call</span> <span class="token function keyword">prxposn</span><span class="token punctuation">(</span>re<span class="token punctuation">,</span> which_format<span class="token punctuation">,</span> pos<span class="token punctuation">,</span> len<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>11</span></span>
+         areacode <span class="token operator">=</span> <span class="token function keyword">substr</span><span class="token punctuation">(</span>business<span class="token punctuation">,</span> pos<span class="token punctuation">,</span> len<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+         <span class="token keyword">if</span> <span class="token function keyword">prxmatch</span><span class="token punctuation">(</span>areacode_re<span class="token punctuation">,</span> areacode<span class="token punctuation">)</span> <span class="token keyword">then</span>  <span class="token number"><span class=xisDoc-calloutAnchor>12</span></span>
+            <span class="token keyword">put</span> <span class="token string">"In North Carolina: "</span> first last business<span class="token punctuation">;</span>
+      <span class="token keyword">end</span><span class="token punctuation">;</span>
+      <span class="token keyword">else</span>
+         putlog <span class="token string">"NOTE: Invalid business phone number for "</span> first last business<span class="token punctuation">;</span>
+   <span class="token datalines string"><span class="token keyword">datalines</span><span class="token punctuation">;</span> 
+Jerome Johnson (919)319-1677 (919)846-2198 
+Romeo Montague 800-899-2164 360-973-6201
+Imani Rashid (508)852-2146 (508)366-9821 
+Palinor Kent 704-782-4673 704-782-3199
+Ruby Archuleta 905-384-2839 905-328-3892 
+Takei Ito 704-298-2145 704-298-4738
+Tom Joad 515-372-4829 515-389-2838
+<span class="token punctuation">;</span></span></code></pre>
+ </div></div>
+ </div>
+ <div class=xisDoc-calloutListContainer>
+ <ol class=xisDoc-calloutList>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Create a DATA step.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Build a Perl regular expression
+ to identify a phone number that matches (XXX)XXX-XXXX, and assign
+ the variable PAREN to hold the result. Use the following syntax elements
+ to build the Perl regular expression: </p>
+ <section class=xisDoc-tableWrap>
+ <table class=xisDoc-listValueDescription><tbody><tr><td class=xisDoc-value>\(<td class=xisDoc-valueDescription>matches the open parenthesis in the area code. The
+ open parenthesis marks the start of the submatch.<tr><td class=xisDoc-value>[2–9]<td class=xisDoc-valueDescription>matches the digits 2–9. <tr><td class=xisDoc-value>\d<td class=xisDoc-valueDescription>matches a digit, which is the second number in the
+ area code.<tr><td class=xisDoc-value>\d<td class=xisDoc-valueDescription>matches a digit, which is the third number in the
+ area code.<tr><td class=xisDoc-value>\)<td class=xisDoc-valueDescription>matches the closed parenthesis in the area code.
+ The closed parenthesis marks the end of the submatch. <tr><td class=xisDoc-value> ?<td class=xisDoc-valueDescription>matches the space (which is the preceding subexpression)
+ zero or one time. Spaces are significant in Perl regular expressions.
+ They match a space in the text that you are searching. If a space
+ precedes the question mark metacharacter (as it does in this case),
+ the pattern matches either zero spaces or one space in this position
+ in the phone number.</table>
+ </section>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Build a Perl regular expression
+ to identify a phone number that matches XXX-XXX-XXXX, and assign the
+ variable DASH to hold the result.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Build a Perl regular expression
+ that concatenates the regular expressions for (XXX)XXX-XXXX and XXX—XXX—XXXX.
+ The concatenation enables you to search for both phone number formats
+ from one regular expression. </p>
+ <p class=xisDoc-paragraph>The PAREN and DASH regular
+ expressions are placed within parentheses. The bar metacharacter (|)
+ that is located between PAREN and DASH instructs the compiler to match
+ either pattern. The slashes around the entire pattern tell the compiler
+ where the start and end of the regular expression is located. </p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Pass the Perl regular expression
+ to PRXPARSE and compile the expression. PRXPARSE returns a value to
+ the compiled pattern. Using the value with other Perl regular expression
+ functions and CALL routines enables SAS to perform operations with
+ the compiled Perl regular expression.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Use the MISSING function to check
+ whether the Perl regular expression compiled without error. </p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Use the PUTLOG statement to write
+ an error message to the SAS log if the regular expression did not
+ compile. </p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Compile a Perl regular expression
+ that searches a string for a valid North Carolina area code. </p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Search for a valid business phone
+ number. </p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Use the PRXPAREN function to determine
+ which submatch to use. PRXPAREN returns the last submatch that was
+ matched. If an area code matches the form (XXX), PRXPAREN returns
+ the value 2. If an area code matches the form XXX, PRXPAREN returns
+ the value 4.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Call the PRXPOSN routine to retrieve
+ the position and length of the submatch.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Use the PRXMATCH function to determine
+ whether the area code is a valid North Carolina area code, and write
+ the observation to the log.</p>
+ </li>
+ </ol>
+ </div>
+ </div>
+ <div class=xisDoc-logBlock id=n1c0h3wu43n1cen11adbskjkxxpv>
+ <h4 class=xisDoc-title>Output from Extracting a Substring from a String</h4>
+ <pre>In North Carolina: Jerome Johnson (919)846-2198
+In North Carolina: Palinor Kent 704-782-3199
+In North Carolina: Takei Ito 704-298-4738
+</pre>
+ </div>
+ <h2 class=xisDoc-title id=p15djlp4h65rfrn1l07fedpv8v1o>Example 4: Another Example of Extracting a Substring from a
+ String</h2>
+ <p class=xisDoc-paragraph>In this example, the
+ PRXPOSN function is passed to the original search text instead of
+ to the position and length variables. PRXPOSN returns the text that
+ is matched.</p>
+ <div class=xisDoc-codeBlock id=p02zmbgikjvf8en1xhi4icum5bym>
+ <div class=xisDoc-codeBlockCode>
+ <div class=CopyCode_copyCode__2RUVr><button class=CopyCode_button__1JM7a title aria-label="Copy to clipboard" role=button><div class="CopyCode_svgContainer__2w2bZ CopyCode_show__1IfSg"><svg xmlns=http://www.w3.org/2000/svg class=Copy width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M5 8H1V0h5l2 2v3H7V3H5V1H2v6h3v1zm8 0v6H6V6h5l2 2zm-1 1h-2V7H7v6h5V9z"></path></svg></div><div class="CopyCode_svgContainer__2w2bZ CopyCode_hide__3LcyA CopyCode_check__3pkU3"><svg xmlns=http://www.w3.org/2000/svg class=Apply width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M5.832 13a.87.87 0 01-.648-.289L1.225 8.317a.873.873 0 011.296-1.171l3.178 3.527 5.685-9.257a.873.873 0 111.486.915L6.575 12.583a.871.871 0 01-.743.417z"></path></svg></div></button><textarea tabindex=-1 aria-hidden=true class=CopyCode_text__3Nacj>data _null_;  
+   length first last phone $ 16;
+   retain re;
+   if _N_ = 1 then do;  
+      re=prxparse("/\(([2-9]\d\d)\) ?[2-9]\d\d-\d\d\d\d/");  
+   end;
+
+   input first last phone &amp; 16.;
+   if prxmatch(re, phone) then do;  
+      area_code = prxposn(re, 1, phone);  
+      if area_code ^in ("828" 
+                                  "336"
+                                  "704"
+                                  "910"
+                                  "919" 
+                                  "252") then
+         putlog "NOTE: Not in North Carolina: "
+                      first last phone;   
+    end;
+   datalines;  
+Thomas Archer    (919)319-1677
+Lucy Mallory       (800)899-2164
+Tom Joad              (508)852-2146
+Laurie Jorgensen  (252)352-7583
+;
+run;</textarea><div class=CopyCode_content__3D03n>
+ <pre class="xisDoc-code language-sas"><code class=language-sas><span class="token step keyword">data</span> <span class="token keyword">_null_</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>1</span></span>
+   <span class="token keyword">length</span> first last phone <span class="token punctuation">$</span> <span class="token number">16</span><span class="token punctuation">;</span>
+   <span class="token keyword">retain</span> re<span class="token punctuation">;</span>
+   <span class="token keyword">if</span> _N_ <span class="token operator">=</span> <span class="token number">1</span> <span class="token keyword">then do</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>2</span></span>
+      re<span class="token operator">=</span><span class="token function keyword">prxparse</span><span class="token punctuation">(</span><span class="token string">"/\(([2-9]\d\d)\) ?[2-9]\d\d-\d\d\d\d/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>3</span></span>
+   <span class="token keyword">end</span><span class="token punctuation">;</span>
+
+   <span class="token input"><span class="token input keyword">input</span> first last phone &amp; <span class="token number">16</span>.;</span>
+   <span class="token keyword">if</span> <span class="token function keyword">prxmatch</span><span class="token punctuation">(</span>re<span class="token punctuation">,</span> phone<span class="token punctuation">)</span> <span class="token keyword">then do</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>4</span></span>
+      area_code <span class="token operator">=</span> <span class="token function keyword">prxposn</span><span class="token punctuation">(</span>re<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> phone<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token number"><span class=xisDoc-calloutAnchor>5</span></span>
+      <span class="token keyword">if</span> area_code <span class="token operator">^</span><span class="token operator-keyword operator">in</span> <span class="token punctuation">(</span><span class="token string">"828"</span> 
+                                  <span class="token string">"336"</span>
+                                  <span class="token string">"704"</span>
+                                  <span class="token string">"910"</span>
+                                  <span class="token string">"919"</span> 
+                                  <span class="token string">"252"</span><span class="token punctuation">)</span> <span class="token keyword">then</span>
+         putlog <span class="token string">"NOTE: Not in North Carolina: "</span>
+                      first last phone<span class="token punctuation">;</span>   <span class="token number"><span class=xisDoc-calloutAnchor>6</span></span>
+    <span class="token keyword">end</span><span class="token punctuation">;</span>
+   <span class="token datalines string"><span class="token keyword">datalines</span><span class="token punctuation">;</span>  <span class=xisDoc-calloutAnchor>7</span>
+Thomas Archer    (919)319-1677
+Lucy Mallory       (800)899-2164
+Tom Joad              (508)852-2146
+Laurie Jorgensen  (252)352-7583
+<span class="token punctuation">;</span></span>
+<span class="token step keyword">run</span><span class="token punctuation">;</span></code></pre>
+ </div></div>
+ </div>
+ <div class=xisDoc-calloutListContainer>
+ <p class=xisDoc-leadIn>The following items correspond to the numbered lines in the
+ preceding DATA step. </p>
+ <ol class=xisDoc-calloutList>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Create a DATA step.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>If this is the first record, find
+ the value of <em class=xisDoc-userSuppliedValue>re</em>.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Build a Perl regular expression
+ for pattern matching. Use the following syntax elements to build the
+ Perl regular expression: </p>
+ <section class=xisDoc-tableWrap>
+ <table class=xisDoc-listValueDescription><tbody><tr><td class=xisDoc-value>/<td class=xisDoc-valueDescription>is the beginning delimiter for a regular expression.<tr><td class=xisDoc-value>\(<td class=xisDoc-valueDescription>marks the next character entry as a character or
+ a literal.<tr><td class=xisDoc-value>(<td class=xisDoc-valueDescription>marks the start of the submatch.<tr><td class=xisDoc-value>[2–9]<td class=xisDoc-valueDescription>matches the digits 2–9 and identifies the
+ first number in the area code.<tr><td class=xisDoc-value>\d<td class=xisDoc-valueDescription>matches a digit, which is the second number in the
+ area code.<tr><td class=xisDoc-value>\d<td class=xisDoc-valueDescription>matches a digit, which is the third number in the
+ area code.<tr><td class=xisDoc-value>\)<td class=xisDoc-valueDescription>matches the close parenthesis in the area code.
+ The close parenthesis marks the end of the submatch. <tr><td class=xisDoc-value> ?<td class=xisDoc-valueDescription>matches the space (which is the preceding subexpression)
+ zero or one time. Spaces are significant in Perl regular expressions.
+ The spaces match a space in the text that you are searching. If a
+ space precedes the question mark metacharacter (as it does in this
+ case), the pattern matches either zero spaces or one space in this
+ position in the phone number.<tr><td class=xisDoc-value>||<td class=xisDoc-valueDescription>is the concatenation operator.<tr><td class=xisDoc-value>[2–9]<td class=xisDoc-valueDescription>matches the digits 2–9 and identifies the
+ first number in the seven-digit phone number. <tr><td class=xisDoc-value>\d<td class=xisDoc-valueDescription>matches a digit, which is the second number in the
+ seven-digit phone number. <tr><td class=xisDoc-value>\d<td class=xisDoc-valueDescription>matches a digit, which is the third number in the
+ seven-digit phone number.<tr><td class=xisDoc-value>–<td class=xisDoc-valueDescription>is the hyphen between the first three and last four
+ digits of the phone number after the area code.<tr><td class=xisDoc-value>\d<td class=xisDoc-valueDescription>matches a digit, which is the fourth number in the
+ seven-digit phone number.<tr><td class=xisDoc-value>\d<td class=xisDoc-valueDescription>matches a digit, which is the fifth number in the
+ seven-digit phone number.<tr><td class=xisDoc-value>\d<td class=xisDoc-valueDescription>matches a digit, which is the sixth number in the
+ seven-digit phone number.<tr><td class=xisDoc-value>\d<td class=xisDoc-valueDescription>matches a digit, which is the seventh number in
+ the seven-digit phone number.<tr><td class=xisDoc-value>/<td class=xisDoc-valueDescription>is the ending delimiter for a regular expression.</table>
+ </section>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Return the position at which the
+ string begins.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Identify the position at which
+ the area code begins.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Search for an area code from the
+ list. If the area code is not valid for North Carolina, use the PUTLOG
+ statement to write a note to the SAS log.</p>
+ </li>
+ <li class=xisDoc-calloutExplanation>
+ <p class=xisDoc-paragraph>Identify the input file.</p>
+ </li>
+ </ol>
+ </div>
+ </div>
+ <div class=xisDoc-logBlock id=n12fl44jyz3uv9n17a3ja52qu3m8>
+ <h4 class=xisDoc-title>Output from Extracting a Substring from a String</h4>
+ <pre>NOTE: Not in North Carolina: Lucy Mallory (800)899-2164
+NOTE: Not in North Carolina: Tom Joad (508)852-2146</pre>
+ </div>
+ <span class="Comment_comment__3dVgL sf-hidden"></span><span class="Comment_comment__3dVgL sf-hidden"></span>
+ <div class=xisDoc-navLine>
+ <div class=xisDoc-dateStamp>Last updated: August 15, 2022</div>
+ </div>
+ <span class="Comment_comment__3dVgL sf-hidden"></span><span class="Comment_comment__3dVgL sf-hidden"></span></div>
+ 
+</div></div></article></div></section><button class="MainContentArea_scrollToTop__1eNqh MainContentArea_visible__3glpD" title="Scroll to the top"><svg xmlns=http://www.w3.org/2000/svg class=DisclosureCollapse width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M7.376 4.171l3.5 4a.5.5 0 11-.752.659L7 5.259l-3.124 3.57a.5.5 0 11-.752-.658l3.5-4a.498.498 0 01.752 0z"></path></svg></button></div></div></div><footer class=DocumentationLayout_footer__2gBLl><div class=Footer_footer__7dIj9><nav class="Footer_navbar__27Plw navbar navbar-expand navbar-dark"><div class=navbar-nav data-testid=footer-left><div class="LanguageSelector_dropdown__2gLq9 dropup nav-item"><a aria-haspopup=true aria-expanded=false id=footer-language-toggle data-testid=current-language href=https://documentation.sas.com/# class="LanguageSelector_toggle__bch8q dropdown-toggle nav-link" role=button><svg xmlns=http://www.w3.org/2000/svg class=Globe width=14 height=14 x=0 y=0 version=1.1 viewBox="0 0 14 14" xml:space=preserve><path class=svgToolTipPane fill=none d="M0 0h14v14H0z"></path><path class=iconColor d="M7 0a7 7 0 100 14A7 7 0 007 0zM1 7c0-.304.03-.6.074-.892.069.265.093.553.093.684 0 .25 1.208.583 1.25.875.042.292 0 1.083-.083 1.5-.083.417 1.75 1.417 2 1.875.161.295.218.984.238 1.44A6.006 6.006 0 011 7zm6 6c-.53 0-1.041-.076-1.53-.205.302-.558.909-1.664 1.155-2.003.333-.458 1.5-2 .875-2.792-.594-.753-1.75-1.25-2.708-1.291C3.833 6.667 3.125 7 3.125 7v-.583l-.958-.625h.958s.375-.542.75-1.042 1.083-.667 2.083-1.375c.785-.556.263-1.669-.079-2.267A6.095 6.095 0 017 1c.253 0 .501.021.746.052-.175.198-.33.407-.33.532 0 .292.917.5 1.208.708.292.208-.667.625-.5 1s1.707.174 2.042 0c.958-.5 1.958 1.5.125.667-.457-.208-1.042 0-1.417.083-.374.083-1.166 1.292-1.082 2.208.083.917 2 .625 2.25 1s-.86 3.438-.417 3.75c1.125.792 2.333-1.541 2.583-2.25.118-.334.448-.804.764-1.21C12.698 10.596 10.126 13 7 13z"></path></svg>&nbsp;English</a></div></div><div class="Footer_right__3Lpxo navbar-nav" data-testid=footer-right><span class=Divider_dividerGroup__DU9qb><a rel="noopener noreferrer" data-testid=privacy-link href=http://www.sas.com/en_us/legal/privacy.html data-rb-event-key=http://www.sas.com/en_us/legal/privacy.html class=nav-link>Privacy Statement</a><span class="Divider_divider__3utla dark">&nbsp;</span><a rel="noopener noreferrer" data-testid=copyright-link href=http://www.sas.com/en_us/legal/copyright.html data-rb-event-key=http://www.sas.com/en_us/legal/copyright.html class=nav-link>Terms of Use</a><span class="Divider_divider__3utla dark">&nbsp;</span><div data-testid=copyright-statement class=nav-item>Copyright © SAS Institute Inc. All Rights Reserved</div></span></div></nav></div></footer></div></div><div><template shadowroot=closed><style>:host{display:block!important;position:fixed!important;bottom:7px!important;left:13px!important;width:16px!important;height:16px!important;z-index:9007199254740991!important;cursor:pointer!important;overflow:hidden!important}svg{border-radius:3px;opacity:1;transition:opacity 1.5s}#__path{fill:#616161}svg:hover #__path{fill:#d12c20}svg[hide]{opacity:0}svg:hover{opacity:1}</style><svg width=16px height=16px><path id=__path d="M16 14V2a2 2 0 00-2-2H2a2 2 0 00-2 2v12c0 1.1.9 2 2 2h12a2 2 0 002-2z"></path><path fill=#f9f6e8 d="M12.9 12.2c.2-.2.3-.5.3-.8 0-.6-.5-1.2-1.2-1.2-.3 0-.6.1-.9.4-.7.7-1.7 1-2.6 1-2 0-3.8-1.6-3.8-3.6s1.7-3.6 3.8-3.6c1 0 2 .3 2.6 1 .3.3.6.4.9.4.7 0 1.3-.5 1.3-1.2 0-.3-.2-.6-.4-.8A6.4 6.4 0 008.5 2a6.1 6.1 0 00-6.3 6c0 3.3 2.8 6 6.3 6 1.6 0 3.2-.6 4.4-1.8z"></path></svg></template></div><grammarly-desktop-integration data-grammarly-shadow-root=true><template shadowroot=open><style class=sf-hidden>div.grammarly-desktop-integration{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}div.grammarly-desktop-integration:before{content:attr(data-content)}</style><div aria-label=grammarly-integration role=group tabindex=-1 class=grammarly-desktop-integration data-content='{"mode":"full","isActive":true,"isUserDisabled":false}'></div></template></grammarly-desktop-integration><script data-template-shadow-root>(()=>{document.currentScript.remove();processNode(document);function processNode(node){node.querySelectorAll("template[shadowroot]").forEach(element=>{let shadowRoot = element.parentElement.shadowRoot;if (!shadowRoot) {try {shadowRoot=element.parentElement.attachShadow({mode:element.getAttribute("shadowroot")});shadowRoot.innerHTML=element.innerHTML;element.remove()} catch (error) {} if (shadowRoot) {processNode(shadowRoot)}}})}})()</script>
