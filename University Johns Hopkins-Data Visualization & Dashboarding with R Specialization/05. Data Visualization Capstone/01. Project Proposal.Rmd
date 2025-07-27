@@ -1,6 +1,6 @@
 ---
 title: "Project Proposal"
-author: "Matthew Pinkerton"
+author: "Zehui Bai"
 output: html_document
 ---
 
@@ -8,26 +8,81 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Project Topic
 
-My project will be an analysis of the 2016 Summer Olympic Games in Rio de Janeiro. My analysis will assess the performance of athletes across different characteristics. I will measure gold, silver & bronze medals achieved across different sports, nationalities, genders, age, height & weight.
+## 📊 Project Topic
 
-## Data Sources
+My project will be an **analysis of the 2016 Summer Olympic Games** in *Rio de Janeiro*.
+The goal is to assess the **performance of athletes** based on various characteristics.
 
-Data source: https://github.com/flother/rio2016  
+I will measure:
 
-This is a copy of the official statistics for the 2016 Olympic Games athlete data from the Rio 2016 website recorded by the International Olympic Committee (IOC) at the time of the Games, as webscraped and documented by GitHub user "flother". Unfortunately the website was deleted shortly after the 2016 Olympic Games, but the IOC have since made similar information available on their website @ https://www.olympic.org/olympic-results?g=Rio%202016 in unstructured formats, that can verify most of this data.
+* 🥇 Gold
+* 🥈 Silver
+* 🥉 Bronze medals
 
-## Description of the Data
+…achieved across the following variables:
 
-The dataset details information for all 11,538 athletes that competed across 306 events at the 2016 Olympic Games. The data captures information by athlete, noting nationality, sex, D.O.B, height, weight, sport(event), gold medal indicator, silver medal indicator, bronze medal indicator. The data is formatted in a "tidy" rectangular format, with a row for each athlete (observation), and a column for each characteristic (variable).
+* Sport
+* Nationality
+* Gender
+* Age
+* Height
+* Weight
 
-It was recommended to use data with less than 10,000 rows. 11,538 rows in this dataset does not significantly exceed the recommendation.
+---
 
-## Ideas about the figures that you will create to visualize this data:
+## 🔗 Data Sources
 
-Idea 1: A scatter plot of total athletes per country against total medals per country. Do countries with more athletes win more medals?
+**Primary Source:**
+[https://github.com/flother/rio2016](https://github.com/flother/rio2016)
 
-Idea 2: A bar chart of medals in each sporting event, stacked by gender. Which sporting events offer the most medals? Are some sporting events only offered to certain genders?
+This dataset is a web-scraped copy of the official **2016 Olympic Games athlete statistics** originally published on the Rio 2016 website by the **International Olympic Committee (IOC)**.
 
-Idea 3: A scatter plot of weight against height, with size of observations set by number of medals won. Do taller and heavier athletes win more medals?
+> ⚠️ Note: The official Rio 2016 site has since been taken down, but this data has been preserved by GitHub user [@flother](https://github.com/flother).
+
+**Verification:**
+Similar data is still available (though less structured) at the IOC's official results portal:
+[https://www.olympic.org/olympic-results?g=Rio%202016](https://www.olympic.org/olympic-results?g=Rio%202016)
+
+---
+
+## 📄 Description of the Data
+
+* **Total Athletes:** 11,538
+* **Total Events:** 306
+* **Format:** Tidy rectangular format (one row per athlete)
+* **Variables Include:**
+
+  * Nationality (`country`)
+  * Sex (`gender`)
+  * Date of Birth (`dob`)
+  * Height
+  * Weight
+  * Sport/Event
+  * Medal indicators (Gold / Silver / Bronze)
+
+> 💡 Although it's recommended to use datasets with fewer than 10,000 rows, this dataset slightly exceeds that limit—but remains manageable.
+
+---
+
+## 📈 Visualization Ideas
+
+**🟠 Idea 1:**
+**Scatter Plot** – Total Athletes per Country vs. Total Medals per Country
+
+> *Do countries with more athletes win more medals?*
+
+---
+
+**🟣 Idea 2:**
+**Stacked Bar Chart** – Number of Medals per Sport, broken down by Gender
+
+> *Which sporting events offer the most medals? Are some events gender-exclusive?*
+
+---
+
+**🔵 Idea 3:**
+**Bubble Scatter Plot** – Weight vs. Height, bubble size = number of medals
+
+> *Do taller or heavier athletes tend to win more medals?*
+ 

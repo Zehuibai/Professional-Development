@@ -1,0 +1,13 @@
+name: CourseraDataVizDashboard0001
+title: CourseraDataVizDashboard0001
+username: 5xyevt-zehuibai
+account: 5xyevt-zehuibai
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 15127763
+bundleId: 10681487
+url: https://5xyevt-zehuibai.shinyapps.io/CourseraDataVizDashboard0001/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: 02. Complex Shiny App.R|03. Flexdashboard.Rmd

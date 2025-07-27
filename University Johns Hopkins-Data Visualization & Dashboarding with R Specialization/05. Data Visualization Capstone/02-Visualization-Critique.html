@@ -12,7 +12,7 @@
 <meta name="author" content="Zehui Bai" />
 
 
-<title>Project Proposal</title>
+<title>Visualization Critique</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -349,95 +349,59 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Project Proposal</h1>
+<h1 class="title toc-ignore">Visualization Critique</h1>
 <h4 class="author">Zehui Bai</h4>
 
 </div>
 
 
-<div id="project-topic" class="section level2">
-<h2>📊 Project Topic</h2>
-<p>My project will be an <strong>analysis of the 2016 Summer Olympic
-Games</strong> in <em>Rio de Janeiro</em>. The goal is to assess the
-<strong>performance of athletes</strong> based on various
-characteristics.</p>
-<p>I will measure:</p>
-<ul>
-<li>🥇 Gold</li>
-<li>🥈 Silver</li>
-<li>🥉 Bronze medals</li>
-</ul>
-<p>…achieved across the following variables:</p>
-<ul>
-<li>Sport</li>
-<li>Nationality</li>
-<li>Gender</li>
-<li>Age</li>
-<li>Height</li>
-<li>Weight</li>
-</ul>
-<hr />
+<div id="visualization-link" class="section level2">
+<h2>Visualization Link</h2>
+<p>Please provide a link to your visualization critique.</p>
+<p><a href="https://www.reddit.com/r/dataisbeautiful/comments/1m9r31c/oc_how_debttogdp_has_changed_in_major_economies/#lightbox">How
+Debt-to-GDP Has Changed in Major Economies Since 2008</a></p>
 </div>
-<div id="data-sources" class="section level2">
-<h2>🔗 Data Sources</h2>
-<p><strong>Primary Source:</strong> <a href="https://github.com/flother/rio2016">https://github.com/flother/rio2016</a></p>
-<p>This dataset is a web-scraped copy of the official <strong>2016
-Olympic Games athlete statistics</strong> originally published on the
-Rio 2016 website by the <strong>International Olympic Committee
-(IOC)</strong>.</p>
-<blockquote>
-<p>⚠️ Note: The official Rio 2016 site has since been taken down, but
-this data has been preserved by GitHub user <a href="https://github.com/flother"><span class="citation">@flother</span></a>.</p>
-</blockquote>
-<p><strong>Verification:</strong> Similar data is still available
-(though less structured) at the IOC’s official results portal: <a href="https://www.olympic.org/olympic-results?g=Rio%202016">https://www.olympic.org/olympic-results?g=Rio%202016</a></p>
-<hr />
-</div>
-<div id="description-of-the-data" class="section level2">
-<h2>📄 Description of the Data</h2>
+<div id="weakness" class="section level2">
+<h2>Weakness</h2>
+<p>A weakness of this visualization is <strong>the clutter caused by
+overlapping lines and annotations</strong>, especially around the years
+<strong>2020–2022</strong>, which coincide with major global events like
+COVID-19 and post-pandemic stimulus. The graph tries to highlight key
+turning points (e.g., 2015 deleveraging, 2020 stimulus, 2022 surpassing
+US/EU) using black squares and text boxes, but the annotations are
+<strong>dense and cramped</strong>, competing for space in an already
+busy part of the graph.</p>
+<p>Additionally, while the chart uses color effectively, the
+<strong>line colors for EU and USA are too similar</strong> (dark blue
+vs. medium blue), which may cause confusion for colorblind viewers or
+when viewed in grayscale.</p>
+<p><strong>Improvement suggestion:</strong></p>
 <ul>
-<li><p><strong>Total Athletes:</strong> 11,538</p></li>
-<li><p><strong>Total Events:</strong> 306</p></li>
-<li><p><strong>Format:</strong> Tidy rectangular format (one row per
-athlete)</p></li>
-<li><p><strong>Variables Include:</strong></p>
-<ul>
-<li>Nationality (<code>country</code>)</li>
-<li>Sex (<code>gender</code>)</li>
-<li>Date of Birth (<code>dob</code>)</li>
-<li>Height</li>
-<li>Weight</li>
-<li>Sport/Event</li>
-<li>Medal indicators (Gold / Silver / Bronze)</li>
-</ul></li>
+<li>Spread out or relocate the annotations with leader lines to reduce
+visual congestion.</li>
+<li>Use <strong>distinct shapes</strong> or <strong>dashed
+lines</strong> in addition to color to differentiate countries.</li>
+<li>Add a <strong>horizontal reference line</strong> for 2008 starting
+levels to visually highlight relative growth.</li>
 </ul>
-<blockquote>
-<p>💡 Although it’s recommended to use datasets with fewer than 10,000
-rows, this dataset slightly exceeds that limit—but remains
-manageable.</p>
-</blockquote>
-<hr />
 </div>
-<div id="visualization-ideas" class="section level2">
-<h2>📈 Visualization Ideas</h2>
-<p><strong>🟠 Idea 1:</strong> <strong>Scatter Plot</strong> – Total
-Athletes per Country vs. Total Medals per Country</p>
-<blockquote>
-<p><em>Do countries with more athletes win more medals?</em></p>
-</blockquote>
-<hr />
-<p><strong>🟣 Idea 2:</strong> <strong>Stacked Bar Chart</strong> –
-Number of Medals per Sport, broken down by Gender</p>
-<blockquote>
-<p><em>Which sporting events offer the most medals? Are some events
-gender-exclusive?</em></p>
-</blockquote>
-<hr />
-<p><strong>🔵 Idea 3:</strong> <strong>Bubble Scatter Plot</strong> –
-Weight vs. Height, bubble size = number of medals</p>
-<blockquote>
-<p><em>Do taller or heavier athletes tend to win more medals?</em></p>
-</blockquote>
+<div id="strength" class="section level2">
+<h2>Strength</h2>
+<p>A major strength of this visualization is its <strong>clear narrative
+structure</strong>, with well-placed annotations guiding the viewer
+through key economic moments from 2008 to 2024. The timeline includes
+specific callouts like “2008: Massive stimulus drives China’s debt
+surge” and “2022: Surpasses US/EU levels,” which not only highlight data
+trends but also provide <strong>contextual interpretation</strong>,
+turning raw data into a compelling economic story.</p>
+<p>Another strength is the <strong>use of end-point labels</strong> on
+the right, which summarize each country’s 2024 debt level and growth
+since 2008. This provides a quick and efficient comparison without
+requiring viewers to trace the full line paths.</p>
+<p>Personally, I find the right-side ranking extremely well-designed. It
+helps me quickly understand how China, the US, EU, and India compare
+both in absolute debt levels and growth since 2008. It’s clear, compact,
+and very effective.</p>
 </div>
 
 

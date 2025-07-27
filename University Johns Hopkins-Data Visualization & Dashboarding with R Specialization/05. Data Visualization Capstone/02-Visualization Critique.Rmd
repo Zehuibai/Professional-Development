@@ -1,0 +1,38 @@
+---
+title: "Visualization Critique"
+author: "Zehui Bai"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Visualization Link
+
+Please provide a link to your visualization critique.
+
+[How Debt-to-GDP Has Changed in Major Economies Since 2008](https://www.reddit.com/r/dataisbeautiful/comments/1m9r31c/oc_how_debttogdp_has_changed_in_major_economies/#lightbox)
+
+## Weakness
+
+
+A weakness of this visualization is **the clutter caused by overlapping lines and annotations**, especially around the years **2020–2022**, which coincide with major global events like COVID-19 and post-pandemic stimulus. The graph tries to highlight key turning points (e.g., 2015 deleveraging, 2020 stimulus, 2022 surpassing US/EU) using black squares and text boxes, but the annotations are **dense and cramped**, competing for space in an already busy part of the graph.
+
+Additionally, while the chart uses color effectively, the **line colors for EU and USA are too similar** (dark blue vs. medium blue), which may cause confusion for colorblind viewers or when viewed in grayscale.
+
+**Improvement suggestion:**
+
+* Spread out or relocate the annotations with leader lines to reduce visual congestion.
+* Use **distinct shapes** or **dashed lines** in addition to color to differentiate countries.
+* Add a **horizontal reference line** for 2008 starting levels to visually highlight relative growth.
+
+## Strength
+
+A major strength of this visualization is its **clear narrative structure**, with well-placed annotations guiding the viewer through key economic moments from 2008 to 2024. The timeline includes specific callouts like “2008: Massive stimulus drives China’s debt surge” and “2022: Surpasses US/EU levels,” which not only highlight data trends but also provide **contextual interpretation**, turning raw data into a compelling economic story.
+
+Another strength is the **use of end-point labels** on the right, which summarize each country's 2024 debt level and growth since 2008. This provides a quick and efficient comparison without requiring viewers to trace the full line paths.
+
+Personally, I find the right-side ranking extremely well-designed. It helps me quickly understand how China, the US, EU, and India compare both in absolute debt levels and growth since 2008. It’s clear, compact, and very effective.
+
+

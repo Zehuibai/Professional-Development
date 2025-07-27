@@ -1,0 +1,144 @@
+---
+title: "Data Review"
+author: "Zehui Bai"
+date: "27/Jul/2025"
+output:
+  html_document:
+    df_print: paged
+    number_sections: no
+    toc: yes
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+---
+
+```{r setup, include=FALSE}
+
+#####Make sure you load any required packages.
+
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Import Your Data
+
+In the following code hunk, import your data.
+
+```{r data_import}
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+
+library(flexdashboard)
+library(shiny)
+library(tidyverse)
+library(packcircles)
+library(countrycode)
+library(ggiraph)
+library(plotly)
+library(lubridate)
+library(eeptools)
+library(maps)
+library(mapproj)
+library(DT)
+
+dat <- read_csv("Olympics_2016_Rio_Athletes.csv")
+
+dat <- dat %>%
+  mutate(country = case_when(
+  nationality == 'IOA' ~ 'Independent Olympians',
+  nationality == 'ISV' ~ 'United States Virgin Islands',
+  nationality == 'LIB' ~ 'Lebanon',
+  nationality == 'ROT' ~ 'Refugee Olympic Team',
+  nationality == 'SIN' ~ 'Singapore',
+  TRUE ~ countrycode(nationality, "ioc", "country.name")
+  )) %>%
+  mutate(continent = case_when(
+  nationality == 'IOA' ~ 'Independent',
+  nationality == 'ISV' ~ 'Americas',
+  nationality == 'LIB' ~ 'Asia',
+  nationality == 'ROT' ~ 'Independent',
+  nationality == 'SIN' ~ 'Asia',
+  nationality == 'KOS' ~ 'Europe',
+  TRUE ~ countrycode(nationality, "ioc", "continent")
+  )) %>%
+  mutate(continent_id = case_when(
+    continent == 'Americas' ~ 1,
+    continent == 'Europe' ~ 2,
+    continent == 'Asia' ~ 3,
+    continent == 'Africa' ~ 4,
+    continent == 'Oceania' ~ 5,
+    continent ==  'Independent' ~ 6)) %>%
+  mutate(total = gold + silver + bronze) %>%
+  mutate(dob = date_of_birth)
+
+cent <- function(x, year = 1940) {
+  m <- year(x) %% 100
+  y <- ifelse(m > year %% 100, 1900 + m, 2000 + m)
+  update(x, year = y)
+}
+
+dob2 = as.tibble(cent(dat$dob))
+dat <- dat %>%
+  mutate(
+    dob2 = cent(dob),
+    age = floor(interval(start = dob2, end = mdy("08-05-2016")) /
+                duration(n = 1, unit = "years"))
+  )
+```
+
+## Part 1
+
+Using words, describe the visualization you are going to make using which variables/characteristics in your data:
+
+For my first figure, I am going to create a scatterplot that compares the number of athletes each country sent to the 2016 Olympics (on the x-axis) to the total number of medals those countries won (on the y-axis). Each point will represent one country. This will help us explore whether there is a correlation between delegation size and medal count.
+
+```{r data_1}
+# Count athletes per country
+athletes_per_country <- dat %>%
+  count(country, name = "number_of_athletes")
+
+# Summarize total medals per country
+medals_per_country <- dat %>%
+  group_by(country) %>%
+  summarise(total_medals = sum(total, na.rm = TRUE), .groups = "drop")
+
+# Merge both datasets
+fig_dat1 <- left_join(athletes_per_country, medals_per_country, by = "country") %>%
+  filter(!is.na(country)) %>%
+  arrange(desc(number_of_athletes))
+
+fig_dat1
+```
+
+## Part 2
+
+Using words, describe the *second* visualization you are going to make using which variables/characteristics in your data:
+
+For my second figure, I am going to create a stacked bar chart that shows the number of medals awarded in each sport, broken down by gender (male and female). I will group by sport and sex, and sum the total medals won in each group. This visualization will help reveal whether some sports award more medals than others, and whether there are gender imbalances in medal opportunities.
+
+```{r data_2}
+fig_dat2 <- dat %>%
+  group_by(sport, sex) %>%
+  summarise(total_medals = sum(total, na.rm = TRUE), .groups = "drop") %>%
+  filter(!is.na(sex) & !is.na(sport)) %>%
+  arrange(desc(total_medals))
+
+fig_dat2
+
+```
+
+
+## Part 3
+
+Using words, describe the *third* visualization you are going to make using which variables/characteristics in your data:
+
+For the third figure, I will create a bubble scatter plot with athletes’ weight on the x-axis and height on the y-axis. The size of the bubbles will represent the number of medals an athlete won. This will help explore whether there is any trend suggesting that taller or heavier athletes tend to win more medals.
+
+
+```{r data_3}
+fig_dat3 <- dat %>%
+  filter(!is.na(weight) & !is.na(height)) %>%
+  select(name, sport, sex, country, weight, height, total) %>%
+  filter(total > 0)  # keep only medalists
+
+fig_dat3
+```
