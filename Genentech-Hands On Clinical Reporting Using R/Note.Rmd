@@ -1,0 +1,1348 @@
+---
+title: "Hands On Clinical Reporting Using R - Note"
+author: Zehui Bai 
+date: "2025-08-03"
+output:
+  html_document:
+    df_print: paged
+    number_sections: yes
+    toc: yes
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+    theme: journal # <!-- https://bootswatch.com/3/  -->
+    highlight: tango
+    code_folding: "hide" 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Introduction Fundamentals
+
+## Why open-source tools
+
+In the pharmaceutical industry, the process of bringing experimental clinical products to market requires the submission of electronic data, computer programs, and relevant documentation to health authority agencies worldwide. Traditionally, these submissions have been based on the SAS language. However, there is a growing trend towards utilizing open-source programming languages, particularly R, in clinical trial submissions. This blog post explores the advantages of moving into open-source R clinical trial submissions and why it is a positive development for the pharmaceutical industry.
+
+1. Embracing Open Source in Pharma: In recent years, the adoption of open-source languages, such as R, has gained popularity in both pharmaceutical companies and research institutions. Health authorities now accept submissions based on open source programming languages. However, sponsors have been hesitant to utilize open-source languages due to a lack of working examples. The future of pharma lies in open source, as it has the potential to transform research and reporting processes.
+
+2. Driving Clinical Trials Forward: Open source is driving innovation and accelerating the pace of clinical trials. It enables faster go/no-go decision-making by making innovation the standard at every checkpoint. Through the use of Shiny applications and real-time dashboards, clinical teams can analyze trial data interactively and monitor trial status. Leveraging open-source packages designed specifically for pharma streamlines clinical workflows, ultimately leading to faster identification of leading molecules.
+
+3. Efficient Data Manipulation: Clinical trials generate numerous outputs, and open-source tools can automate and streamline the process of manipulating data. Collaboration between pharmaceutical companies has resulted in the development of packages that facilitate the automation of tasks. Open source allows for quicker generation of SDTM/ADaM datasets, and it also enhances validation and quality control processes.
+
+4. Confident Submissions to Regulatory Agencies: Open source can and should be used in regulatory submissions. Pharmaceutical companies are collaborating with regulatory agencies like the FDA, ensuring guidance and feedback on the use of open-source tools. Open source provides transparency and reproducibility, which are crucial for upholding the integrity of clinical trial results. By embracing open source, companies can confidently submit their findings to regulatory bodies.
+
+5. Collaboration and Innovation: The adoption of open-source tools in the pharmaceutical industry has fostered cross-collaboration and sharing of knowledge among organizations. Previously, competition and closed software hindered collaboration. However, the open-source philosophy has inspired companies to partner with others facing similar challenges. By working collaboratively, the pace of innovation in open-source software surpasses that of proprietary software, enabling faster development, bug fixing, and feature enhancements.
+
+Open source R clinical trial submissions offer numerous benefits for the pharmaceutical industry. From faster decision-making to efficient data manipulation and confident regulatory submissions, open-source tools are revolutionizing drug development. The collaboration and innovation fostered by open source are creating a positive impact on the industry as a whole. Embracing open-source R clinical trial submissions is a step towards a more transparent, efficient, and transformative future in pharmaceutical research and development.
+
+## Phase 3 Clinical Trials - Protocol & SAP
+
+**Recap of the Clinical Trial Phases**
+
+1. **Preclinical Trials**:
+   Before human testing, drugs are tested on animals (e.g., rodents or apes).
+
+2. **Phase 1**:
+
+   * **Goal**: Assess basic **safety** of the drug.
+   * **Participants**: 10–20 **healthy volunteers**, unless the drug is too risky (e.g., chemotherapy), in which case **patients** are used.
+   * **Note**: Efficacy is not the focus here.
+
+3. **Phase 2**:
+
+   * **Goal**: Determine the **optimal dosage** balancing safety and side effects.
+   * **Participants**: Patients.
+   * **Note**: Though not powered for efficacy, some preliminary efficacy signals can be observed.
+
+4. **Phase 3**:
+
+   * **Goal**: Establish **efficacy and safety** compared to a **placebo or standard treatment**.
+   * **Scale**: Involves **1,000+ patients**.
+   * **Importance**: Required for **regulatory approval** (e.g., by the FDA).
+
+---
+
+**Study Protocol**
+
+The **study protocol** serves as the **blueprint** of a clinical trial and should be detailed enough for **replication** by other investigators. It typically includes:
+
+* **Objectives**: What the trial aims to test (e.g., efficacy/safety of a drug).
+* **Background**: Brief information on the **medical condition** and previous use of the drug.
+* **Methods**:
+
+  * **Trial Design**
+  * **Eligibility criteria**
+  * **Recruitment and timelines**
+  * **Interim analyses (if applicable)**
+  * **Primary endpoints**, described using the **estimand framework**
+  * **Statistical methods** and **sample size justification**
+
+---
+
+* The **clinical scientist** is generally responsible for authoring the protocol, though it's a **collaborative process**.
+* Summarized versions of protocols can be found on **clinicaltrials.gov**.
+
+---
+
+**The Estimand Framework**
+
+This framework systematically defines the **treatment effect** being investigated and includes **five components**:
+
+1. **Treatment**:
+   Description of the **intervention and control** groups (e.g., placebo vs. 25 mg of Courseramab every two weeks, both self-administered).
+
+2. **Population**:
+   Defined by **inclusion and exclusion criteria**.
+
+3. **Variable of Interest**:
+   The **key outcome measure** influenced by the treatment (e.g., tumor volume in cancer studies).
+
+4. **Population-Level Summary**:
+   How the results are **summarized/computed** across the population (e.g., average reduction in tumor volume).
+
+5. **Handling of Intercurrent Events**:
+   Strategy for managing **unexpected events** that occur during the trial, such as a patient **dropping out**.
+
+* Estimands are pre-defined for **primary and key secondary objectives** in the protocol.
+* Additional estimands can be specified in the **Statistical Analysis Plan (SAP)**.
+
+---
+
+**Statistical Analysis Plan (SAP)**
+
+* The SAP is a **detailed guide** prepared by statisticians, defining how the data will be analyzed.
+
+* It includes:
+
+  * Analyses for **non-key secondary and exploratory endpoints**
+  * **Statistical methods** and **data handling plans**
+
+* **Timing**: Written **after study initiation**, but **before any data is accessed**.
+
+* **Purpose**:
+
+  * Ensures **transparency and integrity**
+  * Avoids **data-driven decisions** and reduces bias
+  * Makes replication possible if the same data is used
+  
+  
+## Data Collection
+
+
+The course section introduces how data is collected during clinical trials, distinguishing between two main types:
+
+* **Case Report Form (CRF) data**
+* **Non-Case Report Form (non-CRF) data**
+
+Clinical trial data collection involves multiple stakeholders:
+
+* The **sponsor** is responsible for initiating, managing, or funding the trial.
+
+  * Sponsors can be pharmaceutical companies (e.g., Roche) or research institutions.
+  * They **do not conduct the trial themselves** to avoid conflicts of interest.
+  * Clinical trials are carried out at **investigation sites**, such as hospitals.
+  * Often, trials are conducted across **multiple countries and sites** to ensure a diverse and representative patient population.
+
+CRF data is collected at these clinical sites and is managed through structured forms:
+
+* Sponsors do not have direct access to patient medical records, so they design CRFs for site staff to complete.
+
+* CRFs collect essential information, including:
+
+  * Patient demographics
+  * Medical history
+  * Adverse events during treatment
+  * Other safety and efficacy-related outcomes
+
+* CRFs often take the form of **questionnaires**:
+
+  * Some questions have **predefined answer options** (e.g., "Yes"/"No")
+
+    * These use **controlled terminology**: standardized code lists and valid values required for submission to regulatory authorities.
+    * Controlled terminology does **not determine** what is collected, but **how** certain fields must be completed.
+  * Other questions allow for **free-text entries** (e.g., type of vaccine received).
+  * All entries are **mapped to specific variable names**, which support further processing in data models.
+
+Non-CRF data is collected outside the CRF process and typically involves third-party vendors:
+
+* Examples of non-CRF sources:
+
+  * **Central laboratories**
+  * **Core imaging labs**
+  * **Bioanalytical labs**
+  * **Digital devices** (e.g., wearables for digital biomarkers)
+
+* Examples of non-CRF data:
+
+  * Pharmacokinetics (PK)
+  * Anti-drug antibody (ADA)
+  * Biomarker data
+  * ECG analysis
+
+* These data are:
+
+  * Often collected at multiple sites
+  * Sent to vendors for **centralized, standardized analysis**
+  * Returned to the sponsor for integration into the overall clinical trial dataset
+
+This standardization helps ensure that results are consistent across all sites and regions.
+
+
+## CDISC SDTM and ADaM Standards
+
+
+
+In this section, the course discusses **standard data formats** used in clinical trials and why they are beneficial.
+
+* The **Clinical Data Interchange Standards Consortium (CDISC)** sets globally accepted data standards for the pharmaceutical research industry.
+
+  * These standards are not only widely used but also **expected by regulatory agencies** for data submission.
+
+* Two key data models defined by CDISC are commonly encountered:
+
+  * **Study Data Tabulation Model (SDTM)**
+
+    * Used to organize clinical trial data in a structured format.
+    * Mostly reflects **raw data**, though it includes a few derived variables.
+    * Focuses on **data organization**, not analysis. 
+
+  * **Analysis Data Model (ADaM)**
+
+    * Built from SDTM datasets and designed for **statistical analysis**.
+    * These datasets are **analysis-ready**, meaning all necessary variables for analysis have already been derived.
+    * Analysts only need to **select relevant records**—no new variables should be required. 
+
+* **Standardization benefits** both pharmaceutical companies and regulatory authorities:
+
+  * For companies:
+
+    * **Increases efficiency**, even if initial setup is time-consuming.
+    * **Streamlines data collection** and reduces transformation during analysis.
+    * Enables **harmonized results** and **code reuse** across studies.
+    * Simplifies tool development and reduces long-term **costs**.
+    * Promotes **collaboration**, as teams are more familiar with standardized structures.
+    * Facilitates **automated data quality checks** and minimizes conversion errors.
+
+  * For regulators:
+
+    * Supports **consistent comparison** of different studies and submissions.
+    * Makes **cross-study evaluations** more transparent and fair.
+    * Enhances **decision-making clarity** by providing a uniform data format.
+
+* **Data traceability** is another key benefit:
+
+  * Regulators can clearly track how each variable was derived and from where.
+  * This builds **trust and confidence** in the submitted data.
+
+* **Adherence to data standards** also signals a commitment to data quality:
+
+  * It helps make **regulatory inspections smoother** and more efficient.
+
+* In summary, data standards are a **win-win**:
+
+  * They act as a **common language** between sponsors and regulators, improving communication and collaboration.
+  * While standards may seem restrictive, they are designed to be **flexible enough** to accommodate **study-specific needs**—which is essential because **no two studies are identical**.
+ 
+ 
+## FDA Submission Package
+
+ 
+In this section, the course explains what the FDA submission package is, what it contains, and how to ensure the submission process goes smoothly.
+
+ 
+* There are several **types of FDA submissions**, including:
+
+  * **New Drug Application (NDA)**
+  * **Biologics License Application (BLA)**
+  * **Investigational New Drug (IND)**
+  * **Others**, depending on the regulatory pathway
+
+* To bring a drug to market in the United States, it must go through the **US Food and Drug Administration (FDA)**.
+
+  * For new drugs, the main route is through a **New Drug Application (NDA)**.
+  * The submission must demonstrate that the drug is:
+
+  * The **key objectives** of a submission package are to **demonstrate** that the drug meets regulatory standards in terms of:
+  
+    * **Safety**
+    * **Efficacy**
+    * **Quality**
+
+* The submission package is structured around the **electronic Common Technical Document (eCTD)**, a standardized format used globally.
+
+ 
+The **Electronic Common Technical Document (eCTD)** is organized into **five modules**, but these modules are **not structured by individual clinical studies**, and they **do not represent Phase III studies individually**.
+ 
+1. **Module 1** – Regional Administrative Information (e.g., FDA-specific forms)
+2. **Module 2** – Summaries (overview and summary of Modules 3–5)
+3. **Module 3** – Quality (CMC – Chemistry, Manufacturing, and Controls)
+4. **Module 4** – Nonclinical Study Reports (e.g., toxicology, pharmacology)
+5. **Module 5** – **Clinical Study Reports** (includes **all clinical trials**, not just Phase III)
+
+* Each **Phase I, II, or III study** is represented within **Module 5**, not as a separate module.
+* Each **study has its own Clinical Study Report (CSR)**—they are **not all combined into one CSR**.
+
+In details:
+
+  * **Module 1 – Administrative Information**
+
+    * Includes cover letter, application form, and regulatory communications
+    * Serves as a roadmap for the submission
+  * **Module 2 – Summaries**
+
+    * High-level summaries of the full application
+    * Covers quality, non-clinical, and clinical aspects
+  * **Module 3 – Quality**
+
+    * Detailed information on product quality, manufacturing, specifications, and stability
+  * **Module 4 – Non-Clinical Study Reports**
+
+    * Includes pre-clinical animal study data, pharmacology, and toxicology
+  * **Module 5 – Clinical Study Reports**
+
+    * Contains protocols, results, and clinical trial data critical for assessing safety and efficacy in humans
+  * **Module 1.5 – Region-Specific Documents**
+
+    * Includes regulatory-specific information required for different regions or countries
+  * **Module 1.6 – Residual Information**
+
+    * Includes additional relevant documents not captured elsewhere
+
+* Each module is organized according to **international regulatory guidelines**, making review easier for agencies like the FDA.
+
+* As a **data scientist or statistical programmer**, involvement is primarily focused on **Module 5**, which includes the **clinical data package**:
+
+  * Both **SDTM** and **ADaM** datasets
+  * **Programming code** used to derive ADaMs from SDTM (ensures transparency)
+  * **Code used to produce primary analysis outputs**
+  * During the review process, the FDA may request clarification or updates—these must be handled quickly, sometimes under tight deadlines.
+
+* To ensure a successful submission, five key strategies are emphasized:
+
+  1. **Thorough Quality Control**
+
+     * Double-check everything—errors can damage credibility.
+     * Use **code reviews** or **double programming** for validation.
+     * Use tools like **Pinnacle 21** to check for issues in datasets before submission.
+
+  2. **Teamwork**
+
+     * Cross-functional collaboration (regulatory, clinical, operations) is critical.
+     * Clear communication ensures alignment and timely resolution of issues.
+
+  3. **Engage with the FDA**
+
+     * Sponsors can have **pre-submission meetings** with the FDA.
+     * This helps clarify expectations and avoid surprises later.
+
+  4. **Clarity and Structure**
+
+     * Submission documents should be **logically organized** and written in **clear language**.
+     * Use **visuals and summaries** to enhance understanding.
+
+  5. **Be Proactive**
+
+     * Anticipate potential regulatory concerns and address them early.
+     * Don’t wait for questions—**preemptively solve** issues where possible.
+ 
+
+# SDTM: Study Data Tabulation Model
+
+## Context and Workflow
+
+ 
+The SDTM (Study Data Tabulation Model) plays a central role in organizing clinical trial data within the broader clinical data pipeline.
+
+* The data flow begins with **raw data collection**, which comes from:
+
+  * **CRF data** (Case Report Forms) – collected by site staff and fed directly into the study database.
+  * **Non-CRF data** – collected via third-party vendors, digital devices, or directly from patients; formats vary and are governed by study-specific data transfer agreements.
+
+* Once collected, raw data is transformed into **SDTM datasets** for each **domain** (e.g., demographics, adverse events, labs):
+
+  * SDTM datasets are **structured**, **standardized**, and close to raw data.
+  * SDTM is not about *what* data to collect, but *how* to organize that data.
+
+* SDTM datasets are then transformed into **ADaM datasets** (Analysis Data Model):
+
+  * ADaMs are **analysis-ready** and include **derived variables** (e.g., age groups, averages).
+  * These datasets feed into outputs like **summary tables, graphs**, and **figures** used for reporting.
+
+* After generating outputs, results are shared with stakeholders and regulatory authorities.
+
+---
+
+Why SDTM is important:
+
+* **Consistency**: Ensures uniform structure across different studies, improving comparability and reliability.
+* **Regulatory Compliance**: SDTM follows CDISC standards, required for FDA and other regulatory submissions.
+* **Data Integrity**: Defined variable names and domains enable automated quality control and reduce errors.
+* **Reusability**: Well-organized data can be easily integrated into other research projects or meta-analyses.
+* **Efficiency**: Simplifies data collection, transformation, and reporting workflows, saving time and resources.
+
+---
+
+CDISC (Clinical Data Interchange Standards Consortium) maintains SDTM and other standards:
+
+* **CDISC** is a global nonprofit that defines and maintains:
+
+  * **SDTM** – for tabulation datasets
+  * **ADaM** – for analysis datasets 
+  * **CDASH** – for data collection standards 
+
+* These standards provide a unified framework for organizing and documenting clinical trial data.
+
+---
+
+The **SDTMIG (SDTM Implementation Guide)**:
+
+* Created by CDISC, it provides in-depth guidance for implementing SDTM:
+
+  * Defines **variables**, **domains**, and **rules** for structuring data.
+  * The current version is **3.4 (2021)**, over 450 pages long.
+  * Ensures **consistency** and **traceability** across datasets. 
+
+---
+
+How CRF and non-CRF data are mapped into SDTM:
+
+1. **Data Availability**:
+
+   * CRF data automatically flows into the study database through EDC systems.
+   * Non-CRF data comes from diverse sources and formats, requiring additional steps.
+
+2. **Preprocessing Steps**:
+
+   * **Data Extraction**:
+
+     * Non-CRF data is extracted from lab systems, devices, patient-reported instruments, etc.
+     * CRF data typically does not require extraction.
+
+   * **Data Cleaning and Transformation**:
+
+     * Resolve duplicates, missing values, and inconsistencies.
+     * Standardize units or recode values (e.g., converting g/mL to g/L).
+     * Prepare data for alignment with SDTM formats.
+
+   * **Data Mapping**:
+
+     * Map each value to the appropriate **SDTM domain, variable name, and dataset**.
+     * Use CDISC implementation guides for reference.
+     * Maintain **traceability** by documenting transformation and mapping logic.
+
+   * **Data Validation**:
+
+     * Validate datasets against **SDTM standards** using tools like **Pinnacle 21**.
+     * Check for compliance with structure, controlled terminology, and consistency.
+
+   * **Metadata Documentation**:
+
+     * Track data origin, transformation rules, and mapping details.
+     * For CRF data, use an **Annotated CRF (ACRF)** to show how each field maps to SDTM variables.
+     * For non-CRF data, provide a **separate mapping document**.
+
+* These steps ensure regulatory compliance, transparency, and reproducibility in clinical data processing. The tools, documentation, and processing approach may vary across organizations depending on their systems and regulatory strategies.
+ 
+ 
+## SDTM Data Mapping
+
+SDTM (Study Data Tabulation Model) is a standardized framework that structures all data collected during clinical trials into organized datasets for regulatory submission and analysis.
+
+* **What SDTM contains**:
+
+  * **Domains** – datasets focused on specific aspects of the study (e.g., Demographics, Adverse Events).
+  * **Variables** – columns in each domain capturing specific data points (e.g., AGE, SEX).
+  * **Observations** – rows in each dataset representing a single subject’s data within that domain.
+
+* **Examples of SDTM domains**:
+
+  * **DM (Demographics)** – patient ID, age, sex, race.
+  * **VS (Vital Signs)** – measurements like blood pressure, pulse, body temperature, with time stamps.
+  * **AE (Adverse Events)** – start/end dates, event term (e.g., nausea), severity.
+
+* **Mapping from CRF to SDTM**:
+
+  * Data from CRFs are mapped **1:1** to SDTM variables using standard naming conventions.
+  * This ensures **data integrity**, traceability, and consistent formatting across studies.
+
+---
+
+**Example 1: Adverse Events (AE Domain)**
+
+* **CRF fields** and corresponding **SDTM variables**:
+
+  * `AE Term` → `AETERM`
+  * `Start Date/Time` → `AESTDTC`
+  * `End Date/Time` → `AEENDTC`
+  * `Severity` → `AESEV`
+
+* These are mapped directly into the **AE dataset**.
+
+* Each row represents **one adverse event per subject**, allowing multiple observations for the same patient.
+
+---
+
+**Example 2: Visit Date Across Domains**
+
+* A single **visit date** field from the CRF may be mapped to **multiple domains** (e.g., SV – Subject Visits, MH – Medical History).
+* This ensures temporal data is linked correctly across different aspects of the trial.
+
+---
+
+**Example 3: Vital Signs – Pulse Data (VS Domain)**
+
+* Data is stored in **long format** – multiple observations per patient.
+
+* Key SDTM variables:
+
+  * `VSTESTCD = PULSE` – test code identifier
+  * `VSORRES` – original result (e.g., 75)
+  * `VSORRESU` – result unit (e.g., bpm)
+
+* To extract pulse values, one would **filter** by `VSTESTCD = "PULSE"`.
+
+---
+
+**Annotated CRFs (ACRFs)**
+
+* For CRF data, mappings to SDTM variables are captured in **annotated CRFs**, providing a visual map from raw form fields to structured SDTM variables.
+* For non-CRF data, mapping details must be **documented separately**.
+
+---
+
+**Non-CRF Data Examples**
+
+* **Questionnaire Data (e.g., EQ-5D)**:
+
+  * Often collected via apps or vendors.
+  * Each question appears as a row in the **QS domain** (Questionnaires).
+  * Key variables:
+
+    * `QSCAT` – questionnaire category (e.g., EQ-5D)
+    * `QSTESTCD` – short test/item code (e.g., Q1, Q2)
+    * `QSTEST` – description of the question
+    * `QSORRES` – original response (e.g., score or text)
+    * `QSSTRESC` – standardized response (e.g., numerical transformation)
+
+* **Imaging Data (mapped to IM domain)**:
+
+  * Raw imaging files (X-ray, CT, MRI) are processed by vendors.
+  * Tabular data received include modality, date, and interpretation.
+  * Stored in the **IM domain** for structured reporting.
+
+* **Laboratory Results**:
+
+  * Often come from external labs or site labs (still non-CRF).
+  * Blood samples processed externally and results delivered to sponsor and physician.
+  * Not entered into CRFs but mapped to **LB domain**.
+
+---
+
+**Notes on Non-CRF Data Mapping**
+
+* **Source datasets** often use **non-standard variable names**, defined by vendor agreements.
+
+* Before mapping, ensure consistency in structure and terminology.
+
+* Mapping ensures:
+
+  * **Traceability** back to source
+  * **Compliance** with SDTM implementation guides
+  * **Ease of integration** with other data
+
+* For example, EQ-5D source data:
+
+  * Each subject’s response to each question is a separate row.
+  * Mapped to standardized SDTM QS variables and values for comparability across studies.
+ 
+ 
+## Programming SDTM
+
+This session provides important context about how **SDTM programming is currently done in the industry** and how it is starting to change.
+
+* **Current industry standard: SAS**
+
+  * SAS is the dominant tool used throughout the **clinical data science pipeline**:
+
+    * Data extraction
+    * Data cleaning and transformation
+    * SDTM mapping and validation
+  * It is a **powerful and specialized commercial tool**, accepted widely by regulatory agencies.
+  * Companies invest significant resources into **customizing SAS** to fit their internal workflows.
+
+    * These tools are typically developed by **external contractors**.
+    * Solutions are **not shared** across companies.
+    * Cross-company collaboration in SAS is **rare or non-existent**.
+  * The separation between **SAS developers** and **SAS users** can make the system feel like a **black box** to end-users.
+  * A major limitation is that **SAS requires a license**, creating barriers for:
+
+    * Independent learning and experimentation
+    * Recruiting new talent from outside the pharma industry
+
+---
+
+* **Challenges in open-source adoption:**
+
+  * There is **no widely adopted open-source solution** yet for SDTM mapping.
+  * Why?
+
+    * Source data formats vary significantly across companies.
+    * Data is **not standardized**, and mapping is **highly flexible** and context-specific.
+    * This makes the automation of SDTM creation a **complex problem**.
+
+---
+
+* **Why we need open-source solutions:**
+
+  * Many companies face the **same challenges** in mapping to SDTM.
+  * However, each builds **its own proprietary tools** in isolation.
+  * Open-source collaboration would allow for:
+
+    * Shared development of reusable tools
+    * More efficient workflows
+    * Community-driven innovation
+
+* In both SAS and R, **the core task** is writing code that maps **raw/source data to SDTM structure**.
+
+* By applying **modern software development practices**, such as:
+
+  * Code modularization
+  * Version control (e.g., GitHub)
+  * Developer-user collaboration through issues and pull requests
+    we can **bridge the gap** between dataset creators and tool developers.
+
+---
+
+* **Introducing the `sdtm.oak` R package:**
+
+  * `sdtm.oak` is an **open-source R package** for SDTM creation.
+  * Its main features:
+
+    * **System-agnostic** – works with different data capture and storage systems
+    * **Reusable algorithms** – encapsulate SDTM mappings in a modular, flexible format
+    * Designed for **automation and consistency** based on SDTM standards
+
+* This package aims to enable the **pharmaceutical programming community** to build SDTM datasets collaboratively in R.
+
+* Though still under development, you can explore the project on its **GitHub page** (linked in the course’s further reading).
+
+ 
+
+
+
+# ADaM Transformations  
+
+## ADaM Datasets
+
+ 
+In the pharmaceutical industry, **CDISC** provides standardized data formats to ensure a **common structure** across companies and studies. These standards improve **efficiency**, **data review**, and **regulatory compliance**.
+
+* The CDISC model for **analysis datasets** is called **ADaM** (Analysis Data Model).
+
+  * ADaM provides structure and metadata that ensure **traceability** from source data (in **SDTM**) to analysis-ready datasets.
+  * It is designed to meet requirements from global regulators, such as the **FDA** (U.S.) and **PMDA** (Japan).
+
+---
+
+ADaM includes **three key dataset structures**, each serving a different purpose in statistical analysis:
+
+---
+
+**1. ADSL – Subject-Level Analysis Dataset**
+
+* Contains **one record per subject**.
+
+* Includes:
+
+  * **Demographics** (e.g., age, sex)
+  * **Population flags** (e.g., ITTFL, SAFFL)
+  * **Treatment details** (e.g., TRTSDT, TRTEDT)
+  * **Randomization factors**
+  * **Key dates and stratification variables**
+
+* Used to support:
+
+  * Subject disposition
+  * Demographic tables
+  * Baseline characteristics
+  * Death summaries
+
+* ADSL is the **first ADaM dataset created**, and is often **merged into other ADaM datasets** to add subject-level context.
+
+Example structure:
+
+```
+USUBJID | AGE | SEX | TRTSDT | TRTEDT | ITTFL | SAFFL
+```
+
+---
+
+**2. OCCDS – Occurrence Data Structure**
+
+* Contains **one record per event** (not per subject).
+
+* Used for:
+
+  * Adverse events (**ADAE**)
+  * Concomitant medications (**ADCM**)
+  * Medical history (**ADMH**)
+
+* OCCDS datasets are **event-based** and do not use analysis parameters like BDS.
+
+* Derived variables may include:
+
+  * **ASTDTM** – Analysis start date/time
+  * **ADURN** – Duration
+  * **TRTEMFL** – Treatment emergent flag
+  * **Coding terms** (e.g., **AEDECOD**, **AEBODSYS**)
+
+Example: ADAE dataset
+
+```
+USUBJID | AEDECOD | ASTDT | AENDT | TRTSDT | TRTEMFL | AGE | SEX
+```
+
+* A subject may have **multiple adverse events**, each with its own record.
+
+* Treatment-emergent events are identified when `ASTDT ≥ TRTSDT`.
+
+---
+
+**3. BDS – Basic Data Structure**
+
+* Contains **one or more records per subject per parameter per time point**.
+
+* Known for its **vertical layout** (long format).
+
+* Used for:
+
+  * Laboratory results (**ADLB**)
+  * Vital signs (**ADVS**)
+  * Exposure (**ADEX**)
+  * Time-to-event data (**ADTTE**)
+
+* Key BDS variables:
+
+  * `PARAM` – Analysis parameter (e.g., WEIGHT, HEIGHT)
+  * `AVAL` – Analysis value
+  * `AVISIT` – Visit name
+  * `ADT` – Date
+  * `BASE`, `CHG`, `ABLFL` – Derived analysis variables
+  * `DTYPE` – Derivation type
+  * `USUBJID`, `AGE`, `SEX` – Pulled in from ADSL
+
+* BDS datasets support:
+
+  * **Derived columns** – e.g., change from baseline
+  * **Derived rows** – e.g., BMI derived from weight & height
+
+Example structure:
+
+```
+USUBJID | PARAM | AVISIT | AVAL | BASE | CHG | ABLFL | DTYPE
+```
+
+* BMI is a derived parameter:
+
+  * Added as **a new row** in the dataset
+  * Calculated from existing WEIGHT and HEIGHT parameters
+  * Marked with `DTYPE` to indicate it is **derived**
+
+* Baseline and changes are indicated using `BASE`, `CHG`, and `ABLFL`:
+
+  * Example: If baseline weight = 65 kg, and at Visit 1 it is 62 kg, then:
+
+    * `CHG = -3`
+    * `ABLFL = Y` for baseline visit row
+
+---
+
+In summary:
+
+* **ADaM** datasets support clear, structured, and regulatory-compliant **clinical trial analysis**.
+
+* Each dataset type has a specific role:
+
+  * **ADSL** – Subject-level data (1 record per subject)
+  * **OCCDS** – Event-level data (1 record per event)
+  * **BDS** – Parameter-level data (multiple records per subject)
+
+* ADaM builds upon SDTM to support **traceability**, **reproducibility**, and **efficient reporting**.
+ 
+
+## Admiral and Pharmaverse
+
+
+In this lesson, we explore **Admiral**, an open-source R package designed to streamline the creation of **ADaM datasets** in the pharmaceutical industry. Admiral is part of a larger suite of tools called **pharmaverse**, aimed at enabling end-to-end clinical reporting using R.
+
+---
+
+**Background and Motivation for Admiral**
+
+* The **pharmaceutical industry** has long lacked a **unified, collaborative approach** to ADaM programming.
+* Historically, each company built its **own internal workflows** using SAS, leading to:
+
+  * **Silos** between therapeutic area experts and developers
+  * **Duplicated effort** across organizations
+  * Confusing, fragmented documentation
+  * Little to no code reusability
+* The increasing shift toward **open-source languages** like R and Python provides an opportunity to break these silos and enable **collaborative, reusable solutions**.
+
+---
+
+**Admiral Overview**
+
+* **Admiral** = *ADaM in R Asset Library*
+* Initial collaboration between **Roche** and **GSK** (2021), now expanded to partners like:
+
+  * **Amgen**, **Pfizer**, **Bristol Myers Squibb**, **Novartis**, **Johnson & Johnson**, etc.
+* **Goal**: Harmonize and modernize ADaM development across companies using **open, modular, and reusable R code**
+
+---
+
+**Key Benefits of Admiral**
+
+* **Open Source**
+
+  * Anyone can contribute, share standards, and improve the package collectively.
+* **Modularized Toolbox**
+
+  * Provides **flexible, parameterized functions** (not a black-box system)
+  * Easy to debug, read, and QC
+* **Community-Driven Development**
+
+  * Programmers across companies **collaborate**, **share feedback**, and co-create features
+* **Function Pipelining**
+
+  * Functions can be **piped** together, allowing users to observe and customize derivations
+  * Promotes **transparency and reproducibility**
+* **Executable and Editable Workflows**
+
+  * Enables **interactive data manipulation**, where users can control logic via function arguments
+
+---
+
+**Admiral as Part of Pharmaverse**
+
+* Admiral is just one part of **pharmaverse** — a growing collection of curated **open-source R packages** for **clinical reporting**
+* Pharmaverse supports the **entire data lifecycle** in five stages:
+
+  1. **Collection**
+  2. **Tabulation**
+  3. **Analysis-ready (ADaM)**
+  4. **Analysis results**
+  5. **Submission**
+
+---
+
+**Supporting Packages in Pharmaverse for ADaM**
+
+1. **metacore**
+
+   * Creates a **central R object** to store **metadata**
+   * Supports tasks like:
+
+     * Defining dataset attributes
+     * Sorting and controlled terminology
+     * Streamlining access to metadata in an R session
+
+2. **metatools**
+
+   * Extends metacore’s capabilities to:
+
+     * **Build or update datasets**
+     * **Validate against metadata**
+     * **Enforce specification conformity**
+   * Key functions:
+
+     * Drop unspecified variables
+     * Check all expected variables exist
+     * Validate code list values
+     * Order columns and sort rows
+
+3. **xportr**
+
+   * Used for **regulatory submission**
+   * Converts R data frames to **SAS v5 XPT format** accepted by authorities (e.g., FDA)
+   * Capabilities:
+
+     * Attach metadata to datasets
+     * Perform validation
+     * Export to `.xpt` format
+
+---
+
+**Summary**
+
+* **Admiral** represents a shift toward **collaborative, open, and modern programming** in clinical research.
+* Through Admiral and the broader **pharmaverse**, companies can:
+
+  * Reduce duplication
+  * Improve quality
+  * Standardize workflows
+  * Increase transparency and efficiency in ADaM development
+ 
+## metacore
+
+The `metacore` package is part of the open-source **pharmaverse** project and was designed to simplify and standardize metadata handling in clinical reporting.
+
+* The example is based on a **mock specifications file** from the `metacore` GitHub repository.
+* Although **Pinnacle 21 (P21)** specs are not covered here, `metacore` is designed to accommodate them.
+
+---
+
+Step 1: Understand the `metacore` schema
+
+* The `metacore` object includes **seven core metadata tables**:
+
+  * `ds_spec` (dataset-level info)
+  * `ds_vars` (dataset-variable relationships)
+  * `var_spec` (variable metadata)
+  * `value_spec` (value-level metadata)
+  * `derivations` (derivation rules)
+  * `codelist` (controlled terminology)
+  * `supp_info` (optional supplementary data)
+
+* The schema diagram uses **white lines** to show how tables are linked:
+
+  * `ds_spec` → `ds_vars` via dataset
+  * `ds_vars` → `var_spec` via variable
+
+---
+
+Step 2: Determine the specification type
+
+* Use `spec_type()` to identify how the Excel file is structured.
+
+  * In this case, it returns `"by_type"`—meaning each **Excel tab** corresponds to a different metadata table.
+
+---
+
+Step 3: Read all specification sheets
+
+```r
+doc <- read_all_sheets("specs.xlsx")
+```
+
+* The result (`doc`) is a **named list** of data frames—one for each tab.
+
+---
+
+Step 4: Create individual metadata tables
+
+#### a. `ds_spec` – Dataset Specifications {-}
+
+* Columns: `dataset`, `structure`, `label`
+* Located in the **Domains** tab
+* Use `spec_type_to_ds_spec()` with `cols` argument to **manually specify** the correct columns due to naming conflicts (e.g., `Label` vs `Description`)
+
+#### b. `ds_vars` – Dataset Variables {-}
+
+* Columns: `dataset`, `variable`, `key_seq`, `order`, `keep`, `core`, `supp_flag`
+* Info is split across **Variables tab** and **Domains tab**
+
+  * Variable names and order in **Variables**
+  * Key sequence in **Domains**
+* Use `spec_type_to_ds_vars()` and specify:
+
+  * `cols` for variable/order
+  * `key_seq_cols` for dataset and key variable
+  * `sheet` to pull from both tabs
+
+#### c. `var_spec` – Variable Specifications {-}
+
+* Columns: `variable`, `label`, `type`, `length`, `format`, `common`
+* All info found in **Variables tab**
+* Use `spec_type_to_var_spec()`
+* Special note: filter out **code lists** from the `format` column using a `dplyr` filter since formats end in `"."` and code lists don’t
+
+#### d. `value_spec` – Value-Level Metadata {-}
+
+* Eight columns, automatically parsed from **Variables tab**
+* Use `spec_type_to_value_spec()`
+* Set `where_sep_sheet = FALSE` since info is not in a separate sheet
+
+#### e. `derivations` – Derivation Logic {-}
+
+* Columns: `derivation_id`, `derivation`
+* Info found in **Computational Methods tab**
+* Use `spec_type_to_derivation()` and set both `comment` and `predecessor` to `"Comment"` since no separate predecessor column exists
+
+#### f. `codelist` – Controlled Terminology {-}
+
+* Only **code lists** are present (no dictionaries)
+* Use `spec_type_to_codelist()` and set:
+
+  * `dictionary_cols = NULL`
+
+---
+
+Step 5: Build the `metacore` object
+
+* Once all component tables are created, they can be used to **construct the `metacore` object**.
+* Console may show **warnings**, such as:
+
+  * Missing derivation IDs
+  * Blank columns
+* These can be resolved by adjusting the specs or acknowledged as acceptable depending on use case.
+
+---
+
+Key Takeaways
+
+* The `metacore` object acts as a **central metadata hub** in R.
+* It simplifies:
+
+  * Dataset creation
+  * QC checks
+  * Metadata-driven automation
+* Creating the object requires:
+
+  * **Understanding your spec format**
+  * **Properly mapping** tab and column names
+  * **Customizing arguments** in each helper function
+ 
+
+## SMQs and CQs
+
+ 
+**What Are Standard MedDRA Queries (SMQs) and Custom Queries (CQs)?**
+
+In clinical trials, especially when analyzing adverse events (AEs), it is common to group certain events into medically meaningful categories. These groupings are essential for identifying potential safety signals related to the study drug.
+
+---
+
+**Standard MedDRA Queries (SMQs)**
+
+* **Definition**: SMQs are **predefined, standardized groupings of MedDRA-coded terms** developed by the MedDRA Maintenance and Support Services Organization (MSSO).
+
+* **Purpose**: Used to facilitate the **retrieval and analysis of safety data** and to support pharmacovigilance and clinical review.
+
+* **Characteristics**:
+
+  * Based on expert consensus, literature review, and validation.
+  * Widely accepted by regulatory agencies (e.g., FDA, EMA).
+  * Each SMQ consists of terms that can be either:
+
+    * **Narrow**: Highly likely to represent the condition (high specificity).
+    * **Broad**: May represent the condition (high sensitivity, but lower specificity).
+
+* **Example – SMQ: Lactic Acidosis**
+
+  * Narrow terms may include events explicitly labeled as "Lactic acidosis".
+  * Broad terms may include symptoms like "Blood bilirubin increased" which could, in context, suggest lactic acidosis but are not specific.
+
+---
+
+**Custom Queries (CQs)**
+
+* **Definition**: CQs are **study-specific groupings** of AEs defined by the clinical study team.
+
+* **Purpose**: To address safety concerns or groupings that are **not covered by existing SMQs**, especially for novel compounds or indications.
+
+* **Characteristics**:
+
+  * Designed for a **specific study or compound**.
+  * Can be based on medical concepts, clinical reasoning, or sponsor interest.
+  * Not standardized across studies or companies.
+
+* **Example – CQ**
+
+  * A CQ may be defined for grouping AEs of "Injection site reactions" or "Immune-related events" that are specific to a new class of biologic therapies.
+
+---
+
+**How Are SMQs and CQs Used in R (Admiral package)?**
+
+* Use the function `derive_var_query_flag()` from the **admiral** or **admiraldev** package.
+* This function:
+
+  * Takes a **query definition dataset** (containing SMQ or CQ mappings).
+  * Flags records in the ADAE dataset if they match any of the terms.
+* The output includes variables like `SMQ01FL` or `CQ01FL` to indicate matches.
+
+---
+
+**Comparison Table: SMQ vs CQ**
+
+| Feature        | SMQ (Standard MedDRA Query) | CQ (Custom Query)              |
+| -------------- | --------------------------- | ------------------------------ |
+| Source         | MedDRA / MSSO               | Study team / Sponsor defined   |
+| Validation     | Yes, industry-standard      | No, study-specific             |
+| Reusability    | High (cross-study)          | Limited to a specific study    |
+| Regulatory Use | Widely accepted             | Depends on study justification |
+| Customizable   | No                          | Yes                            |
+ 
+ 
+ 
+# Static TLGs (NEST) and Interactive Data Displays
+
+## TLG development
+
+ 
+
+Analyzing data from clinical trials involves multiple forms of presenting data. These fall broadly into two categories:
+
+**1. Static outputs**
+Used in regulatory submissions and clinical study reports (CSRs). These include:
+
+* Tables
+* Listings
+* Graphs or figures
+  Collectively referred to as TLGs (or TLFs), these production-ready outputs summarize trial results for stakeholders such as clinical science, safety, and medical writing.
+
+**2. Exploratory outputs**
+Used for internal review and hypothesis generation, often built as interactive web applications using tools like **R Shiny**. This will be covered in the next module.
+
+---
+
+**Deciding Which TLGs to Create**
+
+There is a structured process involving close collaboration between multiple stakeholders, especially with biostatistics, to determine which TLGs are needed for a trial. This process ensures that:
+
+* The **trial’s key endpoints** (e.g., safety, efficacy) are addressed
+* All stakeholders agree on the planned analyses
+
+The decision-making is based on two key documents:
+
+**Statistical Analysis Plan (SAP)**
+A formal document that outlines:
+
+* Statistical methods to be applied
+* Analysis populations
+* Endpoints and data handling rules
+
+**Output Specifications / List of Planned Outputs**
+
+* A detailed list of required TLGs
+* Aligned with SAP and study protocol
+* Contains layout and derivation information for each TLG
+
+Once the SAP and specifications are finalized, the programming team uses **ADaM datasets** to produce the outputs. These datasets are designed to contain all required variables and metadata needed for regulatory-grade reporting.
+
+---
+
+**Common TLG Topics**
+
+Standard TLGs typically cover core areas such as:
+
+* Demographics
+* Vital signs
+* Medical history
+* Adverse events (AEs)
+* Concomitant medications
+
+These outputs are consistent across trials and may be published in CSRs or public registries (e.g., ClinicalTrials.gov).
+
+---
+
+**TLG Development Workflow**
+
+**1. Environment Setup**
+Ensure access to required R packages and datasets (typically ADaM and metadata).
+
+**2. Data Input and Preprocessing**
+
+* Read in source datasets
+* Apply filters or create subsets relevant to the analysis
+
+**3. Generate Intermediate Dataset**
+This may involve merging datasets, creating derived variables, or reshaping data.
+
+**4. Produce the Output**
+
+* Generate plots or summary tables using statistical and formatting code
+* Outputs should be consistent with the required TLG layout
+
+**5. Format the Output**
+
+* Apply styling and formatting conventions
+* Ensure outputs are readable and publication-ready
+
+## NEST
+
+
+NEST is a collection of open-source R packages designed to enable **faster and more efficient insights generation** in clinical research, supporting both **exploratory** and **regulatory** use cases.
+
+The vision for NEST is to deliver a **complete R-based solution** for clinical trial reporting and insights generation.
+
+---
+
+Core Functionality
+
+NEST provides a **streamlined ecosystem** of interoperable packages that assist in generating regulatory-grade outputs. These packages fall into two main categories:
+
+**Foundational Packages for Output Generation:**
+
+* **rtables**: A table engine for building both simple and complex tabular layouts.
+* **rlistings**: Enables creation and display of **regulatory-ready listings**.
+* **tern**: A reporting layer built on top of `rtables` that adds **statistical analysis functions** for clinical reporting.
+* **turnformatters**: Provides consistent formatting for numeric and textual values in tables and listings.
+* **ggplot2** *(not a NEST package but recommended)*: Used for generating **figures and graphs**.
+
+**Supporting Tools:**
+
+* **random.cdisc.data**: A synthetic dataset package based on CDISC standards, used in examples and catalog demonstrations throughout the module.
+
+---
+
+**TLG Catalog (TLGC)
+
+NEST includes a **catalog of commonly used TLGs** (Tables, Listings, Graphs), known as **TLGC**:
+
+* A comprehensive reference built using `rtables`, `rlistings`, and `tern`
+* Demonstrates implementation of frequently used clinical outputs
+* Designed to be easily adapted for real studies
+
+---
+
+NEST integrates multiple packages to support:
+
+* Building **statistically robust** and **regulatory-compliant** outputs
+* Standardizing table and listing formats across studies
+* Enhancing **reusability and efficiency** in the TLG development workflow
+
+These tools are **freely available** as open-source packages on CRAN and can be directly integrated into your R-based clinical reporting pipeline.
+  
+  
+## TEAL
+
+
+What is?
+
+* **TEAL** (Tree-based Exploration for Analysis in Life sciences) is an open-source **R Shiny-based framework** designed to build interactive, exploratory applications for clinical trial data.
+* Released in 2024 and under **active development**.
+* Simplifies Shiny app development using **reusable modules**, enabling data scientists to focus on analysis rather than UI or server logic.
+
+---
+
+Why Use TEAL?
+
+* Combines **R's statistical power** with **Shiny's flexibility**.
+* Reduces the learning curve for non-Shiny developers.
+* Encourages efficient **exploratory analysis** of clinical trial data.
+* Promotes **code reproducibility**, **report generation**, and **custom visualizations**.
+
+---
+
+Core Components
+
+* **Reusable Modules**: Pre-built or custom components for clinical data analysis.
+* **Dynamic Filter Panel**: Allows users to **subset and filter** datasets interactively.
+* **Reporter Engine**: Users can **capture and download reports** containing selected outputs.
+* **Show R Code**: Ensures **code reproducibility** by revealing the R code behind each analysis.
+* **Show Warnings**: Debugging tool to help developers understand issues during development.
+* **Main Output Area**: Displays tables, plots, or results generated by the modules.
+* **Encodings Panel**: Adjust module-specific settings (e.g., stratification, color options).
+* **Interactive Controls**: Toggle between table/graph views, download tables, adjust plot dimensions.
+
+---
+
+TEAL App Layout Overview
+
+1. **Header** – Displays the application title.
+2. **Tab Menu Bar** – Each tab corresponds to a **specific module or analysis**.
+3. **Footer** – Optional space for app details or disclaimers.
+4. **Reporter Button** – Collect and export a snapshot of selected results.
+5. **Encodings Panel** – Control module-specific display features.
+6. **Main Panel** – The **central output zone** (e.g., tables, plots).
+7. **Filter Panel** – Toggles on/off to **interactively filter** the dataset.
+8. **Action Buttons** – For exporting, toggling views, or adjusting visual properties.
+
+---
+
+Key Benefits
+
+* Encourages **reusability**, **transparency**, and **consistency** in clinical analysis apps.
+* Ideal for both **exploratory** and **regulatory** data review scenarios.
+* Can be easily **extended** for new domains or therapeutic areas.
+
+
+---
+
+Traditional Shiny Apps vs. Teal Apps
+
+| Feature                 | Traditional Shiny App                                 | Teal App                                                                   |
+| ----------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------- |
+| **Data Handling**       | Developer manually gathers all input data             | Data is loaded into separate "containers" in a modular structure           |
+| **Development Style**   | Centralized, monolithic code (long UI + server files) | Modularized plug-and-play components                                       |
+| **Analogy**             | Like a cargo **truck** carrying a single large load   | Like a cargo **ship** with **containers** (modules)                        |
+| **Data Flexibility**    | Often tightly coupled to specific datasets            | **Data-agnostic**: easily switches input data types                        |
+| **UI and Server Logic** | Manually defined in detail by developer               | Abstracted by framework – no need to build UI/server from scratch          |
+| **Modularity**          | Low – one large codebase                              | High – modular components can be added/removed independently               |
+| **Team Collaboration**  | Harder – conflicts more likely                        | Easier – different team members can work on different modules concurrently |
+
+---
+
+Teal App Development Workflow
+
+1. **Discuss Analysis Plan**
+   Understand both planned and exploratory analysis needs with stakeholders.
+
+2. **Navigate the Teal Gallery**
+   Browse the **Teal module catalog** for appropriate analysis modules.
+
+3. **Configure Modules**
+   Use a **plug-and-play** approach to select and configure modules.
+
+4. **Build the App**
+   Assemble modules without coding the full UI/server logic.
+
+5. **Deploy & Share**
+   Deploy the app for clinical teams, stakeholders, or regulatory review.
+
+---
+
+Two Roles for Working with Teal
+
+* **Teal App Developer** *(ideal for R/Shiny beginners)*
+
+  * Builds Teal apps using existing modules
+  * Focuses on **analysis configuration** and stakeholder needs
+  * No deep Shiny programming required
+
+* **Teal Module Developer** *(for advanced R/Shiny users)*
+
+  * Creates **custom modules** for specific analysis purposes
+  * Can contribute to the open-source Teal ecosystem
+  * Requires good understanding of Shiny/reactivity/programmatic UI
+
+
+# Reference
+
+## Open-Source Tools
+
+https://www.r-consortium.org/announcement/2023/09/11/first-publicly-available-r-based-submission-package-submitted-to-fda-pilot-3
+
+https://posit.co/blog/open-source-in-pharma-from-five-perspectives/
+
+https://posit.co/solutions/pharma/
+
+https://posit.co/blog/the-state-of-pharma/
+
+https://posit.co/blog/celebrating-5-years-of-r-pharma/
+
+https://posit.co/blog/roche-shifting-to-an-open-source-backbone-in-clinical-trials/
+
+## Standards
+
+Estimands—A Basic Element for Clinical Trials: 
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8962508/#:~:text=The%20estimand%20is%20a%20systematic,of%20Intercurrent%20Events%20(ICEs)
+ 
+Find the vaccination history example here: 
+https://www.cdisc.org/kb/examples/vaccination-history-acrf-75268882
+
+CDISC eCRF Portal: 
+https://www.cdisc.org/kb/ecrf
+
+CDISC Guideline SDTM:  
+https://www.cdisc.org/standards/foundational/sdtmig/sdtmig-v3-3/html
+
+CDISC ADaMs page: 
+https://www.cdisc.org/standards/foundational/adam
+
+Sharing Clinical Research Data: 
+https://www.ncbi.nlm.nih.gov/books/NBK137818/
