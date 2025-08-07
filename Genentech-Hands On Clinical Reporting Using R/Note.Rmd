@@ -1309,6 +1309,8 @@ Two Roles for Working with Teal
   * Creates **custom modules** for specific analysis purposes
   * Can contribute to the open-source Teal ecosystem
   * Requires good understanding of Shiny/reactivity/programmatic UI
+  
+  
 
 
 # Reference
