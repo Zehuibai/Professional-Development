@@ -1,0 +1,763 @@
+---
+title: "Data Science with Real World Data in Pharma Note"
+author: Zehui Bai 
+date: "2025-07-24"
+output:
+  html_document:
+    df_print: paged
+    number_sections: yes
+    toc: yes
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+    theme: journal # <!-- https://bootswatch.com/3/  -->
+    highlight: tango
+    code_folding: "hide" 
+bibliography: preface.bib  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+This course introduces you to how Real World Data/Evidence can be used for pharmaceutical research and development and how it complements the evidence package for healthcare decision-making. If you are interested in applying data science to pharmaceutical research using data collected as part of routine clinical practice, this course is for you.
+
+The course will help you describe what it means to be a Real World Data Scientist in the pharmaceutical industry. You will discover the particularities of the data sources and learn how to generate high quality evidence and how that evidence is used by the stakeholders for decision making purposes.
+
+# Introductory Overview
+
+## An Introduction to the Fundamentals of Randomized Controlled Trials in Pharmacy Research
+
+@Houle2015 > Houle S. An introduction to the fundamentals of randomized controlled trials in pharmacy research. Can J Hosp Pharm. 2015 Jan-Feb;68(1):28-32. doi: 10.4212/cjhp.v68i1.1422. PMID: 25762817; PMCID: PMC4350496.
+ 
+As part of this module, please read *this* article entitled **"An Introduction to the Fundamentals of Randomized Controlled Trials in Pharmacy Research"** by **Sherilyn Houle**. This article will introduce you to key concepts related to design and conduct of randomized controlled trials (RCT). RCTs are the gold standard for evidence and serve as benchmark for some observational studies using real world evidence. RCTs also pose limitations that open the room for evidence from alternative sources.
+
+**Summary**
+
+The article by Sherilyn Houle provides a comprehensive overview of RCTs, focusing on their design, implementation, and significance in pharmacy research. RCTs help eliminate bias and provide high-quality evidence on the efficacy and safety of treatments. Key components such as randomization, control groups, and blinding are discussed. The article also highlights the strengths of RCTs, such as their ability to establish causality, along with their limitations, including high costs and ethical considerations. Additionally, it emphasizes the role of observational studies and real-world evidence, which can complement RCTs by addressing questions not feasible in randomized trials.
+
+**Examples of the Limitations of RCT**
+
+* **High Costs**: Conducting an RCT can be expensive due to the need for extensive resources, personnel, and time to ensure rigorous study design and implementation.
+
+* **Ethical Concerns**: There are ethical challenges involved in RCTs, particularly when withholding potentially beneficial treatments from control groups or exposing participants to unknown risks.
+
+* **Generalizability Issues**: Inclusion and exclusion criteria can limit the generalizability of RCT findings to the broader population. If criteria are too narrow, it may be difficult to recruit a sufficient number of participants.
+
+* **Complexity in Implementation**: Engaging investigators for RCTs can be challenging, especially if they are randomized to provide care only to the control group, which might be less appealing.
+
+* **Potential for Bias**: Despite randomization, there is no guarantee that all patient characteristics will be equally balanced across all groups, which can impact the study outcomes.
+
+**Role of Observational Studies and Real-World Evidence**
+
+Observational studies and real-world evidence (RWE) can serve as valuable complements to RCTs. They provide insights and evidence from routine clinical practice and broader patient populations that are often excluded from RCTs. Here are some ways in which observational studies and RWE can complement RCTs:
+
+* **Assessing Long-Term Effects**: Observational studies can track the long-term safety and effectiveness of treatments in a real-world setting, which is often not feasible in the limited timeframe of RCTs.
+
+* **Broader Patient Populations**: By including diverse patient populations that are often underrepresented in RCTs, observational studies can provide evidence on how treatments perform across various demographic and clinical subgroups.
+
+* **Practical Clinical Questions**: RWE can address practical clinical questions that are not typically covered by RCTs, such as treatment adherence, patient preferences, and healthcare utilization patterns.
+
+* **Health Outcomes and Cost-Effectiveness**: Observational studies allow researchers to evaluate the real-world impact of treatments on health outcomes and their cost-effectiveness, providing a more comprehensive picture of their value.
+
+* **Hypothesis Generation**: Observational data can help generate hypotheses for future RCTs by identifying potential associations and treatment effects that warrant further investigation in a controlled setting.
+
+## Phases of clinical development program and how real world evidence fits
+
+
+
+Limitations of RCTs
+
+* RCTs evaluate treatments under **optimal and controlled conditions**, limiting their **generalizability**.
+* In **real-world clinical practice**:
+
+  * Patient populations are more **heterogeneous**.
+  * **Follow-up** is less structured.
+  * **Treatment adherence** is often lower.
+* Not all **comparator treatments** used in clinical practice can be included in a single RCT.
+* RCTs are typically limited in scope, population, and duration.
+
+---
+
+Role of RWE Across Drug Development Stages
+
+Phase 1 – Early Research
+
+RWD helps researchers:
+
+* Understand **disease epidemiology** (prevalence, incidence).
+* Identify **risk factors** and **co-existing conditions**.
+* Estimate **disease prognosis** under current treatments.
+
+Phase 2 – Study Design
+
+RWD is used to:
+
+* Estimate **recruitment feasibility**.
+* Define **inclusion/exclusion criteria**.
+* Select **comparators** relevant to local clinical practice.
+* Determine appropriate **clinical endpoints** (e.g., time to progression, quality of life).
+
+Phase 3 – Regulatory Filing
+
+RWE is used to:
+
+* Support **regulatory decision-making** beyond the pivotal RCT.
+* Provide **long-term safety data**, such as rare adverse events.
+* Conduct **pediatric studies** or confirm efficacy for accelerated approvals.
+
+---
+
+Market Access and Reimbursement
+
+* After regulatory approval, RWE supports **Health Technology Assessments (HTAs)**.
+* It provides:
+
+  * Evidence of **unmet medical needs**.
+  * Data for **cost-effectiveness models**.
+  * Real-world treatment **comparisons** and **patient-relevant outcomes**.
+
+---
+
+Post-Market Use
+
+* RWE helps answer:
+
+  * Is the treatment **effective in practice**, not just in trials?
+  * Are there **new rare adverse events** in broader populations?
+* RWE supports **label expansions** to new populations not included in RCTs.
+
+---
+
+Definitions and Conclusion
+
+* **Real-World Data (RWD)**: Data on health interventions collected from sources **other than experimental studies** (e.g., EHRs, claims data).
+* **Real-World Evidence (RWE)**: Evidence generated through the **analysis and interpretation** of RWD.
+* RWE complements and extends RCT evidence, helping **regulators, payers, clinicians**, and **policymakers** make informed decisions.
+ 
+## Integrated Evidence Generation
+ 
+> [Integrated evidence generation: A paradigm shift in biopharma](https://www.mckinsey.com/industries/life-sciences/our-insights/integrated-evidence-generation-a-paradigm-shift-in-biopharma) 
+
+**Summary**
+
+The article emphasizes the need for biopharmaceutical companies to adopt **integrated evidence-generation strategies** to effectively demonstrate the value of their therapies. Traditional approaches, where individual functions operate in silos, often result in fragmented and inefficient evidence planning. In contrast, **Integrated Evidence Plans (IEPs)** consider the evidence needs of multiple internal functions and global stakeholders across the **entire asset lifecycle**. This integrated approach facilitates better coordination, improves resource allocation, reduces duplication, and ultimately supports **more informed decisions and improved patient outcomes**.
+
+---
+
+**Examples of Complementing RCTs with Observational Studies and Real-World Evidence (RWE)**
+
+**Regulatory Approval and Indication Expansion**
+Regulatory agencies are increasingly incorporating RWE into their decision-making.
+*Example*: The **FDA** approved an **indication expansion** for **Pfizer’s Ibrance** (palbociclib) to treat **male breast cancer**, using data from **electronic health records (EHRs)** and **insurance claims**.
+
+**Supporting Payer Decisions**
+Different payers require different types of evidence to assess value.
+*Example*: In **Japan**, post-marketing data for **Jardiance** showed a reduction in cardiovascular events, influencing **payer reimbursement decisions**.
+
+**Clinical Decision-Making**
+Clinicians benefit from real-world insights into safety, effectiveness, and treatment optimization.
+*Example*: For **Takeda’s Entyvio**, retrospective RWD from the **US VICTORY Consortium** highlighted a favorable safety profile in treating **ulcerative colitis** and **Crohn’s disease**.
+
+**Patient Engagement and Outcomes**
+Engaging patients ensures therapies align with real needs and preferences.
+*Example*: **Amgen’s Aimovig** was approved with support from a **patient-reported outcome instrument** that assessed how migraines affected daily functioning, which was included as a **secondary endpoint**.
+
+**Cost Management and Efficiency**
+IEPs help identify gaps early, prioritize resources, and streamline efforts.
+*Example*: An oncology IEP identified **18 critical evidence gaps**, reduced the scope of **investigator-initiated research** from over **50 topics to 15**, and optimized internal resource use.
+
+---
+
+By integrating RWE and observational studies with RCT data, biopharmaceutical companies can build a more complete evidence base that meets the needs of all stakeholders and supports decision-making throughout a therapy’s life cycle.
+
+## Comparative Effectiveness - Designing Studies to Answer Causal Questions 
+
+The goal of this module is to understand how to design studies that answer causal questions, such as: *Does a treatment reduce disease progression?* The ideal way to answer such questions is through a "perfect experiment" where one could observe both outcomes — with and without the treatment — on the **same patient** under otherwise identical conditions. Since this is impossible, researchers use **randomized controlled trials (RCTs)** or **causal inference methods** to approximate this ideal.
+
+* The Perfect Experiment: In a theoretical perfect experiment, one would treat and not treat the same patient and compare both outcomes. Since time travel is not possible, this perfect scenario serves as a conceptual model. The goal in real-world research is to recreate similar conditions so that the only difference between groups is the treatment itself.
+
+* Randomized Controlled Trials (RCTs): RCTs allow us to approximate the perfect experiment. Patients are randomly assigned to either a treatment or control group, ensuring that, on average, both groups are comparable in all respects except for the treatment received. As a result, differences in outcomes can be causally attributed to the treatment. RCTs are considered the **gold standard** for estimating causal effects due to this comparability.
+
+* Counterfactual Thinking: Causal questions are inherently counterfactual. For example, if someone misses a flight due to traffic, the counterfactual question would be: *What would have happened if they had left earlier?* In causal inference, we aim to estimate these "unseen" or "counterfactual" outcomes based on available data and assumptions.
+
+* Causal Inference Without RCTs: Even in the absence of an RCT, it is still possible to answer causal questions using **observational data**, as long as the study is carefully designed and analyzed under well-considered assumptions. For example, ensuring the treatment and comparison groups are similar (exchangeable) is essential. If this comparability is violated (e.g., one group is sicker), then **bias** is introduced.
+
+**Understanding Bias and Error**
+
+* **Bias** refers to systematic error caused by study design flaws or data issues, such as non-comparable groups or poor measurement of outcomes.
+* **Random error** results from natural variability and can be reduced by increasing sample size.
+* The goal of causal research is to **minimize both bias and random error** to ensure accurate conclusions.
+
+**Hierarchy of Evidence**
+
+Different types of studies provide varying levels of evidence quality. These are ranked from highest to lowest reliability:
+
+1. Randomized controlled trials (especially double-blinded)
+2. Open-label RCTs (increased risk of bias due to unblinded treatment)
+3. Observational studies
+4. Case studies (descriptive, small sample)
+5. Mechanistic reasoning (theoretical links without empirical testing)
+
+Each step away from the perfect experiment introduces more uncertainty. Understanding where your study design deviates helps identify necessary **remedial actions**, such as adding a control group or adjusting for confounding factors.
+
+**Summary**
+
+In the ideal experiment, we would observe both outcomes for the same individual. RCTs approximate this by comparing similar groups under controlled conditions. In non-experimental settings, **causal inference methods** help estimate the counterfactual outcomes we cannot observe. However, **observational evidence is prone to bias**, so careful attention must be given to study design, data sources, and analysis to minimize systematic errors and strengthen the credibility of causal claims. 
+
+# Understanding the Limitations of Real-World Data
+
+**Objectives**
+
+1. Understand the differences between various real-world data (RWD) sources
+2. Explain the three major types of **bias** in observational studies (bias types to be discussed further in the module)
+
+## Real-world data sources
+
+ 
+**Types of Data Collection**
+
+* **Primary Data Collection**: Data collected for a specific purpose (e.g., clinical trials, some registries)
+* **Secondary Data Collection**: Reuse of data originally collected for another purpose
+  Examples:
+
+  * Electronic Health Records (EHRs)
+  * Pharmacy and insurance claims
+  * Social media data
+  * Patient registries (when reused)
+
+> RWD includes both primary and secondary data, **excluding data from clinical trials** (though clinical trial data can be used as secondary data, it is not considered RWD).
+
+---
+
+**Key Real-World Data Sources**
+
+**1. Administrative Claims Data**
+
+* **Source**: Health insurance companies (for billing and reimbursement)
+* **Advantages**:
+
+  * Large databases (entire populations covered by insurers)
+  * Standardized coding systems for diseases and medications
+* **Limitations**:
+
+  * Lacks clinical details (e.g., smoking status, lab values)
+  * Disease coding may lack specificity (e.g., subtypes not distinguished)
+  * Only includes billed services; excludes over-the-counter treatments
+
+**2. Electronic Health Records (EHRs)**
+
+* **Source**: Collected during routine clinical care in hospitals and clinics
+* **Advantages**:
+
+  * Contains rich clinical details (e.g., lab results, vitals)
+  * Captures data not available in claims (e.g., blood pressure, smoking status)
+* **Limitations**:
+
+  * Patients may visit different, non-linked EHR systems (incomplete records)
+  * Lack of standardization across systems
+  * Generally smaller datasets than claims data
+  * **Majority of EHR data is unstructured**
+
+---
+
+**Structured vs. Unstructured Data**
+
+* **Structured Data**:
+
+  * Predefined format (e.g., age, gender, ICD codes)
+  * Easy to search and analyze
+
+* **Unstructured Data**:
+
+  * Free-text or media (e.g., physician notes, lab reports, images, sensor data)
+  * Requires advanced methods (e.g., NLP, computer vision) to process
+
+---
+
+**3. Registry Data**
+
+* **Source**: Purposefully collected for specific research
+* **Advantages**:
+
+  * High-quality, structured data tailored to study objectives
+  * Similar structure and rigor to clinical trials
+* **Limitations**:
+
+  * Expensive and time-consuming to design and operate
+  * Typically short-term data collection
+  * Often designed for a single drug, limiting **comparative** insights
+ 
+## Description of types of bias
+
+> Balancing internal validity (low bias) and external validity (generalizability) is essential.
+
+**What Is Bias?**
+Bias is defined as any **systematic error** that results in inaccurate estimation of the effect of an exposure on an outcome. In observational studies, bias causes **systematic departures** from the true causal effect.
+
+Example Paper @HARDING2024100193.
+
+---
+
+**Types of Bias**
+
+**1. Selection Bias**
+
+* Occurs when the inclusion or exclusion of subjects is related to the outcome of the intervention.
+* Example: Only including cancer patients with tumor size measurements may miss those who recovered and did not return for follow-up.
+* Common causes:
+
+  * **Self-selection bias**: Patients volunteer based on their condition or interest.
+  * **Attrition bias**: Uneven loss to follow-up across groups.
+  * **Exclusion criteria**: Criteria may unintentionally favor certain populations.
+
+**2. Information Bias**
+
+* Results from **inaccurate measurement or misclassification** of variables.
+* Example: If physicians delay tumor size assessments for Drug A more than for Drug B, it may appear that Drug A is more effective, even if it’s not.
+* Inaccuracies in timing, recording, or diagnostic procedures introduce bias into the analysis.
+
+**3. Confounding Bias**
+
+* Occurs when a third variable (confounder) influences both the treatment and the outcome.
+* Example: Older patients might be more likely to receive a safer drug and are also more likely to die, making it appear that the safer drug is less effective.
+* Classic example:
+
+  * **Yellow fingers and lung cancer** are associated due to **smoking**—the real cause.
+  * Misattributing the effect to yellow fingers is a confounding error.
+
+---
+
+**Directed Acyclic Graphs (DAGs)**
+
+* DAGs are **visual tools** that represent relationships between variables using:
+
+  * **Nodes** = variables
+  * **Directed edges (arrows)** = causal influence
+* They help:
+
+  * Visualize causal pathways
+  * Identify confounders
+  * Plan appropriate statistical adjustments
+
+---
+
+**Study Design Example**
+
+* Comparing two therapies for hepatocellular carcinoma: A + B vs. S
+* **Confounder**: History of thromboembolic events
+
+  * Including all patients → biased due to confounding
+  * Restricting to patients without history → removes confounding, but reduces generalizability
+
+ 
+
+# Study designs and methods to control for bias
+
+* Understand and differentiate key **non-experimental (observational)** study designs
+* Recognize their **classification**, **timing**, and **strengths/limitations**
+
+## Study designs
+
+**Types of Observational Study Designs**
+
+**Cohort Studies**
+
+* Population defined by **exposure** (e.g., treatment A vs. B, smoker vs. non-smoker)
+* Participants are followed over time to observe outcomes
+* Can be:
+
+  * **Prospective**: Outcome has not yet occurred at study start; data collected forward in time
+  * **Retrospective**: Outcome has already occurred; exposure data collected looking backward
+* Common in RWE due to flexibility and ability to study multiple outcomes
+
+**Case-Control Studies**
+
+* Population defined by **outcome**
+
+  * **Cases**: Individuals with the outcome
+  * **Controls**: Individuals without the outcome
+* Always **retrospective** in nature
+* Useful for **rare outcomes**
+* Require careful selection of controls to reduce bias
+* Not ideal for rare **exposures**
+
+**Cross-Sectional Studies**
+
+* Measure exposure and outcome **at the same point in time**
+* Suitable for capturing associations but **not causality**
+* Like taking a “snapshot”
+
+**Case Series**
+
+* Detailed description of a small number of cases
+* No comparison group
+* Descriptive only; used to document novel findings
+
+---
+
+**Study Purpose Classification**
+
+* **Descriptive**: No hypothesis tested; aims to describe (e.g., treatment patterns)
+* **Inferential**: Hypothesis-driven; aims to test associations or causal claims (e.g., comparing treatments)
+
+---
+
+**Timing Classification**
+
+* **Prospective**:
+
+  * Data collected going forward from study start
+  * Lower information bias
+  * Strong temporal relationship between exposure and outcome
+  * Costly and time-consuming
+
+* **Retrospective**:
+
+  * Use existing data
+  * Faster and cheaper
+  * More prone to information and selection bias
+
+---
+
+**Strengths and Limitations of Designs**
+
+| Design Type         | Strengths                                          | Limitations                                                      |
+| ------------------- | -------------------------------------------------- | ---------------------------------------------------------------- |
+| **Cohort**          | Good for multiple outcomes, prospective timing     | Confounding bias, resource-intensive if prospective              |
+| **Case-Control**    | Efficient for rare outcomes, smaller sample needed | Prone to selection and information bias, poor for rare exposures |
+| **Cross-Sectional** | Quick, inexpensive, descriptive snapshot           | No temporal relationship, cannot infer causality                 |
+| **Case Series**     | Useful for rare/new cases                          | No comparison, limited generalizability                          |
+ 
+ 
+
+## Observational and interventional study design types
+
+
+**Observational Study Designs**
+
+**Cohort Studies**
+
+* Establish temporal sequence between exposure and outcome
+* Allow study of multiple outcomes
+* Suitable for studying **rare exposures**
+* Can be time-consuming and expensive
+* Prone to **selection bias** and **loss to follow-up**
+
+**Case-Control Studies**
+
+* Efficient for studying **rare outcomes or diseases**
+* Quicker and less expensive than cohort studies
+* Susceptible to **recall bias** and **selection bias**
+* Difficulty in establishing temporal relationships
+
+**Cross-Sectional Studies**
+
+* Quick and relatively inexpensive
+* Useful for assessing **prevalence** of health outcomes or exposures
+* Cannot establish **causality**
+* May suffer from **measurement bias**
+
+---
+
+**Interventional Study Designs**
+
+**Randomized Controlled Trials (RCTs)**
+
+* Considered the **gold standard** for assessing intervention efficacy
+* Use randomization and control groups to **minimize bias**
+* Require significant time and financial resources
+* May have ethical or practical limitations in some scenarios
+
+**Non-Randomized Trials**
+
+* More **feasible or ethical** in certain contexts
+* Useful when randomization is **not possible**
+* Higher risk of bias due to **lack of randomization**
+* Generally produce **less reliable** results compared to RCTs
+
+See more under @Thiese2014
+
+
+
+## Methods to control for bias
+
+**Summary: Controlling for Confounding Bias**
+
+Association is not causation. For example, both ice cream sales and drownings increase during summer, but one does not cause the other. The real cause is a third factor: rising temperature. This illustrates **confounding bias** — when a third variable influences both the exposure and the outcome.
+
+To describe methods for controlling confounding bias using appropriate analytical techniques.
+
+**Directed Acyclic Graph (DAG)**: A DAG helps visualize confounding relationships. For example, when studying the effect of treatment on survival, **age** may be a confounder affecting both treatment choice and survival outcome.
+
+**Methods to Control for Confounding Bias**
+
+**Restriction**
+
+* Applied during the **design phase**
+* Includes only subjects with specific confounder values (e.g., only young individuals)
+* Simple but reduces generalizability
+
+**Matching**
+
+* Also used in the **design phase**
+* Each subject in one group is matched with a subject in the comparison group who has similar values for confounders (e.g., age)
+* Improves comparability but may reduce sample size
+
+**Stratification**
+
+* Applied during the **analysis phase**
+* The population is divided into subgroups (strata) based on confounder values (e.g., young vs. old)
+* Treatment effects are assessed within each stratum
+
+**Statistical Adjustment**
+
+* Done in the **analysis phase**
+* Models (e.g., regression) include confounders as covariates
+* Assumptions must be validated; model misspecification can introduce bias
+* Example: Adjusting mortality rates between countries with different age structures
+
+**Propensity Score Methods**
+
+* Applied during the **analysis phase**
+* A **propensity score** is the probability of receiving a treatment given baseline characteristics (e.g., age)
+* Used to create a **pseudo-population** where confounders are balanced
+* Weighting adjusts the contribution of individuals to mimic randomized assignment
+
+**Conclusion**
+Confounding bias can be addressed at both the design and analysis stages. All methods aim to make treatment groups comparable on confounding factors.
+
+* **Restriction** is simple but limits generalizability
+* **Matching** enhances balance but reduces sample size
+* **Stratification** analyzes within homogeneous groups
+* **Statistical adjustment** models the outcome with confounders included
+* **Propensity scores** reweight individuals to simulate randomization
+
+Each method has assumptions and limitations. Understanding and appropriately applying these techniques is essential to reducing bias and improving the validity of observational research.
+
+## Control of confounding in the analysis phase
+
+> Kahlert J, Gribsholt SB, Gammelager H, Dekkers OM, Luta G. Control of confounding in the analysis phase – an overview for clinicians. Clin Epidemiol. 2017;9:195-204
+https://doi.org/10.2147/CLEP.S129886
+
+Here is a detailed **comparison table** of the **main methods for controlling confounding** in observational studies, based on the article by @kahlert2017confounding:
+
+| **Method**                              | **Phase Applied** | **Key Characteristics**                                                                                           | **Strengths**                                                                                      | **Limitations / Challenges**                                                                                 | **Typical Use Cases**                                                             |
+| --------------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| **Restriction**                         | Design            | Only subjects with certain levels of confounders are included (e.g., age 40–60 only).                             | Simple to implement; removes confounding from selected variables.                                  | Reduces generalizability; may significantly reduce sample size.                                              | Early design phase when limiting population is acceptable.                        |
+| **Matching**                            | Design            | Subjects in treatment and control groups are matched on confounders (e.g., age, sex).                             | Balances confounders across groups; useful for case-control studies.                               | Difficult with many variables; limits eligible participants; residual confounding still possible.            | Common in case-control studies or small sample cohorts.                           |
+| **Stratification**                      | Analysis          | Data is split into subgroups (strata) based on confounders (e.g., age bands) and analyzed separately.             | Intuitive; helps detect effect modification; applicable to categorical confounders.                | Not practical for many variables; sparse data in strata; limited scalability.                                | Preliminary analysis or simple confounding structures.                            |
+| **Standardization**                     | Analysis          | Adjusts crude rates by applying to a reference population (direct or indirect).                                   | Enables comparison of rates across populations; useful in mortality/incidence studies.             | Limited number of confounders (typically age, sex); sensitive to choice of reference population.             | Mortality or incidence comparisons across populations.                            |
+| **Multivariable Regression**            | Analysis          | Adjusts for multiple confounders simultaneously in a single statistical model.                                    | Can handle many confounders; standard method; flexible for different outcome types (e.g., OR, HR). | Assumptions must hold (e.g., linearity); residual confounding if model misspecified; model selection debate. | Widely used in epidemiologic and health services research.                        |
+| **Propensity Score (PS)**               | Analysis          | Estimates probability of exposure given baseline covariates. Applied through matching, weighting, or stratifying. | Balances groups; useful for rare outcomes; flexible implementation.                                | Sensitive to model specification; can still have unmeasured confounding; requires balance checks.            | Drug safety, treatment effectiveness studies, especially in large databases.      |
+| **High-Dimensional PS (HD-PS)**         | Analysis          | Automated selection of hundreds of potential confounders from large databases.                                    | Can adjust for unmeasured confounding proxies; useful in big data settings.                        | Requires large data; may include irrelevant/confounding variables (e.g., mediators, colliders); complex.     | Large healthcare database studies where comprehensive confounder info is lacking. |
+| **Inverse Probability Weighting (IPW)** | Analysis          | Weights individuals by inverse probability of receiving treatment/exposure.                                       | Can accommodate time-varying confounding; flexible.                                                | Sensitive to extreme weights; requires correct model for exposure.                                           | Longitudinal studies, marginal structural models.                                 |
+| **Disease Risk Score (DRS)**            | Analysis          | Predicts outcome risk and adjusts based on that, similar to PS but focuses on outcome rather than exposure.       | Useful when exposure is rare; can summarize confounding in small samples.                          | Less intuitive; less commonly used; sensitive to model accuracy.                                             | Early phase drug evaluations with small sample and rare exposures.                |
+
+---
+
+**Notes:**
+
+* **PS vs. Multivariable Regression**: PS is generally more robust in rare outcome scenarios; regression is easier when sample sizes are large and covariate balance is manageable.
+* **HD-PS** is considered an extension of PS, offering improved confounding control in complex datasets, but may introduce adjustment for inappropriate variables.
+* **DRS** is rarely used but may offer advantages when exposure is rare and data is limited.
+
+  
+ 
+# Real World Evidence: what for? From two different stakeholder perspect…
+
+
+## Stakeholders Perspectives and Use Cases in Pharma
+
+**Regulators**
+
+* **Mission**: Protect public health.
+* **Responsibility**: Ensure **safety and efficacy** of new drugs before approving them.
+* **Focus**: Benefit–risk assessment.
+* **RWD/RWE Acceptance**:
+
+  * Historically **reluctant** due to concerns about bias in observational data.
+  * Acceptance is increasing **when RCTs are not feasible**:
+
+    * **Pragmatic trials** → real-world settings.
+    * **Single-arm studies** → require external comparators.
+    * **Observational studies** → used when no interventional studies are available.
+* **Key Example**: U.S. FDA gradually expands reliance on RWE as study designs shift from traditional RCTs.
+
+---
+
+**Payers**
+
+* **Mission**: Protect the **sustainability** of the healthcare system.
+* **Responsibility**: Evaluate the **value for money** of new treatments.
+* **Focus**: Budget impact, cost-effectiveness, and **long-term value** of drugs.
+* **RWD/RWE Acceptance**:
+
+  * Generally **more open** than regulators.
+  * RWE is often used for **long-term outcome prediction** and economic models.
+  * **Real-world impact** on reimbursement decisions is often **modest**, depending on context and quality of evidence.
+
+---
+
+**Comparison**
+
+| Aspect            | Regulators                           | Payers                                         |
+| ----------------- | ------------------------------------ | ---------------------------------------------- |
+| Primary Goal      | Ensure **safety & efficacy**         | Ensure **cost-effectiveness**                  |
+| Acceptance of RWE | Cautious, increasing over time       | Open, but impact on decisions is modest        |
+| Main Concern      | **Bias** in observational data       | **Value for money** and **budget constraints** |
+| Example Use Cases | Supplement to RCTs when not feasible | Support for **reimbursement** and HTA          |
+
+
+**Key Points from the FDA [Article](https://www.fda.gov/media/158581/download):**
+
+1. Progress in RWE Integration:
+
+  * The FDA has made significant strides in incorporating RWE into its evaluation processes. This includes the use of electronic health records, insurance claims, and patient registries to inform regulatory decisions.
+  * These efforts are part of the FDA's broader strategy to enhance the relevance and efficiency of clinical evaluations, ensuring that new treatments are safe and effective for the wider population.
+
+2.Regulatory Initiatives:
+
+  * The FDA has initiated several programs to support the use of RWE, such as the Real-World Evidence Program and the publication of draft guidance documents. These initiatives aim to provide clarity on how RWE can be used to support regulatory submissions.
+
+  * These programs and guidelines help standardize the use of RWE, encouraging its adoption by researchers and manufacturers.
+
+3. Applications of RWE:
+
+  * RWE has been applied in a variety of contexts, including drug approvals, safety monitoring, and post-market surveillance. Examples include the approval of treatments for rare diseases and the expansion of indications for existing drugs.
+
+  * These examples demonstrate the practical utility of RWE in enhancing the FDA's regulatory decisions and ensuring treatments benefit a broader patient population.
+
+4. Challenges and Opportunities:
+
+  * The FDA acknowledges several challenges in integrating RWE, such as ensuring data quality, addressing variability in healthcare practices, and developing robust analytical methods. However, there are significant opportunities to improve drug development and regulatory efficiency.
+
+  * Addressing these challenges is crucial for maximizing the potential of RWE. The FDA's ongoing efforts aim to harness these opportunities, ultimately benefiting patients and advancing public health.
+
+5. Future Directions:
+
+  * The FDA continues to explore new ways to incorporate RWE into its decision-making processes. This includes advancing data science, fostering collaborations with stakeholders, and adapting regulatory frameworks to accommodate the evolving landscape of evidence generation.
+
+  * These future directions highlight the FDA's commitment to leveraging RWE to improve the regulatory process and support innovation in healthcare.
+
+
+## Value of Real-World Evidence in health technology assessment
+
+[Ref](https://impact.economist.com/projects/rwe-in-hta/)
+
+1. The Importance of RWE in HTA:
+
+  * Real-world evidence is increasingly used to complement clinical trial data in HTA. RWE can provide insights into how treatments perform in routine clinical practice, offering a broader perspective on their effectiveness and safety.
+
+  * By considering RWE, HTA bodies can make more informed decisions that reflect the actual benefits of treatments in diverse patient populations.
+
+2. Barriers to Acceptance of RWE in HTA:
+
+  * Despite its potential, several barriers hinder the acceptance of RWE in HTA, including data quality concerns, perceived lack of rigor compared to randomized controlled trials (RCTs), and varying regulatory standards across regions.
+
+  * Understanding these barriers is essential for developing strategies to improve the integration of RWE in HTA processes.
+
+3. Current Acceptance of RWE:
+
+  * The report outlines the current levels of RWE acceptance in different HTA bodies, noting that some countries are more advanced in integrating RWE into their assessments than others.
+
+  * This variability underscores the need for standardized guidelines and best practices to enhance the consistent use of RWE globally.
+
+4. Examples of RWE Integration:
+
+  * The appendix of the report provides specific examples where RWE has been successfully used in HTA decisions. These examples highlight how RWE has been used to address gaps in clinical trial data, support indication expansions, and provide real-world insights into treatment effectiveness and safety.
+
+  * These case studies offer practical illustrations of how RWE can be applied in HTA to support more comprehensive and accurate assessments.
+
+5. Recommendations for Enhancing RWE Use:
+
+  * The report offers several recommendations to improve the acceptance and utility of RWE in HTA, such as developing robust data collection standards, enhancing transparency and reproducibility, and fostering collaboration among stakeholders.
+
+  * Implementing these recommendations can help overcome current barriers and promote the effective use of RWE in HTA, ultimately leading to better healthcare outcomes.
+
+## Advancing the role of real-world evidence in comparative effectiveness research
+
+@daigl2024rwe addresses the need for a standardized approach to Comparative Effectiveness Research (CER) to improve healthcare decisions. It introduces a methods flowchart designed to assist researchers and healthcare decision-makers in choosing the best analytical method for CER based on the specific conditions and data available. The tool ensures more consistent and high-quality research, ultimately enhancing evidence-based decisions and patient care.
+
+The paper emphasizes the need for standardized methodologies in Comparative Effectiveness Research (CER) to enhance the quality of healthcare decisions. By introducing a methods flowchart, the authors aim to guide researchers and decision-makers in choosing the most appropriate analytical approach for CER. This tool ensures more consistent, high-quality research, which ultimately supports evidence-based decision-making and improves patient care.
+
+**Key Points from the Article:**
+
+1. Importance of Real-World Evidence:
+
+  * Real-world evidence (RWE) is increasingly recognized for its value in providing supportive evidence for the effectiveness of new therapies. RWE includes data gathered from routine clinical practice, which can reflect diverse patient populations and long-term outcomes.
+
+  * Incorporating RWE into CER helps bridge the gap between controlled clinical trials and everyday clinical practice, providing insights that are directly applicable to patient care.
+
+2. Standardized Methods Flowchart:
+
+  * The article introduces a methods flowchart designed to standardize the approach to CER. This flowchart begins with a well-defined research question and considers various feasibility aspects, guiding researchers through the selection of the best analytical method for each specific context.
+
+  * Using a standardized approach ensures rigorous and consistent research quality, making the evidence generated from CER more reliable and actionable.
+
+3. Steps in the Methods Flowchart:
+
+  * The flowchart involves several key steps, including defining the research question, assessing data availability, selecting the appropriate study design, and determining the best analytical methods.
+
+  * By following these steps, researchers can ensure that their CER is methodologically sound and capable of addressing the research question effectively.
+
+4. Integration of Interventional and Observational Data:
+
+  * The flowchart allows for the integration of both interventional data (from randomized controlled trials) and observational data (from RWE) to provide a comprehensive assessment of treatment effectiveness.
+
+  * Combining different types of data can enhance the external validity of CER findings, making them more applicable to real-world clinical settings.
+
+5. Benefits for Healthcare Decision-Making:
+
+  * The use of a standardized methods flowchart in CER can lead to more consistent and high-quality research, supporting evidence-based healthcare decisions. This, in turn, can improve patient outcomes and promote a culture of evidence-based practice.
+
+  * High-quality CER provides healthcare practitioners, payers, and policymakers with reliable evidence to make informed decisions about treatment options and healthcare strategies.
+
+
+## Advanced Topics in Real-World Evidence (RWE) and Study Design 
+
+* Real-world data (RWD) complements traditional clinical trial data, expanding possibilities for evidence generation.
+* Advanced methodologies like pragmatic trials, hybrid designs, and target trial emulation bridge the gap between clinical trials and routine practice.
+
+**Types of Study Designs Covered**
+
+* **Observational Studies**: Cohort and case-control studies using RWD.
+* **Pragmatic Trials**: Conducted in routine practice, aiming to measure *effectiveness* (pharmacological effect + real-world factors).
+* **Adaptive Designs**: Allow for modifications during the trial based on accumulating data (e.g., sample size reassessment, dropping arms, adding treatments).
+* **Single-Arm Studies with External Comparator**: Used when a control arm is not feasible/ethical. RWD provides benchmark comparisons.
+
+**Target Trial Emulation (TTE)**
+
+* A framework to reduce bias in observational comparative effectiveness research.
+* Key steps:
+
+  * Define the **causal question**.
+  * Write a **protocol** mimicking a real RCT.
+  * Apply the protocol to RWD and adjust if needed.
+  * Ensure **proper time zero definition** to avoid bias (e.g., avoid "immortal time bias").
+* The goal is to replicate an RCT-like structure within observational data settings.
+
+**Pragmatic Trials**
+
+* Conducted under real-world conditions.
+* Patients are more diverse; endpoints are relevant to clinicians and patients.
+* Randomization is retained to reduce bias.
+* Strengths: Generalizability, relevance, and realism.
+* Limitations: Operational complexity (e.g., challenges in primary care trial conduct).
+
+**Hybrid Designs with External Cohorts**
+
+* Combine internal randomized control with an **external RWD comparator**.
+* External patients are selected with similar inclusion/exclusion criteria.
+* The goal: reduce the number of subjects in the randomized control arm.
+* Analytical techniques adjust for any differences and estimate the strength of external information.
+
+**Summary Points**
+
+* RCTs, while rigorous, have limited generalizability. RWD extends their value.
+* **Target Trial Emulation** provides a bias-reduction framework for causal inference in observational settings.
+* **Pragmatic trials** and **hybrid designs** allow flexible, patient-relevant, and more scalable research while maintaining scientific rigor.
+* These methods support informed decision-making by regulators, payers, clinicians, and patients.
+ 
+   
