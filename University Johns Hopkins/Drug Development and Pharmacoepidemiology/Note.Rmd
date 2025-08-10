@@ -1,0 +1,128 @@
+---
+title: "Drug Development and Pharmacoepidemiology - Note"
+author: Zehui Bai 
+date: "2025-08-10"
+output:
+  html_document:
+    df_print: paged
+    number_sections: yes
+    toc: yes
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+    theme: journal # <!-- https://bootswatch.com/3/  -->
+    highlight: tango
+    code_folding: "hide" 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Drug Development and Regulation: From Bench to Bedside
+
+
+
+## Overview of Drug Development and Approval Process
+
+**Five Key Steps in Drug Development**
+
+1. **Discovery & Development**
+
+   * Identify promising molecules by understanding the disease and biological targets.
+   * Screen thousands of compounds; only \~10–20 progress.
+   * Study absorption, distribution, metabolism, excretion (ADME), mechanism, dosage, effectiveness, and toxicity.
+
+2. **Preclinical Research**
+
+   * Conduct *in vitro* (test tube) and *in vivo* (animal) studies focusing on safety/toxicity.
+   * Follow Good Laboratory Practices (GLP).
+   * Submit **Investigational New Drug Application (IND)** to FDA, including animal data, manufacturing info, and clinical protocols.
+   * FDA reviews within 30 days before allowing human testing.
+
+3. **Clinical Research**
+
+   * **Phase 1**: 20–100 participants, mainly healthy volunteers, to assess safety & dosage.
+   * **Phase 2**: Hundreds of patients with the target disease; assess efficacy & side effects.
+   * **Phase 3**: 300–3,000 patients; confirm efficacy, monitor adverse reactions (pivotal trials).
+   * If successful → submit **New Drug Application (NDA)**.
+
+4. **FDA Drug Review**
+
+   * FDA has 60 days to accept NDA for review.
+   * Review takes \~6–10 months; may consult advisory committees.
+   * Inspect manufacturing facilities and review labeling.
+
+5. **Post-Marketing Safety Monitoring**
+
+   * Ongoing surveillance for rare/long-term side effects.
+   * Programs include **MedWatch** and **Sentinel Initiative**.
+
+---
+
+**FDA Programs to Accelerate Access**
+
+* **Fast Track** – expedite development/review for serious conditions with unmet needs.
+* **Breakthrough Therapy Designation** – for drugs showing substantial improvement over existing therapies.
+* **Accelerated Approval** – approve based on surrogate endpoints for serious conditions.
+* **Priority Review** – FDA decision within 6 months (vs. standard 10).
+
+---
+
+⏳ **Typical Timeline**: 10–15 years from discovery to approval.
+🔍 **Key Theme**: Balancing speed, safety, and efficacy through regulated, stepwise evaluation.
+ 
+ 
+## Role of Regulatory Agencies Around the World for Drug Approval
+
+ 
+**Main Purpose of Regulatory Agencies**
+
+* Goal: Protect public health by ensuring medications are **safe**, **effective**, and of **high quality**.
+* Despite differences in demographics, economics, and healthcare systems, agencies share this mission.
+
+**Key Regulatory Agencies Worldwide**
+
+* **USA**: Food and Drug Administration (**FDA**)
+* **Canada**: Health Canada
+* **Nigeria**: National Agency for Food and Drug Administration and Control (**NAFDAC**)
+* **Europe**: European Medicines Agency (**EMA**)
+* **Global Coordination**: International Council for Harmonisation (**ICH**) — develops globally accepted guidelines for harmonizing drug development, registration, and quality standards.
+
+**FDA vs EMA**
+
+*Similarities*
+
+1. Shared Mission – Protect public health.
+2. Approval Role – Approve/reject new drugs and medical devices.
+3. Guidelines – Set regulatory standards for drug development, manufacturing, and marketing.
+4. Post-Marketing Surveillance – Monitor adverse events, inspect facilities, require risk management plans.
+
+*Differences*
+
+1. Jurisdiction – FDA: U.S. only; EMA: EU-wide.
+2. Structure – FDA is centralized; EMA is decentralized, working with each EU member state’s authority.
+3. Decision Authority – FDA makes the final approval decision; EMA recommends; final decision by **European Commission**.
+4. Access to Non-Published Data – FDA makes it public; EMA treats it as sensitive and does not publish.
+
+**Concordance Between FDA and EMA**
+
+* Study (2014–2016): 107 drug applications reviewed by both → **98% concordance** in final decisions.
+* Main cause of disagreement: Differences in interpretation of **efficacy data**.
+
+*Examples of Divergence*
+
+* **Abaloparatide** (osteoporosis): FDA approved 2017; EMA rejected 2019 (insufficient efficacy evidence, cardiac safety concerns) → approved in 2022.
+* **Ataluren** (muscular dystrophy): EMA approved 2014; FDA not approved (insufficient efficacy evidence).
+
+
+
+# Drug Utilization: Trends, Determinants and Consequences
+ 
+
+# Comparative Effectiveness and Real-World Evidence
+ 
+
+# Drug Safety: Pharmacovigilance
+ 
