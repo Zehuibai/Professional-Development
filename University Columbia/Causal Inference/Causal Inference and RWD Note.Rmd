@@ -1,0 +1,1470 @@
+---
+title: "Causal Inference and RWD Note"
+author: Zehui Bai 
+date: "2025-07-28"
+output:
+  html_document:
+    df_print: paged
+    number_sections: yes
+    toc: yes
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+    theme: journal # <!-- https://bootswatch.com/3/  -->
+    highlight: tango
+    code_folding: "hide" 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Introduction
+
+## Even Randomized Experiments Can Fail
+While **randomized experiments** (also called randomized controlled trials, RCTs) are considered the gold standard for evaluating treatment effects because they eliminate selection bias, they can **still fail in practice**. The failure doesn’t necessarily come from the randomization itself, but from **how the treatment is delivered, accepted, or analyzed**.
+
+Researchers wanted to study the **effect of job search assistance** on unemployed individuals. Participants were **randomly assigned** to either:
+
+* **Receive job search assistance** (treatment group), or
+* **Not receive assistance** (control group).
+
+Later, researchers followed up and collected data on:
+
+* Whether participants found employment,
+* Their mental health and psychological well-being, etc.
+
+Because the initial assignment to groups was random, comparing **outcomes across these groups** should, in theory, give an **unbiased estimate** of the treatment effect.
+
+---
+
+**But There Was a Problem**
+
+> **Many participants in the treatment group did not actually receive the treatment.**
+
+This is where things go wrong. Just because someone is **assigned** to receive a treatment doesn’t mean they **accept** or **use** it.
+
+This situation creates a **compliance issue**.
+
+**❗ Why is this a problem?**
+
+Because now we have **two different types of "treatment" groups**:
+
+1. Those **assigned to the treatment** but **did not receive it**, and
+2. Those who **actually received** the treatment.
+
+So, if we now try to compare:
+
+* People who **received** treatment vs.
+* People who **did not receive** treatment,
+
+we're **no longer using randomization**. We're comparing **self-selected groups**, and that opens the door to **bias**.
+
+---
+
+**🔄 Two possible (but flawed) approaches:**
+
+1. **Exclude** the non-compliers (those assigned to treatment but didn’t take it), and compare only:
+
+   * People who actually received treatment,
+   * People in the control group.
+
+2. **Include** the non-compliers as part of the control group, and compare them all with those who received treatment.
+
+🤯 Why both are problematic:
+
+* **Option 1** (exclude non-compliers):
+  Maybe people **who refused treatment** did so because they **didn’t believe it would help them**.
+  If that's true, the remaining people who **did receive** treatment might already be more optimistic or motivated.
+  → This leads to **overestimating** how effective the treatment is.
+
+* **Option 2** (include non-compliers in the control group):
+  Now you're mixing people who **chose not to take the treatment** into the group that never got offered the treatment.
+  → This again distorts the estimate and **overstates** the benefit.
+
+---
+
+Bottom Line:
+
+Even when **random assignment** is done correctly, the **actual delivery and acceptance** of treatment can create **biases**.
+Randomization protects against selection bias **only if everyone complies with their assignment**, which often doesn’t happen in real-world studies.
+
+In later parts of the lecture, the video will introduce **remedies** for these kinds of problems, such as:
+
+* **Intention-to-treat (ITT) analysis**,
+* **Instrumental variables (IV)**,
+* **Complier Average Causal Effect (CACE)** modeling,
+  which are statistical methods that try to recover valid estimates despite non-compliance.
+
+
+## Potential Outcome, Unit and Average Effects
+
+
+The lecture discusses foundational ideas in causal inference, particularly how we define, estimate, and interpret treatment effects using potential outcomes. It starts with the philosophical stance that causal relationships can be meaningful even at the individual level. That means we can talk about how a specific treatment affects a specific person, not just populations.
+
+One key principle is that this individual-level causal view does not conflict with deterministic thinking. Even if we assume that each person has a fixed outcome under treatment and under control, we can still talk meaningfully about cause and effect. For example, even if people are deterministically affected by treatment, we can focus on isolating one cause at a time while holding others constant. This allows for a coherent framework to discuss causality, even without full knowledge of all possible factors.
+ 
+
+The lecture then introduces counterfactual reasoning. To evaluate a treatment effect, we imagine a person—say, John—and consider two scenarios: one in which he takes a medicine and one in which he does not. There are four logical combinations: he gets better with or without the medicine, or he does not get better in either case, or he gets better only in one of the two. By comparing these potential outcomes, we define the individual treatment effect.
+
+The framework used here is the Rubin Causal Model or potential outcomes framework. Each individual has two potential outcomes: one under treatment and one under control. However, in real life, we only get to observe one of these outcomes for any individual. This is known as the Fundamental Problem of Causal Inference. If we could see both outcomes, estimating treatment effects would be easy.
+
+To formalize this, let i represent a unit (e.g., John). For each unit i, we define:
+
+* $Y_i(1)$: the outcome if unit i receives the treatment.
+* $Y_i(0)$: the outcome if unit i does not receive the treatment.
+
+We can only observe one of these for each individual, depending on whether they were treated or not. The observed outcome $Y_i$ is determined by their treatment status $Z_i$. If they were treated, we observe $Y_i(1)$; if not, we observe $Y_i(0)$.
+
+The individual treatment effect is $Y_i(1) - Y_i(0)$, but since we can only see one outcome, we focus instead on estimating average treatment effects.
+
+Several types of average treatment effects are introduced:
+
+* Sample Average Treatment Effect (SATE): the average effect among the sample.
+* Population Average Treatment Effect (PATE): the average effect in the entire population.
+* Average Treatment Effect on the Treated (ATT): the average effect among those who actually received the treatment.
+
+Average treatment effects are useful in many real-world decisions. For instance, a doctor might want to know how a surgery affects a particular patient. Although that individual-level effect is unknown, knowing how the surgery performs on average helps guide decisions. Similarly, a policymaker may want to understand how effective a training program is on average before deciding whether to scale it up.
+
+To estimate these effects, we rely on study design. In randomized experiments, treatment assignment is random, so we can often estimate average treatment effects without bias. In observational studies, individuals choose whether to receive treatment, so we must rely on additional assumptions like unconfoundedness.
+
+An important assumption is the Stable Unit Treatment Value Assumption (SUTVA). It includes two ideas:
+
+
+1. No multiple versions of treatment: the treatment should be consistent in form (e.g., a pill and a capsule are not the same if they have different effects).
+2. No interference between units: one person’s outcome should not be affected by others’ treatment status. For example, the effectiveness of a flu vaccine might depend not only on whether John is vaccinated, but also on whether his wife is vaccinated. That’s an example of interference, which violates SUTVA.
+
+The lecture also explains that potential outcomes can be viewed differently depending on whether we’re dealing with a finite or infinite population. In a finite population, potential outcomes are considered fixed, and we estimate fixed quantities. In an infinite or super-population framework, outcomes are treated as random variables.
+
+
+
+Finally, the lecture notes that not all causal estimands depend only on the marginal distributions of outcomes. Some, like the proportion of individuals who benefit from treatment (i.e., those with $Y_i(1) > Y_i(0)$), depend on the joint distribution of the potential outcomes. Estimating these quantities is more challenging and may require additional assumptions.
+
+In conclusion, causal inference allows us to define and estimate the effect of treatments even when we cannot observe counterfactual outcomes. With appropriate assumptions and methods, we can estimate meaningful average effects that are useful in practice, particularly in randomized experiments or well-designed observational studies.
+
+
+## Ignorability: Bridging the Gap Between Randomized Experiments and Observational Studies
+
+The **potential outcomes framework** for causal inference. This framework allows us to define **individual treatment effects** and, based on those, define various forms of **average treatment effects**—specifically:
+
+* **Sample Average Treatment Effect (SATE)**
+* **Finite Population Average Treatment Effect (FPATE)**
+* **Average Treatment Effect (ATE)** (over a superpopulation)
+
+These treatment effects can be **estimated without bias or consistently** under certain assumptions, especially in **randomized experiments** and, to a lesser extent, in **observational studies** when certain conditions are met.
+
+To begin understanding these conditions, the instructor draws an analogy with **random sampling** from a population—a concept familiar from basic statistics. If units $i$ are independently and identically distributed (i.i.d.) and the expected value of the outcome $Y$ exists and is finite, then the sample mean is an unbiased and consistent estimator of the population mean.
+
+Applying this idea to causal inference:
+
+* For treated units, the average of the observed outcomes $Y_1$ estimates the expectation $E[Y(1)]$.
+* For untreated units, the average of $Y_0$ estimates $E[Y(0)]$.
+  This assumes that **treatment assignment is independent** of the potential outcomes.
+
+To formalize this, suppose we observe a dataset of $(Y_i, Z_i)$, where $Z_i = 1$ means the unit is treated and $Z_i = 0$ means untreated. If we want to estimate $E[Y(1)]$, the mean of the outcomes among treated units will only give us that value **if** the treated units are a random sample from the population in terms of their potential outcomes. This is only true if **potential outcomes are independent of treatment assignment**, which leads to the **ignorability assumption** or **unconfoundedness**.
+
+This assumption can be stated as:
+$Y(0), Y(1) \perp Z$
+That is, potential outcomes are independent of treatment assignment.
+
+In randomized experiments, this condition is **guaranteed by design**. Treatment is assigned randomly—like flipping a coin—so that it is not related to the potential outcomes. As a result, comparisons between treated and untreated groups can be attributed to the treatment itself.
+
+In contrast, in **observational studies**, treatment assignment is **not random**. People (or their doctors, for example) choose whether to take the treatment. That choice may be influenced by factors like age, health status, or beliefs about treatment efficacy. For example:
+
+* Older patients may think treatment won’t help them (i.e., they believe $Y(1) \approx Y(0)$), so they are less likely to take it.
+* Younger patients may believe treatment is beneficial and are more likely to accept it.
+
+If these beliefs are accurate, and these variables (like age) are related to both treatment assignment and potential outcomes, then simply comparing treated and untreated outcomes will **bias the estimated treatment effect**.
+
+This is where **confounding** arises. Confounding occurs when a third variable affects both the treatment assignment and the outcome. In the example, **age** is a confounder. It influences both treatment choice and outcome. Therefore, without accounting for age, we cannot attribute differences in outcomes solely to the treatment.
+
+To address this issue, researchers can use **stratification**. For example:
+
+* Compare treated and untreated patients **within the same age group**.
+* If the randomization or the design guarantees that treatment assignment is independent of potential outcomes **within strata** defined by a covariate $X$, like age, then we say:
+  $Y(0), Y(1) \perp Z \,|\, X$
+
+This condition is weaker than full ignorability and often more realistic in observational studies. It means treatment is not randomly assigned overall, but **conditionally random given some covariates**. If this condition holds, we can estimate **conditional ATEs** within subgroups and then compute an overall ATE as a **weighted average** of these subgroup ATEs.
+
+This is the **bridge between randomized experiments and observational studies**. In a randomized trial, treatment is assigned by a known mechanism, and we know ignorability holds. In an observational study, we do not know the treatment mechanism. However, if we **adjust for variables** that influence both treatment and outcome (e.g., through regression, stratification, matching, etc.), we may **approximate** a conditionally randomized design and estimate causal effects.
+
+However, unlike randomized trials, we **cannot directly test** whether the ignorability assumption holds in observational studies. Because we never observe both potential outcomes for any unit, we can’t verify that treatment and outcomes are truly independent, even given covariates. This makes causal inference from observational studies inherently more fragile.
+
+Moreover, real-world problems are more complex than the age-only example. There may be **many covariates** that influence treatment and outcome. Researchers might **miss some of these**, or be unable to **measure them accurately**, making full adjustment impossible. Still, including **as many relevant covariates as possible** is generally advised.
+
+The upcoming modules will delve deeper into identifying and estimating the three average treatment effects—SATE, FPATE, and ATE—both in randomized and observational study settings. Later, the course will explore what happens when **unconfoundedness fails**, and present **alternative assumptions** and **methods** (e.g., instrumental variables, sensitivity analysis) to still estimate causal effects.
+
+In summary:
+
+* In randomized trials, treatment is independent of outcomes by design.
+* In observational studies, this independence does not hold naturally and must be **assumed conditional** on observed covariates.
+* If those covariates account for all confounding, we can treat the study as a **stratified randomized trial** and estimate causal effects.
+* But in practice, we may miss or mismeasure important covariates, making observational causal inference **less reliable** than that from randomized experiments.
+
+
+# Randomization Inference
+
+## Some Randomized Experiments
+
+
+
+In this module, the focus is on understanding randomized experiments as a foundation for causal inference, especially because they serve as a bridge to observational studies. The lectures and slides introduce core concepts like assignment mechanisms and how they relate to potential outcomes and covariates.
+
+**1. Review of Prior Concepts:**
+Previously, we introduced:
+
+* **Potential outcomes notation**: $Y_i(0)$ and $Y_i(1)$ for untreated and treated outcomes of unit $i$,
+* **Unit-level and average treatment effects** (ATE),
+* **Unbiased estimation** of treatment effects under certain conditions.
+
+---
+
+**2. Why Study Randomized Experiments:**
+Randomized experiments help us understand when and how we can make causal claims. The ability to make valid causal inferences relies on the **assignment rule**—the method by which units are assigned to treatment or control. Randomization guarantees (under proper assumptions) that treatment assignment is **independent of potential outcomes**, a property called **unconfoundedness** or **ignorability**.
+
+---
+
+**3. Notation Used:**
+
+* $i = 1, ..., n$: index for units
+* $Z_i$: treatment assignment (1 = treated, 0 = control)
+* $X_i$: covariate vector for unit $i$
+* $Y_i(0), Y_i(1)$: potential outcomes
+* $Z$: vector of treatment assignments
+* $\Omega$: set of all allowable treatment assignments
+
+The assignment rule is the probability of any particular vector $Z = z$, given covariates and potential outcomes:
+**Pr(Z = z | X, Y(0), Y(1))**
+
+---
+
+**4. Desired Properties of Assignment Rules:**
+An ideal assignment rule has these properties:
+
+* **Individualistic**: each unit’s assignment depends only on their own covariates (not others’ assignments),
+* **Unconfounded**: assignment depends only on covariates, not potential outcomes,
+* **Positivity**: each unit has a nonzero probability of receiving either treatment or control.
+
+If all these hold, then the assignment is said to be **strongly ignorable**, as per **Rosenbaum and Rubin (1983)**.
+
+This condition allows the use of the **propensity score** $e(X_i) = \Pr(Z_i = 1 | X_i)$, which is the probability of treatment given covariates. This concept is crucial in both randomized and observational studies.
+
+---
+
+**5. Types of Randomized Experiments:**
+
+**a. Bernoulli Randomized Experiment (Coin Tossing)**
+
+* Each unit is independently assigned to treatment with a fixed probability $\lambda$.
+* The propensity score $e(X_i) = \lambda$ is the same for all units.
+* Assignments are independent across units.
+* $\Omega = \{0,1\}^n$, i.e., all possible 0–1 vectors of length $n$.
+
+**b. Completely Randomized Experiment**
+
+* A fixed number $n_1$ of the $n$ units are treated, and $n_0 = n - n_1$ are controls.
+* All combinations with exactly $n_1$ treated units are equally likely.
+* Propensity score: $e(X_i) = n_1 / n$ for all units.
+* Unlike Bernoulli, treatment assignments are **not** independent.
+
+**c. Randomized Block Experiment**
+
+* Units are grouped into **strata** based on covariates $X_i$.
+* Within each stratum, a completely randomized experiment is conducted.
+* The number of treated units $n_{s1}$ and total units $n_s$ per stratum are fixed.
+* Treatment assignment probabilities (propensity scores) **depend on the stratum**, so $e(X_i) = n_{s1} / n_s$.
+
+**d. Paired Randomized Experiment**
+
+* A special case of the block experiment where each stratum (or block) has exactly **two units** ($n_s = 2$), and **one is randomly assigned to treatment**.
+* This is equivalent to a paired design (e.g., matched pairs t-test).
+* Ensures very tight covariate balance within each pair.
+
+---
+
+**6. Importance of Understanding Assignment Mechanisms:**
+Understanding the rules for how treatment is assigned is fundamental to correctly identifying and estimating treatment effects. These randomized mechanisms ensure that differences in outcomes between treated and control groups can be **attributed to the treatment itself**, not to pre-existing differences in covariates or selection bias.
+
+Moreover, in observational studies, we try to **emulate** these randomized designs (e.g., via stratification or propensity score matching), but we **cannot control** the assignment mechanism. This makes randomized experiments a benchmark and reference point for identifying causal effects.
+
+
+## Testing the Null Hypothesis of No Treatment Effect
+
+ 
+
+The key idea in randomization-based inference is that **potential outcomes are treated as fixed constants**, not as random variables. This is unlike classical statistical methods where outcomes are assumed to have probability distributions. Instead, randomness comes solely from the **assignment mechanism**, which is probabilistic—i.e., from how units are randomly assigned to treatment or control.
+
+We typically begin by evaluating a **sharp null hypothesis**: that treatment has absolutely no effect on any unit. This is stronger than assuming that the average treatment effect is zero because it assumes each unit’s treatment effect is zero.
+
+The formal framework introduces notation:
+
+* $y_i(z)$: the outcome for unit i under assignment z
+* $y(z)$: the vector of all units' outcomes under assignment z
+* Under the sharp null hypothesis $H_0$: for all assignments $z, z'$, we assume $y(z) = y(z')$
+
+Since under the null hypothesis, the outcomes are the same for any assignment, we can calculate the test statistic for the observed assignment and compare it to what we would have observed under all other possible assignments. The probability of getting a value as extreme or more extreme than the observed statistic gives the **p-value**.
+
+For randomized designs where all assignments are equally likely (such as completely randomized experiments), the p-value is simply the proportion of all assignments where the test statistic is as extreme as or more extreme than the observed one.
+
+Several test statistics are commonly used in randomization inference:
+
+1. **Mean difference**: difference in means between treatment and control.
+2. **Median-based test**: compares the number of treated responses exceeding the overall median.
+3. **Wilcoxon rank-sum (Mann-Whitney)**: ranks all responses and sums the ranks in the treatment group.
+4. **McNemar’s test**: used for binary paired data.
+5. **Wilcoxon signed-rank test**: used for continuous paired data, based on ranking absolute differences.
+
+More generally, one can test a null hypothesis of **constant treatment effect** $H_0: \tau_i = \tau$ for all units i. Under this assumption, we can impute missing potential outcomes and compute test statistics accordingly. Testing for different values of $\tau$ gives a confidence interval.
+
+Several practical considerations influence the choice of test statistic:
+
+* **Sensitivity** to the kind of deviation from the null hypothesis that is of interest.
+* **Robustness** to outliers (e.g., using medians or ranks instead of means).
+* **Power**, or the ability to detect a true effect.
+
+For large sample sizes (e.g., n = 500), the number of possible assignments becomes astronomically large. In such cases, full enumeration is infeasible. Two practical solutions are:
+
+1. **Sampling a subset of assignments** randomly.
+2. **Normal approximation**: derive mean and variance of the test statistic under $H_0$ and apply a normal-based test.
+
+Advantages of randomization inference include:
+
+* Minimal assumptions (no need for distributional assumptions like normality)
+* Internal reference distribution (based on design, not external theory)
+* Transparent and intuitive logic
+
+However, there are limitations:
+
+* Results may not generalize beyond the sample unless additional assumptions are made
+* Poor handling of **treatment effect heterogeneity**, though Rosenbaum (2010) and others have proposed extensions
+
+Ultimately, researchers often wish to summarize treatment effects even when they vary across units—leading to the next topic: estimating the **Sample Average Treatment Effect (SATE)** using randomization-based inference.
+
+
+## Randomization Inference
+
+1. Objective
+
+The main goal is to **estimate** the **sample average treatment effect** (SATE), defined as the average difference between potential outcomes under treatment and control across all units in the sample:
+
+$$
+\text{SATE} = \frac{1}{n} \sum_{i=1}^{n} \left( Y_i(1) - Y_i(0) \right)
+$$
+
+This allows for **unit-level heterogeneity** in treatment effects (i.e., $Y_i(1) - Y_i(0)$ may differ across individuals).
+
+---
+
+2. Completely Randomized Experiments
+
+In a completely randomized design, $n_1$ units are assigned to treatment and $n_0 = n - n_1$ to control.
+
+**Estimator:**
+
+$$
+\hat{\tau} = \bar{Y}_1 - \bar{Y}_0 = \frac{1}{n_1} \sum_{i:Z_i=1} Y_i - \frac{1}{n_0} \sum_{i:Z_i=0} Y_i
+$$
+
+This is the difference in **observed sample means** between the treatment and control groups.
+
+**Unbiasedness:**
+The estimator is **unbiased** for SATE because:
+
+* The potential outcomes $Y_i(1)$, $Y_i(0)$ are treated as **fixed constants**.
+* Randomness arises only from the treatment assignment $Z_i$.
+  By taking the expectation over all possible assignments (within the assignment space Ω), the estimator yields the true sample average treatment effect.
+
+---
+
+3. Block (Stratified) Randomized Experiments
+
+In block randomization:
+
+* Subjects are grouped into **blocks (or strata)** based on covariates.
+* Within each block, a separate completely randomized experiment is conducted.
+
+**SATE estimator:**
+The overall estimate is a **weighted average** of block-specific treatment effects:
+
+$$
+\hat{\tau}_{\text{SATE}} = \sum_{s=1}^{S} w_s \left( \bar{Y}_{1,s} - \bar{Y}_{0,s} \right)
+$$
+
+where $w_s$ is the proportion of the total sample in block $s$, and $\bar{Y}_{1,s}$, $\bar{Y}_{0,s}$ are treatment/control group means within that block.
+
+Each block-specific estimator is unbiased for the block-level SATE, so the overall estimator remains unbiased.
+
+---
+
+4. Variance of the Estimator
+
+The variance of $\hat{\tau}$ under complete randomization is:
+
+$$
+\operatorname{Var}(\hat{\tau}) = \frac{\sigma_1^2}{n_1} + \frac{\sigma_0^2}{n_0} + \frac{1}{n} \cdot \operatorname{Var}(Y_i(1) - Y_i(0))
+$$
+
+* $\sigma_1^2$: variance of treated potential outcomes
+* $\sigma_0^2$: variance of control potential outcomes
+* The third term reflects **unit-level heterogeneity** in treatment effects
+
+However, we cannot estimate the third term directly, since we never observe both $Y_i(1)$ and $Y_i(0)$ for any individual.
+
+---
+
+5. Conservative Variance Estimation
+
+Since the third term is unobservable, a **conservative estimator** of variance (overestimates variance slightly) is used:
+
+$$
+\hat{V}(\hat{\tau}) = \frac{s_1^2}{n_1} + \frac{s_0^2}{n_0}
+$$
+
+where $s_1^2$ and $s_0^2$ are the **sample variances** of observed outcomes in the treatment and control groups, respectively.
+
+This estimator is **unbiased** if treatment effects are **constant across units**.
+
+---
+
+6. Hypothesis Testing and Confidence Intervals
+
+Using the conservative variance estimate, one can form a **test statistic**:
+
+$$
+Z = \frac{\hat{\tau}}{\sqrt{\hat{V}(\hat{\tau})}}
+$$
+
+For large samples, $Z$ approximately follows a standard normal distribution under the null hypothesis. This allows:
+
+* **Two-sided hypothesis tests**
+* **95% confidence intervals**, e.g.:
+
+$$
+\hat{\tau} \pm 1.96 \cdot \sqrt{\hat{V}(\hat{\tau})}
+$$
+
+---
+
+7. Internal vs External Validity
+
+* **SATE** estimation gives results that are **internally valid** – they are trustworthy for the current sample.
+* But to generalize to a **broader population**, one needs additional assumptions or a superpopulation model.
+
+
+
+## Summary
+
+
+
+In the first lesson, the focus is on introducing **randomized experiments** and distinguishing different randomization schemes. These include:
+
+* **Bernoulli randomized experiments**, where each subject is independently assigned to treatment with some fixed probability.
+* **Completely randomized experiments**, where a fixed number of units are assigned to treatment and the rest to control.
+* **Block (or stratified) randomized experiments**, where subjects are grouped into strata based on covariates and randomization is done within each stratum.
+* **Paired randomized experiments**, a special case of block randomization where each block contains two similar units, one assigned to treatment and the other to control.
+
+The key idea is that the **assignment mechanism** is the source of randomness, while the potential outcomes for each unit are considered **fixed constants**.
+
+---
+
+In the second lesson, the concept of **randomization-based inference** is introduced. Unlike classical inference that treats outcomes as random, here randomness comes solely from the treatment assignment. The process involves:
+
+1. Defining a **sharp null hypothesis** – e.g., no unit experiences any treatment effect, i.e., $Y_i(1) = Y_i(0)$ for all $i$.
+2. Under the null, we know all units’ outcomes under all assignments, so we can:
+
+   * Compute a test statistic (e.g., difference in means, rank-sum, number of correct guesses).
+   * Generate the full **reference distribution** by evaluating the statistic under all possible assignments (or a representative subset).
+   * Compute a **p-value** as the proportion of assignments yielding a statistic as or more extreme than observed.
+
+This method was famously illustrated by **Fisher’s tea-tasting experiment**, where Lady Bristol claimed she could tell whether milk or tea was poured first. Given the treatment assignment and her responses, one could compute an exact p-value under the sharp null.
+
+This framework allows for testing more general hypotheses as well, such as **constant effects** across units (e.g., $Y_i(1) - Y_i(0) = \tau$ for all $i$) and constructing **confidence intervals** for the treatment effect by identifying values of $\tau$ that are not rejected.
+
+---
+
+The third lesson extends the randomization-based approach from hypothesis testing to **estimation** of the **Sample Average Treatment Effect (SATE)**.
+
+For a completely randomized experiment, the estimator is simply the difference in sample means between treatment and control groups:
+$\bar{Y}_1 - \bar{Y}_0 = \frac{1}{n_1} \sum_{i:Z_i=1} Y_i - \frac{1}{n_0} \sum_{i:Z_i=0} Y_i$
+
+This estimator is **unbiased** for the SATE because of the random assignment mechanism, even though the potential outcomes are fixed.
+
+In the case of **block randomized experiments**, the SATE can be estimated as a **weighted average** of treatment effects within each block, with weights proportional to block sizes.
+
+The **variance** of the estimator has three components:
+
+1. Variance of control potential outcomes.
+2. Variance of treatment potential outcomes.
+3. Variance of the individual treatment effects (unit-level heterogeneity).
+
+Since we can’t observe both potential outcomes for any individual, the third term is unidentifiable. However, if treatment effects are **constant**, this term drops out.
+
+A **conservative estimator** of the variance (still valid even when effects vary) is:
+$\hat{V}(\bar{Y}_1 - \bar{Y}_0) = \frac{s_0^2}{n_0} + \frac{s_1^2}{n_1}$
+where $s_0^2$ and $s_1^2$ are the sample variances in the control and treatment groups, respectively.
+
+With large samples, one can use the **normal approximation**:
+$\frac{\bar{Y}_1 - \bar{Y}_0}{\sqrt{\frac{s_0^2}{n_0} + \frac{s_1^2}{n_1}}} \sim N(0,1)$
+to construct confidence intervals and perform hypothesis tests.
+
+---
+
+In conclusion, randomization inference provides a powerful framework with strong **internal validity**, minimal distributional assumptions, and clear logic grounded in the assignment mechanism. While it may have limitations in generalizing beyond the sample and in handling effect heterogeneity, it lays a foundational methodology for causal inference using experimental data.
+
+
+
+# Regression
+
+## Estimating the Finite Population Average Treatment Effect (FATE) and the Average Treatment Effect (ATE)
+
+In previous modules, potential outcomes were treated as fixed constants, and randomness came only from the random treatment assignment. We estimated the average treatment effect (ATE) within the sample, and tested hypotheses using randomization-based methods. However, in this lesson, we consider that the sample itself was randomly drawn from a finite population of size N. This introduces a second source of randomness — the sample selection process.
+
+Each unit i has two potential outcomes: one under treatment (y\_i(1)) and one under control (y\_i(0)). But as always in causal inference, for each unit, we only observe one of these two outcomes. This is a missing data problem — half of the potential outcomes are unobserved.
+
+In this extended setting, the estimator remains the same — the difference in means between treated and control units. But now, this estimator is a random variable due to both:
+
+1. Random sampling of n units from the population of N units, and
+2. Random assignment of treatment within the sampled units.
+
+We define a binary sampling indicator T\_i, where T\_i = 1 if unit i is included in the sample and T\_i = 0 otherwise. Then the estimator can be expressed as:
+(1/n) ∑ T\_i \* (y\_i(1) - y\_i(0))
+This form shows explicitly that the estimator depends on the random sampling process.
+
+This estimator is unbiased for the finite population average treatment effect (FATE), which is:
+(1/N) ∑ (y\_i(1) - y\_i(0)) over all N units
+
+To verify the unbiasedness, we compute the expectation of the estimator over both sources of randomness:
+
+* Expectation over sampling,
+* Expectation over treatment assignment.
+
+
+We can interchange the order of expectations (by the law of iterated expectations), and we find that the expected value of the estimator equals the FATE. Therefore, the estimator is unbiased for the true average treatment effect in the population.
+
+However, while the estimator is unbiased, hypothesis testing becomes more complex. The randomization test that worked under fixed samples is not valid here, because the distribution of the estimator now depends on both sampling and treatment assignment.
+
+To perform inference about FATE, we also need to consider the variance of the estimator. This variance consists of three terms:
+
+1. The variance of the control potential outcomes across the sample,
+2. The variance of the treated potential outcomes across the sample,
+3. The variance of the unit-level treatment effects.
+
+The third term is not identifiable from the observed data because we never observe both potential outcomes for the same unit. If we assume constant treatment effects across units, this third term drops out, and we can compute a conservative variance estimate using the sample variances from the treatment and control groups.
+
+Using this variance estimate, we can construct confidence intervals and test hypotheses using a normal approximation. Under the null hypothesis of no average treatment effect, the standardized difference-in-means statistic is approximately standard normal.
+
+The lesson then transitions to model-based inference. In this framework, potential outcomes are treated as random variables rather than fixed constants. This is more familiar to most students, as it aligns with standard statistical modeling — like assuming outcomes are generated by some probabilistic process (e.g., normal distributions).
+
+Under model-based inference, the sample is considered a random sample from an infinite or large super-population. The treatment assignment is assumed to be independent of the potential outcomes. The estimator remains the difference in sample means. Under the assumption of independent and identically distributed (i.i.d.) potential outcomes, this estimator is still unbiased for the population average treatment effect (PATE).
+
+
+The lesson shows how, under these assumptions, the expected value of the estimator equals the expectation of the difference in potential outcomes, and variance estimates follow from standard statistical theory.
+
+Finally, the same reasoning is extended to block randomized designs. In this case, treatment assignment is independent of potential outcomes within blocks, but the probability of assignment may depend on observed covariates (i.e., blocking variables). The estimator — a weighted average of treatment effects within each block — remains unbiased under this framework.
+
+
+Here is a comparison table summarizing the key differences between the **Finite Population Average Treatment Effect (FATE)** and the **Average Treatment Effect (ATE)**:
+
+| **Feature**                        | **Finite Population ATE (FATE)**                                        | **Average Treatment Effect (ATE)**                                          |
+| ---------------------------------- | ----------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| **Definition**                     | Average treatment effect over a fixed set of N units                    | Expected treatment effect over a conceptual (infinite) superpopulation      |
+| **Mathematical Form**              | $\text{FATE} = \frac{1}{N} \sum_{i=1}^{N} (Y_i(1) - Y_i(0))$            | $\text{ATE} = \mathbb{E}[Y(1) - Y(0)]$                                      |
+| **Population Type**                | Finite and fixed sample of units                                        | Infinite or hypothetical superpopulation                                    |
+| **Potential Outcomes**             | Treated as fixed constants                                              | Treated as random variables                                                 |
+| **Sources of Randomness**          | Two sources: sampling and treatment assignment                          | Typically from treatment assignment only; sampling from the population      |
+| **Estimator**                      | Sample mean difference: $\bar{Y}_1 - \bar{Y}_0$                         | Same estimator, interpreted as an estimate of a population quantity         |
+| **Inference Target**               | Causal effect for the observed (finite) units                           | Causal effect generalizable to a broader population                         |
+| **Typical Use Cases**              | Small-scale evaluations, surveys, census-like experiments               | Clinical trials, economic studies, policy evaluations with generalizability |
+| **Confidence Intervals & Testing** | Based on finite population corrections or randomization-based inference | Based on model-based inference (e.g., CLT, regression assumptions)          |
+| **Estimator Bias**                 | Estimator is unbiased for FATE under random sampling and assignment     | Estimator is unbiased for ATE under i.i.d. and ignorability assumptions     |
+
+ 
+
+## Estimating the ATE: A Regression Approach
+
+In the previous lesson, we discussed model-based inference in the context of completely randomized and block-randomized experiments. Now we reformulate this idea using linear regression models. This allows us to explore causal relationships within a regression framework.
+
+We begin with the **causal regression model** for the potential outcomes. For each subject $i$, and for each possible treatment assignment $z = 0$ (control) or $z = 1$ (treatment), we define:
+
+$$
+Y_i(z) = \alpha + \tau z + \varepsilon_i(z)
+$$
+
+This model posits that each subject has two potential outcomes: one if they receive treatment and one if they do not. The error term $\varepsilon_i(z)$ captures individual variation not explained by the treatment. To ensure the model is identifiable, we assume $E[\varepsilon_i(z)] = 0$.
+
+This model gives us a clean interpretation: the intercept $\alpha$ is the expected outcome under control (i.e., $E[Y(0)]$), and the treatment effect $\tau$ is the expected difference between the treated and untreated outcomes (i.e., $E[Y(1) - Y(0)]$).
+
+However, in practice, we never observe both potential outcomes for the same individual. We only observe the outcome under the actual treatment assignment. That is, we observe:
+
+$$
+Y_i = Y_i(Z_i)
+$$
+
+So, researchers instead fit a regression model on observed data:
+
+$$
+Y_i = \alpha^* + \tau^* Z_i + v_i
+$$
+
+Here, $\alpha^*$ and $\tau^*$ are regression coefficients estimated from the data, and $v_i$ is the regression residual. To identify these coefficients, we assume that the error term $v_i$ has mean zero conditional on treatment assignment: $E[v_i | Z_i] = 0$. Under this assumption:
+
+$$
+\alpha^* = E[Y_i | Z_i = 0], \quad \tau^* = E[Y_i | Z_i = 1] - E[Y_i | Z_i = 0]
+$$
+
+The question then becomes: how do $\alpha^*$ and $\tau^*$ relate to the original causal parameters $\alpha$ and $\tau$? By rewriting the observed outcome as a function of potential outcomes:
+
+$$
+Y_i = Z_i Y_i(1) + (1 - Z_i) Y_i(0)
+$$
+
+and substituting the causal model in, we get:
+
+$$
+Y_i = \alpha + \tau Z_i + \varepsilon_i(Z_i)
+$$
+
+where $\varepsilon_i(Z_i) = Z_i \varepsilon_i(1) + (1 - Z_i) \varepsilon_i(0)$.
+
+Taking expectations conditional on treatment, we find:
+
+$$
+\alpha^* = \alpha + E[\varepsilon_i(0) | Z_i = 0], \quad \tau^* = \tau + E[\varepsilon_i(1) | Z_i = 1] - E[\varepsilon_i(0) | Z_i = 0]
+$$
+
+Therefore, in general, $\alpha^* \neq \alpha$ and $\tau^* \neq \tau$. Equality holds only if the potential outcomes (or equivalently, the potential errors) are independent of the treatment assignment. This is precisely the case in a completely randomized experiment.
+
+In contrast, in an **observational study**, treatment assignment may depend on the potential outcomes. For example, consider a study of depressed patients choosing whether to take medication. Suppose patients who believe the drug will help them choose to take it, and those who believe it won't help choose not to. This self-selection violates the independence assumption.
+
+Suppose half of the patients take the drug and improve from a mood score of 5 to 10, and the other half do not take the drug and remain at 8. The true average treatment effect is:
+
+$$
+(10 - 5) \times 0.5 = 2.5
+$$
+
+However, the observed group means are 10 (treated) and 8 (untreated), so the regression estimate $\tau^* = 2$, which underestimates the effect.
+
+Now suppose the treated patients improve from 5 to 15 instead. Then the true treatment effect is 5, but the observed difference in group means is $15 - 8 = 7$, which overestimates the effect.
+
+This example illustrates how observational data can lead to biased treatment effect estimates when treatment assignment is confounded with unobserved factors.
+
+A different way to understand this is through the ordinary least squares (OLS) estimator in the observed regression model. The estimates are:
+
+$$
+\hat{\alpha}^* = \bar{Y}_0, \quad \hat{\tau}^* = \bar{Y}_1 - \bar{Y}_0
+$$
+
+These are unbiased estimates of:
+
+$$
+E[Y(1) | Z = 1] - E[Y(0) | Z = 0]
+$$
+
+But what we actually want is:
+
+$$
+E[Y(1)] - E[Y(0)]
+$$
+
+These are only equal when treatment assignment is independent of potential outcomes, as in randomized experiments.
+
+We can extend this analysis to **stratified models**, where the investigator is interested in estimating treatment effects within strata defined by covariates. For each stratum $s$, we define:
+
+$$
+Y_{si}(z) = \alpha_s + \tau_s z + \varepsilon_{si}(z), \quad E[\varepsilon_{si}(z) | S = s] = 0
+$$
+
+In the observed data, this becomes:
+
+$$
+Y_{si} = \alpha_s^* + \tau_s^* Z_{si} + v_{si}, \quad E[v_{si} | Z_{si}, S = s] = 0
+$$
+
+Again, in completely randomized or block-randomized studies, or in observational studies where treatment assignment is unconfounded within strata, we get:
+
+$$
+\alpha_s = \alpha_s^*, \quad \tau_s = \tau_s^*
+$$
+
+To recover the overall average treatment effect (ATE), we average $\tau_s$ across the strata using the distribution of $S$:
+
+$$
+ATE = E_S[\tau_s]
+$$
+
+In summary, model-based inference using linear regression can identify causal effects if treatment assignment is independent of potential outcomes (as in randomized studies) or if confounding is appropriately controlled (as in stratified observational studies). Otherwise, regression estimates may be biased and mislead conclusions.
+
+
+
+## Estimating the ATE: Regression Analysis with Covariates
+
+In the previous lesson, we reformulated model-based inference in terms of **linear regression**. Now, in this lesson, we extend that framework by adding **covariates**—variables like age, gender, or baseline characteristics—which are often collected in both **completely randomized experiments** and **observational studies**.
+
+In a **completely randomized experiment**, we already know that the **difference in sample means** (i.e., $\bar{Y}_1 - \bar{Y}_0$) provides an **unbiased estimator** of the **Average Treatment Effect (ATE)**, which is $E[Y(1) - Y(0)]$.
+
+Still, researchers often perform a **regression of the outcomes on treatment assignment** and **covariates**, using a model like:
+
+$$
+Y_i = \alpha^* + \tau^* Z_i + \beta^{*\top} X_i + v_i
+$$
+
+This regression helps in two ways:
+
+1. It can adjust for imbalance in covariates between treatment groups (even in randomized trials due to sampling variability).
+2. It can increase precision and reduce variance of the estimator.
+
+---
+
+**Ordinary Least Squares (OLS)** estimation ensures that the residuals and their weighted sums equal zero:
+
+$$
+\sum_i v_i = 0,\quad \sum_i Z_i v_i = 0,\quad \sum_i X_i v_i = 0
+$$
+
+From this, we get:
+
+* For the **control group** ($Z = 0$):
+
+  $$
+  \bar{Y}_0 = \hat{\alpha}^* + \hat{\beta}^{*\top} \bar{X}_0
+  $$
+
+* For the **treatment group** ($Z = 1$):
+
+  $$
+  \bar{Y}_1 = \hat{\alpha}^* + \hat{\tau}^* + \hat{\beta}^{*\top} \bar{X}_1
+  $$
+
+So, taking the difference gives:
+
+$$
+\bar{Y}_1 - \bar{Y}_0 = \hat{\tau}^* + \hat{\beta}^{*\top}(\bar{X}_1 - \bar{X}_0)
+$$
+
+This expression shows the difference in outcomes is not just the treatment effect, but also includes the **covariate imbalance** term.
+
+---
+
+
+In **completely randomized experiments**, treatment assignment is independent of both potential outcomes and covariates. Therefore, in expectation, $\bar{X}_1 = \bar{X}_0$, and the difference simplifies:
+
+$$
+E[\hat{\tau}^*] = E[\bar{Y}_1 - \bar{Y}_0] = \text{ATE}
+$$
+
+Thus, both $\hat{\tau}^*$ and the raw mean difference are **unbiased** estimators of the treatment effect. However, because the regression model uses covariates to explain more variation, **its variance is smaller**—making it statistically more efficient.
+
+---
+
+Now an important clarification: even though we use this linear regression model, we **are not assuming** that:
+
+$$
+E[Y_i | Z_i, X_i] = \alpha^* + \tau^* Z_i + \beta^{*\top} X_i
+$$
+
+In other words, we're not saying the model is the true conditional expectation function. Instead, we're just assuming:
+
+$$
+E[v_i | Z_i, X_i] = 0
+$$
+
+This is a **weaker assumption** and sufficient for unbiasedness of the estimator under randomization.
+
+---
+
+In **observational studies**, researchers also often run this kind of regression. However, the situation is more delicate.
+
+Let’s suppose that:
+
+$$
+Y_i(z) = g(z, X_i) + \varepsilon_i(z),\quad \text{with } E[\varepsilon_i(z) | X_i] = 0
+$$
+
+This allows for the possibility that the outcome depends **nonlinearly** or **interactively** on both treatment and covariates. Then the **individual treatment effect** is:
+
+$$
+\text{ATE}(X) = g(1, X) - g(0, X),\quad \text{and } \text{ATE} = E[\text{ATE}(X)]
+$$
+
+In this case, the linear regression estimator $\hat{\tau}^*$ approximates:
+
+$$
+[E[Y(1) | Z=1] - \hat{\beta}^{*\top} E[X | Z=1]] - [E[Y(0) | Z=0] - \hat{\beta}^{*\top} E[X | Z=0]]
+$$
+
+Which can differ from the true ATE if:
+
+* Covariate distributions differ between treatment and control groups,
+* Or the functional form $g(z, X)$ is not linear in $X$.
+
+
+---
+
+Let’s take a special case to explore this further.
+
+Suppose:
+
+$$
+g(1, X) = g(0, X) + \tau
+$$
+
+This means the treatment effect is constant across all values of $X$, which is an "additive treatment effect" model. Then:
+
+$$
+\hat{\tau}^* = \tau + \text{Bias}
+$$
+
+Where the **bias** is due to:
+
+$$
+E[g(0, X) - \hat{\beta}^{*\top} X | Z=1] - E[g(0, X) - \hat{\beta}^{*\top} X | Z=0]
+$$
+
+This bias disappears if **either**:
+
+1. The **covariate distribution** is the same in both groups: $X \perp Z$,
+2. The true model $g(0, X)$ is **exactly linear**, matching $\hat{\beta}^{*\top} X$
+
+---
+
+However, if **neither of these conditions holds**, then even in the additive case, **linear regression can be biased**. And this bias can be large if:
+
+* The regression model is **badly misspecified**, or
+* The covariates are **distributed very differently** in the treatment and control groups.
+
+This is especially relevant in **observational studies**, where covariate imbalance is common and the correct functional form of $g(z, X)$ is usually unknown.
+
+
+# Propensity Score
+
+## Propensity Score
+
+In completely randomized experiments, we observed that including covariates in a regression model leads to an adjusted estimator. This estimator accounts for differences in the means of covariates between the treatment and control groups. Despite this adjustment, the estimator remains unbiased for the Average Treatment Effect (ATE). In fact, it generally has lower variance than the unadjusted difference-in-means estimator.
+
+Importantly, this unbiasedness does not rely on the regression model being correctly specified. Nor does it require the treatment effect to be constant across different values of the covariates. Heterogeneous treatment effects across covariate values are allowed. Thus, even if the regression model is misspecified, the adjusted estimator remains unbiased in randomized experiments.
+
+* In observational studies, the situation is different. Treatment assignment is not independent of the potential outcomes. Confounding variables can influence both the treatment assignment and the outcomes, making the difference in means between the treated and untreated groups biased. To address this, researchers model the conditional expectation of outcomes given treatment and covariates, $E[Y \mid Z, X]$, using regression.
+* However, unlike in randomized experiments, this approach in observational settings only works if the regression function is correctly specified. If it is not, the resulting estimate of ATE will generally be biased. Additionally, even if treatment effects are homogeneous, bias can still occur if the covariate distributions differ significantly between the treatment and control groups.
+
+
+To address this bias, two remedies have been proposed. 
+
+* First, one may attempt to correctly specify a flexible or nonlinear regression model. However, in practice, researchers often lack sufficient knowledge to accurately specify the functional form of the model. Nonparametric regression is an option, but it faces practical difficulties when the number of covariates is large—a problem known as the "curse of dimensionality."
+* Second, researchers may attempt to balance the distribution of covariates in the treatment and control groups, mimicking what happens in a randomized experiment. A traditional method to achieve this is matching. For each treated subject, one finds a control subject with the same or similar covariate values. The difference in outcomes between matched pairs then provides an unbiased estimate of the treatment effect at a given covariate level.
+
+Both methods—flexible modeling and matching—become difficult in high-dimensional covariate spaces. However, computational advances over the past 30 years have enabled significant progress on both fronts. To understand these developments and their role in practice, it is helpful to start with one foundational concept: the propensity score, as introduced by Rosenbaum and Rubin.
+
+The propensity score is defined as the probability of receiving treatment given covariates, $e(X) = P(Z = 1 \mid X)$. Under the assumptions of strong ignorability—that treatment assignment is unconfounded given $X$, and that $0 < e(X) < 1$—Rosenbaum and Rubin showed that:
+
+   a) Given the same propensity score, the distribution of covariates is the same in both the treatment and control groups.
+
+   b) Therefore, conditioning on the propensity score is sufficient to remove confounding, just like conditioning on all covariates.
+
+This is a powerful result because even if modeling $E[Y \mid X, Z]$ directly is difficult due to high-dimensional $X$, modeling $E[Y \mid e(X), Z]$ using the one-dimensional scalar $e(X)$ becomes much more feasible.
+
+Using the estimated propensity score, one can:
+
+* Stratify the data into subgroups (subclassification) based on similar propensity scores.
+* Perform matching of treated and control subjects with similar scores.
+* Apply weighting techniques (such as inverse probability weighting) to estimate ATE.
+
+In all these methods, the key property is that within groups of similar propensity scores, the covariates are balanced between treatment and control groups. This allows for unbiased estimation of treatment effects, assuming that all relevant confounders are included in the propensity score model.
+
+However, propensity scores are not magical. If important confounders are omitted from the model used to estimate the score, balance will not be achieved, and bias will persist. Therefore, good subject-matter knowledge is essential in selecting covariates.
+
+## Estimating ATE-using Sub-Classification on the Propensity Score
+
+
+**1. Overview of Propensity Score Uses**
+
+In observational studies, **propensity scores** are used to estimate treatment effects via four main strategies:
+
+* **Regression adjustment**
+* **Subclassification**
+* **Weighting** (e.g., inverse probability weighting)
+* **Matching**
+
+These techniques aim to control for **confounding** when treatment assignment is not randomized.
+
+
+---
+
+**2. Motivation for Using Propensity Scores**
+
+* In **randomized experiments**, simple differences or regression-adjusted estimates of treatment effects are unbiased.
+* However, in **observational studies**, treatment assignment is not random and may be confounded by covariates.
+* If the regression model is **misspecified**, estimates of the **Average Treatment Effect (ATE)** from linear regression may be **biased and inconsistent**.
+* The idea behind using **propensity scores** is that, under the assumption of **unconfoundedness**, you can balance the covariates between treated and control groups.
+
+---
+
+**3. Subclassification on Propensity Score**
+
+* The method groups subjects into **S strata (subclasses)** based on their estimated propensity scores.
+* Within each subclass, it is assumed that **treatment assignment is “as if randomized”**, and covariates are balanced.
+
+Definitions:
+
+* Let $\bar{Y}_{1s}$ and $\bar{Y}_{0s}$ be the mean outcomes in stratum $s$ for treated and control units, respectively.
+* The **ATE** is estimated as:
+
+  $$
+  \hat{ATE} = \sum_{s=1}^{S} \frac{n_s}{n} (\bar{Y}_{1s} - \bar{Y}_{0s})
+  $$
+* The **ATT** (Average Treatment Effect on the Treated) is estimated as:
+
+  $$
+  \hat{ATT} = \sum_{s=1}^{S} \frac{n_{1s}}{n_1} (\bar{Y}_{1s} - \bar{Y}_{0s})
+  $$
+
+---
+
+**4. Key Considerations in Subclassification**
+
+* **Estimated Propensity Scores** are used to form subclasses because the true scores are unknown.
+* **Bias-Variance Tradeoff**:
+
+  * **More strata (larger S)** → lower bias but higher variance (fewer units per stratum).
+  * **Fewer strata** → higher bias but lower variance.
+  * In practice, **5–10 strata** are commonly used.
+* Subclassification can reduce bias by over **90%** compared to unadjusted comparisons.
+
+---
+
+**5. Practical Steps for Subclassification**
+
+  1. **Estimate Propensity Scores**:
+  
+     * Usually done with logistic regression, probit models, or machine learning methods (e.g., generalized boosted models).
+     * Include main effects and interactions among covariates as needed.
+  
+  2. **Handle Insufficient Overlap**:
+  
+     * At extreme ends of the propensity score distribution, there may be too few treated or control observations (known as **poor overlap**).
+     * Solutions:
+  
+       * **Trim** observations with propensity scores outside the region of **common support**.
+       * **Imbens & Rubin’s approach**: drop units where the estimated score is less than the min of treated or greater than the max of control.
+  
+  3. **Form Strata and Check Balance**:
+  
+     * Divide the propensity score range into **equal-length intervals** (strata).
+     * Within each, test whether the mean propensity scores of treated and control groups are statistically different.
+     * If they are, further split the stratum until balance is achieved.
+     * Use **standardized mean differences** to assess covariate balance across groups
+     
+---
+
+**6. Regression Within Subclasses**
+
+To further improve precision and account for any residual imbalance, a regression model can be used within each subclass:
+
+$$
+Y_i = \alpha^*_s + \tau^*_s Z_i + \beta^*_s X_i + \nu_i
+$$
+
+Where:
+
+* $s$ is the subclass,
+* $\tau^*_s$ is the treatment effect in subclass $s$,
+* $\beta^*_s$ adjusts for covariate imbalance within the subclass.
+
+The overall **ATE** and **ATT** are computed as weighted averages of the subclass estimates $\tau^*_s$, using either:
+
+* weights $\frac{n_s}{n}$ for ATE, or
+* weights $\frac{n_{1s}}{n_1}$ for ATT.
+
+Variance estimates are similarly aggregated across subclasses.
+
+## Estimating ATE-using Inverse Probability of Treatment Weighting
+
+
+**Weighting Using Propensity Scores (IPTW – Inverse Probability of Treatment Weighting)**
+
+1. **Purpose**: To create a pseudo-population where the distribution of covariates is the same between treated and control groups.
+
+2. **Weights**:
+
+   * For treated: $w_i = \frac{1}{e(X_i)}$
+   * For control: $w_i = \frac{1}{1 - e(X_i)}$
+
+3. **IPTW Estimator** (ATE):
+
+   $$
+   \hat{\text{ATE}} = \frac{1}{n} \sum_{i=1}^n \left[ \frac{Z_i Y_i}{e(X_i)} - \frac{(1 - Z_i) Y_i}{1 - e(X_i)} \right]
+   $$
+
+4. **Alternative (normalized) estimator**:
+
+   $$
+   \hat{\text{ATE}}' = \frac{ \sum \frac{Z_i Y_i}{e(X_i)} }{ \sum \frac{Z_i}{e(X_i)} } - \frac{ \sum \frac{(1 - Z_i) Y_i}{1 - e(X_i)} }{ \sum \frac{1 - Z_i}{1 - e(X_i)} }
+   $$
+
+5. **Key Insight**: Weighting is a more refined version of sub-classification. Sub-classification applies coarse weights using block averages; IPTW uses individual-level weights based on exact scores.
+
+---
+
+**Challenges in Practice**
+
+* **Model Misspecification**: If the propensity score model is incorrect, IPTW can be **biased**, especially at extreme scores (close to 0 or 1).
+* **Instability**: Large or small estimated scores result in **extreme weights**, inflating variance.
+* **Trimming**: Analysts often remove units with extreme estimated scores (e.g., outside \[0.1, 0.9]) to stabilize results.
+
+---
+
+**ATT Estimation via Weighting**
+
+* Estimating the **Average Treatment effect on the Treated (ATT)**:
+
+  $$
+  \hat{\text{ATT}} = \bar{Y}_1 - \frac{ \sum (1 - Z_i) e(X_i) Y_i / (1 - e(X_i)) }{ \sum (1 - Z_i) e(X_i) / (1 - e(X_i)) }
+  $$
+
+* Treated units’ outcomes are used directly; control units are reweighted to match the propensity distribution in the treated group.
+
+---
+
+**Double Robustness**
+
+* Combining outcome regression and propensity score adjustment.
+* The estimator remains **consistent** if **either** the propensity score model **or** the outcome model is correctly specified.
+* This leads to **double robust estimators**, often used in modern causal inference.
+
+## Matching
+
+
+In observational studies, unlike randomized controlled trials, individuals are not randomly assigned to treatment or control groups. This creates the potential for confounding bias because individuals who choose treatment may differ systematically from those who do not. To adjust for this and attempt to estimate causal effects, researchers use various methods, one of which is **matching**.
+
+Matching is a strategy designed to make the treated and control groups more comparable by aligning individuals with similar observed characteristics (covariates). The central idea is to mimic randomization by ensuring that the distribution of covariates is similar between treated and untreated units. This allows for a more valid comparison of outcomes.
+
+One foundational concept related to matching is the **propensity score**, which is the probability that a unit receives treatment given its observed covariates. This scalar summary of multivariate covariates greatly simplifies the problem: instead of matching on many variables simultaneously, one can match units based on their estimated propensity scores. According to Rosenbaum and Rubin (1983), if treated and control units have the same propensity score, their covariate distributions should be balanced. This is the key justification for matching on the propensity score.
+
+Matching comes in several forms. In **exact matching**, one attempts to match each treated unit with a control unit that has identical values for all covariates. While theoretically ideal, this is often impractical in real datasets with many covariates. Instead, researchers turn to **approximate matching**, where similarity is defined via a distance metric. For continuous covariates, **Euclidean distance** may be used, but this ignores differing variances and covariate correlations. Therefore, **Mahalanobis distance** is generally preferred, as it standardizes for variance and accounts for correlation between variables. It is defined as the distance between two covariate vectors using the inverse of the pooled sample covariance matrix as a weighting factor.
+
+When using **propensity score matching**, distance is defined in terms of the absolute difference in estimated propensity scores between treated and control units. Matching can be done either **with replacement** (where the same control can be matched to multiple treated units) or **without replacement** (each control is used only once). Matching with replacement generally provides better matches but introduces dependency across matched pairs, complicating variance estimation.
+
+One common implementation is **1:1 nearest neighbor matching**, where each treated unit is paired with the nearest available control unit based on the distance metric. More generally, **1\:k matching** pairs each treated unit with multiple control units to reduce variance.
+
+Once matching is done, the treatment effect for the treated (ATT) is estimated as the average difference in outcomes between treated units and their matched controls. Mathematically, for a treated unit $i$, if $Y_i^{(T)}$ is the outcome of the treated unit and $\bar{Y}_i^{(C)}$ is the average outcome of its matched controls, the ATT estimate is:
+
+$$
+\widehat{ATT} = \frac{1}{n_T} \sum_{i=1}^{n_T} \left(Y_i^{(T)} - \bar{Y}_i^{(C)}\right)
+$$
+
+This estimate is unbiased if matching achieves balance on covariates. Therefore, it is essential to assess covariate balance after matching. One method is to compute the **standardized difference** for each covariate before and after matching. If the standardized differences are close to zero after matching (typically below 0.1 or 10%), then the matching is considered successful. Another approach is to compare summary metrics such as the Mahalanobis distance or the distribution of estimated propensity scores.
+
+In practice, estimating the propensity score itself requires modeling, typically via logistic regression. The model must be specified carefully; mis-specification can reduce balance and increase bias. Unlike IPW, where model mis-specification can directly bias treatment effect estimates, in matching the goal is to obtain balanced samples, not to recover the true propensity function. If initial matching fails to achieve balance, researchers often revise the model (e.g., include higher-order terms or interactions) and repeat the matching.
+
+Matching methods have evolved over time. Beyond simple nearest neighbor matching, newer techniques aim to **optimize balance directly**. These include:
+
+* **Genetic Matching**, which uses a genetic algorithm to minimize imbalance.
+* **Optimal Subset Matching**, which selects the best subset of controls to match the treated group.
+* **Cardinality Matching**, which maximizes the matched sample size subject to a specified level of balance.
+
+A notable development in variance estimation for matching-based estimators comes from the work of Abadie and Imbens. They propose variance formulas that account for the fact that control units may be matched to multiple treated units and for the randomness induced by the matching process. In the case of **matching with replacement**, their variance estimator includes terms for how frequently each control unit is used.
+
+It is also worth noting that while matching is often used to estimate the ATT (the effect of treatment on the treated), it can also be applied to estimate the **average treatment effect (ATE)** or the **effect on the untreated (ATU)**. The choice depends on the research question and the structure of the available data.
+
+
+# Special Topics
+
+## Regression Based Estimators and Double Robustness
+
+ 
+
+**Overview and Motivation**
+
+So far, we’ve discussed methods that estimate treatment effects using **covariates** or the **propensity score**, but without explicitly modeling the **regression function** (i.e., the expected outcome given covariates and treatment). This might seem surprising because, under the assumption of **unconfoundedness** (i.e., treatment assignment is independent of potential outcomes given covariates), modeling the regression function can directly identify the average treatment effect (ATE). Specifically, if we can estimate the expected potential outcomes $\mathbb{E}[Y(1) | X]$ and $\mathbb{E}[Y(0) | X]$, then taking the difference gives us the **conditional treatment effect**, and averaging those over the population gives us ATE.
+
+---
+
+**Regression Imputation and Its Use**
+
+In practice, we can:
+
+* Use observed values for outcomes when available (e.g., for treated individuals, we observe $Y(1)$),
+* Use imputation (e.g., model-based estimates) for the missing potential outcomes (e.g., impute $Y(0)$ for treated individuals).
+
+This approach also allows estimation of:
+
+* **Sample Average Treatment Effect (SATE)**,
+* **Finite Population Average Treatment Effect**, and
+* **Sample Average Treatment Effect on the Treated (SATT)**.
+
+Importantly, to estimate SATT, **we only need to model the control group**. That is, for treated individuals, we already observe $Y(1)$, and only need to impute $Y(0)$.
+
+---
+
+**Challenges with Misspecification**
+
+A common practice is to model the regression function with **linear regression**. However, this is risky:
+
+* If the regression model is **misspecified**, the estimated treatment effects can be **biased and inconsistent**.
+* Similarly, if the **propensity score model** (often estimated using logistic regression) is misspecified, **Inverse Probability Weighting (IPW)** estimates will also be biased.
+
+This dual vulnerability is what initially motivated the use of propensity score methods to reduce reliance on potentially misspecified outcome models.
+
+---
+
+**Non-Parametric and Modern Solutions**
+
+Recent advances have led to **non-parametric approaches** for estimating:
+
+* Propensity scores (e.g., using CART – Classification and Regression Trees),
+* Regression functions (e.g., Bayesian Additive Regression Trees, as used by Jennifer Hill).
+
+Such approaches reduce reliance on parametric assumptions.
+
+---
+
+**Double Robustness**
+
+A key breakthrough is the concept of **double robustness**. This refers to **estimators that are consistent if either**:
+
+* The **propensity score model** is correctly specified, **or**
+* The **regression outcome model** is correctly specified.
+
+If both are correct, the estimator is **efficient** (i.e., has the smallest variance among unbiased estimators).
+
+This leads to the **Doubly Robust Estimator (DRE)** of the treatment effect.
+
+---
+
+**Formulation of the Double Robust Estimator**
+
+Let:
+
+* $g(X; \hat{\beta})$ be the estimated regression function (e.g., $\mathbb{E}[Y | X, Z=0]$ or $Z=1$),
+* $e(X; \hat{\alpha})$ be the estimated propensity score.
+
+The doubly robust estimator for $\mathbb{E}[Y(1)]$ (the mean potential outcome under treatment) includes two terms:
+
+1. A weighted average term that resembles **inverse probability weighting (IPW)**:
+
+   $$
+   \mathbb{E}\left[\frac{Z_i Y_i}{e(X_i)}\right]
+   $$
+2. A correction term that uses the residual from the regression:
+
+   $$
+   \mathbb{E}\left[\left( Z_i - e(X_i) \right) \cdot g(X_i) \right]
+   $$
+
+If the **propensity score is correctly specified**, the second term vanishes (because the expected value of $Z_i - e(X_i)$ given $X_i$ is zero), and the first term gives a consistent estimate.
+
+If the **regression model is correctly specified**, the first term becomes zero (on average, due to residuals), and the second term gives a consistent estimate.
+
+Thus, the estimator is **robust to misspecification in either model**.
+
+---
+
+**Practical Implications and Tools**
+
+* The same double robust approach can be applied to estimate $\mathbb{E}[Y(0)]$.
+* Taking the difference gives a doubly robust estimate of the ATE.
+* Standard errors for these estimators are available and can be implemented in software (e.g., SAS macros, Stata programs).
+* A similar estimator exists for the **average treatment effect on the treated (ATT)**, and it follows the same reasoning.
+
+---
+
+**Summary**
+
+* Traditional estimation methods can be biased if either the regression or propensity score model is incorrect.
+* **Double Robust Estimators** offer a safeguard: they are consistent if *either* model is correctly specified.
+* When both models are correct, the estimator is not only consistent but also **efficient**.
+* Modern machine learning tools allow better, flexible modeling of both the outcome and treatment assignment processes.
+* This makes **double robust methods** a preferred and practical approach in many causal inference problems.
+
+## Machine Learning and Estimation of Treatment Effects
+
+The integration of machine learning (ML) into causal inference—particularly for estimating treatment effects—is a **relatively new but rapidly growing field**. Traditionally, treatment effect estimation relied on **parametric models** like linear regression, logistic regression, or Cox models. But these come with strong assumptions about the relationship between covariates and outcomes.
+
+ML, in contrast, offers **flexible, non-parametric tools** (e.g., random forests, boosting, neural networks) that can capture **complex, nonlinear relationships** without needing to specify them in advance.
+
+---
+
+**1. Early Work: Bayesian Additive Regression Trees (BART)**
+
+One of the earliest applications of ML to causal inference is **Jennifer Hill's** work using **Bayesian Additive Regression Trees (BART)**. Her method focuses on estimating the **regression function** $g(X) = \mathbb{E}[Y | X, Z]$, rather than the **propensity score**.
+
+Key benefits of BART:
+
+* Naturally supports **nonlinear and interaction effects**;
+* Extends easily to **continuous treatments**;
+* Bayesian formulation allows for **uncertainty quantification** via posterior intervals;
+* Simulations suggest it performs **competitively** across various scenarios.
+
+But: this approach **does not use the propensity score**, so it’s not doubly robust.
+
+
+---
+
+**2. The Problem of Regularization-Induced Bias**
+
+Modern ML methods like LASSO, random forests, and boosting often **regularize** (i.e., shrink) model parameters to prevent overfitting.
+
+However, when these regularized models are used directly to estimate treatment effects (especially regression-based methods like $Y_i = \theta Z_i + g(X_i) + \varepsilon_i$), they can produce **biased estimates**, particularly if:
+
+* The outcome model $g(X)$ is not correctly specified;
+* The regularization is aggressive (e.g., too much shrinkage);
+* There's **overfitting** or **underfitting**.
+
+This bias does **not vanish asymptotically**, and it leads to **inconsistent estimates** of treatment effects if used naïvely.
+
+---
+
+**3. Double/Debiased Machine Learning (DML)**
+
+To fix this, **Chernozhukov et al.** proposed the **Double/Debiased Machine Learning (DML)** framework. The key idea is to **combine ML models for both the regression function and the propensity score**, and then **correct for the regularization bias**. This results in:
+
+* **Double robustness**: consistent if either the outcome or propensity model is correct;
+* **Debiased estimation**: adjusts for the shrinkage bias from ML;
+* **Valid statistical inference**: asymptotically normal estimators.
+
+How DML works (simplified):
+
+1. **Split the sample** into two parts: use one part to estimate the **regression function $g(X)$** and **propensity score $e(X)$** via ML (e.g., random forests, boosting, ensemble methods).
+2. **Use the other sample** to compute a residual-like quantity (e.g., $Y_i - \hat{g}(X_i)$) and then regress it on the residualized treatment indicator (e.g., $Z_i - \hat{e}(X_i)$).
+3. The result is a **debiased estimate of the average treatment effect (ATE)**, with proper asymptotic properties.
+
+This technique is particularly powerful in **high-dimensional** settings or where **flexible modeling** is essential.
+
+---
+
+**4. Targeted Maximum Likelihood Estimation (TMLE)**
+
+Another ML-based causal inference approach is **Targeted Maximum Likelihood Estimation (TMLE)**.
+
+TMLE works in two steps:
+
+* **Step 1: Fit outcome model** using any machine learning method (often **super learner**, an ensemble that combines many ML algorithms).
+* **Step 2: Targeting step**: adjust the outcome model using the estimated **propensity score**, correcting for any residual bias.
+
+TMLE:
+
+* Is **doubly robust**;
+* Has **asymptotically efficient estimators**;
+* Supports **cross-validation and ML integration**;
+* Allows valid confidence intervals.
+
+---
+
+**Summary: What to Take Away**
+
+* **Naïve use of ML** in regression-style causal models leads to **bias** from regularization and invalid inference.
+* **Double Robust (DR) and Debiased ML** approaches combine models for both outcome and treatment assignment, yielding **consistent and efficient estimates** even if one model is wrong.
+* **BART**, **Super Learner**, and **TMLE** are modern tools that integrate machine learning with causal inference.
+* In **DML**, sample splitting and residualization help reduce bias and allow ML flexibility without sacrificing statistical validity.
+* These methods are especially useful in **high-dimensional**, **nonlinear**, and **complex treatment effect estimation** settings.
+
+
+If you're entering causal inference using machine learning, it's critical to:
+
+1. Respect the distinction between **prediction** and **causal estimation**;
+2. Use **targeted estimators** designed for causality (not generic ML outputs);
+3. Leverage **cross-fitting**, **sample-splitting**, and **double robustness** to mitigate overfitting and bias.
+
+
+## Unconfoundedness Assumption: Assessment and Sensitivity
+
+ 
+**1. What is the Unconfoundedness Assumption?**
+
+The **unconfoundedness assumption** (also known as **ignorability** or **selection on observables**) states that **treatment assignment is independent of the potential outcomes given observed covariates**:
+
+$$
+(Y(0), Y(1)) \perp Z \mid X
+$$
+
+This means that **after controlling for covariates $X$**, treatment assignment $Z$ behaves like random assignment. It's essential for making causal inference in **observational studies**, allowing us to estimate causal effects without randomized experiments.
+
+**Key point**: This assumption is **untestable** in practice, because for each unit, we only observe **one** of the two potential outcomes, $Y(0)$ or $Y(1)$, but **never both**.
+
+---
+
+**2. Assessing Unconfoundedness (Two Main Approaches)**
+
+Even though we cannot test unconfoundedness directly, **proxy assessments** have been proposed to evaluate its plausibility.
+
+---
+
+**Approach 1: Use Control Outcomes (Placebo Outcomes)**
+
+* Choose an outcome that is **known not to be affected** by the treatment.
+* Compare this “control” outcome between treated and untreated groups.
+* If a significant difference is found, and the control outcome **should not be affected**, that suggests a **violation of unconfoundedness** (or a Type I error).
+
+**Challenges:**
+
+* The control outcome **must not be a confounder**.
+* It should be **correlated with unmeasured confounders**—otherwise, a lack of difference could be misleading.
+* Often, **pre-treatment values** of the main outcome (e.g., baseline test scores, health measures) are used—but these may themselves be confounders.
+
+**Bottom line**: Simple and intuitive, but selecting a truly valid control outcome requires **careful judgment** and **domain knowledge**.
+
+---
+
+**Approach 2: Use Multiple Control Groups**
+
+* Compare outcomes between **two or more control groups**, both untreated.
+* If unconfoundedness holds, then the **outcome distribution** in these groups should be the **same**, conditional on covariates $X$.
+* Test $Y \perp W \mid X$, where $W \in \{C1, C2\}$ is the control group indicator.
+
+**Example**:
+
+* If Control Group 1 is from Canada, and Control Group 2 from the U.S., then differences in outcomes may reflect **systematic differences** (e.g., healthcare, diet), **not** treatment effects.
+
+**Cautions:**
+
+* Control groups should differ with respect to **unmeasured confounders** to make this test informative.
+* Assumes the **distribution of potential outcomes** for treated units in C1 and C2 would be the same if assigned to either control group.
+
+**Bottom line**: Useful for checking balance across groups, but effectiveness depends on careful selection of diverse control groups.
+
+---
+
+**3. Sensitivity Analysis: What if Unconfoundedness Fails?**
+
+Instead of testing whether unconfoundedness holds (which we can't), **sensitivity analysis** asks:
+
+> How would our conclusions change **if** the assumption is violated?
+
+---
+
+**Rosenbaum’s Sensitivity Analysis (Randomization Inference)**
+
+Applies to matched or paired studies. The idea is to **simulate departures from random assignment**.
+
+**Setup:**
+
+* In a perfect randomized pair, each unit has a **0.5 probability** of being treated.
+* If unmeasured confounders exist, this probability could be **unequal** (say, 2:1 odds).
+* Then, the treatment assignment might range between 1/3 and 2/3.
+
+**Procedure:**
+
+* Vary the probability of treatment within each matched pair.
+* For each scenario (e.g., 2:1, 3:1 odds), compute the **p-value bounds** for the null hypothesis of no treatment effect.
+
+**Interpretation:**
+
+* If the conclusion (e.g., rejecting the null) changes dramatically under small departures, then results are **sensitive**.
+* If it takes large deviations to change the conclusion, then results are **robust**.
+
+**Extensions**:
+
+* Generalizes to **many-to-one matching**, not just pairs.
+* Can test non-zero constant treatment effects too.
+
+---
+
+**4. Model-Based Sensitivity Analysis Using Bias Formulas**
+
+We can also quantify bias due to **unobserved confounding**.
+
+Suppose there's an unmeasured confounder $U$. The **bias** in the estimated treatment effect is:
+
+$$
+\text{Bias} = \mathbb{E}[Y \mid X, Z=1, U] - \mathbb{E}[Y \mid X, Z=0, U] \times \left[ P(U \mid X, Z=1) - P(U \mid X, Z=0) \right]
+$$
+
+This shows that bias depends on:
+
+* The **association between $U$ and $Y$**.
+* The **imbalance in $U$** across treatment groups.
+
+**Sensitivity analysis methods** like those by **VanderWeele** and **Arah** use such formulas to simulate how much unmeasured confounding would be required to **explain away** the estimated effect.
+
+---
+
+**5. Worst-Case Scenario: Bounds**
+
+* Developed by **Robins** and **Manski**, these methods derive **upper and lower bounds** for treatment effects **without assuming unconfoundedness**.
+* Essentially: “What is the smallest and largest the treatment effect could be, given what we observe?”
+
+**Drawback**:
+
+* Bounds are often **very wide** (e.g., treatment effect could be anything from –50 to +100), so they’re not very informative unless additional assumptions are added.
+
+---
+
+
+**Summary and Implications**
+
+* **Unconfoundedness** is central to modern causal inference in observational studies.
+* It is **not testable**, but there are tools to **assess its plausibility** or **quantify sensitivity**.
+* Two assessment tools:
+
+  * **Control outcomes**
+  * **Multiple control groups**
+* Two sensitivity strategies:
+
+  * **Randomization-based sensitivity (Rosenbaum)**
+  * **Model-based bias formulas (e.g., VanderWeele)**
+* **Worst-case bounds** provide identification without unconfoundedness but are often too vague.
+
+
+# Reference and Further Read
+
+Holland, P. (1986), “Statistics and Causal Inference,” (with discussion), Journal of the American Statistical Association, 81, 945-970. 
+
+Rosenbaum, P. R. (2002), Observational Studies, New York: Springer-Verlag.
+
+Rosenbaum, P. R. (2010), Design of Observational Studies, New York: Springer-Verlag.
+
+Rosenbaum, P. R. (2017), Observation and Experiment, Cambridge, MA: Harvard University Press.
+
+Imbens, G. W., and Rubin, D. B. (2015), Causal Inference for Statistics, Social and Biomedical Sciences: An Introduction, New York: Cambridge University Press.
+
+Imbens, G. W. (2004), “Nonparametric Estimation of Average Treatment Effects Under Exogeneity: A Review,” Review of Economics and Statistics, 86, 1-29. 
+
+McCaffrey, D.F., Ridgeway, G., and Moral, A.R. (2004), “Propensity Score Estimation with Boosted Regression for Evaluating Causal Effects in Observational Studies,” Psychological Methods 9, 403-425.
+
+Rosenbaum, P.R., and Rubin, D.B. (1983), “The Central Role of the Propensity Score in Observational Studies for Causal Effects,” Biometrika 70, 41-55.
+
+Cochran, W.G., and Rubin, D. (1973), “Controlling Bias in Observational Studies: A Review”, Sankhya, 35, 417-446.
+
+Imbens G, Abadie A, Drukker D, and Herr J. (2004), Implementing Matching Estimators for Average Treatment Effects in Stata,” The STATA Journal, 4, :290-311.
+
+Imbens, G. W., and Rubin, D. B. (2015), Causal Inference for Statistics, Social and Biomedical Sciences: An Introduction, New York: Cambridge University Press.
+
+Rosenbaum, P.R. (2012), “Optimal Matching of an Optimally Chosen Subset in Observational Studies,” Journal of Computational and Statistical Graphics, 21, 57-71.
+
+Sekhon, J. S. (2011), “Multivariate and Propensity Score Matching Software with Automated Balance Optimization: The Matching package for R,” Journal of Statistical Software, 7.
+
+Stuart, E. A. (2010), “ Matching Methods for Causal Inference: A Review and a Look Forward,” Statistical Science, 25, 1-21.
+
+Zubizarreta, J.R., Paredes, R.D., and Rosenbaum, P.R. (2014), “Matching for Balance, Pairing for Heterogeneity in an Observational Study of the Effectiveness of For-Profit and Not-For-Profit High Schools in Chile,” The Annals of Applied Statistics, 8, 204-231.
+
+Chernozhukov, V., Chetverikov, D., Demirer, M., Duflo, E., Hansen, C., Newey, W., and Robins, J. (2018), “Double/Debiased Machine Learning for Treatment and Structural Parameters,” Econometrics Journal, 21, C1-C68.
+
+Chipman, H. A, George, E. I., and McCulloch, R, E., (2010), “BART: Bayesian additive regression trees,” The Annals of Applied Statistics, 4, 266-298.
+
+Glynn, A.N., and Quinn, K.M. (2010), “An Introduction to the Augmented Inverse Propensity Weighted Estimator,” Political Analysis, 18, 3656.
+
+Hill, J.L. (2011), “Bayesian Nonparametric Modeling for Causal Inference,”: Journal of Computational Graphics and Statistics, 20,217-240.
+
+Kang, J.D.Y, and Schafer, J.L. (2007), “Demystifying Double Robustness: A Comparison of Alternative Strategies for Estimating a Population Mean from Incomplete Data,” Statistical Science, 22, 523-539.
+
+Lee, B.K., Lessler, J., and Stuart, E.A. (2010), “Improving Propensity Score Weighting Using Machine Learning,” Statistics in Medicine, 29,337-346.
+
+Liu, W. Kuramoto, S.J., and Stuart, E.A. (2013), “An Introduction to Sensitivity Analysis for Unobserved Confounding in Non-Experimental Prevention Research,” Prevention Science, 14, 570-580.
+
+Lopez, M.J., and Gutman, R,. (2017), “Estimation of Causal Effects with Multiple Treatments: A Review and New Ideas,” Statistical Science, 32, 432-454.
+
+Manski, C.F. (1990), “Nonparametric Bounds on Treatment Effects,” American Economic Association Papers and Proceedings, 80, 319-323.
+
+Richardson, A., Hudgens, M.G., Gilbert, P., and Fine, J.P. (2014), Nonparametric Bounds and Sensitivity Analysis of Treatment Effects,” Statistical Science, 29, 596-618.
+
+Robins J.M. (1989). “The Analysis of Randomized and Non-Randomized AIDS Treatment Trials Using a New Approach to Causal Inference in Longitudinal Studies.” Pp. 113-159 in L. Sechrest, H. Freeman, and A. Mulley (Eds.), Health Service Research Methodology: A Focus on AIDS. Washington, D.C.: U.S. Public Health Service, National Center for Health Services Research.
+
+Rosenbaum, P. R. (2002), Observational Studies, New York: Springer-Verlag.
+
+Rosenbaum, P. R. (2010), Design of Observational Studies, New York: Springer-Verlag.
+
+Rosenbaum, P. R. (2017), Observation and Experiment, Cambridge, MA: Harvard University Press.
+
+Scharfstein, D.O., Rotnitzky, A,., and Robins, J.M. (1999), “Adjusting for Non-ignorable Drop-Out Using Semiparametric Non-Response Models,” (with discussion), Journal of the American Statistical Association, 94, 1096-1146.
+
+van der Laan, M.J., and Rose, S. (2011), Targeted Learning: Causal Inference for Observational and Experimental Data, New York: Springer.
