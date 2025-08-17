@@ -1,0 +1,101 @@
+<!DOCTYPE html> <html xmlns=http://www.w3.org/1999/xhtml lang xml:lang style><!--
+ Page saved with SingleFile 
+ url: https://simplystatistics.org/posts/2012-01-06-p-values-and-hypothesis-testing-get-a-bad-rap-but-we/ 
+ saved date: Sat Dec 31 2022 21:38:21 GMT+0100 (Mitteleuropäische Normalzeit)
+--><meta charset=utf-8><style>body{transition:opacity ease-in 0.2s}</style>
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta http-equiv=X-UA-Compatible content="IE=Edge,chrome=1">
+<meta name=generator content=distill>
+<title>Simply Statistics: P-values and hypothesis testing get a bad rap - but we sometimes find them useful.</title>
+<meta property=article:published itemprop=datePublished content=2012-01-06>
+<meta property=article:created itemprop=dateCreated content=2012-01-06>
+<meta name=article:author content=Admin>
+<meta property=og:title content="Simply Statistics: P-values and hypothesis testing get a bad rap - but we sometimes find them useful.">
+<meta property=og:type content=article>
+<meta property=og:locale content=en_US>
+<meta property=og:site_name content="Simply Statistics">
+<meta property=twitter:card content=summary>
+<meta property=twitter:title content="Simply Statistics: P-values and hypothesis testing get a bad rap - but we sometimes find them useful.">
+<style id=distill-prerendered-styles>html{font-size:14px;line-height:1.6em;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;text-size-adjust:100%;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}@media (min-width:768px){html{font-size:16px}}body{margin:0}p{margin-top:0;margin-bottom:1em}@supports not (display:grid){.base-grid,distill-header,d-title,d-abstract,d-article,d-appendix,distill-appendix,d-byline,d-footnote-list,d-citation-list,distill-footer{display:block;padding:8px}}d-title,d-article,d-appendix,d-byline{display:grid;justify-items:stretch;grid-template-columns:[screen-start]8px[page-start kicker-start text-start gutter-start middle-start]1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr[text-end page-end gutter-end kicker-end middle-end]8px[screen-end];grid-column-gap:8px}.grid{display:grid;grid-column-gap:8px}@media (min-width:768px){d-title,d-article,d-appendix,d-byline{grid-template-columns:[screen-start]1fr[page-start kicker-start middle-start text-start]45px 45px 45px 45px 45px 45px 45px 45px[kicker-end text-end gutter-start]45px[middle-end]45px[page-end gutter-end]1fr[screen-end];grid-column-gap:16px}.grid{grid-column-gap:16px}}@media (min-width:1000px){d-title,d-article,d-appendix,d-byline{grid-template-columns:[screen-start]1fr[page-start kicker-start]50px[middle-start]50px[text-start kicker-end]50px 50px 50px 50px 50px 50px 50px 50px[text-end gutter-start]50px[middle-end]50px[page-end gutter-end]1fr[screen-end];grid-column-gap:16px}.grid{grid-column-gap:16px}}@media (min-width:1180px){d-title,d-article,d-appendix,d-byline{grid-template-columns:[screen-start]1fr[page-start kicker-start]60px[middle-start]60px[text-start kicker-end]60px 60px 60px 60px 60px 60px 60px 60px[text-end gutter-start]60px[middle-end]60px[page-end gutter-end]1fr[screen-end];grid-column-gap:32px}.grid{grid-column-gap:32px}}d-title{padding:2rem 0 1.5rem;contain:layout style;overflow-x:hidden}@media (min-width:768px){d-title{padding:4rem 0 1.5rem}}d-title h1{grid-column:text;font-size:40px;font-weight:700;line-height:1.1em;margin:0 0 0.5rem}@media (min-width:768px){d-title h1{font-size:50px}}d-byline{contain:content;overflow:hidden;border-top:1px solid rgba(0,0,0,0.1);font-size:0.8rem;line-height:1.8em;padding:1.5rem 0;min-height:1.8em}d-byline .byline{grid-column:text}@media (min-width:768px){d-byline .byline{grid-template-columns:1fr 1fr 1fr 1fr}}d-byline .authors-affiliations{grid-column-end:span 2;grid-template-columns:1fr 1fr;margin-bottom:1em}@media (min-width:768px){d-byline .authors-affiliations{margin-bottom:0}}d-byline h3{font-size:0.6rem;font-weight:400;color:rgba(0,0,0,0.5);margin:0;text-transform:uppercase}d-byline p{margin:0}d-byline a{color:rgba(0,0,0,0.8);text-decoration:none;border-bottom:none}d-byline p.author{font-weight:500}d-article{contain:layout style;overflow-x:hidden;border-top:1px solid rgba(0,0,0,0.1);color:rgba(0,0,0,0.8)}d-article>*{grid-column:text}@media (min-width:768px){d-article{font-size:16px}}@media (min-width:1024px){d-article{font-size:1.06rem;line-height:1.7em}}d-article a{color:inherit}d-article p,d-article ol{margin-top:0;margin-bottom:1em;margin-left:0;margin-right:0}d-article a{border-bottom:1px solid rgba(0,0,0,0.4);text-decoration:none}d-article a:hover{border-bottom:1px solid rgba(0,0,0,0.8)}d-article ol{padding-left:24px}d-article li{margin-bottom:1em;margin-left:0;padding-left:0}d-article li:last-child{margin-bottom:0}</style>
+<meta name=distill:offset content=../..>
+<style>.distill-site-nav{color:rgba(255,255,255,0.8);background-color:#0F2E3D;font-size:15px;font-weight:300}.distill-site-nav a{color:inherit;text-decoration:none}.distill-site-nav a:hover{color:white}.distill-site-header{width:100%;box-sizing:border-box;z-index:3}.distill-site-header .nav-left{display:inline-block;margin-left:8px}@media screen and (max-width:768px){.distill-site-header .nav-left{margin-left:0}}.distill-site-header .nav-right{float:right;margin-right:8px}.distill-site-header a,.distill-site-header .title{display:inline-block;text-align:center;padding:14px 10px 14px 10px}.distill-site-header .title{font-size:18px;min-width:150px}.distill-site-header .logo{padding:0}@media screen and (min-width:1000px){.distill-site-header .nav-left{margin-left:20px}.distill-site-header .nav-right{margin-right:20px}.distill-site-header .title{padding-left:12px}}.distill-site-header .nav-toggle{display:none}@media screen and (max-width:768px){.distill-site-header a{display:none}.distill-site-header a.nav-toggle{float:right;display:block}.distill-site-header .title{margin-left:0}.distill-site-header .nav-right{margin-right:0}.distill-site-header{overflow:hidden}}d-title{padding-top:6rem}.headroom{z-index:1000;position:fixed;left:0;right:0}.headroom--transition{transition:all .4s ease-in-out}.headroom--unpinned{top:-100px}/*!
+ * Font Awesome Free 5.1.0 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ */@keyframes a{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}/*!
+ * Font Awesome Free 5.1.0 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ */body{background-color:white}d-byline .byline{grid-template-columns:2fr 2fr}d-byline .byline h3{margin-block-start:1.5em}d-byline .byline .authors-affiliations h3{margin-block-start:0.5em}d-article{padding-top:2.5rem;padding-bottom:30px}@media (min-width:1000px){d-title,d-article,d-appendix,d-byline{grid-template-columns:[screen-start]1fr[page-start kicker-start]80px[middle-start]50px[text-start kicker-end]65px 65px 65px 65px 65px 65px 65px 65px[text-end gutter-start]65px[middle-end]65px[page-end gutter-end]1fr[screen-end];grid-column-gap:16px}.grid{grid-column-gap:16px}d-article{font-size:1.06rem;line-height:1.7em}}@media (min-width:1180px){d-title,d-article,d-appendix,d-byline{grid-template-columns:[screen-start]1fr[page-start kicker-start]60px[middle-start]60px[text-start kicker-end]60px 60px 60px 60px 60px 60px 60px 60px[text-end gutter-start]60px[middle-end]60px[page-end gutter-end]1fr[screen-end];grid-column-gap:32px}.grid{grid-column-gap:32px}}d-appendix{contain:layout style;font-size:0.8em;line-height:1.7em;margin-top:60px;margin-bottom:0;border-top:1px solid rgba(0,0,0,0.1);color:rgba(0,0,0,0.5);padding-top:60px;padding-bottom:48px}.sf-hidden{display:none!important}</style><link rel=canonical href=https://simplystatistics.org/posts/2012-01-06-p-values-and-hypothesis-testing-get-a-bad-rap-but-we/><meta http-equiv=content-security-policy content="default-src 'none'; font-src 'self' data:; img-src 'self' data:; style-src 'unsafe-inline'; media-src 'self' data:; script-src 'unsafe-inline' data:; object-src 'self' data:;"><style>img[src="data:,"],source[src="data:,"]{display:none!important}</style></head>
+<body data-new-gr-c-s-check-loaded=14.1091.0 data-gr-ext-installed style=visibility:visible>
+<d-front-matter></d-front-matter>
+<header class="header header--fixed headroom headroom--transition headroom--not-bottom headroom--not-top headroom--unpinned" role=banner>
+<nav class="distill-site-nav distill-site-header">
+<div class=nav-left>
+<span class=logo>
+<img src=data:, class=sf-hidden>
+</span>
+<a href=https://simplystatistics.org/index.html class=title>Simply Statistics</a>
+<input id=distill-search class="nav-search hidden sf-hidden" type=text placeholder=Search... value>
+</div>
+<div class=nav-right>
+<a href=https://simplystatistics.org/index.html class=sf-hidden>Home</a>
+<a href=https://simplystatistics.org/featured.html class=sf-hidden>Featured</a>
+<a href=https://simplystatistics.org/about.html class=sf-hidden>About</a>
+<a class=nav-toggle>☰</a>
+</div>
+</nav>
+</header>
+<d-title class=d-title>
+<h1>P-values and hypothesis testing get a bad rap - but we sometimes find them useful.</h1>
+</d-title>
+<d-byline>
+ <div class="byline grid">
+ <div class="authors-affiliations grid">
+ <h3>Author</h3>
+ <h3 style=visibility:hidden>Affiliation</h3>
+ 
+ <p class=author>
+ 
+ <a class=name>Admin</a>
+ </p>
+ <p class=affiliation>
+ <a class=affiliation>&nbsp;</a>
+ </p>
+ 
+ </div>
+ <div>
+ <h3>Published</h3>
+ 
+ <p>Jan. 6, 2012</p> 
+ </div>
+ <div style=visibility:hidden>
+ <h3>DOI</h3>
+ 
+ <p></p>
+ </div>
+ </div>
+</d-byline>
+<d-article>
+<p><em>This post written by Jeff Leek and Rafa Irizarry.</em></p>
+<p>The <a href=http://en.wikipedia.org/wiki/P-value target=_blank>p-value</a> is the most widely-known statistic. P-values are reported in a large majority of scientific publications that measure and report data. <a href=http://en.wikipedia.org/wiki/Ronald_Fisher target=_blank>R.A. Fisher</a> is widely credited with inventing the p-value. If he was cited every time a p-value was reported his paper would have, at the very least, 3&nbsp;<strong>million</strong> citations* - making it the <a href=http://www.jbc.org/content/280/28/e25.full# target=_blank>most highly cited paper</a> of all time.&nbsp;</p>
+<p>However, the p-value has a large number of very vocal critics. The criticisms of p-values, and hypothesis testing more generally, range from philosophical to practical. There are even <a href=http://warnercnr.colostate.edu/~anderson/thompson1.html target=_blank>entire websites</a>&nbsp;dedicated to “debunking” p-values!&nbsp;One issue many statisticians raise with p-values is that they are easily misinterpreted, another is that p-values are not calibrated by sample size, another is that it ignores existing information or knowledge about the parameter in question, and yet another is that very significant (small) p-values may result even when the value of the parameter of interest is scientifically uninteresting.</p>
+<p>We agree with all these criticisms. Yet, in practice, we find p-values useful and, if used correctly, a powerful tool for the advancement of science. The fact that many misinterpret the p-value is not the p-value’s fault. If the statement “under the null the chance of observing something this convincing is 0.65” is correct, then why not use it? Why not explain to our collaborator that the observation they thought was so convincing can easily happen by chance in a setting that is uninteresting. In cases where p-values are <em>small enough</em>&nbsp;then the substantive experts can help decide if the parameter of interest is scientifically interesting.&nbsp;In general, we find p-value to be superior to our collaborators intuition of what patterns are statistically interesting and which ones are not.</p>
+<p>We also find p-values provide a simple way to construct decision algorithms. For example, a government agency can define general rules based on p-values that are applied equally to products needing a specific seal of approval. If the rule proves to be to&nbsp;lenient&nbsp;or restrictive, we change the p-value cut-off appropriately. In this situation we view the p-value as part of a practical protocol, not a tool for statistical inference.</p>
+<p>Moreover the p-value has the following useful properties for applied statisticians:</p>
+<ol type=1>
+<li><strong>p-values are easy to calculate, even for complicated statistics</strong>. Many statistics do not lend themselves to easy analytic calculation; but using permutation and bootstrap procedures p-values can be calculated even for very complicated statistics.&nbsp;</li>
+<li><strong>p-values are relatively easy to understand.</strong> &nbsp;The statistical interpretation of the p-value remains roughly the same no matter how complicated the underlying statistic and they also bounded between 0 and 1. This also means that p-values are easy to <em>mis</em>-interpret - they are not posterior probabilities. But this is a difficulty with education, not a difficulty with the statistic itself.&nbsp;</li>
+<li><strong>p-values have simple, universal properties&nbsp;</strong>&nbsp;Correct p-values are uniformly distributed under the null, regardless of how complicated the underlying statistic.&nbsp;</li>
+<li><strong>p-values are calibrated to error rates scientists care about&nbsp;</strong>Regardless of the underlying statistic, calling all P-values less than 0.05 significant leads to on average about 5% false positives even if the null hypothesis is always true. If this property is ignored things like publication bias can result, but again this is a problem with education and the scientific process, not with p-values.&nbsp;</li>
+<li><strong>p-values are useful for multiple testing correction.</strong>&nbsp;The advent of new measurement technology has shifted much of science from hypothesis driven to discovery driven making the existing multiple testing machinery useful. Using the simple, universal properties of p-values it is possible to easily calculate estimates of quantities like the false discovery rate - the rate at which discovered associations are false.</li>
+<li><strong>p-values are reproducible.</strong> All statistics are reproducible with enough information. Given the simplicity of calculating p-values, it is relatively easy to communicate sufficient information to reproduce them.&nbsp;</li>
+</ol>
+<p>We agree there are flaws with p-values, just like there are with any statistic one might choose to calculate. In particular, we do think that confidence intervals should be reported with p-values when possible.&nbsp;But we believe that any other decision-making statistic would lead to other problems. One thing we are sure about is that p-values beat scientists’ intuition about chance any day. So before bashing p-values too much we should be careful because, like democracy to government, p-values may be the worst form of statistical significance calculation except all those other forms that have been tried from time to time.&nbsp;</p>
+<p>————————————————————————————————————</p>
+<p><em>* Calculated using Google Scholar using the formula:</em></p>
+<p><em>Number of P-value Citations = # of papers with exact phrase “P &lt; 0.05” + (# of papers with exact phrase “P &lt; 0.01” and not exact phrase “P &lt; 0.05”) + &nbsp; (# of papers with exact phrase “P &lt; 0.001” and not exact phrase “P &lt; 0.05” or “P &lt; 0.001”)&nbsp;</em></p>
+<p><em>= 1,320,000 + 1,030,000 + 662,500</em></p>
+<p><em>This is obviously an extremely conservative estimate.&nbsp;</em></p>
+</d-article>
+<d-appendix class=d-appendix style=display:none>
+</d-appendix>
+<div><template shadowroot=closed><style>:host{display:block!important;position:fixed!important;bottom:7px!important;left:13px!important;width:16px!important;height:16px!important;z-index:9007199254740991!important;cursor:pointer!important;overflow:hidden!important}svg{border-radius:3px;opacity:1;transition:opacity 1.5s}#__path{fill:#616161}svg:hover #__path{fill:#d12c20}svg[hide]{opacity:0}svg:hover{opacity:1}</style><svg width=16px height=16px><path id=__path d="M16 14V2a2 2 0 00-2-2H2a2 2 0 00-2 2v12c0 1.1.9 2 2 2h12a2 2 0 002-2z"></path><path fill=#f9f6e8 d="M12.9 12.2c.2-.2.3-.5.3-.8 0-.6-.5-1.2-1.2-1.2-.3 0-.6.1-.9.4-.7.7-1.7 1-2.6 1-2 0-3.8-1.6-3.8-3.6s1.7-3.6 3.8-3.6c1 0 2 .3 2.6 1 .3.3.6.4.9.4.7 0 1.3-.5 1.3-1.2 0-.3-.2-.6-.4-.8A6.4 6.4 0 008.5 2a6.1 6.1 0 00-6.3 6c0 3.3 2.8 6 6.3 6 1.6 0 3.2-.6 4.4-1.8z"></path></svg></template></div><grammarly-desktop-integration data-grammarly-shadow-root=true><template shadowroot=open><style class=sf-hidden>div.grammarly-desktop-integration{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}div.grammarly-desktop-integration:before{content:attr(data-content)}</style><div aria-label=grammarly-integration role=group tabindex=-1 class=grammarly-desktop-integration data-content='{"mode":"full","isActive":true,"isUserDisabled":false}'></div></template></grammarly-desktop-integration><script data-template-shadow-root>(()=>{document.currentScript.remove();processNode(document);function processNode(node){node.querySelectorAll("template[shadowroot]").forEach(element=>{let shadowRoot = element.parentElement.shadowRoot;if (!shadowRoot) {try {shadowRoot=element.parentElement.attachShadow({mode:element.getAttribute("shadowroot")});shadowRoot.innerHTML=element.innerHTML;element.remove()} catch (error) {} if (shadowRoot) {processNode(shadowRoot)}}})}})()</script>

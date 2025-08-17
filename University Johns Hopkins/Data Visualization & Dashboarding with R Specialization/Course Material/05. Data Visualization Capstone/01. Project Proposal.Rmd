@@ -1,0 +1,88 @@
+---
+title: "Project Proposal"
+author: "Zehui Bai"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## 📊 Project Topic
+
+My project will be an **analysis of the 2016 Summer Olympic Games** in *Rio de Janeiro*.
+The goal is to assess the **performance of athletes** based on various characteristics.
+
+I will measure:
+
+* 🥇 Gold
+* 🥈 Silver
+* 🥉 Bronze medals
+
+…achieved across the following variables:
+
+* Sport
+* Nationality
+* Gender
+* Age
+* Height
+* Weight
+
+---
+
+## 🔗 Data Sources
+
+**Primary Source:**
+[https://github.com/flother/rio2016](https://github.com/flother/rio2016)
+
+This dataset is a web-scraped copy of the official **2016 Olympic Games athlete statistics** originally published on the Rio 2016 website by the **International Olympic Committee (IOC)**.
+
+> ⚠️ Note: The official Rio 2016 site has since been taken down, but this data has been preserved by GitHub user [@flother](https://github.com/flother).
+
+**Verification:**
+Similar data is still available (though less structured) at the IOC's official results portal:
+[https://www.olympic.org/olympic-results?g=Rio%202016](https://www.olympic.org/olympic-results?g=Rio%202016)
+
+---
+
+## 📄 Description of the Data
+
+* **Total Athletes:** 11,538
+* **Total Events:** 306
+* **Format:** Tidy rectangular format (one row per athlete)
+* **Variables Include:**
+
+  * Nationality (`country`)
+  * Sex (`gender`)
+  * Date of Birth (`dob`)
+  * Height
+  * Weight
+  * Sport/Event
+  * Medal indicators (Gold / Silver / Bronze)
+
+> 💡 Although it's recommended to use datasets with fewer than 10,000 rows, this dataset slightly exceeds that limit—but remains manageable.
+
+---
+
+## 📈 Visualization Ideas
+
+**🟠 Idea 1:**
+**Scatter Plot** – Total Athletes per Country vs. Total Medals per Country
+
+> *Do countries with more athletes win more medals?*
+
+---
+
+**🟣 Idea 2:**
+**Stacked Bar Chart** – Number of Medals per Sport, broken down by Gender
+
+> *Which sporting events offer the most medals? Are some events gender-exclusive?*
+
+---
+
+**🔵 Idea 3:**
+**Bubble Scatter Plot** – Weight vs. Height, bubble size = number of medals
+
+> *Do taller or heavier athletes tend to win more medals?*
+ 

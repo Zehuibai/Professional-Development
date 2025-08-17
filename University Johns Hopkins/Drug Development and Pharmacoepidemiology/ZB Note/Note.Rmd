@@ -1,0 +1,2491 @@
+---
+title: "Drug Development and Pharmacoepidemiology - Note"
+author: Zehui Bai 
+date: "2025-08-1"
+output:
+  html_document:
+    df_print: paged
+    number_sections: yes
+    toc: yes
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+    theme: journal # <!-- https://bootswatch.com/3/  -->
+    highlight: tango
+    code_folding: "hide" 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Drug Development and Regulation: From Bench to Bedside
+
+
+## Overview of Drug Development and Approval Process
+
+**Five Key Steps in Drug Development**
+
+1. **Discovery & Development**
+
+   * Identify promising molecules by understanding the disease and biological targets.
+   * Screen thousands of compounds; only \~10–20 progress.
+   * Study absorption, distribution, metabolism, excretion (ADME), mechanism, dosage, effectiveness, and toxicity.
+
+2. **Preclinical Research**
+
+   * Conduct *in vitro* (test tube) and *in vivo* (animal) studies focusing on safety/toxicity.
+   * Follow Good Laboratory Practices (GLP).
+   * Submit **Investigational New Drug Application (IND)** to FDA, including animal data, manufacturing info, and clinical protocols.
+   * FDA reviews within 30 days before allowing human testing.
+
+3. **Clinical Research**
+
+   * **Phase 1**: 20–100 participants, mainly healthy volunteers, to assess safety & dosage.
+   * **Phase 2**: Hundreds of patients with the target disease; assess efficacy & side effects.
+   * **Phase 3**: 300–3,000 patients; confirm efficacy, monitor adverse reactions (pivotal trials).
+   * If successful → submit **New Drug Application (NDA)**.
+
+4. **FDA Drug Review**
+
+   * FDA has 60 days to accept NDA for review.
+   * Review takes \~6–10 months; may consult advisory committees.
+   * Inspect manufacturing facilities and review labeling.
+
+5. **Post-Marketing Safety Monitoring**
+
+   * Ongoing surveillance for rare/long-term side effects.
+   * Programs include **MedWatch** and **Sentinel Initiative**.
+
+---
+
+**FDA Programs to Accelerate Access**
+
+* **Fast Track** – expedite development/review for serious conditions with unmet needs.
+* **Breakthrough Therapy Designation** – for drugs showing substantial improvement over existing therapies.
+* **Accelerated Approval** – approve based on surrogate endpoints for serious conditions.
+* **Priority Review** – FDA decision within 6 months (vs. standard 10).
+
+---
+
+⏳ **Typical Timeline**: 10–15 years from discovery to approval.
+🔍 **Key Theme**: Balancing speed, safety, and efficacy through regulated, stepwise evaluation.
+ 
+ 
+## Role of Regulatory Agencies Around the World for Drug Approval
+
+ 
+**Main Purpose of Regulatory Agencies**
+
+* Goal: Protect public health by ensuring medications are **safe**, **effective**, and of **high quality**.
+* Despite differences in demographics, economics, and healthcare systems, agencies share this mission.
+
+**Key Regulatory Agencies Worldwide**
+
+* **USA**: Food and Drug Administration (**FDA**)
+* **Canada**: Health Canada
+* **Nigeria**: National Agency for Food and Drug Administration and Control (**NAFDAC**)
+* **Europe**: European Medicines Agency (**EMA**)
+* **Global Coordination**: International Council for Harmonisation (**ICH**) — develops globally accepted guidelines for harmonizing drug development, registration, and quality standards.
+
+**FDA vs EMA**
+
+*Similarities*
+
+1. Shared Mission – Protect public health.
+2. Approval Role – Approve/reject new drugs and medical devices.
+3. Guidelines – Set regulatory standards for drug development, manufacturing, and marketing.
+4. Post-Marketing Surveillance – Monitor adverse events, inspect facilities, require risk management plans.
+
+*Differences*
+
+1. Jurisdiction – FDA: U.S. only; EMA: EU-wide.
+2. Structure – FDA is centralized; EMA is decentralized, working with each EU member state’s authority.
+3. Decision Authority – FDA makes the final approval decision; EMA recommends; final decision by **European Commission**.
+4. Access to Non-Published Data – FDA makes it public; EMA treats it as sensitive and does not publish.
+
+**Concordance Between FDA and EMA**
+
+* Study (2014–2016): 107 drug applications reviewed by both → **98% concordance** in final decisions.
+* Main cause of disagreement: Differences in interpretation of **efficacy data**.
+
+*Examples of Divergence*
+
+* **Abaloparatide** (osteoporosis): FDA approved 2017; EMA rejected 2019 (insufficient efficacy evidence, cardiac safety concerns) → approved in 2022.
+* **Ataluren** (muscular dystrophy): EMA approved 2014; FDA not approved (insufficient efficacy evidence).
+
+
+## FDA and Key FDA Drug Regulations
+ 
+* **Role and Mission**
+  The U.S. Food and Drug Administration (FDA) plays a critical role in drug development and approval in the United States. Its mission is to protect public health by ensuring the safety, efficacy, and security of:
+
+  * Human and veterinary drugs
+  * Biological products
+  * Medical devices
+  * The nation’s food supply
+  * Cosmetics
+  * Products that emit radiation
+
+* **Scope and Economic Impact**
+
+  * Oversees the safety of over **\$2.9 trillion** worth of food, tobacco, and medical products annually.
+  * Regulates about **21 cents of every consumer dollar** spent in the U.S.
+  * Approved more than **20,000 prescription drugs**, **6,500 medical devices**, and over **600 biological products**.
+
+* **Budget (2023)**
+
+  * Total: **\$6.3 billion**
+  * **54%** from federal budget authorization
+  * **46%** from industry fees
+
+* **Key Centers and Responsibilities**
+
+  * **CDER (Center for Drug Evaluation and Research):** Regulates drugs (mainly small-molecule, simple chemical compounds such as aspirin).
+  * **CBER (Center for Biologics Evaluation and Research):** Regulates biologics and vaccines (large molecules made from living cells, e.g., insulin).
+  * **CDRH (Center for Devices and Radiologic Health):** Regulates medical devices.
+  * FDA also regulates cosmetics, tobacco, veterinary products, and radiation-emitting products.
+
+* **Drugs vs. Biologics**
+
+  * **Drugs:** Small molecules, simple chemical compounds; can be prescription or over-the-counter. Regulated mainly by **CDER**.
+  * **Biologics:** Large molecules made from living cells; regulated mainly by **CBER**.
+
+* **What the FDA Does Not Do**
+
+  * Does **not** regulate the practice of medicine.
+  * Does **not** control the price or availability of drugs.
+  * Does **not** assess cost–benefit for drugs or devices.
+  * Does **not** determine if one drug is better than another.
+  * Does **not** approve every possible use of a product.
+  * Is **not** required to conduct large trials to identify all potential complications of a drug.
+
+**Summary of Key FDA Drug Regulations**
+
+* **Historical Background**
+
+  * At the start of the 20th century, there were no federal protections against dangerous drugs, leading to harmful and fraudulent products such as *William Radem's Microbe Killer* and *Benjamin Bye's Soothing Balmy Oils*.
+  * Over time, a series of laws and amendments shaped today’s rigorous drug review system, now recognized globally as a gold standard for safety, quality, and effectiveness.
+
+* **Major Regulatory Milestones**
+
+  * **1906 – Pure Food and Drugs Act**: Prohibited misbranded and adulterated foods, drinks, and drugs; required drugs to meet standards of strength and purity but did not mandate pre-market FDA review.
+  * **1938 – Food, Drug, and Cosmetic Act**: Required new drugs to be proven safe before marketing, prompted by the 1937 drug tragedy causing over 100 deaths.
+  * **1962 – Kefauver-Harris Amendments**: Required proof of drug effectiveness in addition to safety.
+  * **1966 – Fair Packaging and Labeling Act**: Required honest and informative labeling for all consumer products.
+  * **1983 – Orphan Drug Act**: Provided financial incentives to develop treatments for rare diseases.
+  * **1984 – Drug Price Competition and Patent Term Restoration Act**: Streamlined approval of generic drugs.
+  * **1992 – Prescription Drug User Fee Act (PDUFA)**: Allowed the FDA to collect user fees from companies to speed drug reviews without lowering standards.
+  * **2007 – FDA Amendments Act**: Established the *Sentinel Initiative*, a population-based surveillance system for post-market drug safety.
+  * **2016 – 21st Century Cures Act**: Expanded the use of real-world evidence to accelerate drug development and approval.
+
+* **Advertising Regulations**
+
+  * **Prescription drug advertisements** are regulated by the FDA; **non-prescription drug advertisements** fall under the Federal Trade Commission (FTC).
+  * **Types of FDA-regulated prescription drug ads**:
+
+    1. **Product claim ads**: Must include the drug name, at least one FDA-approved use, and the most significant risks.
+    2. **Reminder ads**: Mention the drug name only, without uses or benefits, and do not require risk information.
+    3. **Help-seeking ads**: Describe a disease or condition but cannot recommend a specific product; include manufacturer contact info and are not considered drug ads under FDA regulation.
+
+## Summary of Clinical Trial Phases
+ 
+
+**Phase 1 Trials**
+
+* Also called *dose-finding studies*, conducted to estimate safety, tolerability, and gather pharmacokinetic (PK) and pharmacodynamic (PD) data.
+* Usually involve 20–100 participants, often healthy volunteers, lasting several months.
+* Key concepts:
+
+  * *Pharmacodynamics (PD)*: What the drug does to the body (e.g., receptor binding).
+  * *Pharmacokinetics (PK)*: What the body does to the drug (absorption, distribution, metabolism, excretion).
+  * *Maximum Tolerated Dose (MTD)*: Highest dose without unacceptable side effects.
+  * *Dose-Limiting Toxicity (DLT)*: Unacceptable side effects that limit dose escalation.
+  * *Half-life*: Time for drug concentration to decrease by half.
+* Common designs:
+
+  * *3+3 design*: Incremental dose escalation with small cohorts, stopping when MTD is reached.
+  * Other methods: accelerated titration, pharmacologically guided escalation, continual reassessment (including Bayesian approaches).
+* Sub-phases:
+
+  * *Phase 1a*: Single dose to small groups, focus on MTD and PK/PD.
+  * *Phase 1b*: Multiple doses, often testing several regimens quickly.
+* \~52% success rate moving to Phase 2.
+
+**Phase 2 Trials**
+
+* Goal: Assess biological activity/efficacy and monitor medium-term safety.
+* Enroll several hundred patients with the target disease; duration several months to 2 years.
+* Often include multiple doses or intervention arms.
+* Sub-phases:
+
+  * *Phase 2a*: Proof-of-concept, explores efficacy and optimal dosing.
+  * *Phase 2b*: Confirms efficacy and safety, sometimes called “mini Phase 3.”
+* Endpoints:
+
+  * *Clinical endpoints*: Direct measures (e.g., stroke incidence).
+  * *Surrogate endpoints*: Predictive measures (e.g., blood pressure reduction for stroke risk).
+* May use *accelerated approval pathway* for serious conditions with unmet needs, allowing approval based on surrogate endpoints from Phase 2 data.
+* \~29% success rate moving to Phase 3.
+
+**Phase 3 Trials**
+
+* Objective: Confirm efficacy and monitor safety in a large patient population (300–3000 patients), lasting 1–4 years.
+* Designs:
+
+  * *Parallel*: Fixed intervention per group.
+  * *Crossover*: Participants receive multiple interventions in sequence.
+  * *Factorial*: Tests combinations of interventions.
+  * *Group allocation*: Assigns interventions at group level.
+* Randomization methods:
+
+  * Simple, blocked, stratified, adaptive (covariate or response-based).
+* Masking/blinding types:
+
+  * Unblinded, single, double, triple (patients, investigators, analysts).
+* Data quality challenges: Missing data, incorrect data, high variability, delays.
+* Analysis approaches:
+
+  * *Intention-to-treat*: Analyze based on assigned group.
+  * *Per-protocol*: Analyze only those who completed per study protocol.
+* All trials must be registered at *clinicaltrials.gov*.
+
+**Phase 4 Studies (Post-Marketing Surveillance)**
+
+* Conducted after FDA approval to monitor real-world safety and effectiveness.
+* Addresses limitations of Phase 3 (e.g., small sample size, short duration, selective populations).
+* Triggered regulatory changes such as the *FDA Amendments Act (2007)*, introducing REMS (Risk Evaluation and Mitigation Strategies).
+* Common approach: Use real-world data (claims, electronic health records) for pharmacoepidemiological studies.
+* Outcomes:
+
+  * Can lead to new safety warnings (e.g., *Montelukast* black box warning for neuropsychiatric effects).
+  * Can result in drug withdrawal (e.g., *Rofecoxib/Vioxx* withdrawn due to cardiovascular risk).
+ 
+
+## Pharmacoepidemiology
+
+### Introduction
+
+**Drug Life Cycle**
+
+* **Stages**
+
+  * **Preclinical & Clinical Development**: Laboratory and animal testing, followed by human clinical trials (Phases 1–3) to obtain regulatory approval (e.g., FDA). This stage is costly.
+  * **Market Introduction & Growth**: After approval, the drug enters the market, supported by promotion and increasing sales.
+  * **Maturity**: Sales reach peak levels and remain stable.
+  * **Decline**: Occurs after patent and exclusivity expire; generic competition reduces sales.
+
+* **Patent vs. Exclusivity**
+
+  * **Patent**: Granted by the USPTO; protects intellectual property for \~20 years from filing, can be obtained anytime during development.
+  * **Exclusivity**: Granted by the FDA; prevents generic competition for a set period (e.g., 5 years for new active moiety, 7 years for orphan drugs).
+  * Combined protections often result in 12–16 years of market monopoly after approval.
+
+**Pharmacoepidemiology**
+
+* **Definition**: A scientific discipline that bridges pharmacology (study of drug effects) and epidemiology (study of disease distribution and determinants).
+* **Scope**: Uses epidemiologic methods to evaluate the use, safety, and effectiveness of medical products and interventions in human populations.
+* **Pillars**:
+
+  * **Use**: How drugs are prescribed and consumed.
+  * **Safety**: Monitoring and assessing adverse events.
+  * **Effectiveness**: Real-world performance of a drug.
+
+**Real-World Data (RWD) & Real-World Evidence (RWE)**
+
+* **RWD**: Patient health and healthcare delivery data collected in routine practice (e.g., EHRs, claims data).
+* **RWE**: Clinical evidence about a product’s use, benefits, or risks derived from RWD.
+* **Applications**: Inform regulatory science, public health decisions, and supplement clinical trials (especially for rare diseases via external control arm studies).
+
+**Role in Drug Development**
+
+* **Preclinical & Phase 1–2**: Identify disease burden, unmet needs, and natural history; help design trials and select endpoints.
+* **Phase 3**: May use external controls when randomization is not feasible.
+* **Phase 4**: Monitor real-world use, safety, and effectiveness after approval.
+
+
+### Roles of Pharmacoepidemiology in Clinical Trials
+
+**Role of Pharmacoepidemiology (P’epi) in Drug Discovery and Phase 1–3 Trials**
+
+* **Natural History of Disease Studies**
+
+  * Describe disease progression without intervention, from onset to resolution or death.
+  * Inform trial **inclusion/exclusion criteria**, recruitment, and clinically relevant endpoints.
+  * Identify **risk factors** and biomarkers.
+  * Example: Endometrial cancer studies identified age, BMI, smoking, and hormone therapy as risk factors.
+
+* **Unmet Need and Treatment Pattern Studies**
+
+  * **Unmet need**: Conditions not adequately addressed by current therapies.
+  * **Treatment patterns**: How existing treatments are used, including clinical outcomes.
+  * Example: Advanced endometrial cancer study showed poor survival and need for better therapies.
+
+* **Regulatory Approvals Based on RWE**
+
+  * Real-world evidence can support new indications without full new trials.
+  * Example: FDA expanded Prograf’s use from liver transplants to kidney, heart, and lung transplants based on real-world data.
+
+---
+
+**Role of Pharmacoepidemiology in Phase 4 Studies**
+
+* **Effectiveness in Real-World Use**
+
+  * Assess whether trial results hold in everyday practice.
+  * Example: Semaglutide produced \~10% weight loss in real-world settings, similar to RCTs.
+
+* **Adherence Patterns**
+
+  * Measure how consistently patients take the drug post-approval.
+  * Example: Nearly 50% of obesity patients discontinued GLP-1 at 12 months.
+
+* **Comparative Effectiveness**
+
+  * Head-to-head comparisons between approved drugs.
+  * Example: Tizepatide led to greater weight loss than semaglutide over 3–12 months.
+
+* **Real-World Safety**
+
+  * Identify safety signals not seen in trials.
+  * Example: Large Nordic study found no substantial increase in thyroid cancer risk for GLP-1 users vs. other drugs.
+
+### Real-World Evidence in Policy and Clinical Decisions
+
+**Role of Pharmacoepidemiology (P’epi) and Real-World Evidence in Policy and Clinical Decisions**
+
+* **Regulatory Decisions**
+
+  * Real-world evidence (RWE) increasingly supports FDA approvals.
+  * Example: *Prograf*’s approval in 2021 for preventing organ rejection in lung transplant patients based on RWE.
+  * Review of 2019–2021 FDA approvals:
+
+    * 116 approvals used RWE.
+    * 88 provided evidence on safety or effectiveness.
+    * 8 served as primary/substantial evidence.
+    * 57 provided supporting evidence.
+    * 38 informed product labeling.
+
+* **Policy Decisions**
+
+  * Example: FDA study on combined use of **opioids and benzodiazepines** found increased ER visits and overdose deaths.
+  * Result: FDA issued a warning advising against concomitant use.
+
+* **Clinical Decisions**
+
+  * FDA drug safety communications highlight that long-term, widespread use can reveal side effects not seen in trials.
+  * Ongoing post-market monitoring can lead to new prescribing guidelines and warnings.
+  * Example: Safety alerts influencing real-world prescribing practices to mitigate risks.
+
+
+## Data and Methods used in Pharmacoepidemiology
+
+### Real-world studies
+
+Randomized controlled trials (RCTs) are tightly controlled experiments where participants are randomized to treatment or placebo, considered the gold standard for assessing efficacy and required for drug approval. They have strict protocols, measure efficacy, and ensure internal validity but may have limited generalizability due to selective inclusion/exclusion criteria. They are often costly, long, and limited in studying harms, rare events, long-term effects, or diverse subgroups because of small sample sizes and short follow-up.
+
+Real-world studies lack randomization and strict protocols, instead reflecting routine clinical practice. They measure effectiveness, can assess safety, harms, drug-drug interactions, and discontinuation in real-world populations, and can be larger and less expensive. They can answer multiple questions, include diverse patient populations, and provide data from usual care settings. However, high-quality real-world studies require robust data sources and analytic tools.
+
+Real-world study data sources can be divided into primary and secondary categories. Primary sources include registry data, surveys, and prospective cohort studies. Registries collect standardized information on populations defined by disease or drug exposure, such as SEER for cancer incidence and survival, and are useful for natural history, biomarker discovery, and safety/effectiveness studies. Survey data from organizations like NCHS, CDC, and AHRQ can cover health, nutrition, and costs, with examples like the Medical Expenditure Panel Survey. Prospective cohort studies, such as the Framingham Study, follow participants over time to investigate disease causes and outcomes.
+
+Secondary sources include administrative claims data and electronic health records (EHR). Claims data, generated through billing, contain enrollment, diagnoses, procedures, prescriptions, and costs, with strengths in completeness and size but lacking detailed clinical context, over-the-counter drug use, and lifestyle factors. Examples include Medicare, Medicaid, and private insurers. EHR data, created during clinical encounters, contain structured and unstructured information like clinical notes, labs, vitals, and prescription orders, offering rich clinical details but with variability in quality, missing data, and system heterogeneity.
+
+Key differences include that claims capture dispensed prescriptions tied to reimbursement, while EHR captures prescriptions ordered and detailed clinical measures. Linking claims and EHR can provide a more complete dataset, combining breadth and depth for pharmacoepidemiologic research. Linked datasets can be fully or partially integrated, with examples including Medicare–registry linkages for anticoagulant use in cancer patients and CPRD-based studies on GLP-1 drugs and suicide risk in diabetes.
+
+### Study Designs and Statistical Analysis
+
+**Study Designs**
+
+A **study design** is essentially the blueprint for research. A strong design ensures that results are valid and reliable—no amount of advanced statistical analysis can rescue a poorly designed study.
+In pharmacoepidemiology, three commonly used designs are:
+
+* **Cross-Sectional Study**
+
+  * *Concept:* A “snapshot” at a single point in time (e.g., a day, week, month, or year).
+  * *Purpose:* To measure the prevalence of an outcome or exposure in a population.
+  * *Example:* Estimating the percentage of people with diabetes in 2024, or the percentage using anti-diabetic drugs in 2024.
+  * *Key Feature:* No follow-up; only describes what exists at that moment.
+
+* **Cohort Study**
+
+  * *Concept:* Follows people **forward** in time.
+  * *Approach:* Identify groups based on exposure (e.g., drug A vs. drug B) and track them to see who develops the outcome.
+  * *Example Questions:*
+
+    * Is drug A better than drug B in reducing mortality risk?
+    * Does drug A cause more adverse events than drug B?
+  * *Strengths:* Good for studying incidence and temporal relationships.
+
+* **Case-Control Study**
+
+  * *Concept:* Looks **backward** in time from the outcome to the exposure.
+  * *Approach:*
+
+    * Identify *cases* (individuals with the disease or outcome).
+    * Identify *controls* (individuals without the disease or outcome).
+    * Compare past exposures between cases and controls.
+  * *Example:* Did people with a rare adverse event take drug A more often than controls?
+  * *Strengths:* Efficient for studying **rare outcomes**.
+
+---
+
+**Statistical Analysis**
+
+In **randomized controlled trials (RCTs)**, randomization reduces bias by balancing characteristics between groups, often minimizing the need for advanced adjustment methods.
+In **real-world studies**, treatment assignment is not random—it may depend on patient conditions, physician preferences, or other factors—so statistical adjustments are necessary.
+
+Key points:
+
+* **Study Design Level**
+
+  * Aim to minimize bias *before* data collection by selecting the right design and controlling for confounding as much as possible.
+
+* **Analysis Level**
+
+  * Adjust for remaining differences using appropriate statistical methods.
+
+Common methods in pharmacoepidemiology:
+
+* **Descriptive Analysis**
+
+  * Characterize the study population and describe drug usage patterns.
+
+* **Regression Models**
+
+  * *Linear regression:* Continuous outcomes (e.g., blood pressure levels).
+  * *Logistic regression:* Binary outcomes (e.g., hospitalized: yes/no).
+  * *Poisson regression:* Count outcomes (e.g., number of physician visits).
+  * *Cox regression:* Time-to-event outcomes (e.g., time to death).
+
+* **Advanced Methods**
+
+  * *Propensity Score Techniques:* Matching, stratification, weighting, covariate adjustment.
+  * *Causal Inference Approaches:* Instrumental variable analysis, marginal structural models, g-computation.
+
+
+## Reference
+
+**Drug Development and Approval Process**
+ 
+1. Learn About Drug and Device Approvals. 
+https://www.fda.gov/patients/learn-about-drug-and-device-approvals
+
+This link provides information on drug approval steps. You can click on the each step to learn more about the process.
+
+2. Van Norman GA. Drugs and Devices: Comparison of European and U.S. Approval Processes. JACC: Basic to Translational Science. 2016;1(5):399-412. doi:
+10.1016/j.jacbts.2016.06.003
+
+This paper compares and contrasts drug approval process in US vs. Europe. 
+
+3. Milestones in U.S. Food and Drug Law. 
+https://www.fda.gov/about-fda/fda-history/milestones-us-food-and-drug-law
+
+This link provides chronology describing some of the milestones in the history of food and drug regulation in the United States.
+
+4. Step 3: Clinical Research. 
+https://www.fda.gov/patients/drug-development-process/step-3-clinical-research
+
+This link describes four phases of clinical trials.
+
+5. Scavone C, di Mauro G, Mascolo A, Berrino L, Rossi F, Capuano A. The New Paradigms in Clinical Research: From Early Access Programs to the Novel Therapeutic Approaches for Unmet Medical Needs. Front Pharmacol. 2019;10:111. doi:10.3389/fphar.2019.00111. 
+
+This paper describes traditional vs. accelerated development and approval process.
+
+6. Timeline: The Rise and Fall of Vioxx. 
+https://www.npr.org/2007/11/10/5470430/timeline-the-rise-and-fall-of-vioxx
+
+This link provides a case study on rofecoxib, illustrating how post-marketing pharmacoepidemiology research can uncover adverse events that ultimately led to the withdrawal of the drug from the market.
+
+
+
+**Role of Pharmacoepidemiology in Drug Approval Process**
+
+1. About Pharmacoepidemiology. 
+https://www.pharmacoepi.org/about-ispe/about-pharmacoepidemiology/
+
+This is the official website of the International Society for Pharmacoepidemiology (ISPE). It offers comprehensive information about the field of pharmacoepidemiology—what it is, why it matters, and how it’s applied in practice. A valuable resource—bookmark this site!
+
+2. Gronde TV, Uyl-de Groot CA, Pieters T. Addressing the challenge of high-priced prescription drugs in the era of precision medicine: A systematic review of drug life cycles, therapeutic drug markets and regulatory frameworks. PLoS One. 2017;12(8):e0182613. doi:10.1371/journal.pone.0182613
+
+This article outlines the stages of a drug’s life cycle and explores the market dynamics influencing drug pricing. It also provides insights into the roles of patents and market exclusivity in shaping the availability and cost of therapeutic products.
+
+3. Purpura CA, Garry EM, Honig N, Case A, Rassen JA. The Role of Real-World Evidence in FDA-Approved New Drug and Biologics License Applications. Clin Pharmacol Ther. 2022;111(1):135-144. doi:10.1002/cpt.2474
+
+This article describes real-world evidence and its growing role in supporting FDA approvals for new drugs and biologics
+
+**Overview of Data and Methods Used in Pharmacoepidemiology**
+
+1. Hennessy S. Use of health care databases in pharmacoepidemiology. Basic Clin Pharmacol Toxicol. 2006;98(3):311-313. doi:10.1111/j.1742-7843.2006.pto_368.x
+
+This paper provides a high-level overview of databases used in pharmacoepidemiology and describes types of research questions that can be answered using different databases.
+
+2. Ardeshirrouhanifard S, An H, Goyal RK, et al. Use of oral anticoagulants among individuals with cancer and atrial fibrillation in the United States, 2010-2016. Pharmacotherapy. 2022;42(5):375-386. doi:10.1002/phar.2679
+
+This paper serves as an example of a pharmacoepidemiologic study that evaluates patterns of drug use—in this case, oral anticoagulants—among patients with both cancer and atrial fibrillation in a real-world setting.
+
+3. Pottegård A. Core concepts in pharmacoepidemiology: Fundamentals of the cohort and case-control study designs. Pharmacoepidemiol Drug Saf. 2022;31(8):817-826. doi:10.1002/pds.5482
+
+This introductory paper explains the fundamental principles of cohort and case-control study designs, making it a useful resource for understanding key methodologies in pharmacoepidemiology.
+
+4. EMR or Claims? Here’s why you need both. 
+https://trinetx.com/blog/emr-or-claims
+
+This blog post from TriNetX illustrates how a patient’s healthcare journey is captured in both claims data and electronic health records (EHR). It emphasizes the value of using linked claims and EHR data to answer complex research questions that may not be fully addressed by either data source alone.
+
+
+ 
+# Drug Utilization: Trends, Determinants and Consequences
+
+## Drug Utilization Research
+
+ 
+**1. Introduction and Scope**
+Caleb Alexander introduces drug utilization research (DUR) as a key component of pharmacoepidemiology and clinical care. The lecture covers:
+
+* The role of DUR in improving pharmacotherapy.
+* Choosing a research design.
+* Examples of descriptive, analytical, and interventional designs.
+
+---
+
+**2. The Promise and Perils of Medicines**
+
+* **Promise:** When used correctly, medications are safe, cost-effective, and transformative (e.g., insulin, penicillin, TNF-α inhibitors).
+* **Perils:**
+
+  * Overuse: Prescribing when unnecessary (e.g., antibiotics).
+  * Underuse: Failure to prescribe when needed.
+  * Nonadherence: Patients not taking prescribed medicines.
+  * Late discovery of risks: Safety issues often emerge after large-scale exposure.
+  * Poor prescribing decisions regarding safety, effectiveness, and cost.
+  * Policy effects often unassessed.
+
+---
+
+**3. Scale of the Problem**
+
+* **Statistics (U.S.):**
+
+  * \~50% of antibiotics are unnecessary.
+  * Up to 20% of new prescriptions never filled (primary nonadherence).
+  * Low adherence for chronic conditions (hypertension, diabetes, depression).
+  * Adverse drug events cause >3.5M physician visits, >1M ER visits, and >125k hospitalizations annually.
+* **Medication Use Among Older Adults (2010–2011):**
+
+  * > 90% take ≥1 medication or dietary supplement daily.
+  * \~67% take ≥5 daily.
+  * 40% use ≥1 OTC medicine daily; >60% use dietary supplements daily.
+  * 15% at risk for major drug–drug interactions (often involving prescription–supplement combinations).
+
+---
+
+**4. Definition and Scope of Drug Utilization Research**
+DUR is “an eclectic collection of descriptive and analytic methods for quantifying, understanding, and evaluating prescribing, dispensing, and consumption of medicines, and testing interventions to enhance quality.”
+
+* **Descriptive approaches:** Quantify and characterize use.
+* **Analytical approaches:** Understand determinants and outcomes.
+* **Interventional approaches:** Test strategies to improve use.
+
+---
+
+**5. Drug Lifecycle and Its Implications**
+
+* Use after market approval is **dynamic**.
+* **Example:** Diabetes therapies (1994–2007) show major shifts in use (e.g., decline in sulfonylureas, rise in biguanides).
+* **Implications:**
+
+  * Academic research: Identify questions, consider lifecycle factors (e.g., patent loss).
+  * Clinical care: Inform cautious prescribing and familiarity with a few therapies.
+  * Regulatory policy: Reform to balance safety, innovation, and access.
+  * Public health: Monitor and respond to shifts affecting population health.
+* **Drivers of change:** Innovation, clinical guidelines, scientific evidence, regulatory changes, reimbursement policies, market forces.
+
+---
+
+**6. Example Study – COVID-19 Therapeutics**
+
+* **Data Source:** National COVID Cohort Collaborative.
+* **Focus:** Hydroxychloroquine, remdesivir, dexamethasone.
+* **Findings:**
+
+  * Dexamethasone underused in mechanically ventilated patients.
+  * Hydroxychloroquine use peaked at 42% despite weak evidence.
+  * Large variation in use across health systems (suggesting differences in patient mix, access, protocols, care quality).
+
+---
+
+**7. Skills Required for DUR**
+
+* Clinical knowledge and guideline familiarity.
+* Cohort definition and study design.
+* Understanding of target drugs.
+* Database management, programming, and statistical analysis.
+* Interpretation and dissemination of results.
+
+---
+
+**8. DUR’s Relevance Across Sectors**
+
+* **Clinical Care:** Identify what is used, how it aligns with best practice, gaps in care, and variation across providers/systems.
+* **Health Policy:** Assess and guide pharmaceutical policy impacts.
+* **Regulation:** Evaluate effects of regulatory interventions.
+* **Coverage/Reimbursement:** Study links to utilization and optimize value.
+* **Scientific Research:** Improve measurement, data sources, and evaluation of utilization.
+ 
+ 
+## Choosing a Design in Drug Utilization Research
+
+**1. Balancing Research Questions and Data Sources**
+
+* Two approaches:
+
+  * **Start with the question → find matching data.**
+  * **Start with data → shape a question to fit.**
+* Often, this is an iterative process, moving back and forth between question and data source.
+
+---
+
+**2. No Perfect Design**
+
+* Every study has **strengths and limitations**; the “perfect” study does not exist.
+* The goal is to find the **sweet spot** where:
+
+  * The data source allows for meaningful analysis.
+  * The question holds **scientific, clinical, and policy relevance**.
+
+---
+
+**3. Descriptive Studies Can Be Important**
+
+* Studies **do not require p-values** to be impactful.
+* Many influential DUR projects are purely descriptive (e.g., trends over time, use by indication).
+* Analytical studies share challenges common to epidemiology, especially when estimating the effect of policies on drug use.
+
+---
+
+**4. Context Matters**
+
+* Pharmaceuticals exist in a **dynamic environment**—scientific, clinical, regulatory, and payment systems change constantly.
+* This generates **new research questions** continuously.
+* Findings and methodological lessons from older studies can remain relevant over time.
+
+---
+
+**5. Main Categories of Drug Utilization Study Designs**
+
+1. **Descriptive Designs**
+
+   * **Cross-sectional:** Snapshot at a single time point.
+   * **Longitudinal:** Trends over time.
+2. **Analytical Designs**
+
+   * **Ecological studies** (population-level comparisons).
+   * **Cohort studies** (follow-up of defined groups).
+   * **Case-control studies** (less common in DUR).
+3. **Interventional Designs**
+
+   * **Controlled before–after studies.**
+   * **Time-series studies.**
+   * **Randomized controlled trials (RCTs).**
+ 
+
+### Descriptive Designs
+
+ 
+Descriptive designs collect information without altering the environment, focusing on the *who, what, when, and where* of epidemiology. They help quantify and visualize drug use patterns and can serve as a foundation for later analytical work.
+
+---
+
+**Purpose and Value**
+
+* Provide high-impact insights, often cited and policy-relevant.
+* Can be the “first scientific toe in the water” for a new research area.
+* May precede analytical or interventional studies (e.g., descriptive work on antipsychotic use before quality improvement evaluations; GLP-1 use before comparative effectiveness studies).
+
+---
+
+**Cross-Sectional Analyses**
+
+* Capture data at a single point in time.
+* Used to estimate prevalence of drug utilization or assess associations (e.g., marketing exposure and drug use).
+* **Limitations:** Cannot establish causation.
+* **Common data sources:** Claims databases, electronic health records (EHRs), surveys.
+
+**Examples**
+
+* English primary care study linking prescribing quality and pharmaceutical costs (8,500 practices, Quality and Outcomes Framework + Prescribing Analysis and Cost Database).
+* Adherence patterns in type 2 diabetes patients using basal insulin analogs—revealed intentional dosing irregularities due to hypoglycemia concerns or irregular eating.
+
+---
+
+**Serial Cross-Sectional Analyses**
+
+* Multiple cross-sectional snapshots over time, combined to examine trends.
+* Do not follow the same individuals longitudinally.
+* Example: Osteoporosis treatment trends (1998–2003) showing shifts from estrogens to bisphosphonates, influenced by market and safety events.
+
+---
+
+**Longitudinal Descriptive Analyses**
+
+* Follow the same individuals over time.
+* Can establish event sequences (e.g., high blood pressure → initiation of antihypertensive; GI bleed → discontinuation of aspirin).
+* **Data sources:** Claims data, EHRs, panel surveys (e.g., Medical Expenditure Panel Survey).
+* **Advantages:** Can assess timing and progression of treatment behaviors.
+* **Challenges:** More complex programming, correlated observations, handling cohort entry/exit.
+
+**Examples**
+
+* **Medicare Part D coverage adoption:**
+
+  * 82.6% of those without coverage in 2003 obtained it by 2006; 63% through Part D.
+  * Showed substantial impact on drug use and out-of-pocket spending.
+* **Opioid use trajectories over 5 years:**
+
+  * Identified groups with low, moderate, increasing, or sustained use.
+  * Sustained/increasing users were older with more comorbidities and higher concurrent medication use.
+* **Part D utilization vs. ineligible control group:**
+
+  * Isolated Part D’s impact on use while adjusting for unrelated secular trends.
+
+ 
+### Analytical Designs
+
+Analytical designs focus on why drug utilization patterns occur and explore relationships between drivers (e.g., marketing, regulatory changes, scientific findings, policy shifts) and drug use outcomes. They are less common in DUR than descriptive designs but share many methodological considerations with safety and effectiveness studies.
+
+
+---
+
+**Core Characteristics**
+
+* Aim to identify causal or associative relationships.
+* Often use longitudinal data (although ecological studies can use serial cross-sectional data).
+* Frequently applied in adherence research, policy impact evaluations, and quasi-experimental contexts.
+
+---
+
+**Types of Analytical Designs**
+
+**Ecological Studies**
+
+* Explore associations at the population level.
+* Example: Analysis of SSRI prescriptions vs. suicide rates in children/adolescents after public health warnings.
+
+  * Data: U.S. and Dutch prescription rates (2003–2005) + suicide rates.
+  * Method: Poisson regression, adjusted for sex and age.
+  * Finding: Characterized declines in SSRI use across age groups after warnings.
+
+**Cohort Studies**
+
+* Follow individuals over time to assess utilization patterns in relation to exposures or events.
+* Example: Danish registry-based study of statin use.
+
+  * Stratified by age and by clinical indications (MI, ischemic heart disease, stroke, PAD, etc.).
+  * Used vertical bars to mark “driver periods” (landmark trials, guideline changes).
+  * Illustrated how evidence and guidelines influenced utilization.
+
+**Case-Control Studies**
+
+* Rare in DUR; compare those with a specific utilization-related outcome to those without.
+* Example: Association between physician–pharma industry interactions and requests for hospital formulary updates.
+
+  * Cases: 36 physicians requesting formulary updates.
+  * Controls: 69 physicians without requests.
+  * Finding: Strong association between industry interaction and likelihood of requesting new medicines on the formulary.
+ 
+### Interventional Designs 
+
+ 
+Interventional designs actively introduce a change or policy and measure its effect on drug utilization. They are less common than descriptive or analytical designs because they require more time and resources. Three main types are used: controlled before–after studies, interrupted time series (ITS), and randomized controlled trials (RCTs).
+
+---
+
+**Controlled Before–After Studies**
+
+* Compare outcomes before and after an intervention in both an intervention group and a control group.
+* Example: Policy change to reduce antibiotic use in children with acute otitis media.
+
+  * Result: 32% reduction in antibiotics in the intervention practice vs. 12% in the control practice.
+
+---
+
+**Interrupted Time Series (ITS) Studies**
+
+* A quasi-experimental design assessing trends before and after an intervention.
+* **Key assumption:** In the absence of the intervention, pre-intervention trends would have continued unchanged (counterfactual).
+* Measure:
+
+  * **Level change** – immediate jump/drop in utilization post-intervention.
+  * **Slope change** – alteration in the ongoing trend after the intervention.
+* **Quality concerns:**
+
+  * Outcome assessed objectively/blindly.
+  * Independence from co-interventions.
+  * Pre-specified effect shape (avoid data-driven model selection).
+* Example: Reference-based pricing in British Columbia for ACE inhibitors.
+
+  * Immediate \~30% drop in high-priced ACE inhibitor use.
+  * Overall antihypertensive use unchanged.
+
+---
+
+**Randomized Controlled Trials (RCTs)**
+
+* Rare in DUR because many utilization questions cannot be randomized.
+* Advantages: Balances both measurable and unmeasurable confounders.
+* Example: Post–myocardial infarction patients randomized to usual insurance coverage vs. full prescription coverage for preventive medicines.
+
+  * Adherence increased by 4–6% with full coverage.
+  * No significant difference in major vascular event rates.
+* Other examples:
+
+  * Intervention to improve prescribing appropriateness in polypharmacy among community-dwelling elderly.
+  * Intervention to improve antibiotic selection among hospitalized adults.
+
+---
+
+**Other Analytical Approaches for DUR**
+
+* **Generalized Estimating Equations (GEE):** Model correlated/longitudinal data.
+* **Survival Analysis:** Evaluate time-to-event outcomes (e.g., time to discontinuation, dose escalation, or treatment augmentation).
+
+## Evaluating Drug Utilization and Quality
+
+### Adherence and Persistence
+
+Adherence and persistence are two related but distinct concepts in evaluating drug utilization and quality. **Adherence** refers to the extent to which a patient follows the prescribed dosing regimen — meaning the correct interval and dose — while **persistence** refers to how long a patient continues the therapy from initiation until discontinuation. Some discussions use “adherence” loosely to cover both concepts, but in research and clinical policy, distinguishing between them is important.
+
+A related concept is **primary nonadherence**, which occurs when a patient never fills the first prescription for a prescribed therapy. Primary nonadherence can be significant, with rates reaching 25% in some settings, and a pooled estimate from a meta-analysis of several drug classes showing around 15%. More broadly, the WHO estimates that average adherence for chronic disease treatments in developed countries is around 50%, meaning half of patients do not take their medication as prescribed. Costs are a major driver — historically, about one in three U.S. adults have reported skipping or stretching medications due to expense.
+
+Measuring adherence can be done through various methods, each with pros and cons. Common approaches include pharmacy refill records, electronic monitoring devices, and biochemical verification. In pharmacoepidemiology, the **medication possession ratio (MPR)** is widely used: it calculates the proportion of days in a given period that are “covered” by dispensed medication. An MPR threshold of 80% is often used to define adherence, although this is arbitrary. Other proportional measures include the proportion of days covered (PDC), continuous measures of medication availability, refill rates, and prescription possession ratios. These measures may overestimate true adherence, since filling a prescription doesn’t guarantee that the patient takes the medication.
+
+Electronic monitoring systems — from pill bottles with sensors to devices linked with inhalers — can capture more granular patterns of medication use. Data often show different adherence trajectories across patients, from nearly perfect long-term adherence to rapid early discontinuation. Adherence is influenced by multiple interacting factors, including patient-level, socioeconomic, healthcare system, and provider-related elements.
+
+Nonadherence can be grouped into three broad **typologies**:
+
+* **Unwitting nonadherence**: the patient and provider mistakenly believe the patient is adherent, often due to misunderstanding or incorrect technique. Solutions include patient education, reviewing treatment plans, teach-back techniques, and engaging social support.
+* **Erratic nonadherence**: the patient agrees with the therapy but struggles to maintain consistency, often due to forgetfulness or lifestyle factors. Strategies include simplifying regimens, using reminders, linking medication to routines, and providing behavioral supports.
+* **Intelligent nonadherence**: the patient deliberately alters or stops therapy, often based on beliefs or perceived side effects. Approaches involve exploring patient beliefs, involving them in shared decision-making, and connecting therapy to personal goals and values.
+
+No single intervention solves nonadherence; solutions must be tailored to the underlying reasons, patient context, and type of nonadherence present.
+
+### Off-Label Use
+
+Off-label use refers to prescribing a drug in a way that differs from its FDA-approved label, which specifies the approved dose, target population, duration, and other usage parameters. This includes using a drug for an unapproved condition, in an unapproved patient group, at a different dosage, or for a longer/shorter duration than specified. It can range from **guideline-recommended and evidence-based practice** to **unsafe, scientifically unsupported, or experimental use**.
+ 
+Off-label use is common for several reasons, including clinical innovation, unmet medical needs, and potential financial incentives for manufacturers. Potential pathways to off-label use include:
+
+* Treating an **unapproved clinical condition** (e.g., quetiapine for depression instead of schizophrenia)
+* Use in an **unapproved subpopulation** (e.g., antidepressants in children when only approved for adults)
+* **Extension to related conditions** (e.g., montelukast for COPD instead of asthma)
+* Use in **conditions with shared physiology** (e.g., metformin for polycystic ovarian syndrome)
+* Presumed **class effects**
+* Extension to **milder forms of approved conditions**
+* Use in **conditions with overlapping symptoms**
+
+**Advantages** of off-label use can include fostering innovation, increasing available treatment options, and providing therapy for rare diseases with limited alternatives. **Disadvantages** include exposing patients to safety risks, increasing healthcare costs through ineffective treatment, and bypassing regulatory safeguards designed to protect patients.
+
+Evidence shows that off-label prescribing is frequent and often unsupported:
+
+* A major U.S. study linking drug use to indications found that **\~20% of ambulatory uses were off-label**, and **72% of those lacked strong scientific support**.
+* Common therapeutic areas with high off-label use include psychiatry, respiratory disease, allergy, and cardiac care.
+* Awareness gaps exist: surveys of physicians showed that many not only prescribed drugs for off-label, high-risk indications but also incorrectly believed the drugs were FDA-approved for those uses (e.g., quetiapine for agitated dementia, lorazepam for chronic anxiety).
+
+The **FDA’s policy** is to regulate drug approval, not prescribing. Physicians can legally prescribe off-label based on clinical judgment. However, manufacturers face restrictions:
+
+* Prohibited from direct promotion for off-label uses
+* Limited in distributing materials on off-label uses
+* Subject to REMS and other safety programs that may target high-risk off-label prescribing
+
+Potential policy improvements include:
+
+* Greater collaboration between the FDA and payers to identify and manage unproven uses
+* Systematic evidence synthesis for off-label uses (possibly via a national comparative effectiveness center)
+* Balancing market expansion with clinical need rather than profit motives
+* Enhancing physician and public education on evidence-based use
+
+Overall, off-label use is widespread, sometimes beneficial, but often unsupported by strong evidence, creating significant safety, effectiveness, and cost concerns. Efforts to manage its risks require collaboration between regulators, payers, researchers, and clinicians.
+
+### Explicit Quality Indicators and Implicit Quality Indicators
+
+Here’s the side-by-side comparison table for **Explicit vs. Implicit Quality Indicators**:
+
+| Aspect                | Explicit Quality Indicators                                                                                                                                                  | Implicit Quality Indicators                                                                                                                                               |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Definition**        | Clearly defined, quantifiable measures of prescribing appropriateness, usually based on evidence or expert consensus, and applicable to large datasets (e.g., claims, EHRs). | Subjective measures that require expert clinical judgment to assess the appropriateness of individual prescriptions.                                                      |
+| **Examples**          | Beers criteria, START/STOPP criteria, DU90%, generic prescribing rates, polypharmacy thresholds (≥5 concurrent drugs).                                                       | Medication Appropriateness Index (MAI), Prescribing Appropriateness Indicator (PAI).                                                                                      |
+| **Data Requirements** | Often derived from structured data (diagnosis codes, prescription records, lab results); can be automated.                                                                   | Requires detailed patient-specific clinical information; often involves chart review or clinician interview.                                                              |
+| **Strengths**         | - Objective and reproducible<br>- Suitable for large-scale monitoring<br>- Easy to automate<br>- Can be applied consistently across populations                              | - Captures context-specific nuances<br>- Can address issues not easily codified (effectiveness, directions, duplication, cost)<br>- Flexible to complex patient scenarios |
+| **Weaknesses**        | - May oversimplify complex decisions<br>- Limited to predefined criteria; may not reflect individual patient needs<br>- Risk of “gaming” the system or unintended overuse    | - Resource-intensive (time, expertise)<br>- Limited scalability<br>- Subjective, potential for inter-rater variability (though tools like MAI improve reliability)        |
+| **Reliability**       | Generally high if criteria and data are clear; less dependent on reviewer skill.                                                                                             | Dependent on assessor training and consistency; MAI and PAI show good inter- and intra-rater reliability with training.                                                   |
+| **Validity**          | Strong **face** and **content validity** if evidence-based; predictive validity depends on link to outcomes.                                                                 | Can have strong **content**, **predictive**, and **responsiveness** validity when well-developed and tested.                                                              |
+| **Best Use Cases**    | Population-level monitoring, quality reporting, benchmarking, policy evaluation.                                                                                             | Individual patient medication review, complex cases, research on appropriateness in nuanced contexts.                                                                     |
+
+---
+ 
+
+
+**Explicit quality indicators** are clearly defined, quantifiable measures used to evaluate prescribing quality and its concordance with scientific evidence or guidelines. They can help clinicians, patients, policymakers, and payers assess whether prescribing practices are appropriate, identify overuse, underuse, and misuse, and inform quality improvement, pay-for-performance programs, and accreditation.
+
+Quality issues in prescribing are widespread. Ambulatory medication errors—especially prescribing and dosing errors—affect anywhere from one-quarter to over 90% of prescriptions depending on population and definitions used. Older adults are particularly vulnerable because of polypharmacy and the risks of both underuse and overuse.
+
+Explicit indicators can be grouped into three main categories:
+
+* **Drug-oriented indicators**: Lists of specific drugs to avoid in certain populations (e.g., Beers criteria for potentially inappropriate medications in older adults).
+* **Disease-oriented indicators**: Drug use recommendations tied to a condition (e.g., prescribing ACE inhibitors for diabetics with proteinuria).
+* **Disease-event-oriented (sequential) indicators**: Drugs recommended after a specific event (e.g., initiating beta-blockers after myocardial infarction).
+
+Examples of explicit measures include the Beers criteria, START/STOPP criteria (screening tools for appropriate and inappropriate prescribing in older people), DU90% (percentage of drug volume accounted for by the top drugs in defined daily doses), use of generics or preferred formulary drugs, and polypharmacy thresholds (often ≥5 concurrent medications).
+
+However, explicit lists and criteria, while clear and automatable using claims or EHR data, still involve expert judgment in their development and can have limitations in applicability. Their validity is judged on dimensions like **face validity** (accepted by professionals), **content and predictive validity** (evidence-based, predictive of outcomes), **concurrent validity** (correlates with a gold standard), and **feasibility** (availability of necessary data and applicability to real-world patient care). Potential unintended effects—such as “gaming” the system or driving overuse—must be considered.
+
+---
+
+**Implicit quality indicators** differ in that they require expert judgment and subjective evaluation of individual prescribing decisions. They are not easily automated but can capture nuances that explicit measures might miss, such as appropriateness of directions, therapeutic duplication, or consideration of cost.
+
+Two widely used implicit tools are:
+
+* **Medication Appropriateness Index (MAI)** – Developed over 30 years ago and still in use, it assesses prescriptions via a series of questions: Is there a valid indication? Is the drug effective? Is the dosage and direction correct? Are directions practical? Are there clinically significant drug–drug or drug–disease interactions? Are there unnecessary duplications? Is the duration acceptable? Is the drug cost justified? The MAI shows good inter- and intra-rater reliability (0.8–0.9) and has documented content and predictive validity, as well as responsiveness to change.
+* **Prescribing Appropriateness Indicator (PAI)** – Developed in the UK through expert consensus and a Delphi process, it consists of nine items to evaluate long-term prescribing appropriateness in general practice.
+
+Implicit measures have been applied in intervention studies, such as pharmacist- or geriatrician-led medication reviews, to document improvements in prescribing. For example, in one geriatric assessment trial, MAI scores improved significantly in the intervention group, with more drug withdrawals, dose reductions, and initiation of appropriate new therapies compared to controls.
+
+
+## Determinants of Drug Utilization
+
+ 
+
+**Marketing & Promotion**
+
+* **Targets & channels**: Promotion to healthcare professionals includes detailing (office visits), hospital outreach, journal ads, free samples, electronic promotion, and conferences. Promotion to patients—**Direct-to-Consumer Advertising (DTCA)**—appears in TV, print, internet, radio, and outdoor media.
+* **Case example**: Prescription opioids (e.g., Vicodin) were marketed as strong yet controllable chronic pain treatments, with ads emphasizing “doctor control” and “freedom from pain.” In practice, this contributed to **overprescription, oversupply, and widespread harm**.
+* **Industry context – the two sides**: On one side, pharma companies face high R\&D failure rates (>90%) and costly development (hundreds of millions to billions of USD), providing a rationale for profit and promotion. On the other, there is **high drug cost burden**, **large international price gaps**, and public funding for early-stage research—fueling criticism over excessive profitability and marketing.
+* **Scale & structure**: U.S. medical marketing rose from \$17.7B (1997) to \$29.9B (2016), most to healthcare professionals (samples, detailing, payments, disease education). DTCA accounts for \~⅓ of spending, with heavy data-driven targeting via intermediaries like IQVIA.
+* **Evidence & effects**: Reviews show consistent links between marketing/promotion and **increased prescribing frequency**, **higher prescription costs**, and—in some contexts—**more off-label use** and **lower prescribing quality**. This holds across many therapeutic classes and care settings.
+* **DTCA controversies**: Only the U.S. and New Zealand allow DTCA for prescription drugs. Supporters say it destigmatizes conditions, empowers patients, and promotes case-finding; critics call it sales-driven, prone to pushing expensive drugs, and potentially disruptive to doctor-patient decisions. Evidence suggests DTCA **increases patient requests and prescribing** but shows **no sustained improvement in treatment quality**. A randomized trial with standardized patients found brand-specific requests increased the odds of receiving antidepressants by up to \~13-fold.
+* **Research & policy takeaways**: Marketing can be a **confounder or co-intervention** in drug utilization studies. It should be measured and included in models. Policy tools include transparency requirements, sample restrictions, detailing regulations, formulary policies, and prescribing audits.
+
+---
+
+**Emerging Evidence**
+
+* **Information ecosystem & challenge**: New data come from journal publications, news reports, regulatory advisories, professional meetings, peer exchanges, and drug labels/websites. Systematic reviews are often **slow to update** and **too lengthy** for rapid clinical uptake.
+* **Impact pathways**: Evidence can directly change prescribing or indirectly influence it via guideline updates, marketing shifts, payer policy changes, and formulary revisions.
+* **Examples**:
+
+  * The 2002 Women’s Health Initiative (WHI) publication on hormone replacement therapy triggered a **sharp prescribing decline**.
+  * Media-amplified studies (e.g., cardiovascular or cognitive risks) can reach clinicians and patients rapidly, even if causality is still debated.
+* **What moves the market most**: Clear risk signals, large/rigorous trials, actionable conclusions, high media and professional visibility, and alignment with existing trends are most likely to shift prescribing quickly.
+* **Research tips**: Examine **differential impacts** (new users vs. continuers, by specialty or patient type). Consider interaction with marketing/regulation/reimbursement. Use **interrupted time series, event studies, or difference-in-differences** and include time-varying covariates like “media coverage,” “guideline release,” or “formulary changes.”
+
+---
+
+**Regulation**
+
+* **FDA’s “does and does not”**: The FDA approves drugs based on **substantial evidence** of safety and efficacy (often ≥2 rigorous RCTs, sometimes 1 plus supporting data) and may accept **surrogate endpoints**. It enforces promotional compliance and post-market safety. It **does not** assess cost-effectiveness, decide the “best” drug in a class, endorse all possible uses, or identify all rare AEs pre-approval.
+* **Post-market tools**: Risk Evaluation and Mitigation Strategies (REMS), required post-market studies, label changes, marketing restrictions, safety communications, and in rare cases, withdrawals.
+* **Effectiveness of advisories**: Few advisories have strong, immediate effects; most are delayed or minimal. Impact depends on the audience, clarity/specificity, communication channel, and whether actionable steps are provided.
+
+  * Monitoring recommendations often raise testing rates short-term but lack durability.
+  * Targeted alerts can cause “spillover” (non-target groups also reduce use).
+  * New starts drop faster than ongoing use.
+  * Class switching varies.
+  * Awareness is often low among clinicians/patients.
+* **Risk communication pitfalls**: Poorly timed or vague warnings, lack of patient materials, and media amplification of small risks can harm public health (e.g., UK “pill scare,” thimerosal-vaccine panic).
+* **Best practice**: Use best available evidence, be specific and clear, tailor to audience, provide actionable guidance with supporting materials, and evaluate/iterate messaging.
+
+---
+
+**Coverage & Reimbursement**
+
+* **Economic rationale**: Cost sharing reduces moral hazard (overuse when someone else pays) but excessive cost sharing reduces access and adherence.
+* **Formularies & P\&T committees**: Insurers/PBMs use Pharmacy & Therapeutics committees to assess efficacy, safety, and outcomes, tier drugs (generic/preferred/non-preferred), and set copays to steer use toward generics/preferred drugs. Restrictiveness varies widely, affecting patient out-of-pocket costs.
+* **Utilization management tools**:
+
+  * **Prior authorization (PA)** – clinical/administrative review before approving high-cost or high-risk drugs (e.g., gene therapy).
+  * **Step therapy** – try cheaper/standard therapy first (e.g., H2 blocker → PPI).
+  * **Quantity limits** – restrict maximum dose/duration without override (e.g., opioid MME/day limits).
+* **Evidence**: Cost sharing, tiering, and coinsurance have the largest effect on use; drug price elasticity is about -0.2 to -0.6 (10% copay ↑ → 2–6% drop in use/spending). Higher patient costs can worsen adherence and increase ER/hospital use for chronic conditions.
+* **Natural experiments**:
+
+  * Canada (BC): Higher copays/deductibles for elderly COPD/asthma patients → less inhaler use (mainly fewer new starts and more discontinuations). Health outcome effects unclear.
+  * U.S. Medicare Part D launch: \~6% rise in use, \~13% drop in OOP costs—suggesting improved access but needing outcome follow-up.
+* **Policy balance**: Combine value-based insurance design (low/no copay for high-value chronic meds), protections for vulnerable groups, and caps/catastrophic coverage to avoid both overuse and underuse.
+
+---
+
+**Putting it all together**
+
+* **Interactions**: Marketing can amplify or blunt new evidence; regulatory advisory impact is shaped by media/promotion tone and formulary/copay context; coverage changes can redirect marketing priorities.
+* **Research design tips**: Use ITS, DiD, event studies, or synthetic controls. Include promotional intensity, media exposure, guideline updates, formulary changes, and utilization management rules as time-varying covariates.
+* **Monitoring metrics**: Prescription volume/DDD, within-class substitution rate, off-label share, patient OOP and total cost, explicit/implicit quality indicators (e.g., Beers/STOPP, MAI/PAI), safety outcomes, and care utilization (ED/inpatient).
+* **Practical checklist**: When designing policy, interpreting utilization shifts, or planning interventions, always check for **recent changes** in these four determinants and their **possible interactions**.
+
+
+## Reference
+
+**Introduction to Drug Utilization Research**
+
+1. Ramsay CR, Matowe L, Grilli R, Grimshaw JM, Thomas RE. Interrupted time series designs in health technology assessment: lessons from two systematic reviews of behavior change strategies. International Journal of Technology Assessment in Health Care. 2003;19:613-623. DOI: 
+https://doi.org/10.1017/S0266462303000576
+
+This report introduces one of the most commonly used methods in drug utilization research – interrupted time series designs. 
+
+2. Wagner AK, Soumerai SB, Zhang F, Ross-Degnan D. Segmented regression analysis of interrupted time series studies in medication use research. Journal of Clinical Pharmacy and Therapeutics. 2002;27:299-309. 
+https://doi.org/10.1046/j.1365-2710.2002.00430.x
+
+This report also discusses interrupted time series designs and considers design features includinglagged effects and multi-component interventions; corrections for first, second or higher level autocorrelation; and accounting for possible biases that may threaten study interpretation.
+
+**Evaluating Drug Utilization and Quality**
+
+1. Kripalani S, Yao X, Haynes RB. Interventions to enhance medication adherence in chronic medical conditions: a systematic review. Arch Intern Med. 2007;167(6):540-550. doi:10.1001/archinte.167.6.540. PMID: 17389285.
+
+The authors summarize, categorize, and estimate the effect size of interventions to improve medication adherence in chronic medical conditions, concluding that while several types of interventions are effective in improving medication adherence in chronic medical conditions, few significantly affected clinical outcomes.
+
+2. Radley DC, Finkelstein SN, Stafford RS. Off-label prescribing among office-based physicians. Arch Intern Med. 2006;166(9):1021-1026. doi:10.1001/archinte.166.9.1021. PMID: 16682577.
+
+This is a carefully developed and executed analysis that used a unique data source to quantify the frequency of off-label drug use in ambulatory practice in the United States, as well as the degree of scientific evidence supporting this practice.
+
+3. Thompson W, McDonald EG. Polypharmacy and Deprescribing in Older Adults. Annu Rev Med. 2024;75:113-127. doi:10.1146/annurev-med-070822-101947. PMID: 37729029.
+
+This review, which focuses on polypharmacy and deprescribing in the elderly, provides a helpful framework for considering medication appropriateness and quality among this often-vulnerable population. 
+
+4. O'Mahony D, Cherubini A, Guiteras AR, et al. STOPP/START criteria for potentially inappropriate prescribing in older people: version 3 [published correction appears in Eur Geriatr Med. 2023 Aug;14(4):633. doi: 10.1007/s41999-023-00812-y.]. Eur Geriatr Med. 2023;14(4):625-632. doi:10.1007/s41999-023-00777-y. PMID: 37256475 PMCID: PMC10447584. 
+
+The authors present a revised and updated version of the STOPP/START criteria, which is one of the most widely used physiological systems-based explicit set of prescription indicators. 
+
+5. Hanlon JT, Schmader KE. The Medication Appropriateness Index: A Clinimetric Measure. Psychother Psychosom. 2022;91(2):78-83. doi:10.1159/000521699. Epub 2022 Feb 14. PMID: 35158365.
+
+This editorial, by the developers of the Medication Appropriateness Index (MAI), contrasts this implicit tool with explicit quality indicators, and reviews information about the MAI’s reliability, validity, and responsiveness to change, as well as new applications of the MAI after 30 years of use.
+
+
+**Determinants of Drug Utilization**
+
+1. John Oliver – Last Week Tonight. “Pharmaceutical companies spend billions of dollars marketing drugs to doctors. We have a few issues with that.”  February 9, 2015.   Available at: 
+https://www.youtube.com/watch?v=YQZ2UeOTO3I
+  Accessed May 23, 2024.
+
+This satirical sketch from late night television examines the methods that pharmaceutical companies use to market their products to physicians. 
+
+2. Spurling GK, Mansfield PR, Montgomery BD, et al. Information from pharmaceutical companies and the quality, quantity, and cost of physicians' prescribing: a systematic review. PLoS Med. 2010;7(10):e1000352. Published 2010 Oct 19. doi:10.1371/journal.pmed.1000352. PMID: 20976098 PMCID: PMC2957394.
+
+This systematic review of the relationship between exposure to information from pharmaceutical companies and the quality, quantity, and cost of physicians' prescribing concludes that with rare exceptions, studies of exposure to information provided directly by pharmaceutical companies have found associations with higher prescribing frequency, higher costs, or lower prescribing quality or have not found significant associations.
+
+3. Kravitz RL, Epstein RM, Feldman MD, et al. Influence of patients' requests for direct-to-consumer advertised antidepressants: a randomized controlled trial [published correction appears in JAMA. 2005 Nov 16;294(19):2436]. JAMA. 2005;293(16):1995-2002. doi:10.1001/jama.293.16.1995. PMID: 15855433 PMCID: PMC3155410.
+
+This eloquent and rigorous study used standardized patients to assess the effect of patient request on medication receipt, concluding that patients' requests have a profound effect on physician prescribing in major depression and adjustment disorder.
+
+4. Dusetzina SB, Higashi AS, Dorsey ER, et al. Impact of FDA drug risk communications on health care utilization and health behaviors: a systematic review. Med Care. 2012;50(6):466-478. doi:10.1097/MLR.0b013e318245a160. PMID: 22266704 PMCID: PMC3342472. 
+
+This systematic review considered the totality of evidence regarding the impact of FDA regulatory communications regarding prescription drugs, concluding that although some FDA drug risk communications had immediate and strong impacts, many had either delayed or had no impact on health care utilization or health behaviors.
+
+5. Goldman DP, Joyce GF, Zheng Y. Prescription drug cost sharing: associations with medication and medical utilization and spending and health. JAMA. 2007;298(1):61-69. doi:10.1001/jama.298.1.61. PMID: 17609491 PMCID: PMC6375697.
+
+This is a widely cited study that examines the effect of prescription cost-sharing on drug and non-drug utilization and health, concluding that while pharmacy benefit design represents an important public health tool for improving patient treatment and adherence, the long-term consequences of benefit changes on health are still uncertain.
+
+
+ 
+# Comparative Effectiveness and Real-World Evidence
+ 
+## Principles of Drug Effectiveness Research
+
+### Goals of Effectiveness Research
+
+The overarching aim of drug effectiveness research is to improve human health by identifying which therapies work best for which patients in real-world conditions. This involves determining which treatments are most effective, safest, affordable, and tolerable. Effectiveness research often generates evidence on the benefits, harms, and costs of different treatment options, with the goal of guiding clinical decisions, regulatory policies, coverage determinations, and formulary listings.
+
+Effectiveness research fits into the **translational science pathway** after efficacy studies. While basic science and early-phase clinical trials answer questions about mechanisms and initial safety/efficacy, effectiveness studies investigate whether interventions work when prescribed and used in everyday clinical practice. This includes assessing adherence, tolerance, barriers to access, affordability, drug–drug interactions, and safety in typical patient populations.
+
+---
+
+**Framing a Research Question**
+Well-framed research questions are crucial for designing meaningful studies. Two common approaches are:
+
+1. **Analytic Framework**
+
+   * This outlines the sequence from disease identification to outcomes, showing possible points for research questions. Pharmacoepidemiologists often focus on whether treatment changes intermediate outcomes or long-term morbidity/mortality, and on assessing adverse effects.
+2. **PCOTES Framework** (Population, Comparator, Outcomes, Timing, Setting)
+
+   * Especially useful for comparative effectiveness and safety questions.
+   * For example: “What is the effectiveness of SGLT2 inhibitors with metformin compared to GLP-1 receptor agonists with metformin in adults with type 2 diabetes on the outcome of kidney disease progression over two years?”
+   * Changing elements (e.g., outcome or timing) can turn an effectiveness question into a safety question.
+
+Using such frameworks ensures that the research question is clear, specific, and directly informs study design.
+
+### Efficacy vs. Effectiveness Evidence 
+
+The distinction is central to drug research:
+
+* **Efficacy Studies**
+
+  * Ask: *Can the intervention work under optimal conditions?*
+  * Usually conducted before market approval (Phase 1–3).
+  * Often involve fixed regimens, placebo or standard-of-care comparators, randomized controlled designs, and highly selected patient populations.
+  * Outcomes are often biomarker-based or closely tied to the mechanism of action.
+  * Motivation is regulatory approval.
+
+* **Effectiveness Studies**
+
+  * Ask: *Does the intervention work under usual care conditions?*
+  * Usually post-marketing (Phase 4) and aimed at informing practice guidelines, clinical decision-making, formulary approval, or policy.
+  * Use flexible dosing regimens as in real-world use, active or usual-care comparators, and may involve observational designs or pragmatic trials.
+  * Populations are heterogeneous, reflecting actual users.
+  * Outcomes are patient-centered, such as quality of life or overall health improvement.
+  * Motivation is to provide relevant evidence for clinicians, patients, payers, and policymakers.
+
+The design choice—efficacy or effectiveness—should be guided by the needs of the stakeholders who will use the evidence.
+
+---
+
+Here’s the combined **Efficacy vs. Effectiveness Studies** table with definitions based on both the transcript and the slide:
+
+| Aspect           | Efficacy Studies                                                                                                                  | Effectiveness Studies                                                                                                                                                                              |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Objective**    | Determines if an intervention works under **optimal, controlled conditions**. Answers “Can it work?”                              | Determines if an intervention works under **usual, real-world conditions**. Answers “Does it work?”                                                                                                |
+| **Motivation**   | Primarily for **regulatory approval** before market release.                                                                      | Supports **practice guidelines**, **formulary decisions**, and healthcare policy after approval.                                                                                                   |
+| **Intervention** | **Fixed regimen** with strict dosing and administration protocols.                                                                | **Flexible regimen** as used in routine clinical practice.                                                                                                                                         |
+| **Comparator**   | Often **placebo**, sometimes **standard of care**.                                                                                | **Usual care** or **active comparator** reflecting real-world choices.                                                                                                                             |
+| **Design**       | **Randomized controlled trials (RCTs)** with tight control over variables.                                                        | **Observational studies** or **pragmatic trials** embedded in real-world practice.                                                                                                                 |
+| **Subjects**     | **Highly selected** participants meeting strict eligibility criteria.                                                             | **Usual users** of the intervention, often more heterogeneous in age, comorbidities, and demographics.                                                                                             |
+| **Outcomes**     | **Condition-specific** endpoints (e.g., biomarkers, surrogate outcomes) closely linked to the drug’s mechanism, often short-term. | **Comprehensive, patient-centered** outcomes (e.g., quality of life, clinical endpoints) that may have weaker link to mechanism but higher relevance, covering both short- and long-term horizons. |
+
+ 
+### Real-world evidence for decision-making
+
+
+**1. Stakeholders Who Need Evidence**
+
+Stakeholders are individuals or groups with a vested interest in decisions informed by research. Their early involvement in shaping questions, influencing study design, and interpreting results improves both the relevance and uptake of findings. In practice, these stakeholders are often referred to as the “Seven P’s”:
+
+| Stakeholder Group                     | Examples                                                                                                | Primary Evidence Needs                                                                                       |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Patients / Public                     | Current patients, former patients who act as advocates, family members advocating on behalf of patients | Information on the most effective, safest, affordable, and tolerable treatments for their condition          |
+| Providers                             | Physicians, nurses, hospitals, community health centers, pharmacies                                     | Evidence on the most effective and safest treatments, with minimal adverse effects or drug–drug interactions |
+| Purchasers                            | Employers, government entities financing healthcare                                                     | Cost-effectiveness data, including real-world treatment performance                                          |
+| Payers                                | Insurers, Medicare/Medicaid, national health services                                                   | Safety, effectiveness, and cost-effectiveness of covered products                                            |
+| Policymakers                          | Regulatory agencies, legislators                                                                        | Data on safety and public health impact to inform regulations and policy                                     |
+| Product Makers                        | Pharmaceutical and device manufacturers                                                                 | Post-marketing safety monitoring and evidence across the product lifecycle                                   |
+| Principal Investigators / Researchers | Academic and industry scientists, research funders                                                      | High-quality, credible evidence to meet scientific and regulatory standards                                  |
+
+---
+
+**2. Real-World Evidence for Decision-Making**
+
+Real-world evidence (RWE) refers to clinical evidence on the use, benefits, and risks of a medical product, derived from real-world data (RWD). Real-world data includes information on patient health status and healthcare delivery that is routinely collected outside of controlled trials. Sources include electronic health records, administrative claims or billing data, disease or product registries, and increasingly, digital health technologies and wearables.
+
+---
+
+**3. Regulatory Context**
+
+The 21st Century Cures Act (2016) accelerated the integration of RWE into U.S. regulatory decision-making. The FDA’s 2018 RWE Framework focuses on two main uses:
+
+1. Supporting new indications for already-approved drugs
+2. Meeting post-approval study requirements
+
+When evaluating an RWE study, the FDA asks whether the data are fit for use—meaning they have adequate sample size, relevant endpoints, completeness, and consistency—whether the study design is appropriate, and whether the analysis plan is robust. Key considerations include the use of active comparators, addressing unmeasured confounding, choosing the right hypothesis framework (superiority or non-inferiority), and pre-specifying sensitivity analyses to avoid selective reporting.
+
+---
+
+**4. Study Designs Generating RWE**
+
+RWE can come from purely observational studies, such as retrospective cohort studies or registry-based research, or from hybrid/pragmatic randomized controlled trials that integrate elements of real-world practice.
+
+Two examples of hybrid approaches are:
+
+* **ADAPTABLE Trial**, which compared two aspirin doses (81 mg vs. 325 mg) in post-myocardial infarction patients, capturing endpoints via electronic health records and claims data. It found no difference in outcomes but better adherence to the lower dose.
+* **VALIDATE-SWEDEHEART Trial**, a registry-based randomized trial comparing bivalirudin versus heparin during PCI for myocardial infarction. The trial found no advantage for bivalirudin.
+
+---
+
+**5. Linking Stakeholders to RWE Uses**
+
+| Stakeholder    | Use of RWE                                                                                  |
+| -------------- | ------------------------------------------------------------------------------------------- |
+| Patients       | To make informed treatment choices based on safety and effectiveness in real-world settings |
+| Providers      | To guide clinical decision-making aligned with actual practice patterns                     |
+| Purchasers     | To evaluate cost-effectiveness of treatments                                                |
+| Payers         | To inform coverage and reimbursement decisions                                              |
+| Policymakers   | To support regulations and update clinical guidelines                                       |
+| Product Makers | To monitor safety and support market positioning throughout the product lifecycle           |
+| Researchers    | To develop methods, test hypotheses, and confirm findings in real-world populations         |
+
+ 
+
+## Methods in Drug Effectiveness Research 
+
+### Study Designs
+
+**Trials vs Observational Studies**
+
+* **Goal**: Establish causality, not just association, between an intervention and an outcome.
+* **Randomized Trials**
+
+  * Randomization balances groups on measured and unmeasured factors.
+  * Straightforward causal inference.
+* **Observational Studies**
+
+  * No randomization → risk of confounding and bias.
+  * Must define research question precisely: population, exposure, comparator, outcomes, and estimate.
+  * *Confounder*: associated with both exposure and outcome, present at baseline, not in causal pathway.
+  * *Confounding by indication*: higher-risk patients more likely to receive the treatment of interest.
+
+---
+
+**Retrospective Cohort Studies**
+
+* **Definition**: Identify exposed and unexposed individuals from past data, follow forward for outcomes.
+* **Population Definition**
+
+  * Based on characteristics at treatment initiation or before.
+  * Avoid variables influenced by treatment.
+* **Comparison Groups**: Usually different treatments or no treatment (no placebo in routine care).
+* **Challenges**
+
+  * Loss to follow-up, censoring, competing risks (e.g., death).
+  * Group differences can bias results.
+* **Exposure Definition**
+
+  * Handle dose variations, therapy gaps, uncertain induction periods.
+  * Determine how exposure is measured (prescription vs filled prescription).
+* **Outcome Definition**
+
+  * Decide on first vs recurrent events, composite outcomes, and ascertainment method (EHR labs, claims codes).
+
+---
+
+**Target Trial Emulation**
+
+* **Concept**: Design observational study as if it were a randomized trial.
+* **Steps**
+
+  * Define eligibility criteria.
+  * Specify treatment strategies.
+  * Set start of follow-up (“time zero”) and any grace period.
+  * Define outcomes and ascertainment methods.
+  * Decide on analysis approach (e.g., intention-to-treat).
+* **Analytic Methods**
+
+  * Matching, weighting, clone–censor–weight.
+* **Bias Avoidance**
+
+  * Use incident users.
+  * Avoid immortal time bias.
+
+---
+
+**Case-Control Studies**
+
+* **Definition**: Select individuals with the outcome (cases) and without the outcome (controls), look back for exposure history.
+* **Advantages**
+
+  * Efficient for rare outcomes.
+  * Can examine multiple exposures.
+* **Limitations**
+
+  * Hard to handle time-varying exposures and competing risks.
+  * Matching pitfalls: too close → lose exposure differences.
+* **Measure of Association**: Odds ratio (approximates risk ratio if outcome is rare).
+* **Analysis**: Conditional logistic regression to adjust for confounders.
+* **Example**: Pediatric SSTI treatment effectiveness — adjusted for illness severity and seasonal changes in practice.
+
+---
+
+**Self-Controlled Designs (Case-Crossover)**
+
+* **Definition**: Case-only design comparing exposure during hazard period before outcome with exposure during control periods for same person.
+* **Advantages**
+
+  * Controls for fixed characteristics automatically.
+  * Reduces confounding from stable traits.
+* **Requirements**
+
+  * Transient exposures, acute outcomes.
+  * Periods with and without exposure.
+* **Key Concepts**
+
+  * Induction time: delay from exposure to possible effect.
+  * Hazard period: time of elevated risk.
+  * Baseline period: reference time without exposure.
+* **Analysis**
+
+  * Conditional logistic regression, incidence rate ratios.
+  * Sensitive to correct choice of risk window length.
+* **Example**: Oxaliplatin and anaphylactic shock — short hazard/control periods, elevated risk observed.
+
+---
+
+**Key Takeaways**
+
+* Retrospective cohort studies are most common and can mimic trials if designed with care.
+* Case-control studies are efficient for rare harms but have matching and timing challenges.
+* Case-crossover designs suit transient exposures and acute outcomes, using patients as their own controls.
+* Across all designs, success depends on precise definition of population, exposure, outcomes, and confounding control.
+
+
+### Common Biases in Pharmacoepidemiology
+
+ 
+**Purpose of Addressing Bias**
+
+* Good study design decisions reduce bias at the outset, minimizing the need for heavy analytical corrections later.
+* Bias is a *systematic* error pulling estimates away from the truth.
+
+---
+
+**Selection Bias**
+
+* Occurs when the study population is not representative or when selection relates to both exposure and outcome.
+
+**Prevalence Bias**
+
+* Type of selection bias.
+* Prevalent cases have longer disease duration → more time for drug exposure.
+* May falsely suggest association if the drug prolongs life and thus disease duration.
+* Common in case-control studies; less in cohort designs.
+* Solution: focus on *incident* cases when possible.
+
+**Protopathic Bias**
+
+* Exposure changes (start/stop drug) occur due to early symptoms of a disease before diagnosis.
+* Can make it appear that the drug causes the disease.
+* Example: sedatives prescribed for early behavioral symptoms of undiagnosed dementia, followed by dementia diagnosis.
+
+---
+
+**Information Bias**
+
+* Results from errors in measuring or recording exposure or outcome.
+
+**Misclassification**
+
+* *Non-differential*: Errors similar across groups; usually bias toward the null.
+* *Differential*: Errors differ by group; systematic bias away from or toward null.
+* Causes:
+
+  * Uncertain sensitivity/specificity of codes (ICD-10, EHR diagnoses).
+  * Incomplete recording (e.g., in medical records or surveys).
+* Recall bias: cases may recall exposures differently from controls (common in case-control studies).
+
+**Detection Bias**
+
+* Differences in monitoring or follow-up frequency lead to unequal outcome detection.
+* Examples:
+
+  * Accutane users seen monthly vs antibiotic users yearly → more adverse event detection in Accutane group.
+  * Amlodipine patients get more echocardiograms due to benign leg swelling side effect → higher mild heart failure diagnoses compared to losartan users.
+
+---
+
+**Mitigation Strategies**
+
+* When collecting new data:
+
+  * Blind data collectors to exposure status.
+  * Standardize exposure/outcome ascertainment processes.
+* When using existing data:
+
+  * Apply objective, consistent definitions across groups.
+  * Recognize limitations of real-world data and design with misclassification risk in mind.
+
+### Immortal Time Bias
+
+ 
+**Definition**
+
+* Period during follow-up when the outcome cannot occur by study definition.
+* Occurs when treatment classification requires a waiting period, meaning individuals must survive and remain event-free until exposure is defined.
+* Unique risk in pharmacoepidemiology, often inflating apparent benefit of treatment.
+
+---
+
+**Mechanism of Bias**
+
+* Treated group appears to have better survival because they had to live through the “immortal” period to be classified as treated.
+* Comparator group may not have this requirement.
+* Leads to spurious survival advantage for treated group in time-fixed analyses.
+
+---
+
+**Common Examples**
+
+* Exposure defined as “at least one prescription after hospital discharge,” with discharge as cohort entry date.
+* Exposure defined as “at least one prescription after diagnosis,” with diagnosis date as cohort entry.
+* Comparing early vs late prescription after discharge (e.g., cardiac drugs within vs after 7 days).
+* Treatment status determined over full follow-up (e.g., immunization status at season end).
+
+---
+
+**Illustrative Problem**
+
+* Observation starts at cohort entry, but exposure begins later.
+* Time between cohort entry and exposure start is immortal time if assigned to treated group in a fixed-time analysis.
+* Incorrectly excluding this period or starting follow-up later for treated group introduces bias.
+
+---
+
+**Solutions**
+
+1. **Time-dependent exposure modeling**
+
+   * Classify pre-exposure person-time as unexposed.
+   * Use methods like Poisson regression or Cox proportional hazards with time-varying covariates.
+2. **Redefine time zero**
+
+   * Start follow-up for all participants at the time immediately after exposure initiation.
+   * Removes immortal time if applied consistently to all.
+
+---
+
+**When to Suspect Immortal Time Bias in a Study**
+
+* Treatment status determined *after* follow-up began.
+* Start of follow-up differs between exposure groups.
+* Treatment groups assigned hierarchically (one identified before the other).
+* Subjects excluded based on treatments received during follow-up.
+* Time-fixed analysis used when treatment start times differ.
+
+---
+
+**Prevention**
+
+* Use **new user, active comparator design** to align time zero and ensure exposure classification is based on baseline information, avoiding immortal time entirely.
+
+
+### Confounding 
+
+**Definition**
+
+* A confounder is a variable associated with both the exposure and the outcome, creating a distortion in the estimated association.
+* The distortion occurs when risk factors for the outcome are imbalanced across exposure categories.
+
+---
+
+**Key Challenge**
+
+* In pharmacoepidemiology, the most common form is **confounding by indication** (also called channeling bias, indication bias, confounding by severity, or contraindication bias).
+* Arises when the clinical reason for prescribing a drug is itself associated with the outcome of interest.
+* Closely related to selection bias: individuals are exposed or unexposed for specific reasons tied to their prognosis.
+* **Example**
+  * A medication is prescribed preferentially to sicker patients, who are already at higher risk for adverse outcomes.
+  * Without proper adjustment, it may appear the drug causes the outcome, when in fact the underlying illness drives both the prescription and the outcome.
+
+---
+
+**Analytical Approaches to Control Confounding**
+
+* **Matching**: Pair exposed and unexposed individuals with similar confounder profiles.
+* **Subclassification / Stratification**: Group individuals into strata based on confounder levels and analyze within strata.
+* **Statistical Adjustment**: Use multivariable regression to account for measured confounders.
+* **Propensity Scores**: Summarize multiple confounders into a single score predicting exposure, then match, stratify, or weight on the score.
+* **Disease Risk Scores**: Predict the probability of the outcome (less common).
+* **Instrumental Variables**: Use variables related to exposure but not directly to the outcome (specialized, not discussed in detail here).
+
+
+## Comparative Effectiveness and Real-World Evidence
+
+### Regression with Propensity Score Methods
+
+ 
+**Purpose**
+
+* Commonly used in pharmacoepidemiology to reduce **confounding by indication** and other measured confounding.
+* Creates a single composite measure summarizing many covariates into a *probability of treatment*, making treated and comparison groups more comparable—similar to randomization.
+* **Limitation**: only adjusts for *measured* confounders, not unmeasured or unknown ones.
+
+---
+
+**Concept**
+
+* **Propensity Score (PS)** = probability of receiving the treatment of interest given baseline covariates
+
+  * $PS = P(T=1|X)$, where $T$ = treatment, $X$ = covariates
+  * Estimated *before* treatment start; covariates must be measured pre-treatment
+  * Typically estimated via logistic regression; treatment is the outcome variable, covariates are predictors; clinical outcome is *not* included in the PS model
+
+---
+
+**Why Use**
+
+* Direct matching/stratification on many covariates is complex.
+* PS condenses them into one balancing score.
+* If two individuals have the same PS, their distribution of measured baseline covariates should be similar regardless of treatment group.
+
+---
+
+**Workflow**
+
+1. **Estimate the PS**
+
+   * Select relevant covariates (clinical knowledge vs. high-dimensional selection/machine learning).
+   * Fit logistic regression (or other model) predicting treatment.
+   * Assess overlap between treated and comparator PS distributions; remove non-overlapping cases (“trimming”).
+
+2. **Apply the PS to Control for Confounding**
+
+   * **Matching**: Pair treated and control patients with similar PS values.
+
+     * Assess balance via *standardized mean differences* (SMD ≤ 0.1 typically considered well balanced).
+     * Residual imbalance (e.g., SMD = 0.18 for hyperlipidemia) may require additional adjustment.
+   * **Stratification/Subclassification**: Group into PS strata (often quintiles) and adjust analyses accordingly.
+   * **Regression Adjustment**: Include PS as a covariate in the outcome regression model.
+   * **Weighting**: Use *Inverse Probability of Treatment Weighting (IPTW)*.
+
+     * Weights depend on whether estimating the **Average Treatment Effect (ATE)** or **Average Treatment Effect for the Treated (ATT)**.
+
+---
+
+**Example**
+
+* Study comparing new users of **exenatide** vs **insulin** in administrative claims data.
+* Covariates included diabetes type/duration, comorbidities, medications, BMI, prescriber type, etc.
+* PS model predicted exenatide use; groups showed higher PS among actual exenatide users.
+* Non-overlapping PS values were trimmed.
+* Matching on PS improved covariate balance, though some residual imbalance remained (e.g., hyperlipidemia).
+
+---
+
+**Considerations & Limitations**
+
+* Large sample sizes are generally needed for effective balance.
+* PS methods do not address **unmeasured confounding**.
+* Treatment effects may vary across PS strata (*heterogeneity of treatment effect*), which may need explicit evaluation.
+* Proper variable selection remains debated:
+
+  * Clinical knowledge approach: include known confounders only.
+  * High-dimensional PS (hdPS): include large numbers of covariates via automated selection.
+ 
+
+ 
+### Comparative Effectiveness Study – Cohort Study as a Target Trial Emulation
+
+ 
+**Study Context**
+
+* **Research Question**: Does initiating metformin (vs. no metformin) reduce cancer risk?
+* **Background**: Earlier observational studies suggested lower cancer rates among metformin users.
+* **Feasibility Challenge**: Large, long-term RCTs to answer this question are impractical → use of existing real-world data.
+* **Data Source**: UK CPRD (primary care EHR) linked to hospital episode statistics & mortality data.
+
+---
+
+**Stakeholders**
+
+* **Patients**: Interested in potential cancer-preventive benefit.
+* **Clinicians**: Could influence prescribing decisions.
+* **Insurers**: Potential to reduce costly cancer cases.
+* **Manufacturers**: Less directly relevant (metformin is generic).
+
+---
+
+**Target Trial Emulation Approach**
+
+* **Purpose**: Force explicit trial-like design choices in an observational setting.
+* **Trial-like Specifications**:
+
+  * **Eligibility Criteria**:
+
+    * Age >30 years.
+    * Type 2 diabetes.
+    * No prior cancer.
+    * No contraindication to metformin.
+    * No glucose-lowering drugs in prior year.
+  * **Treatment Strategies**:
+
+    * **Metformin initiators**: First prescription at baseline; followed until discontinuation or cancer diagnosis.
+    * **Non-initiators**: No metformin at baseline; followed until initiation is clinically necessary.
+  * **Follow-up Start (Time Zero)**: Date of treatment assignment (baseline).
+  * **Outcome**: First diagnosis of breast, colorectal, lung, or prostate cancer.
+  * **Analysis Strategies**:
+
+    * **Intention-to-treat (ITT)** analog: Analyze groups as classified at baseline.
+    * **Per-protocol (PP)** analog: Analyze based on treatment actually received, censoring for deviations.
+
+---
+
+**Statistical Design & Methods**
+
+* **Sequential Emulation**:
+
+  * 71 separate “mini-trials” starting at monthly intervals; results pooled.
+* **Adjustment for Confounding**:
+
+  * **Inverse Probability of Treatment Weighting (IPTW)**: Balance baseline characteristics.
+  * **Inverse Probability of Censoring Weighting (IPCW)**: In PP analysis, adjust for censoring due to treatment deviation or loss to follow-up.
+* **Reasoning**: Mimics randomization; reduces time-related biases by careful specification of time zero.
+
+---
+
+**Baseline Imbalances Before Weighting**
+
+* Metformin initiators: Younger, slightly more likely smokers, less antihypertensive use, more specialist visits.
+* Weighting improved covariate balance across groups.
+
+---
+
+**Strengths**
+
+* Explicit target trial framework reduced bias risk.
+* Rich EHR data with labs and longitudinal follow-up.
+* Sequential trial emulation increased efficiency.
+
+---
+
+**Limitations**
+
+* **Unmeasured confounding** remains possible.
+* **Prescription data only**—no confirmation of dispensing or adherence.
+* **Outcome ascertainment** via diagnosis codes—no pathology confirmation.
+* **Follow-up** possibly too short for some cancers (max 6 years; mean/median shorter).
+
+---
+
+**Implications**
+
+* No evidence to support prescribing metformin solely for cancer prevention.
+* Contradicts earlier positive observational findings.
+* Reinforces the need for rigorous design in real-world evidence studies before making preventive therapy recommendations.
+
+
+### Comparative Safety Study – Self-Controlled Design
+
+ 
+
+**Study Context**
+
+* **Research Question**: Does concomitant use of insulin secretagogues (sulfonylureas or meglitinides) and ACE inhibitors increase the risk of serious hypoglycemia compared with insulin secretagogue use alone?
+* **Negative Control**: Metformin (should not cause hypoglycemia; ACE inhibitor interaction expected to have no effect).
+* **Rationale**: Self-controlled designs remove between-person confounding, making them powerful for transient exposures and acute outcomes.
+
+---
+
+**Stakeholders**
+
+* **Patients & Clinicians**: Need to minimize dangerous hypoglycemia risk.
+* **Guideline Developers**: Inform recommendations on concomitant prescribing.
+* **Regulators**: May adjust drug labeling/warnings.
+* **Electronic Prescribing System Developers**: Could refine or remove automated drug–drug interaction alerts.
+
+---
+
+**Design Overview**
+
+* **Design Type**: Self-Controlled Case Series (SCCS).
+* **Population**: Adults with ≥1 serious hypoglycemic event during a prescription period for the object drug (insulin secretagogue or metformin).
+* **Data Source**: US public insurance claims + Social Security Death Master File (for mortality).
+* **Outcome**: Serious hypoglycemia requiring hospital or ED care, identified via validated ICD-9 claims algorithm (PPV: 89% ED, 78% inpatient).
+
+---
+
+**Exposure & Time Periods**
+
+* **Object Drug**: Insulin secretagogue (primary) or metformin (negative control).
+* **Precipitant Drug**: ACE inhibitor.
+* **Time Classification**:
+
+  * **Precipitant-Exposed Time**: Period on both object and precipitant drugs.
+  * **Precipitant-Unexposed Time**: Period on object drug but not precipitant.
+  * **Indeterminate Time**: Immediately post-exposure; excluded to avoid misclassification.
+* **Baseline Observation**: ≥180 days prior to object drug start without exposure.
+
+---
+
+**Analytic Approach**
+
+* **Main Analysis**: Conditional Poisson regression → Rate Ratios (RR) for hypoglycemia during ACE inhibitor exposure vs. non-exposure.
+* **Strength of SCCS**:
+
+  * Eliminates confounding by **time-invariant** factors (e.g., genetics, baseline comorbidities).
+  * Only **time-varying** confounders require adjustment.
+* **Time-Varying Covariates Adjusted For**:
+
+  * Concomitant drugs affecting glycemia.
+  * Acute conditions linked to hypoglycemia risk (e.g., infections).
+
+---
+
+**Results**
+
+* **Significant Finding**: Only **glimepiride** showed a modestly increased risk (RR = 1.23, 95% CI > 1).
+* **Other Secretagogues**: RRs ≈ 1.0 (no meaningful increase).
+* **Nateglinide**: RR < 1 (suggestive of lower risk during ACE inhibitor exposure).
+* **Negative Control (Metformin)**: RR ≈ 1.0 (as expected).
+
+---
+
+**Strengths**
+
+* Large administrative dataset with robust outcome algorithm.
+* SCCS design controls for fixed individual-level confounders.
+* Adjustment for key time-varying covariates.
+* Inclusion of a negative control to test for spurious associations.
+* Sensitivity analyses in high-risk subgroups.
+
+---
+
+**Limitations**
+
+* **Drug Intake Uncertainty**: Prescription claims don’t confirm actual ingestion.
+* **Unmeasured Time-Varying Factors**: Diet, exercise, other lifestyle behaviors could bias results if correlated with both exposure and outcome.
+* **Outcome Misclassification**: Claims-based algorithm not perfect, though validated.
+ 
+ 
+
+## Reference
+
+**Principles of Drug Effectiveness Research**
+
+1. Framework for FDA’s real-world evidence program. U.S. Food and Drug Administration  December 2018 https://www.fda.gov/media/120060/download?attachment
+
+This white paper describes the real-world evidence program that was launched soon after passage of the 21st Century Cures Act in the U.S. in 2016. It includes many definitions relevant to studies that use real-world data to generate real-world evidence about medical products.
+
+**Methods in Drug Effectiveness Research**
+
+1. Singh S, Chang HY, Richards TM, Weiner JP, Clark JM, Segal JB. Glucagonlike peptide 1-based therapies and risk of hospitalization for acute pancreatitis in type 2 diabetes mellitus: a population-based matched case-control study. JAMA Intern Med. 2013 Apr 8;173(7):534-9. doi: 10.1001/jamainternmed.2013.2720. PMID: 23440284.
+
+This is an example of a case-control study designed to evaluate a potential harm of the first glucagon-like peptide 1-based therapies.
+
+2. Orriols L, Wilchesky M, Lagarde E, Suissa S. Prescription of antidepressants and the risk of road traffic crash in the elderly: a case-crossover study. Br J Clin Pharmacol. 2013 Nov;76(5):810-5. doi: 10.1111/bcp.12090. PMID: 24148104; PMCID: PMC3853539.
+
+This is an example of a case-crossover study designed to evaluate a potential harm of antidepressants.
+
+3. Hernán MA, Robins JM. Using Big Data to Emulate a Target Trial When a Randomized Trial Is Not Available. Am J Epidemiol. 2016 Apr 15;183(8):758-64. doi: 10.1093/aje/kwv254. Epub 2016 Mar 18. PMID: 26994063; PMCID: PMC4832051.
+
+This paper describes the target trial methodology by the authors who were instrumental in developing these methods.
+
+
+4. Douros A, Dell'Aniello S, Yu OHY, Filion KB, Azoulay L, Suissa S. Sulfonylureas as second line drugs in type 2 diabetes and the risk of cardiovascular and hypoglycaemic events: population based cohort study. BMJ. 2018 Jul 18;362:k2693. doi: 10.1136/bmj.k2693. PMID: 30021781; PMCID: PMC6050517.
+
+This is an example of the prevalent new-user cohort design.
+
+5. Greifer N, Stuart EA. Matching Methods for Confounder Adjustment: An Addition to the Epidemiologist's Toolbox. Epidemiol Rev. 2022 Jan 14;43(1):118-129. doi: 10.1093/epirev/mxab003. PMID: 34109972; PMCID: PMC9005055.
+
+This is a rich article about matching methods for use with propensity scores.
+
+6. Jackson JW, Schmid I, Stuart EA. Propensity Scores in Pharmacoepidemiology: Beyond the Horizon. Curr Epidemiol Rep. 2017 Dec;4(4):271-280. doi: 10.1007/s40471-017-0131-y. Epub 2017 Nov 6. PMID: 29456922; PMCID: PMC5810585.
+
+Please see this article for more advanced reading about propensity score methodology.
+
+7. Loudon K, Treweek S, Sullivan F, Donnan P, Thorpe K E, Zwarenstein M et al. The PRECIS-2 tool: designing trials that are fit for purpose BMJ 2015; 350 :h2147 doi:10.1136/bmj.h2147.
+
+This is the PRECIS-2 Tool that is valuable when designing trials to generate real world evidence.
+
+
+**Comparative Effectiveness and Real-World Evidence**
+
+1. Dickerman BA, García-Albéniz X, Logan RW, Denaxas S, Hernán MA. Evaluating Metformin Strategies for Cancer Prevention: A Target Trial Emulation Using Electronic Health Records. Epidemiology. 2023 Sep 1;34(5):690-699. doi: 10.1097/EDE.0000000000001626. Epub 2023 May 23. PMID: 37227368; PMCID: PMC10524586.
+
+2. Hee Nam Y, Brensinger CM, Bilker WB, Flory JH, Leonard CE, Hennessy S. Angiotensin-Converting Enzyme Inhibitors Used Concomitantly with Insulin Secretagogues and the Risk of Serious Hypoglycemia. Clin Pharmacol Ther. 2022 Jan;111(1):218-226. doi: 10.1002/cpt.2377. Epub 2021 Aug 23. PMID: 34312836; PMCID: PMC8678147.
+
+These are the two studies discussed in depth in the lecture that illustrate the use of pharmacoepidemiology methods to study the effectiveness and/or safety of products.
+
+
+# Drug Safety: Pharmacovigilance
+
+## Introduction of Drug Safety
+
+### Pharmacovigillance
+
+ 
+**Definition & Importance**
+
+* **Origin**: From *pharmakon* (Greek: medical substance) + *vigilia* (Latin: to keep watch).
+* **WHO Definition**: Science and activities related to detection, assessment, understanding, and prevention of adverse effects or other drug-related problems.
+* **FDA Definition**: Scientific and data-gathering activities related to detection, assessment, and understanding of adverse events.
+* **Post-Marketing Surveillance (FDA)**: Monitoring the safety of a drug or device after market release.
+* **Why It Matters**:
+
+  * High drug exposure in the population (49% of US adults, 89% of older adults use prescriptions).
+  * Significant burden: >1.25M serious adverse events, \~175k deaths in 2022 (US).
+  * Annual cost of adverse drug reactions (ADRs) in US: \~\$136B.
+  * ADRs may cause hospitalization, prolonged stays, additional tests, and prescription cascades.
+
+---
+
+**Adverse Event (AE) vs. Adverse Drug Reaction (ADR)**
+
+* **Adverse Event**: Any untoward medical occurrence after taking a drug, not necessarily caused by it.
+* **Adverse Drug Reaction**: Noxious, unintended response where a causal relationship is *suspected*.
+* **Key Difference**: ADRs ⊂ AEs (ADRs require suspected causality; AEs do not).
+* **US Reporting Scope**: Any AE associated with drug use, regardless of suspected causality.
+
+---
+
+**Limitations of Pre-Approval Studies (Phases I–III)**
+
+* Designed for **efficacy**, not safety signal detection.
+* **Small exposure**: Usually only thousands of patients.
+* **Homogeneous participants**: Strict inclusion/exclusion criteria; excludes complex patients with comorbidities or polypharmacy.
+* **Short follow-up**: Limits detection of long-term risks.
+* **Controlled settings**: Close monitoring doesn’t reflect real-world use.
+* **Post-Approval Changes**:
+
+  * Rapid expansion to millions of patients.
+  * Broader, more complex patient populations.
+  * Off-label use may be substantial.
+  * Less controlled clinical environments → higher likelihood of adverse events.
+
+---
+
+**Pharmacovigilance Process**
+
+1. **Data Collection** (AE/ADR reports, monitoring programs).
+2. **Signal Detection** (identify potential safety issues).
+3. **Risk Assessment** (quantify magnitude and certainty).
+4. **Benefit–Risk Evaluation**.
+5. **Intervention** (e.g., education, restricted access, market withdrawal).
+
+---
+
+**Surveillance Types**
+
+* **Passive Surveillance**
+
+  * Relies on spontaneous/voluntary reporting.
+  * Examples:
+
+    * **US MedWatch** (national program).
+    * Local/regional AE reporting systems.
+    * Scientific literature (case reports/series).
+  * Advantages: Low cost, broad coverage.
+  * Limitations: Underreporting, reporting bias.
+
+* **Active Surveillance**
+
+  * Proactive, targeted monitoring using pre-planned data collection.
+  * Example: **US Sentinel Initiative**.
+  * Advantages: More systematic, can quantify incidence.
+  * Limitations: Requires infrastructure, higher cost.
+
+---
+
+**Impact of Post-Marketing Safety Surveillance**
+
+* Study of 222 novel therapeutics (FDA approvals 2001–2010):
+
+  * **32%** had a post-marketing safety event (e.g., safety communication, boxed warning, market withdrawal).
+  * Higher event frequency in:
+
+    * Biologics.
+    * Psychiatric drugs.
+    * Drugs with accelerated approval.
+    * Drugs approved near regulatory deadlines.
+
+
+### Regulatory Requirements for Drug Safety
+
+**Background & IOM 2006 Report**
+
+* Commissioned by **FDA** & **U.S. Department of Health and Human Services** to assess and improve the U.S. drug safety system.
+* Published as *The Future of Drug Safety: Promoting and Protecting the Health of the Public*.
+
+**Key Findings**
+
+1. **Perception of crisis** damaged credibility of FDA and pharmaceutical industry.
+2. Broad agreement among stakeholders (FDA, industry, consumer groups, Congress, professional societies, healthcare entities) that improvements are needed.
+3. **Resource constraints** in CDER reduce quality and quantity of drug safety science.
+4. **Unclear/insufficient regulatory authority**, especially for enforcement.
+5. Lack of **accountability and transparency** in timely communication of safety concerns.
+
+---
+
+**Institute of Medicine (IOM) Recommendations**
+
+* **Improve Safety Signal Generation & Hypothesis Development**
+
+  * Systematic review of the **Adverse Event Reporting System (AERS)**.
+  * Implement statistical surveillance methods for automated safety signal detection.
+  * Expand use of large automated healthcare databases for drug utilization studies and background incidence rates.
+* **Active Surveillance**
+
+  * Develop and implement targeted monitoring for specific drugs/diseases in varied settings.
+* **Expertise in Advisory Committees**
+
+  * Ensure all FDA drug product advisory committees include pharmacoepidemiologists or public health safety experts.
+* **Regulatory Authority Enhancement**
+
+  * Congress should grant FDA authority to require post-marketing risk assessment and management programs.
+
+---
+
+**Legislative Impact: 2007 FDA Amendments Act (FDAAA)**
+
+* **Post-Approval Study Authority**: FDA can require manufacturers to conduct post-marketing studies.
+* **Enforcement**: Authority to impose monetary penalties for non-compliance.
+* **Risk Evaluation and Mitigation Strategies (REMS)**:
+
+  * May include physician certification.
+  * Mandatory risk communication.
+  * Laboratory testing requirements for certain high-risk drugs.
+
+---
+
+**Post-Marketing Safety Reporting Requirements**
+
+* **Expedited Reports**:
+
+  * Serious & unexpected adverse events (domestic or foreign).
+  * Due **≤15 days** after initial sponsor receipt.
+  * Death or life-threatening event: **≤7 days**.
+* **Non-Expedited Reports** (domestic):
+
+  * Serious & expected.
+  * Non-serious & unexpected.
+  * Non-serious & expected.
+  * Reporting schedule:
+
+    * Quarterly for first **3 years** after approval.
+    * Annually thereafter.
+
+---
+
+**Ongoing Responsibility**
+
+* Post-marketing safety monitoring continues **throughout the product’s life cycle**.
+* FDA and sponsors are responsible for identifying, evaluating, and mitigating emerging risks.
+
+
+### Science of Safety Signal Detection
+
+ 
+
+**Definition (WHO)**
+
+* A **safety signal** is *reported information on a possible causal relationship between an adverse event and a drug*, where the relationship is either unknown or not fully documented.
+* It typically requires **multiple supporting case reports** to be considered credible.
+* Safety signals are **hypothesis-generating**, not confirmatory.
+
+**Examples of Safety Signals**
+
+* **New, unlabeled adverse event** not previously mentioned in product labeling.
+* **Increase in frequency** of an already known adverse event.
+* **Increase in severity** of a labeled adverse event.
+* **New interactions** (drug–drug, drug–disease, or drug–food).
+* **Newly identified at-risk population** (e.g., pediatric patients, pregnant women).
+
+---
+
+**Purpose of Safety Signal Detection**
+
+* Identify potential safety issues as early as possible.
+* Generate hypotheses that can be further tested using epidemiological studies, clinical trials, or mechanistic investigations.
+* Contribute to benefit–risk re-evaluation of marketed products.
+
+---
+
+**Potential Sources of Safety Signals**
+
+1. **Clinical Trials**
+
+   * Randomized Controlled Trials (RCTs) may reveal safety issues, but sample sizes are often too small to detect rare events.
+
+2. **Pharmacovigilance Databases**
+
+   * National or international adverse event reporting systems (e.g., FDA FAERS, WHO VigiBase).
+
+3. **Medical Literature**
+
+   * Case reports, case series, systematic reviews, and meta-analyses.
+
+4. **Media Reports**
+
+   * News outlets or social media may report unexpected adverse events.
+
+5. **Manufacturer’s Global Safety Database**
+
+   * Maintained by the Marketing Authorization Holder (MAH) to track global reports.
+
+6. **Foreign Regulatory Agencies**
+
+   * Safety alerts from EMA, PMDA, Health Canada, etc.
+
+7. **Observational Studies**
+
+   * Cohort or case-control studies using real-world data.
+
+8. **Active Surveillance Programs**
+
+   * Targeted programs like the **FDA Sentinel Initiative** that actively monitor specific drugs/events.
+
+---
+
+**Detection Methods**
+
+**1. Manual Review**
+
+* Review of individual case safety reports (ICSRs), e.g., all deaths or all serious cases for a specific product.
+* Advantages: allows detailed clinical evaluation.
+* Limitations:
+
+  * Time-consuming and labor-intensive.
+  * Not feasible for millions of reports.
+  * May be subjective, depending on reviewer expertise.
+
+**2. Data Mining / Statistical Signal Detection**
+
+* Automated methods to identify **disproportionality** between drug–event pair reporting frequency and expected frequency.
+* Common approach: compare the proportion of a specific event among all reports for a given drug against the proportion for all other drugs in the database.
+* Advantages:
+
+  * Efficient for large datasets.
+  * Enables systematic, reproducible scanning of all drug–event combinations.
+* Limitations:
+
+  * Generates statistical associations, **not causality**.
+  * Can produce false positives (spurious signals) and false negatives (missed signals).
+
+---
+
+**Key Characteristics of Data Mining in Pharmacovigilance**
+
+* **Disproportionality Measures**
+
+  * **Proportional Reporting Ratio (PRR)**
+  * **Reporting Odds Ratio (ROR)**
+  * **Bayesian Confidence Propagation Neural Network (BCPNN)**
+  * **Empirical Bayes Geometric Mean (EBGM)**
+* **Thresholds** for signal detection vary (e.g., PRR ≥ 2, chi-square ≥ 4, ≥ 3 cases).
+* **Dynamic nature**:
+
+  * Disproportionality values can vary between databases due to differences in population, reporting behavior, and time periods.
+  * The proportionality changes as new data are added.
+
+---
+
+**Important Notes on Interpretation**
+
+* A signal of disproportionality indicates a **statistical association within the reporting system** — not necessarily a real-world causal link.
+* **Absence of a disproportionality signal does not mean absence of risk**; some rare or serious events may be underreported.
+* The **case definition** used for identifying events can greatly affect detection performance — more than the choice of statistical method.
+
+---
+
+**Why True Incidence Cannot Be Calculated**
+
+* Post-marketing spontaneous reporting systems lack an accurate **denominator** (true drug exposure in the population).
+* Therefore, **incidence rate** = *cases per population at risk* cannot be derived.
+
+**Workaround: Reporting Ratio**
+
+* Reporting Ratio =
+
+  $$
+  \frac{\text{Number of cases of an event for a drug}}{\text{Number of dispensed prescriptions (utilization data)}}
+  $$
+* Limitations:
+
+  1. **Numerator and denominator from different sources** (spontaneous reports vs. prescription databases).
+  2. **Underreporting** is common — actual number of events may be much higher.
+  3. **Utilization data** are based on **estimates**, not actual counts.
+ 
+ 
+### How to Assess Causal Effects Between a Drug and an Adverse Event
+
+---
+
+**Overview**
+After a safety signal is detected, the next step is to evaluate whether the relationship between the drug and the adverse event is causal or coincidental.
+This assessment is performed at **two levels**:
+
+1. **Individual Case Safety Report (ICSR) level** – evaluating single reports in detail.
+2. **Overall product–adverse event level** – evaluating aggregated evidence from multiple sources.
+
+---
+
+**Five Key Factors for Individual Case Assessment**
+
+**1. Temporal Relationship**
+
+* Does the adverse event occur **after** the drug was administered, within a biologically plausible time frame?
+* **Dechallenge (D-challenge):**
+
+  * The suspected drug is withdrawn.
+  * **Positive D-challenge:** the adverse event resolves after drug discontinuation → strengthens causal inference.
+* **Rechallenge:**
+
+  * The drug is reintroduced.
+  * **Positive Rechallenge:** the adverse event reappears upon re-exposure → strong evidence for causality.
+
+**2. Precedence (Class Effect)**
+
+* Has a similar causal relationship been **established for other drugs with similar chemical structure or pharmacological action**?
+* Example: a new statin showing similar muscle toxicity patterns observed in other statins.
+
+**3. Biological / Pharmacological Plausibility**
+
+* Is there a **mechanistic explanation** consistent with current medical or pharmacological knowledge?
+* Examples:
+
+  * Toxic accumulation in plasma or tissues.
+  * Known pharmacodynamic effect (e.g., anticoagulants → bleeding risk).
+
+**4. Alternative Etiologies**
+
+* Could the event be explained by **other causes**?
+
+  * Pre-existing conditions.
+  * Concurrent diseases.
+  * Concomitant medications with similar adverse profiles.
+
+**5. Information Quality**
+
+* Are the case details complete and reliable?
+
+  * Missing data (e.g., timing, dose, medical history) reduces confidence.
+
+---
+
+**WHO–UMC Causality Categories**
+
+The **World Health Organization – Uppsala Monitoring Centre** classification:
+
+| Category                          | Description                                                                                |
+| --------------------------------- | ------------------------------------------------------------------------------------------ |
+| **Certain**                       | Clear temporal relationship, positive dechallenge/rechallenge, no alternative explanation. |
+| **Probable / Likely**             | Reasonable temporal relationship, positive dechallenge, unlikely alternative explanation.  |
+| **Possible**                      | Reasonable temporal relationship, but alternative explanations are possible.               |
+| **Unlikely**                      | Temporal relationship improbable, other explanations more likely.                          |
+| **Conditional / Unclassified**    | More data needed to assess.                                                                |
+| **Unassessable / Unclassifiable** | Insufficient or contradictory information that cannot be resolved.                         |
+
+---
+
+**Aggregated (Product-Level) Causality Assessment**
+
+When moving beyond individual cases, regulators and safety scientists consider:
+
+* **Totality of Evidence** from:
+
+  * Preclinical (animal, in vitro) data.
+  * Published medical literature.
+  * Other safety databases (FAERS, EudraVigilance, VigiBase).
+  * Clinical trial safety data.
+  * Observational pharmacoepidemiologic studies.
+  * Drug utilization data (population exposed).
+  * Reporting ratios (PRR, ROR, EBGM).
+* **Strength and Consistency** across sources.
+* **Precedence** from related drugs/classes.
+* **Mechanistic plausibility** supported by biology or pharmacology.
+
+---
+
+**Key Takeaways**
+
+* Causality assessment is **multifactorial** — no single test confirms causation.
+* **Positive rechallenge** is the strongest clinical evidence, but is rare and often unethical to attempt deliberately.
+* Decisions are based on **weight of evidence**, integrating both qualitative (case narratives) and quantitative (statistical signal detection) information.
+ 
+ 
+### Post-Authorization Safety Studies (PASS), Phase 4
+
+ 
+
+**Definitions**
+
+* **Post-Marketing Requirements (PMRs)**
+
+  * Studies or clinical trials **required by law or regulation** that a sponsor must conduct after drug approval.
+  * Authority comes from the **2007 FDA Amendments Act (FDAAA)** and other regulations.
+
+* **Post-Marketing Commitments (PMCs)**
+
+  * Studies or trials **agreed to by the sponsor** with FDA, but **not legally required**.
+
+---
+
+**Historical Context**
+
+* **Before the 2007 FDAAA**
+  FDA could only require post-marketing studies in specific situations:
+
+  1. **Accelerated approval pathway** – drug approved based on surrogate or intermediate clinical endpoint; post-marketing studies required to verify clinical benefit.
+  2. **Deferred pediatric studies** – when a drug is approved for adults but pediatric trials are postponed under the **Pediatric Research Equity Act**.
+  3. **Animal Rule approvals** – when human trials are unethical (e.g., certain biodefense drugs), approval may be based on animal studies, with human studies required later when feasible.
+
+* **After the 2007 FDAAA**
+  FDA gained authority to require post-marketing studies or clinical trials:
+
+  * **At the time of approval** or
+  * **Any time after approval** if new safety information emerges.
+
+---
+
+**Purposes of PMRs Under FDAAA**
+
+* To **assess a known serious risk** related to the drug’s use.
+* To **assess signals of serious risk** potentially related to the drug.
+* To **identify unexpected serious risks** when available data indicate the potential for such risks.
+
+---
+
+**Data Tracking and Transparency**
+
+* **Internal FDA databases**:
+
+  * Center for Drug Evaluation and Research (CDER).
+  * Center for Biologics Evaluation and Research (CBER).
+
+* **Publicly available PMR/PMC database**:
+
+  * Searchable and downloadable from the FDA website.
+  * Includes studies with *open status* or *closed within the past year* at time of retrieval.
+
+---
+
+**Trends**
+
+* Over the past \~15 years, **significant increase** in Phase IV post-marketing studies required under FDAAA.
+* Reflects expanded authority and a stronger focus on ongoing risk assessment after market entry.
+
+---
+
+**Relation to Pharmacovigilance**
+
+* PASS are part of the broader **pharmacovigilance system**:
+
+  * Aim to detect, assess, and prevent adverse events or drug-related problems in real-world use.
+  * Can be initiated in response to **safety signals** detected through passive or active surveillance.
+
+---
+
+**Key Takeaways**
+
+* FDA can now mandate Phase IV studies **proactively** and **reactively** based on new safety data.
+* PMRs have legal force; PMCs are voluntary but often carry significant scientific or reputational importance.
+* Public access to PMR/PMC status improves **accountability and transparency**.
+* The expansion after 2007 has strengthened the U.S. drug safety framework by ensuring **continued evaluation beyond pre-approval trials**.
+
+### Adverse Events and Boxed Warnings
+
+**What are Boxed Warnings?**
+
+* **Highest safety-related warning** issued by the U.S. FDA (since 1979).
+* Intended to alert medical professionals, patients, and the public to **serious drug risks**.
+* Named after the **black border** placed around cautionary information on the label.
+* **Causal proof not required** — only *reasonable evidence* of a serious hazard.
+* Based on **pre- and post-marketing clinical data**; sometimes serious **animal toxicity** can trigger it.
+* Location usually **at the start of drug labeling** for maximum visibility.
+* Warnings can be **added, removed, or updated** over time.
+
+**Process for Adding a Boxed Warning**
+
+1. FDA identifies the need for a boxed warning.
+2. FDA contacts manufacturer → requests label change.
+3. Manufacturer submits proposed warning.
+4. FDA reviews & approves.
+5. Warning added to labeling.
+6. Physicians then decide whether to prescribe after **risk–benefit** evaluation.
+
+**Key Takeaways**
+
+* Boxed warnings can be based on **passive surveillance + clinical plausibility**.
+* Timeline from approval to boxed warning can be **several years** (here \~3 years).
+* Highlights importance of **post-marketing surveillance** in detecting serious but uncommon events.
+
+ 
+
+## Passive Surveillance
+
+**Definition**
+
+* A **spontaneous or voluntary** reporting system for adverse events (AEs) or adverse drug reactions (ADRs).
+* Reports are submitted **directly** to:
+
+  * National or regional pharmacovigilance centers.
+  * Pharmaceutical companies.
+* **Most common** form of pharmacovigilance worldwide.
+
+---
+
+**Key Characteristics**
+
+* **Reporter-initiated**:
+
+  * The decision of *what* to report and *whether* to report rests with the individual (e.g., clinician, pharmacist, patient).
+  * No systematic effort is made to capture *all* cases.
+  
+---
+
+ 
+
+**Passive Surveillance Systems – U.S. vs. Global**
+
+| Aspect                         | United States                                                                                                                                                                      | Worldwide (WHO PIDM)                                                                                                                                                |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Main Program**               | **MedWatch** (FDA medical product safety reporting program, est. 1993)                                                                                                             | **WHO Program for International Drug Monitoring (PIDM)** (est. 1968)                                                                                                |
+| **Core Database**              | **FAERS** – FDA Adverse Event Reporting System                                                                                                                                     | **VigiBase** – WHO global database of suspected ADRs                                                                                                                |
+| **Report Sources**             | - **Voluntary**: Healthcare professionals & consumers (\~6%)<br>- **Mandatory**: Manufacturers (\~94%)                                                                             | - National pharmacovigilance centers in 170+ member countries (≈99% world population)                                                                               |
+| **Reporting Methods**          | - Online forms (HCP, consumer, industry)<br>- Paper forms                                                                                                                          | - National centers submit ADR data via **VigiFlow**                                                                                                                 |
+| **What to Report**             | - Unexpected side effects/adverse events (mild → death)<br>- Product quality issues<br>- Medication errors<br>- Therapeutic failures                                               | - Suspected adverse effects from medicines & vaccines                                                                                                               |
+| **Products Covered**           | - Drugs (Rx & OTC)<br>- Biologics (blood products, gene therapy, transplants)<br>- Medical devices<br>- Certain combination products<br>- Cosmetics & food (safety-related events) | - Medicines & vaccines from all therapeutic areas                                                                                                                   |
+| **Manufacturer Obligations**   | - Serious & unexpected AEs: Report within 15 days (domestic & foreign)<br>- Others: Quarterly (first 3 yrs), then annually                                                         | - Varies by national law; member countries commit to regular data submission to WHO                                                                                 |
+| **Public Access**              | - FAERS Dashboard (interactive)<br>- FAERS data files (raw)<br>- Case-level data upon request                                                                                      | - VigiBase access via WHO-UMC (for members); aggregated signal info shared globally                                                                                 |
+| **Signal Detection Process**   | 1. AE identified → reported to MedWatch → entered into FAERS.<br>2. FDA analysts monitor for signals.<br>3. Confirmed signal → safety communications/regulatory action.            | 1. National centers collect ADR reports → VigiFlow → VigiBase.<br>2. WHO-UMC analyzes global data for signals.<br>3. Findings shared with members & WHO for action. |
+| **Other Reporting Mechanisms** | - Joint Commission Sentinel Event System<br>- Maryland Dept. of Health ADE reporting<br>- ISMP error reporting<br>- USP MedMarks<br>- VA Patient Safety Reporting                  | - Integration with other major databases:<br>U.S. **FAERS** & **VAERS**, EU **EudraVigilance**, national databases                                                  |
+
+
+---
+
+**Analysing Passively Reported Events**
+
+**Safety Signal** (WHO):
+
+* Possible causal relationship between AE and drug, previously unknown/incompletely documented.
+* Examples:
+
+  * Multiple similar case reports.
+  * New unlabeled AE.
+  * Increase in frequency/severity of labeled AE.
+  * New drug–drug interaction.
+  * At-risk population identified.
+
+---
+
+**Disproportionality Methods**
+
+**Proportional Reporting Ratio (PRR)**
+
+$$
+PRR = \frac{\frac{A}{A+B}}{\frac{C}{C+D}}
+$$
+
+* **A** = AE of interest with drug A
+* **B** = Other AEs with drug A
+* **C** = AE of interest with comparison drugs
+* **D** = Other AEs with comparison drugs
+* **PRR ≥ 2** → potential signal.
+
+**Reporting Odds Ratio (ROR)**
+
+$$
+ROR = \frac{\frac{A}{B}}{\frac{C}{D}}
+$$
+ 
+---
+
+**Strengths & Limitations of Passive Methods**
+
+**Strengths**
+
+* Detects rare or unexpected events **not seen in trials**.
+* Large-scale, broad coverage, low cost.
+* Includes all medicines used in the population.
+* Continuous monitoring across product life cycle.
+* One report can trigger investigation.
+* Allows **public reporting** of AEs.
+
+**Limitations**
+
+* **Incomplete/inaccurate data** (e.g., missing dosage, frequency).
+* **Unknown denominators** → no incidence rates or background rates.
+* **Underreporting** (esp. mild/moderate AEs).
+* **Reporting bias** (serious events overrepresented).
+* **Weber effect**: reports peak \~2 years post-approval, then decline.
+* **Publicity bias**: spikes after media or regulatory attention.
+* Changes in report numbers ≠ changes in true AE rates.
+
+ 
+
+## Active Surveillance
+
+* **Post-marketing surveillance**: Monitoring the safety of a drug or device after market release.
+
+  * Includes **detection of safety signals** (passive surveillance focus).
+  * Includes **testing hypotheses** to confirm or quantify product risks (active surveillance focus).
+ 
+**Limitations of Passive Surveillance Addressed by Active Surveillance**
+
+* **Incomplete reports**: Missing dose, treatment duration, patient info, AE details.
+* **No denominator data**: Only AE counts (numerators) without knowing total exposed population.
+* **Cannot calculate** population-based incidence or background rates.
+* **Recognition issues**: Some AEs mimic other conditions, making identification difficult.
+* **Underreporting**: Due to clinician workload, patient reluctance.
+* **Reporting bias**: Influenced by known drug risks or media coverage.
+ 
+**Definition (EMA)**
+
+> *Active surveillance seeks to ascertain completely the number of adverse events via a continuous, pre-organized process.*
+
+* **Active approach**: Investigator actively pursues answers to safety questions.
+* **Contrast**:
+
+  * *Passive surveillance* → wait for spontaneous reports.
+  * *Active surveillance* → proactively identify, track, and confirm AEs.
+
+---
+
+**Types of Active Surveillance**
+
+1. **Sentinel sites**
+
+   * Select healthcare facilities where medical records are reviewed or physicians interviewed.
+   * Aim: Complete capture of exposures and outcomes.
+2. **Drug event monitoring**
+
+   * Identify exposed individuals (often via electronic health records).
+   * Contact patients for surveys/interviews about outcomes.
+3. **Registries**
+
+   * Disease-specific or drug-exposure registries.
+   * Can host **nested observational studies** on AEs.
+4. **Large data activities**
+
+   * Use of big healthcare datasets (claims, EHR, etc.) for active monitoring of safety signals.
+ 
+---
+
+**International Active Surveillance Systems**
+ 
+* Use of **large datasets** and organized systems to actively monitor adverse events (AEs) after drug or biologic product approval.
+* Overcomes passive surveillance limitations by:
+
+  * Knowing the **denominator** (total exposed population).
+  * Allowing estimation of **background incidence rates**.
+  * Capturing **complete exposure and outcome data**.
+ 
+
+| **Region / Country** | **System Name**                                          | **Lead Organization**                                  | **Focus / Notes**                                                                                                                  |
+| -------------------- | -------------------------------------------------------- | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **United States**    | **Sentinel Initiative**                                  | FDA (CDER)                                             | Uses claims & EHR data for signal detection, strengthening, and validation.                                                        |
+|                      | **Vaccine Safety Datalink (VSD)**                        | CDC                                                    | Long-standing vaccine AE monitoring (pre-dates Sentinel).                                                                          |
+|                      | **Biologics Effectiveness and Safety (BEST) Initiative** | FDA (CBER)                                             | Part of Sentinel; monitors biologics (vaccines, blood, tissues, gene therapies, devices) but not biologic drugs regulated by CDER. |
+| **Europe (EU)**      | **Darwin EU**                                            | EMA                                                    | Centralized EU data network for drug safety and effectiveness research.                                                            |
+| **Canada**           | **CNODES**                                               | Canadian Network for Observational Drug Effect Studies | Active drug safety monitoring.                                                                                                     |
+|                      | **CAEFISS**                                              | Public Health Agency of Canada                         | Vaccine AE monitoring.                                                                                                             |
+| **United Kingdom**   | **Vigilance and Risk Management of Medicines Division**  | MHRA                                                   | Active AE surveillance for medicines.                                                                                              |
+| **Australia & Asia** | **Asian Pharmacoepidemiology Network (AsPEN)**           | Multinational Collaboration                            | Shared pharmacoepidemiology and safety monitoring infrastructure across Asia, some Europe, and Australia.                          |
+| **Japan**            | **MID-NET** (Medical Information Database Network)       | Ministry of Health, Labour and Welfare & PMDA          | Uses EHR and administrative data for AE surveillance.                                                                              |
+| **China**            | **National ADR Monitoring Sentinel Alliance**            | National Medical Products Administration               | EHR-based active AE monitoring program (launched 2016).                                                                            |
+
+ 
+## Reference
+
+**Introduction to Drug Safety**
+
+1. Best Practices for FDA Staff in the Postmarketing Safety Surveillance of Human Drug and Biological Products. U.S. Food and Drug Administration. January 2024. https://www.fda.gov/media/130216/download
+
+This document describes principals for the FDA’s conduct of ongoing postmarketing safety surveillance for human drug products and human biological products. It includes safety identification and an assessment of the causal association between the product and the identified adverse event. 
+
+2. Downing NS, Shah ND, Aminawung JA, Pease AM, Zeitoun J, Krumholz HM, Ross JS. Postmarket Safety Events Among Novel Therapeutics Approved by the US Food and Drug Administration Between 2001 and 2010. JAMA. 2017; 317(18): 1854–1863. doi: 10.1001/jama.2017.5150. 
+
+This paper describes the frequency of postmarket safety events, including withdrawal, boxed warnings, and safety communications, among novel therapeutics approved by the US FDA between 2001 and 2010. 
+
+3. Avorn J, Kesselheim A, Sarpatwari A. The FDA Amendments Act of 2007 — Assessing Its Effects a Decade Later. N Engl J Med 2018;379:1097-1099. doi: 10.1056/NEJMp1803910.
+
+This paper provides the background history of the FDA Amendments Acts of 2007 and its impact on FDA’s capacity to track medication effects and mitigate risk.   
+
+**Pharmacovigilance: Passive Surveillance**
+
+1. Trontell A. (2004). Expecting the unexpected--drug safety, pharmacovigilance, and the prepared mind. The New England journal of medicine, 351(14), 1385–1387. https://doi.org/10.1056/NEJMp048187
+
+This article provides  a concise and insightful perspective on the importance of post-marketing drug safety surveillance, particularly through passive surveillance systems like spontaneous adverse event reporting. It also discusses signal detection methods, FDA and international adverse event reporting systems, and limitations and strengths of passive surveillance methods.   
+
+
+**Pharmacovigilance: Active Surveillance**
+
+1. Platt, R., Brown, J. S., Robb, M., McClellan, M., Ball, R., Nguyen, M. D., & Sherman, R. E. (2018). The FDA Sentinel Initiative - An Evolving National Resource. The New England journal of medicine, 379(22), 2091–2093. https://doi.org/10.1056/NEJMp1809643
+
+This paper describes the US FDA’s Sentinel Initiative (active surveillance system using large database in the US) to monitor the safety of medical products.  
+
+2. Big Data Steering Group: BDSG workplan and update and DARWIN EU implementation approach. 2020. https://www.ema.europa.eu/en/documents/presentation/presentation-big-data-steering-group-bdsg-workplan-update-and-darwin-eu-implementation-approach_en.pdf 
+
+This presentation slides describe DARWIN EU (data network for collecting and analyzing real-world data on the safety and effectiveness of medicines, established by the European Medicines Agency and European Medicines Regulatory Network), including its objectives and ongoing implementation efforts.
