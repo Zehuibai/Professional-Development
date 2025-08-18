@@ -19,7 +19,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-##《Logistic Regression》
+## 《Logistic Regression》
 
 
 **Logistic 回归 (第一部分)**
@@ -104,7 +104,7 @@ knitr::opts_chunk$set(echo = TRUE)
 * 参数估计依赖最大似然法，实际计算用软件完成。
  
  
-##《Poisson Regression》 
+## 《Poisson Regression》 
 
 
 **1. 背景与引入**
@@ -231,7 +231,7 @@ knitr::opts_chunk$set(echo = TRUE)
    * $\beta_j$ 表示预测变量 $X_j$ 每增加 1 单位，期望计数按比例 $e^{\beta_j}$ 改变。
  
 
-##《Generalized Linear Models》
+## 《Generalized Linear Models》
 
  
 
@@ -326,7 +326,7 @@ knitr::opts_chunk$set(echo = TRUE)
 * 在统计软件（如 R）中，GLM 是建模的核心工具之一。
  
 
-##《Robust Regression》
+## 《Robust Regression》
 
 **1. 为什么需要稳健回归？**
 
@@ -419,7 +419,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ✅ **总结**：
 稳健回归（通过 M-估计 + IRLS）在数据满足 OLS 假设时表现接近 OLS，但在有离群点时更稳定。常见的 Huber 和 Bisquare 方法在统计建模中广泛使用。
  
-##《Variable Selection and Model Validation》
+## 《Variable Selection and Model Validation》
 
   
 

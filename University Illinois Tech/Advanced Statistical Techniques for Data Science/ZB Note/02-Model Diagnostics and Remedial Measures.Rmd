@@ -18,8 +18,9 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+ 
 
-##《Regression Diagnostics》
+## 《Regression Diagnostics》
 
  
 **回归诊断的目的**
@@ -87,7 +88,7 @@ $$
  
 
 
-##《Variance-Stabilizing Transformations（方差稳定化变换）》 
+## 《Variance-Stabilizing Transformations（方差稳定化变换）》 
 
 **1) 背景与目标：为什么需要方差稳定化变换**
 在线性回归中，我们常假设误差项满足：均值为 0、方差为常数（同方差/齐性，homoscedasticity）、独立同分布且服从正态分布，解释变量线性独立并且无测量误差等。如果数据违反了**同方差**假设（例如残差随拟合值增大而增大），经典线性模型估计与推断的可靠性会下降。文档的核心就是：**在响应变量上做恰当变换，使其方差“尽量不随均值变化”，从而“稳定方差”**。
@@ -192,7 +193,7 @@ $$
 * **常用配方**：$\sqrt{y}$（泊松/计数）、$\log y$（方差与均值平方成正比）、$\sin^{-1}\sqrt{y}$（比例/概率数据）等。
 * **实践方法**：以诊断图为导向，试错选择变换，直到残差图显示更接近同方差。这是一种**经验性**但效果常很好的方法。
 
-##《Box-Cox Transformation》 
+## 《Box-Cox Transformation》 
  
 **1. 回归模型的基本假设**
 在经典线性回归模型中，我们通常假设：
@@ -267,7 +268,7 @@ $$
 Box-Cox 变换是用来处理回归模型中 **非正态误差分布** 和 **方差不齐性** 的一种方法。它通过幂变换使响应变量更符合模型假设，从而提升估计与推断的可靠性。
 
 
-##《Transformations to Linearize the Model》
+## 《Transformations to Linearize the Model》
 
  
 
@@ -385,7 +386,7 @@ $$
 用 R 建立模型后，诊断图显示拟合效果良好，说明通过变换成功把非线性关系转化为线性关系。
  
  
-##《Weighted Least Squares, WLS》
+## 《Weighted Least Squares, WLS》
  
 
 **主题：加权最小二乘法（Weighted Least Squares, WLS）**
@@ -505,7 +506,7 @@ $$
 其中 $W = \text{diag}(w_1, \dots, w_n)$。
  
  
-##《Autocorrelation》
+## 《Autocorrelation》
  
 
 **自相关 (Autocorrelation)**
@@ -631,7 +632,7 @@ $$
 * 若存在自相关，可通过改进模型或 AR(1) 修正来解决。
  
  
-##《Multicollinearity》
+## 《Multicollinearity》
  
  
 **回归模型的基本假设**
@@ -704,7 +705,7 @@ $\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 x_2 + \hat{\beta}_3
 * 解决方法包括收集更多数据、删减或变换变量，以及采用岭回归等正则化方法。
  
  
-##《Variable Selection and Model Validation》
+## 《Variable Selection and Model Validation》
 
 
 **变量选择与模型验证**
