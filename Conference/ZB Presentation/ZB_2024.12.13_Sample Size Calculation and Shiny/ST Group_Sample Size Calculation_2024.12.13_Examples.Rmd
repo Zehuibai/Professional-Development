@@ -1,0 +1,193 @@
+---
+title: |
+  ![](logo.png){width=1in}
+  Sample Size Calculation Example
+author: "Zehui Bai"
+date: '`r format(Sys.time())`'
+output:
+  html_document:
+    df_print: paged
+    number_sections: yes
+    toc: yes
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+    theme: flatly # <!-- https://bootswatch.com/3/  -->
+    highlight: tango
+  word_document:
+    toc: yes
+  pdf_document:
+    toc: yes
+fontsize: 10pt
+editor_options:
+  chunk_output_type: console
+colorlinks: yes
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(pwrss)
+options(warn = -1)
+```
+
+# Introduction
+
+To install and load `pwrss`:
+
+```
+install.packages("pwrss")
+library(pwrss)
+```
+
+`pwrss` R package allows statistical power and minimum required sample size calculations for 
+
+  - `(1)` testing a proportion (one-sample) against a constant, 
+  - `(2)` testing a mean (one-sample) against a constant,  
+  - `(3)` testing difference between two proportions (independent samples),
+  - `(4)` testing difference between two means (independent and paired samples),
+  - `(5)` testing a correlation (one-sample) against a constant,  
+  - `(6)` testing difference between two correlations (independent samples),
+  - `(7)` testing a coefficient (standardized or unstandardized) against a constant in multiple linear regression,
+  - `(8)` testing an indirect effect (standardized or unstandardized) in the mediation analysis (Sobel, Joint, and Monte Carlo),
+  - `(9)` testing an R-squared against zero in linear regression 
+  - `(10)` testing an R-squared difference against zero in hierarchical regression
+  - `(11)` testing an eta-squared or f-squared (for main and interaction effects) against zero in analysis of variance (ANOVA) (could be one-way, two-way, and three-way), 
+  - `(12)` testing an eta-squared or f-squared (for main and interaction effects) against zero in analysis of covariance (ANCOVA) (could be one-way, two-way, and three-way), 
+  - `(13)` testing an eta-squared or f-squared (for between, within, and interaction effects) against zero in one-way repeated measures analysis of variance (RM-ANOVA) (with non-sphericity correction and repeated measures correlation). 
+  
+  Alternative hypothesis can be formulated as "not equal", "less", "greater",  "non-inferior", "superior", or "equivalent" in `(1)`, `(2)`, `(3)`, and `(4)`; as "not equal", "less", or "greater" in `(5)`, `(6)`, `(7)` and `(8)`; but always as "greater" in `(9)`, `(10)`, `(11)`, `(12)`, and `(13)`. 
+**If you find the package and related material useful, along with other references, please cite as:**
+
+- Bulus, M. (2022). pwrss: Power and Sample Size Calculation Tools. R package version 0.1.0. https://CRAN.R-project.org/package=pwrss
+
+- Bulus, M., & Polat, C. (2022, November 7). Istatistiksel Guc Analizine Giris [Introduction to Statistical Power Analysis]. https://doi.org/10.35542/osf.io/tfyxq 
+
+# Generic Functions for _z_, _t_, and _F_ tests
+
+These generic functions calculate and return statistical power along with optional plots for Type I and Type II error rates (as long as the test statistic and degrees of freedom is known). 
+```{r, message = FALSE, fig.width = 7, fig.height = 5, results = FALSE}
+power.t.test(ncp = 1.96, df = 99, alpha = 0.05,
+             alternative = "equivalent", plot = TRUE)
+
+power.z.test(ncp = 1.96, alpha = 0.05, 
+             alternative = "not equal", plot = TRUE)
+
+power.f.test(ncp = 3, df1 = 2, df2 = 98,
+             alpha = 0.05, plot = TRUE)
+
+```
+
+ 
+# Practice
+
+
+## One Proportion
+
+```{r, message = FALSE, fig.width = 7, fig.height = 5, results = TRUE}
+# normal approximation
+pwrss.z.prop(p = 0.45, p0 = 0.50,
+                         alpha = 0.05, power = 0.80,
+                         alternative = "less",
+                         arcsin.trans = FALSE)%>% plot()
+
+# arcsine transformation
+pwrss.z.prop(p = 0.45, p0 = 0.50,
+             alpha = 0.05, power = 0.80,
+             alternative = "less",
+             arcsin.trans = TRUE)%>% plot()
+
+## Non-inferiority Test
+pwrss.z.prop(p = 0.45, p0 = 0.50, margin = 0.01,
+             alpha = 0.05, power = 0.80,
+             alternative = "non-inferior")%>% plot()
+```
+
+
+## Difference between Two Proportions (Independent)
+
+
+```{r, message = FALSE, fig.width = 7, fig.height = 5, results = TRUE}
+# one side normal approximation
+
+pwrss.z.2props(p1 = 0.45, p2 = 0.50,
+               alpha = 0.05, power = 0.80,
+               alternative = "less",
+               arcsin.trans = FALSE)%>% plot()
+ 
+
+## Non-inferiority Test
+pwrss.z.2props(p1 = 0.45, p2 = 0.50, margin = 0.01,
+               alpha = 0.05, power = 0.80,
+               alternative = "non-inferior")%>% plot()
+```
+
+
+
+## Independent Samples t Test
+
+```{r, message = FALSE, fig.width = 7, fig.height = 5, results = TRUE}
+## Calculate Statistical Power
+pwrss.t.2means(mu1 = 30, mu2 = 28, sd1 = 12, sd2 = 8, kappa = 1, 
+               n2 = 50, alpha = 0.05,
+               alternative = "not equal") %>% plot()
+
+## Calculate Minimum Required Sample Size
+pwrss.t.2means(mu1 = 30, mu2 = 28, sd1 = 12, sd2 = 8, kappa = 1, 
+               power = .80, alpha = 0.05,
+               alternative = "not equal") %>% plot()
+```
+
+
+## Paired Samples t Test
+
+```{r, message = FALSE, fig.width = 7, fig.height = 5, results = TRUE}
+pwrss.t.2means(mu1 = 30, mu2 = 28, sd1 = 12, sd2 = 8, 
+               paired = TRUE, paired.r = 0.50,
+               power = .80, alpha = 0.05,
+               alternative = "not equal") %>% plot()
+```
+
+
+## Non-inferiority and Equivalence
+
+```{r, message = FALSE, fig.width = 7, fig.height = 5, results = TRUE}
+## When higher values of an outcome is better the margin takes NEGATIVE values; whereas when lower values of the outcome is better margin takes POSITIVE values.
+pwrss.t.2means(mu1 = 30, mu2 = 28, sd1 = 12, sd2 = 8, 
+               margin = -1, power = 0.80,
+               alternative = "non-inferior")%>% plot()
+
+## Specify the absolute value for the margin.
+pwrss.t.2means(mu1 = 30, mu2 = 30, sd1 = 12, sd2 = 8, 
+               margin = 1, power = 0.80,
+               alternative = "equivalent")%>% plot()
+```
+
+
+## One-way, Two-way, and Three-way Analysis of Variance (ANOVA) or Analysis of Covariance (ANCOVA)
+
+```{r, message = FALSE, fig.width = 7, fig.height = 5, results = TRUE}
+
+# one-way ANOVA
+pwrss.f.ancova(n.levels = 2, n.covariates = 0,
+               power = .80, eta2 = 0.10)%>% plot()
+# one-way ANCOVA
+pwrss.f.ancova(n.levels = 2, n.covariates = 1,
+               power = .80, eta2 = 0.08)%>% plot()
+
+# two-way ANOVA
+pwrss.f.ancova(n.levels = c(2,3), n.covariates = 0,
+               power = .80, eta2 = 0.10)
+# two-way ANCOVA
+pwrss.f.ancova(n.levels = c(2,3), n.covariates = 1,
+               power = .80, eta2 = 0.08)
+
+# three-way ANOVA
+pwrss.f.ancova(n.levels = c(2,3,2), n.covariates = 0,
+               power = .80, eta2 = 0.10)
+# three-way ANCOVA
+pwrss.f.ancova(n.levels = c(2,3,2), n.covariates = 1,
+               power = .80, eta2 = 0.08)
+```
+

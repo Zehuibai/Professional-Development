@@ -1,0 +1,838 @@
+---
+title: |
+  ![](logo.png){width=3in}  
+  Note EFSPI 8th RegStat Workshop  
+author: "Zehui Bai"
+date: '`r format(Sys.time())`'
+output:
+  html_document:
+    df_print: paged
+    number_sections: yes
+    toc: yes
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+    theme: flatly # <!-- https://bootswatch.com/3/  -->
+    highlight: tango
+  word_document:
+    toc: yes
+  pdf_document:
+    toc: yes
+fontsize: 9pt
+editor_options:
+  chunk_output_type: console
+  markdown: 
+    wrap: sentence
+colorlinks: yes
+---
+
+```{r setup, include=FALSE, echo = FALSE,message = FALSE, error = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 10, fig.height = 6)
+
+# <!-- ---------------------------------------------------------------------- -->
+# <!--                    1. load the required packages                       -->
+# <!-- ---------------------------------------------------------------------- --> 
+
+## if(!require(psych)){install.packages("psych")}
+
+packages<-c("tidyverse", "kableExtra", 
+            "gtsummary","inTextSummaryTable",
+            "Hmisc","htmltools","clinUtils")
+
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+ipak(packages)
+ 
+
+
+# <!-- ---------------------------------------------------------------------- -->
+# <!--                        2. Basic system settings                        -->
+# <!-- ---------------------------------------------------------------------- -->
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+getwd()
+Sys.setlocale("LC_ALL","English")
+
+
+## Open the folder
+open_folder <-function(dir){
+	if (.Platform['OS.type'] == "windows"){
+	shell.exec(dir)  
+	} else {
+	system(paste(Sys.getenv("R_BROWSER"), dir))
+  }
+}
+open_folder(getwd())
+
+## convert backslash to forward slash in R
+# gsub('"', "", gsub("\\\\", "/", readClipboard()))
+
+### get the path
+# rstudioapi::getSourceEditorContext()$path
+# dirname(rstudioapi::getSourceEditorContext()$path)
+
+### set working directory
+# getwd()
+# setwd("c:/Users/zbai/Desktop")
+# Sys.setlocale("LC_ALL","English")
+
+### get the R Version
+# paste(R.Version()[c("major", "minor")], collapse = ".")
+
+### convert backslash to forward slash 
+# scan("clipboard",what="string")
+# gsub('"', "", gsub("\\\\", "/", readClipboard())) 
+
+## Load all r functions
+## The directory where all source code files are saved.
+source_code_dir <- "C:/Users/baiz/Downloads/Data-Analyst-with-R/00 R Function/ZB Function/"  
+file_path_vec <- list.files(source_code_dir, full.names = T)
+for(f_path in file_path_vec){source(f_path)}
+
+# <!-- ---------------------------------------------------------------------- -->
+# <!--                         3. Import the datasets                         -->
+# <!-- ---------------------------------------------------------------------- -->
+
+# <!-- ---------------------------- -->
+# <!-- --3.1 Import csv data ------ -->
+# <!-- ---------------------------- -->
+
+# pfad <- "~/Desktop/SASUniversityEdition/myfolders/Daten"
+# mydata1 <- read.csv(file.path(pfad, "yourcsv_data.csv"), 
+#                     sep=";", 
+#                     header=TRUE)   
+
+## Import all csv data from folder
+# list_csv_files <- list.files(path = "./csvfolder/")
+# do.call(rbind, lapply(list_csv_files, function(x) read.csv(x, stringsAsFactors = FALSE)))
+
+# <!-- ---------------------------- -->
+# <!-- --3.2 Import xlsx data ----- -->
+# <!-- ---------------------------- -->
+
+# library(readxl)
+# mydata2 <- read_excel("C:/Users/zbai/Documents/GitHub/R-Projects/SAS/Yimeng/results-text.xlsx")
+
+# <!-- ---------------------------- -->
+# <!-- --3.3 Import sas7dbat data - -->
+# <!-- ---------------------------- -->
+
+# library(sas7bdat)
+# mydata3 <- read.sas7bdat("~/Desktop/SASUniversityEdition/myfolders/Daten/uis.sas7bdat")
+
+## Import all sas7dbat data from SASfolder
+# ZB.import.sas.folder("./SASfolder/")
+
+# <!-- ---------------------------- -->
+# <!-- --3.4 Import from copyboard --->
+# <!-- ---------------------------- -->
+# copdat <- read.delim("clipboard")
+# Data_D01 <- copdat
+
+# <!-- ---------------------------------------------------------------------- -->
+# <!--                           4. Some Tools                                -->
+# <!-- ---------------------------------------------------------------------- -->
+
+## To check out vignettes for one specific package
+# browseVignettes("sjPlot")      ## sjPlot for Models Summary
+# browseVignettes("gtsummary")
+
+
+# <!-- ---------------------------------------------------------------------- -->
+# <!--                           5. Citation                                -->
+# <!-- ---------------------------------------------------------------------- -->
+# citation("gtsummary")
+# <!-- ---------------------------------------------------------------------- -->
+```
+
+<!-- ----------------------------------------- -->
+
+<!-- -----------Mind Map of ToC--------------- -->
+
+<!-- ----------------------------------------- -->
+
+```{r mind map,echo = F,message = FALSE, error = FALSE, warning = FALSE}
+library(mindr)
+input <- rstudioapi::getSourceEditorContext()$path 
+input_txt <- readLines(input, encoding = "UTF-8")
+## Widget Output
+mm_output <- mm(input_txt, 
+                output_type = c("widget"),
+                root = "")
+mm_output$widget
+```
+
+<!-- ----------------------------------------- -->
+
+<!-- --------------CSS Define----------------- -->
+
+<!-- ----------------------------------------- -->
+
+```{=html}
+<style>
+.bold-list-257f96 + ol {
+    font-weight: 900;
+    color: #257f96;
+}
+.bold-list-ff9900 + ol {
+    font-weight: 900;
+    color: #ff9900;
+}
+</style>
+```
+<!-- ----------------------------------------- -->
+
+# EFSPI regulatory statistics workshop
+
+## Introduction
+
+1.  **EFSPI Meaning**: EFSPI stands for the European Federation of Statisticians in the Pharmaceutical Industry.
+    It's a collective body representing statisticians involved in the pharmaceutical sector across Europe.
+
+2.  **Foundation Year**: EFSPI was founded in 1992, marking its establishment as an entity to organize and represent statisticians within the pharmaceutical industry at a European level.
+
+3.  **Organizational Structure**: EFSPI is described as an "umbrella" organization, indicating that it functions at a higher organizational level that encompasses various national groups rather than individual members.
+    It is a non-profit organization, which means it does not operate to generate profit but rather to serve the interests of its members and the profession.
+
+4.  **Federation Composition**: The federation consists of national groups from different European countries, currently totaling 10.
+    These groups collectively represent the interests of statisticians in the pharmaceutical industry at a national level.
+
+5.  **Membership**: It is noted that EFSPI does not have individual members.
+    Instead, its structure is based on national organizations which collectively represent over 2000 members.
+    This large number suggests a broad and significant representation within the pharmaceutical statistics community in Europe.
+
+6.  **Representation on the EFSPI Council**: Each national organization that is part of EFSPI has two members representing it on the EFSPI Council.
+    This council likely serves as the governing body or decision-making panel for the federation.
+
+7.  **Website**: For more information, reference to their activities, publications, events, or any specific details about the federation's operations and initiatives, the website provided is www.efspi.org.
+
+## Objectives
+
+1.  **Promote Professional Standards of Statistics**:
+    -   EFSPI aims to elevate and maintain high professional standards in the application of statistics within the pharmaceutical industry. This involves advocating for integrity, reliability, and excellence in statistical practices, which are crucial in research and development processes in the industry.
+2.  **Offer Collective Expert Input on Statistical Matters**:
+    -   The federation serves as a bridge between statisticians in the pharmaceutical industry and national and international regulatory authorities. By providing collective expert opinions and input on statistical matters, EFSPI influences policy-making and regulatory standards, ensuring that statistical methodologies meet the required guidelines and are appropriately implemented within the industry.
+3.  **Exchange Information and Harmonise Attitudes to the Practice of Statistics**:
+    -   EFSPI facilitates the sharing of information and best practices among its members and between member groups. This objective is geared towards harmonizing methodologies and attitudes towards statistical practice across different regions and companies within the European pharmaceutical sector. This collaborative approach helps in standardizing procedures and improving the overall quality of statistical work within the industry.
+
+ 
+
+
+# Session 1: Keynote: Regulatory and HTA update
+
+
+1. **Building Knowledge and Expertise Networks**
+   - **Purpose**: This goal centers around enhancing the capacity and expertise of the regulatory network by fostering a collaborative environment. The focus is on exchanging insights derived from reviews of current products and procedures.
+   - **Implementation**: To achieve this, the plan is to develop robust training programs that are integral to the regulatory framework, ensuring that personnel are well-versed in the latest standards and practices. Additionally, strengthening partnerships with national regulatory agencies and academic institutions is crucial to enrich the knowledge base and support the execution of regulatory responsibilities.
+   - **Expected Outcome**: Through these initiatives, the network aims to become more adaptive and informed, capable of handling emerging challenges in pharmaceutical regulation with greater efficacy.
+
+2. **Global Leadership in Regulation**
+   - **Purpose**: The objective here is to position the regulatory body as a leader on the global stage, influencing international regulatory practices and standards.
+   - **Implementation**: Active participation in international forums, such as the International Council for Harmonisation (ICH), and engagement in global regulatory clusters are key strategies. These efforts are aimed at harmonizing regulatory requirements across borders, making it easier to bring new therapies to global markets efficiently.
+   - **Expected Outcome**: By leading in these international settings, the organization seeks to foster a more cohesive global regulatory landscape that facilitates the swift and safe introduction of new medical products worldwide.
+
+3. **Guideline Development and Modernization**
+   - **Purpose**: The focus is on updating and refining regulatory guidelines to keep pace with advancements in medical science, particularly in areas like clinical pharmacology.
+   - **Implementation**: This involves drafting new guidelines and updating existing ones to reflect current scientific and technological advancements. For instance, incorporating recent findings into the guidelines for biopharmaceuticals and adapting clinical trial frameworks to include the latest methodologies and technologies.
+   - **Expected Outcome**: Modernized guidelines will ensure that regulatory practices are aligned with the cutting-edge of medical research and technology, enhancing the efficacy and safety of clinical trials and product approvals.
+
+4. **Integration of Innovative Approaches**
+   - **Purpose**: To integrate modern scientific methodologies into the regulatory process, enhancing the ability to make informed decisions based on a broader array of data sources, including real-world evidence and computational tools like AI.
+   - **Implementation**: The recent publication of a reflection paper on AI outlines the approach to incorporating AI insights into regulatory decision-making. This includes understanding the implications of AI and other digital tools on the collection and interpretation of real-world data.
+   - **Expected Outcome**: By embracing these innovative tools, the regulatory framework can be more dynamic and responsive, capable of accommodating new types of data and analytical methods, which in turn can lead to more efficient and robust regulatory processes.
+   
+## EMA Methodology Working Party update
+ 
+**Talk 1: Kristin Karlsson (Swedish Medical Products Agency, Uppsala University, EMA, Vice-chair MWP) - virtually**
+
+Kristin Karlsson's presentation at the EMA Methodology Working Party Update focused on the reorganization and strategic goals of the retained working parties and groups under the Methodology Domain. Here’s a detailed summary of the main points:
+ 
+- The Methodology Working Party (MWP) acts as a central hub, leading multi-disciplinary groups from diverse backgrounds. These groups include Operational Expert Groups (OEG) for procedure support and Drafting Groups (DG) for guidance documents.
+
+**Strategic Goals:**
+
+1. **Operational Support**:
+   - Providing assistance to the CHMP (Committee for Medicinal Products for Human Use) and other committees.
+   - Focused support on specific products.
+   
+2. **Guidance Documents**:
+   - Development of a structured plan prioritizing current and future needs.
+   
+3. **Knowledge Building Capacity**:
+   - Sharing learnings from product assessments.
+   - Emphasizing training and network development within the regulatory field.
+
+4. **Expertise Network**:
+   - Establishing links across National Competent Authorities (NCAs) and with academia.
+
+5. **Global Leader**:
+   - Collaborating with international regulatory partners.
+   - Maintaining a leading voice in global regulatory collaborations.
+
+**Work Plan – Guidelines in Key Areas:**
+
+1. **Clinical Pharmacology**:
+   - Focus on product-specific bioequivalence, modeling, and simulation.
+
+2. **Real World Evidence**:
+   - Implementation of guidelines based on the Reflection Paper on AI and its implications.
+
+3. **Clinical Trial Modernisation**:
+   - Adhering to ICH guidance and planning for future clinical trials.
+
+4. **Pharmacogenomics**:
+   - Preparing for IVD legislation and updating relevant guidelines.
+
+**Training and Stakeholder Engagement:**
+- Comprehensive training curricula in data science, biostatistics, modeling, simulation, and epidemiology.
+- Engaging with key stakeholders including industry groups, global regulators, and EU projects like ACT-EU and the Big Data Steering Group.
+
+**Upcoming Activities**
+- Revision of the MWP Work Plan.
+- AI Workshop scheduled for November 2023.
+- Stakeholder Interaction Meeting.
+
+Kristin Karlsson highlighted the strategic orientation of the EMA's Methodology Working Party towards enhancing regulatory frameworks, guidelines, and international collaboration, with a strong emphasis on incorporating advanced methodologies like AI and real-world evidence into the regulatory assessment and approval processes.
+
+
+## EMA update on submission of individual patient data from clinical trials
+
+**Talk 2: Eftychia-Eirini Psarelli (University of Liverpool, EMA)**
+
+Eftychia-Eirini Psarelli's presentation at the EFSPI Regulatory Statistics Workshop focused on the European Medicines Agency's (EMA) initiatives regarding the submission of individual patient data (IPD) from clinical trials, specifically through their Raw Data project. Here is a summary of the presentation:
+
+- **Background and Objective**: The EMA has launched a project to explore the regulatory benefits of accessing raw data from clinical trials. This project includes proof-of-concept pilots to analyze raw data, aiming to enhance the efficiency and effectiveness of regulatory decision-making.
+
+- **Methodological Approach**: The project involved setting up proof-of-concept pilots that included both initial Marketing Authorisation Applications and post-authorisation applications, with voluntary participation from industry partners. These pilots were designed to determine the practical benefits and challenges of using raw clinical data in regulatory assessments.
+
+- **Data Standards and Analysis**: The raw data submitted for these pilots adhered to CDISC standards, specifically the SDTM and ADaM models. Analyses relevant to the assessments were conducted and shared with the applicants or marketing authorisation holders through assessment reports, which were used in decision-making processes by the Committee for Medicinal Products for Human Use (CHMP).
+
+- **Interactions and Guidance for Industry**: There was a significant focus on strengthening collaboration with industry. This included continuous engagement through bi-annual meetings, newsletters, and a specific Industry Focus Group on Raw Data. The EMA provided updated guidelines and public communications to ensure transparency and keep stakeholders informed about the pilot's progress and outcomes.
+
+- **Results and Learnings**: Initial findings from the project highlighted excellent collaboration with the industry, and the practical application of raw data analysis was demonstrated in regulatory assessments. The data submission processes were adjusted to accommodate the needs of the pilot, including ensuring compliance with data protection regulations.
+
+- **Future Plans**: The EMA plans to publish an interim report by early 2024 to share insights from the pilot and gather feedback from all stakeholders. This report will assess the benefit to regulatory assessments and discuss the practicalities involved, such as the operational model, capacity, capability, and technical demands.
+
+Overall, the presentation outlined EMA's strategic efforts to integrate more detailed data analysis into their regulatory framework, aiming to improve the precision and reliability of regulatory decisions concerning medicinal products.
+
+## Update on joint HTA work under the EU HTA Regulation
+
+**Talk 3: David McConnell (Statistician National Centre for Pharmacoeconomics, Ireland, Methodology Subgroup of HTA CG)**
+
+David McConnell provided an update on the joint HTA work under the EU HTA Regulation during his presentation at the 8th EFSPI Regulatory Statistics Workshop. He discussed the ongoing transition toward integrating Health Technology Assessment (HTA) at a European level under the new EU HTA Regulation (Regulation EU 2021/2282), which became effective in January 2022 and will be fully applied by January 2025. Here are the key points from his presentation:
+
+1. **Joint Scientific Consultations (JSCs)**:
+   - These are early scientific consultations provided by HTA bodies in parallel with the European Medicines Agency (EMA), available for all medicinal products subject to prioritization. Participation from Health Technology Developers (HTDs) is voluntary.
+
+2. **Joint Clinical Assessments (JCAs)**:
+   - This is a new requirement for a European-level assessment of the relative effectiveness of all new medicines, which will become mandatory. The implementation will start in 2025, initially focusing on oncology and Advanced Therapy Medicinal Products (ATMPs).
+
+3. **Guideline Development**:
+   - The EUnetHTA21 is tasked with developing guidelines for JCAs and JSCs. This involves creating a structured process and content guidelines for submissions and assessments.
+
+4. **Methodology and Challenges**:
+   - The clinical effectiveness component of HTA typically requires a more detailed focus compared to regulatory assessments. This includes broader comparisons with relevant alternatives, extensive evidence synthesis, and consideration of outcomes directly relevant to patients like survival and quality of life.
+
+5. **Future Outlook**:
+   - Upcoming milestones include the adoption of implementing acts, methodological and procedural guidance by the HTA Coordination Group, and the gradual introduction of joint clinical assessments.
+
+McConnell emphasized the ongoing efforts to standardize HTA processes across EU member states, highlighting the potential challenges and the need for coherent methodologies and procedural adaptations to meet the HTA's unique requirements compared to traditional regulatory assessments. The overall goal is to enhance the collaboration between HTA bodies and regulatory agencies, improving the evaluation process for new health technologies across Europe.
+
+
+# Short topics 
+
+
+
+## 1. Fredrik Öhrn (Janssen): Formal statistical requirements for a pivotal trial to support approval of a combination drug
+
+
+
+## 2. Betty Molloy (Novartis): Use of RWE in drug labelling
+
+
+
+## 3. Patrick Schloemer (Bayer): Hierarchical Composite Endpoints for Chronic Kidney Disease Trials
+
+
+## 4. Simon Wandel (Novartis): What’s the rule for the pool?
+
+
+## 5. Sandro Gsteiger (Roche) and Anders Gorst-Rasmussen (Novo Nordisk, on behalf of the PSI/EFSPI HTA Special Interest Group): Surrogate endpoints - can EMA and EU HTA align on common standards?
+
+
+## 6. Susan Robson (Roche): Data Quality issues in IITs
+
+
+
+
+# Session 2: Synthetic and other baseline covariates: The promise of smaller and faster clinical trials through prognostic digital twins 
+
+## Covariate Adjustment: Traditional principles and challenges by new approaches
+
+**Talk 1: Andreas Brandt (BfArM, EMA)**
+
+## Strategic considerations and value of covariate adjustment
+
+Andreas Brandt's presentation titled "Covariate Adjustment: Traditional Principles and Challenges by New Approaches" delved into both the conventional guidelines and the emerging methods in covariate adjustment, particularly within the context of clinical trials and regulatory analysis. Here's a summary of his talk:
+
+1. **General Guidelines and Principles:**
+   - The adjustment of covariates in the primary analysis of clinical trials must be pre-specified, should exclude post-baseline covariates and treatment by covariate interactions.
+   - Covariates must be justified based on their strong or moderate association with the primary outcome, which improves the analysis's efficiency.
+
+2. **Guideline Recommendations:**
+   - It is advised that no more than a few covariates should be included in the primary analysis to maintain simplicity and ensure numerical stability.
+   - The statistical model's assumptions must be validated, especially in generalized linear or nonlinear models, to avoid mis-specifications that could lead to incorrect treatment effect estimates.
+
+3. **Challenges Introduced by New Approaches:**
+   - The emergence of big data and artificial intelligence has led to new methods such as borrowing and enriching the study population based on predicted responses.
+   - These approaches introduce challenges in controlling external validity and may adjust the study population in ways that could impact the generalizability of the trial results.
+
+4. **PROCOVA Method:**
+   - This new method develops a prognostic score for the outcome under control based on historical data independent from the study data. The score is then used to estimate sample size and as a covariate in an ANCOVA model for the new trial.
+   - The PROCOVA method aims to enhance power or precision in estimating treatment effects, maintaining type 1 error control and providing unbiased estimates akin to traditional ANCOVA.
+
+5. **Debates and Considerations:**
+   - Traditional principles are challenged by the inclusion of synthetic covariates or prognostic scores, which cover information from many covariates and rely on complex models potentially viewed as 'black boxes.'
+   - Concerns were raised about the interpretability of treatment effects and subgroup analyses when such synthetic covariates are used.
+
+6. **Transparency and Ethical Considerations:**
+   - Proposals to keep the prognostic model confidential while only providing the score to study sponsors were discussed. This raises questions about transparency and the need for stakeholders to understand the model and its implications fully.
+
+Brandt highlighted the ongoing tension between leveraging advanced data-driven methods for enhancing clinical trial efficiency and adhering to traditional principles that prioritize simplicity, transparency, and generalizability. He emphasized the need for a balanced approach that considers both the potential benefits and the inherent risks of new statistical methodologies in clinical research.
+
+
+**Talk 2: Courtney Schiffman (Genentech Roche)**
+
+
+Courtney Schiffman's presentation at the EFSPI workshop, titled "Strategic Considerations and Value of Covariate Adjustment," explored the use of covariate adjustment in clinical trials, focusing on enhancing the precision and power of estimating Average Treatment Effects (ATE). Here are the key points from her presentation:
+
+1. **Standardized Estimator**: Schiffman emphasized the value of a standardized estimator, where treatment arm means are estimated using predicted outcomes from a regression model adjusted for baseline covariates. This approach is model-assisted but not model-dependent, ensuring robustness even if the model is misspecified.
+
+2. **Maximizing Data Value**: The use of "super covariates" was discussed—multivariate functions built from independent datasets (e.g., historical trial data) that predict trial outcomes and improve statistical efficiency. This strategy leverages machine learning and other advanced modeling techniques to optimize clinical trials.
+
+3. **Model Simplicity and Performance**: Schiffman advised maintaining a balance between model complexity and performance. She highlighted the importance of developing benchmark models with minimal complexity to ensure that the models are easy to interpret and generalize.
+
+4. **Effective Sample Size Increase (ESSI)**: The presentation detailed how covariate adjustment can effectively increase sample size, quantifying the precision and power gains equivalent to running a larger trial. The ESSI metric helps in determining the added value of covariate adjustment under different treatment effect scenarios.
+
+5. **Strategies for Model Formulation**: Practical advice was given on determining the form of the working regression model, including the prioritization of covariates based on their prognostic value and keeping the model budget within 5-7% of the total sample size to avoid overfitting.
+
+6. **Regulatory Considerations**: Schiffman noted the regulatory perspective on using advanced covariate adjustment methods, including the importance of building models on data external to the trial and ensuring that the models are pre-specified and locked before trial unblinding.
+
+7. **Practical Application and Examples**: The talk included examples from ophthalmology, where models predicting disease progression were used to adjust trial outcomes, significantly increasing the trial's effective sample size.
+
+Overall, Schiffman's presentation underscored the strategic importance of covariate adjustment in clinical trials, highlighting its potential to increase efficiency and precision in estimating treatment effects while adhering to regulatory standards and ensuring model interpretability.
+
+### Synthetic Covariates {-}
+
+Synthetic covariates in the context of clinical trials are essentially engineered or constructed variables derived from one or more existing variables within the dataset. These covariates are typically designed to capture underlying patterns or prognostic factors that might influence the outcome of a study. Here’s a more detailed exploration of synthetic covariates, including their creation, use, and benefits:
+ 
+Synthetic covariates are created using statistical or machine learning methods that combine various baseline characteristics into a single predictive score or index. This process often involves:
+
+1. **Data Integration**: Combining data from various sources, such as historical trials, observational studies, or electronic health records, to develop a robust model.
+2. **Model Development**: Using techniques such as regression analysis, principal component analysis, or more complex machine learning algorithms like random forests or neural networks to develop a model that predicts an outcome or a relevant factor (like disease severity) from baseline variables.
+3. **Validation**: Validating the synthetic covariate with independent data sets to ensure it generalizes well across different populations or settings.
+ 
+Synthetic covariates are employed in clinical trials primarily to increase the statistical power and precision of the estimates. Their uses include:
+
+- **Adjusting for Baseline Imbalances**: Even in randomized trials, there can be imbalances in baseline characteristics. Adjusting for synthetic covariates that capture these characteristics can reduce bias.
+- **Increasing Efficiency**: By accounting for variation in baseline characteristics, synthetic covariates can reduce the residual error, thus increasing the trial's efficiency.
+- **Improving Predictive Accuracy**: They can be used to better predict patient outcomes, which is particularly useful in trials targeting complex diseases where multiple factors influence the response to treatment.
+ 
+The benefits of using synthetic covariates include:
+
+- **Enhanced Precision**: By accounting for multiple prognostic factors in a single variable, synthetic covariates can sharpen the estimates of treatment effects, reducing the standard error.
+- **Reduced Sample Size Requirements**: With enhanced precision, the required sample size to detect a given effect size can be smaller, potentially reducing the duration and cost of clinical trials.
+- **Improved Handling of High-dimensional Data**: In situations where there are many baseline covariates relative to the number of participants (high-dimensional settings), synthetic covariates can simplify the model by reducing dimensionality.
+ 
+While synthetic covariates can be highly beneficial, they also present challenges:
+
+- **Complexity in Interpretation**: Because they are combinations of multiple variables, it can be challenging to interpret how each component contributes to the overall effect.
+- **Risk of Overfitting**: Especially in the case of machine learning-based covariates, there's a risk that the model could fit the noise in the training data rather than the underlying pattern, leading to poor performance on new data.
+- **Regulatory Acceptance**: There may be concerns from regulatory bodies about the transparency and reproducibility of the methods used to create and validate synthetic covariates.
+ 
+To address potential regulatory concerns, it is crucial that synthetic covariates are:
+- **Transparently Reported**: Clear documentation of how the covariates were created, validated, and implemented.
+- **Pre-specified in Trial Protocols**: Synthetic covariates should be defined before the trial commences and included in the statistical analysis plan.
+- **Subject to Sensitivity Analyses**: Analyses demonstrating that the conclusions of the trial are robust to different methods of covariate adjustment.
+
+In summary, synthetic covariates can offer significant advantages in clinical trials by enhancing the efficiency and precision of statistical analyses. However, their design and implementation must be carefully managed to ensure they are both effective and acceptable to regulatory authorities.
+
+
+
+## Adjusting for covariates in randomized clinical trials for drugs and biological products
+
+**Talk 3: FDA/CDER/OTS/OB/DBIV Daniel Rubin, Ph.D. - virtually**
+
+Daniel Rubin's presentation, hosted by the FDA/CDER/OTS/OB/DBIV, centered on the updated guidelines and strategic applications of covariate adjustment in randomized clinical trials for drugs and biological products. Here’s a summary of his key points:
+
+1. **Updated Guidance Overview**:
+   - The new FDA guidance released in May 2023 incorporates various updates from the 2021 draft, introducing topics such as alignment with the ICH estimand framework, sample size calculations, and the use of inverse probability weighting. The guidance emphasizes the importance of precise covariate adjustment methods, offering additional details and referenced methods for improved clarity and utility in clinical trials.
+
+2. **General Considerations for Covariate Adjustment**:
+   - Rubin stressed that covariate adjustment is acceptable when pre-specified, which includes detailing which covariates will be included in the adjustment model. The number of covariates should be carefully selected to avoid overfitting, and any stratified randomization should be appropriately accounted for, especially in change from baseline analyses.
+
+3. **Linear Models**:
+   - In the context of linear models, such as ANCOVA, the presentation underscored that these models could estimate the average treatment effect robustly, even if the model is misspecified. This allows for valid inference using robust standard errors and the inclusion of treatment by covariate interactions when necessary.
+
+4. **Collapsibility and Non-linear Models**:
+   - With non-linear models like logistic or Cox proportional hazards models, population-level summaries can be non-collapsible even in randomized settings. Rubin outlined the differences between conditional and unconditional treatment effects, which need to be explicitly defined in the trial's statistical analysis plan.
+
+5. **Unconditional Treatment Effects in Non-linear Models**:
+   - For unconditional treatment effects, covariate adjustment can decrease standard errors and enhance the power of the trial. Methods to estimate these effects should provide valid inference under minimal statistical assumptions, similar to those needed for unadjusted estimation.
+
+6. **Data Adaptive Covariate Adjustment**:
+   - The presentation also covered advanced topics such as data-adaptive covariate selection and adjustment in adaptive trial designs. Rubin mentioned that when using machine learning methods to form a prognostic index from external studies, the resulting covariate adjustment could inherit properties of valid inference even if the machine learning method itself is a "black box."
+ 
+
+
+
+
+
+
+# Session 3: Complex innovative trials for regulatory decision-making
+
+## Some guidance on when applying adaptive designs
+
+**Talk 1: Khadija Rantell (MHRA), Frank Bretz (Novartis), Hans Ulrich Burger (Roche)**
+
+Khadija Rantell, Frank Bretz, and Hans Ulrich Burger discussed the strategic considerations for applying adaptive designs in clinical trials during their talk at the EFSPI workshop. Here are the key points and implications for drug trials as covered in their presentation:
+
+**Understanding Adaptive Designs:**
+Adaptive designs allow for prospectively planned modifications based on accumulating data. This flexibility is particularly useful in both exploratory and confirmatory clinical trials, enabling researchers to make informed changes to the trial design as new data becomes available.
+
+**Motivations for Using Adaptive Designs:**
+The primary motivation for using adaptive designs is to address uncertainties that are difficult to predict before the trial starts, such as optimal dosing, target populations, or outcome variability. Adaptive designs can lead to more efficient trials by potentially decreasing the time to completion, reducing resource requirements, and limiting the number of patients exposed to potentially less effective treatments.
+
+**Common Types of Adaptive Designs:**
+- **Sample Size Reassessment:** Adjustments to sample size based on interim data to ensure sufficient power to detect treatment effects.
+- **Interim Analyses:** Early termination for futility or efficacy can save resources and protect patients.
+- **Response Adaptive Randomization:** Adjusting the allocation ratio based on accumulated responses to direct more participants to promising treatments.
+- **Adaptive Enrichment:** Modifying enrollment criteria to target populations where the intervention is more likely to be effective.
+- **Seamless Designs:** Combining phases of clinical development to streamline the process.
+
+**Principles for Implementing Adaptive Designs:**
+- **Justification:** The use of adaptive designs should be justified with clear scientific principles to ensure they are appropriate for the trial’s objectives.
+- **Pre-specification:** Detailed planning is crucial, including pre-specifying the number and timing of interim analyses, the type of adaptations planned, and the rules governing these adaptations.
+- **Maintaining Trial Integrity:** It is vital to limit the disclosure of interim results to avoid biases and maintain the integrity of the trial.
+- **Independent Data Monitoring Committee:** Often necessary in adaptive trials to oversee the safety of the trial and the validity of the data.
+
+**Regulatory Considerations:**
+- The design and implementation of adaptive trials must align with regulatory expectations, particularly regarding the control of type I error and the reliability of estimations.
+- Engagements with regulatory bodies are encouraged early in the trial design process to ensure that the adaptive aspects of the trial are well understood and accepted.
+
+**Implications for Drug Trials:**
+Adaptive designs offer several advantages that can be particularly beneficial in the context of drug development:
+- **Efficiency and Flexibility:** They allow drug developers to respond to data as it accrues, which can lead to more efficient use of resources and faster decision-making.
+- **Ethical Considerations:** By potentially reducing exposure to inferior treatments, adaptive designs can enhance the ethical aspects of clinical trials.
+- **Regulatory Success:** Well-planned and justified adaptive designs may facilitate smoother regulatory review by clearly addressing potential issues and demonstrating a thorough understanding of the trial’s adaptive aspects.
+
+The presentation highlighted the importance of careful planning and execution when considering adaptive designs in clinical trials, underscoring the need to balance flexibility with scientific rigor and regulatory compliance. This approach can lead to more efficient and effective drug development processes, ultimately benefiting patients through quicker access to effective therapies.
+
+
+
+## Platform trials in a confirmatory regulatory setting – generating thoughts and directions
+
+**Talk 2: Wolfgang Jacquet (Vrije Universiteit Brussel, EMA) and Benjamin Hofner (Paul-Ehrlich Institut, EMA)**
+
+Wolfgang Jacquet and Benjamin Hofner's presentation focused on the implications of using platform trials in confirmatory regulatory settings, especially considering the complex dynamics these trials introduce. Here are the critical points and directions discussed regarding platform trials:
+
+**Understanding Platform Trials:**
+- Platform trials are defined as clinical trials designed to allow for multiple treatments, combinations of treatments, or sub-studies to be evaluated simultaneously within the same overall trial structure. These trials use a shared control group and are designed to be perpetual, potentially adding or dropping therapies or arms as the trial progresses based on interim data.
+
+**Challenges Highlighted:**
+1. **Complexity**: Platform trials introduce complexities not commonly found in traditional clinical trials due to their dynamic nature, which includes adding or removing treatments and adapting to emerging data.
+2. **Causality and Independence**: Ensuring causality and maintaining independence between sub-studies within a platform trial can be challenging. Independence issues may arise when multiple treatments interact or when sub-studies share certain elements that could influence their outcomes.
+3. **Regulatory and Ethical Considerations**: The design and operational aspects of platform trials must align with regulatory standards and ethical considerations, ensuring that the trials are conducted in a manner that protects patient safety and integrity of the data.
+4. **Bias and Error Control**: There's a significant focus on controlling type I error (false positive rate) and managing biases that may emerge due to the adaptive nature of the trial. Specific strategies and statistical methods must be employed to address these issues effectively.
+
+**Strategic Directions and Thoughts:**
+- **Regulatory Engagement**: Early and continuous engagement with regulatory bodies such as the EMA and FDA is crucial. This collaboration helps ensure that the design and conduct of platform trials meet the stringent requirements for confirmatory trials intended to support marketing authorizations.
+- **Data Integrity and Management**: Due to the complexity and adaptive nature of platform trials, robust data management systems are essential. These systems must handle interim analyses and adjustments without compromising the integrity of the trial data.
+- **Statistical Methodologies**: The application of advanced statistical methods and possibly Bayesian approaches can be particularly beneficial in platform trials. These methods accommodate the adaptive aspects of the trial design while ensuring rigorous assessment of treatment effects.
+- **Operational Best Practices**: Developing and adhering to operational best practices, including clear guidelines on managing changes to the trial and ensuring transparency in reporting trial modifications and results.
+
+**Implications for Drug Trials:**
+Platform trials can significantly accelerate drug development by efficiently determining the efficacy and safety of multiple treatments simultaneously. They offer a flexible framework that can adapt to new information, potentially reducing the resources and time required compared to multiple separate trials. However, the complexity and need for meticulous planning and execution mean that these trials must be managed by teams with expertise in adaptive trial design and statistical analysis.
+
+In conclusion, while platform trials present an innovative approach to conducting confirmatory trials in drug development, they require careful consideration of design, regulatory compliance, and ethical issues. The strategic implementation of these trials can lead to more efficient drug development processes but comes with the need for heightened vigilance to maintain scientific rigor and integrity.
+
+## Experience with and learnings from regulatory interactions around innovative trial designs based on the NEOS study
+
+**Talk 3: Dieter Haering (Novartis)**
+
+Dieter Haering discussed the experience with and learnings from regulatory interactions regarding innovative trial designs, focusing on the NEOS study—a Bayesian non-inferiority trial for pediatric multiple sclerosis (MS). Here’s a summary of the insights shared:
+
+**Background of the NEOS Study:**
+- **Pediatric MS Rarity:** MS is rare in children, representing only 3-5% of all MS cases, but it exhibits higher disease activity compared to adults.
+- **Unmet Need:** There are approximately 20 approved therapies for adult MS, but very limited approved options for pediatric MS, highlighting a significant unmet need.
+
+**NEOS Trial Design:**
+- **Objective:** The trial aimed to establish the efficacy and safety of two novel treatments (Kesimpta and Mayzent) against an active control (Gilenya).
+- **Design Features:** The trial employed a non-inferiority design with an active control to minimize risks associated with placebo or low efficacy comparators. This choice was crucial given the high disease activity and potential for rapid progression in pediatric patients.
+
+**Innovative Design Features:**
+- **Bayesian Approach:** Leveraged prior knowledge from adult trials to inform the trial design, utilizing Bayesian methods to integrate existing data effectively.
+- **Adaptive Elements:** Included provisions for early stopping for efficacy to quickly make effective treatments available if proven successful.
+
+**Regulatory Interactions and Learnings:**
+- **Extrapolation Challenges:** Initial regulatory concerns were centered around the extrapolation models and assumptions used to justify the trial design. These concerns were eventually addressed through detailed discussions and additional data provision.
+- **Non-Inferiority Margin Discussions:** There were significant discussions around the appropriate non-inferiority margin, balancing scientific rigor with feasibility. The margin was adjusted based on regulatory feedback to align with stringent standards.
+- **Acceptance of Bayesian Design:** The Bayesian design faced skepticism, particularly regarding the double-use of historical information. Extensive simulation studies were required to demonstrate the design’s robustness and to align with regulatory expectations.
+
+**Key Learnings:**
+1. **Alignment and Communication:** Continuous and transparent communication with regulatory bodies is crucial, especially when proposing innovative designs that deviate from traditional approaches.
+2. **Simulation Studies:** These are vital for demonstrating the validity and robustness of innovative trial designs under various plausible scenarios.
+3. **Regulatory Flexibility:** There is a need for flexibility in regulatory approaches to accommodate innovative designs, particularly in areas with high unmet medical needs.
+
+**Implications for Future Trials:**
+- **Advocacy for Innovation:** The experience underscores the importance of advocating for innovative methodologies that can improve trial efficiency and patient outcomes, particularly in challenging therapeutic areas like pediatric MS.
+- **Regulatory Collaboration:** Collaborative interactions with regulatory bodies are essential to navigate the complexities of innovative trial designs and ensure that the trials meet the stringent standards required for drug approval.
+
+In summary, the NEOS study provided valuable insights into the application of innovative trial designs in a regulatory confirmatory setting, highlighting the importance of regulatory engagement, the utility of simulation studies, and the need for clear justification and documentation of trial design choices.
+
+# Session 4: How to get most out of Scientific Advice
+
+## How to efficiently leverage scientific advice - a joint statistical and clinical perspective
+
+**Talk 1: Tommi Nurminen (fimea, EMA) and Antero Kallio (fimea, EMA)**
+
+Tommi Nurminen and Antero Kallio provided insights on efficiently leveraging scientific advice from a joint statistical and clinical perspective, emphasizing strategies to enhance interactions with regulatory bodies such as the EMA. Here are the key points they discussed:
+
+**Types and Levels of Scientific Advice:**
+- There are multiple levels of scientific advice, including national, simultaneous national scientific advice (SNSA), EMA-coordinated centralized scientific advice, and parallel advice with agencies like the US FDA.
+- They also highlighted other forms such as protocol assistance and qualification opinions, showing a broad range of advice available to sponsors depending on their specific needs.
+
+**Scientific Advice Working Party (SAWP):**
+- The SAWP is responsible for providing scientific advice and protocol assistance, comprising members from various committees like COMP, PDCO, CAT, and PRAC.
+- The expertise within SAWP covers areas such as non-clinical safety, pharmacokinetics, methodology and statistics, and specific therapeutic fields.
+
+**Process and Timelines:**
+- Scientific advice typically involves a detailed process where coordinators compile internal assessment teams, prepare reports, and undergo a peer review process.
+- The final advice letter is adopted by CHMP. This process underscores the importance of early planning due to the long timelines involved.
+
+**Statistical and Clinical Integration:**
+- The role of statisticians is emphasized in the advice process, often involving collaboration with clinical assessors. This collaboration is crucial when drafting responses to both statistical and clinical questions.
+- The presentation stressed the multidisciplinary nature of preparing for and receiving scientific advice, highlighting the need for clear communication and well-prepared materials.
+
+**Challenges and Tips for Engaging with Scientific Advice:**
+- The speakers advised on the importance of understanding and explaining how proposed study protocols fit into broader development and regulatory strategies.
+- They recommended avoiding redundancy in materials submitted for advice and ensuring that any deviations from guidelines are well justified.
+
+**Key Recommendations for Sponsors:**
+- Engage with scientific advice early in the drug development process to integrate it effectively into the clinical development plan.
+- Prepare thoroughly for scientific advice interactions by clearly articulating the rationale behind study design choices and ensuring that all documentation supports these choices.
+
+**Practical Insights:**
+- Sponsors should anticipate the potential questions and concerns from regulators and prepare their submissions accordingly.
+- Understanding the perspectives and potential concerns of regulatory assessors can help in tailoring submissions that address these aspects proactively.
+ 
+
+## HTA Joint Scientific Consultation
+
+**Talk 2: Gergő Merész (Co-Chair of the JSC Subgroup (HTA R))**
+
+Gergő Merész, as the co-chair of the JSC Subgroup (HTA R), focused on optimizing the use of Joint Scientific Consultations (JSCs) in the context of Health Technology Assessment (HTA). His presentation provided insights into the procedural and strategic aspects of leveraging JSCs effectively. Here are the key points discussed:
+
+**Overview of JSCs:**
+- **Purpose:** JSCs aim to provide early scientific advice to health technology developers (HTDs) before the start of pivotal clinical trials. This advice is designed to help optimize evidence generation for marketing authorization and HTA assessments.
+- **Focus Areas:** Discussions during JSCs revolve around PICO elements—comparators, interventions, health outcomes, and patient populations—as well as health economic assessments.
+
+**Current State and Transition:**
+- **EUnetHTA 21's Role:** As EUnetHTA 21 is winding down, there's a transition of responsibilities and deliverables to the HTA Coordination Group (HTACG), which includes updated guidance and briefing document templates.
+- **Interim Period:** The interim period leading up to January 2025 is critical for setting up internal processes and understanding roles within the HTACG framework, particularly regarding JSCs.
+
+**JSC Execution:**
+- **Participation:** HTDs looking to participate in a JSC must have clear objectives and provide comprehensive information to enable effective consultation. This includes understanding the regulatory and HTA landscapes and how their product fits within them.
+- **Voluntary Interim Advice:** A new framework has been established for voluntary interim advice, allowing HTDs to engage with HTA bodies during this transitional phase. This process emphasizes the importance of active participation from HTDs and clear communication of their development and regulatory strategies.
+
+**Optimizing JSCs:**
+- **Proactive Engagement:** HTDs should engage early and continuously with HTA bodies to ensure that their clinical development plans are aligned with HTA requirements. This includes being responsive to advice and prepared to adjust plans based on feedback.
+- **Strategic Information Sharing:** It is crucial for HTDs to share detailed and strategic information that addresses specific questions from HTA bodies. This helps in making the consultation more productive and focused on delivering value to both the HTDs and the regulatory bodies.
+
+**Future Directions:**
+- **Beyond 2025:** The presentation highlighted the need for HTDs to remain engaged with the European Commission and other regulatory entities to stay updated on changes and expectations regarding JSCs and HTA processes.
+- **Legislative Changes:** Upcoming legislative changes could impact JSC processes and HTA interactions, so HTDs must be aware of these developments to adapt their strategies accordingly.
+
+
+
+## Tips on a) what questions to ask regulators and HTAs, b) interpreting the answers given and c) what to do when different authorities give conflicting advice
+
+**Talk 3: David Wright (AstraZeneca)**
+
+David Wright from AstraZeneca shared insights on engaging effectively with regulators and HTAs, focusing on what questions to ask, how to interpret the answers, and how to handle conflicting advice from different authorities. Here’s a detailed breakdown of the tips he provided:
+
+**What Questions to Ask Regulators and HTAs**
+- **Be Part of the Team:** Engage comprehensively, not just on statistical questions. Understand the clinical objectives fully to ensure the primary estimand chosen is appropriate.
+- **Be Precise and Concise:** Ask focused questions to avoid vague answers. Limit the number of questions to ensure each receives adequate attention and detailed responses.
+- **Relevant Statistical Questions:** Focus questions on major issues related to the primary estimand rather than speculative or minor statistical methods.
+
+**Interpreting the Answers Given**
+- **Form Your Own Opinion:** Review the regulatory responses personally before discussing them within the team to ensure a clear understanding of the advice.
+- **Avoid Overinterpretation:** Don’t infer agreement on unaddressed issues or bend interpretations to fit preconceived desires or outcomes. If something was not mentioned, do not assume it was approved or agreed upon.
+
+**Handling Conflicting Advice**
+- **Don’t Panic:** Start by verifying if the advice truly conflicts and whether the discrepancies are significant enough to impact study design or the overall clinical program.
+- **Clarify Differences:** Understand whether differences are fundamental or minor. Fundamental differences might require major design changes, while minor ones could be more about optimization.
+- **Develop a Feasible Plan:** Attempt to devise a clinical development strategy that accommodates the advice from all bodies, if possible. If conflicts are irresolvable, assess the risks of not following one authority’s advice over another.
+
+**General Tips**
+- **Transparency and Collaboration:** Be transparent with your questions and provide complete information to facilitate precise advice. Work closely with your team to align on the strategy and the questions to be asked.
+- **Use of Estimand Framework:** Employ this framework to ensure clarity and alignment on the clinical questions and objectives, which will help in framing the right questions and interpreting responses effectively.
+- **Prepare for Different Outcomes:** Be prepared for varying opinions and ensure that your development plan can adapt to different regulatory expectations.
+
+
+
+# Session 5: Use of non-RCT studies in regulatory decision-making
+
+## Single Arm Trials: The EMA Reflection Paper
+
+**Talk 1: Kit Roes (Radboud Universiteit, EMA)**
+
+Kit Roes' presentation focused on the EMA Reflection Paper regarding the use of single-arm trials (SATs) as pivotal evidence for marketing authorizations. Here are the key points discussed:
+
+Motivation for the Reflection Paper:
+- A significant proportion of marketing authorization submissions, particularly for rare diseases, are based on data from single-arm trials. These submissions present challenges in terms of regulatory assessment.
+- The paper aims to communicate these challenges and provide guidance to improve the design, conduct, and interpretation of SATs.
+
+Purpose and Scope:
+- The paper focuses on methodological considerations for SATs submitted as pivotal evidence. It addresses key issues related to efficacy evaluation in SATs, including design, conduct, and assessment.
+- It does not cover specific therapeutic areas, safety considerations, or detailed guidance on the use of external controls.
+
+Key Deficiencies of SATs:
+- Lack of Randomization: SATs do not involve randomization or a concurrent control group, leading to significant biases.
+- No Blinding: Patients, investigators, and assessors are not blinded, which introduces further bias.
+- No Causal Interpretation: Without randomization, establishing a causal relationship between the treatment and observed outcomes is difficult. SATs rely heavily on assumptions and external information.
+
+Key Methodological Considerations:
+1. Internal and External Validity:
+   - SATs lack internal comparators, making it difficult to assess treatment effects in a way that mimics randomized controlled trials (RCTs).
+   - External validity is compromised because SAT results may not generalize well to broader populations, especially when prognostic variables differ between the trial population and the target population.
+   
+2. Isolation of Treatment Effect:
+   - Establishing a treatment effect in SATs is challenging because it requires external information or assumptions to act as a counterfactual. Residual uncertainty often remains, even with strong qualitative reasoning.
+
+3. Quantification of Uncertainty:
+   - Confidence intervals should be used to quantify uncertainty in treatment effect estimates, but this is difficult because the true counterfactual is not observed. Threshold-based approaches may underestimate variability.
+
+4. Endpoint Selection:
+   - Choosing endpoints is crucial. Time-to-event endpoints are generally difficult in SATs due to disease progression, treatment initiation points, and prognostic factors. Continuous endpoints also face challenges due to variability and measurement error.
+   
+5. Use of External Information:
+   - External clinical data or knowledge about the disease’s natural history is essential for interpreting SATs. However, this information should be treated as supporting evidence, not definitive proof of efficacy.
+
+Biases and Remedies:
+- The presentation highlighted several types of biases associated with SATs, including selection bias, regression to the mean, attrition bias, and immortal time bias. Remedies involve meticulous pre-planning, pre-specification of endpoints and thresholds, and careful selection of the trial population.
+
+Statistical Principles:
+- Standards for SATs in confirmatory settings must adhere to rigorous statistical principles, including pre-specified success criteria, appropriate handling of multiplicity, and comprehensive analysis sets.
+
+Recommendations:
+- SATs should seek scientific advice from regulatory bodies, especially regarding the use of external information and assumptions.
+- Proper statistical modeling and pre-specification are essential to reduce the risk of overestimating clinical benefit in SATs.
+
+In summary, the EMA’s reflection paper emphasizes that while single-arm trials can play a role in regulatory submissions, particularly for rare diseases, they present significant methodological challenges. Careful design, the use of external information, and rigorous statistical approaches are critical to ensuring that the results from SATs are reliable and interpretable.
+
+
+## Regulatory Issues with the Use of External Controls and the US FDA RWE Program
+
+**Talk 2: Pallavi Mishra-Kalyani and Mark Levenson (FDA) - virtually**
+
+Pallavi Mishra-Kalyani and Mark Levenson from the FDA discussed key aspects of the use of external controls and the Real-World Evidence (RWE) Program, with a focus on regulatory considerations. Here's a detailed summary of their presentation:
+
+**Real-World Evidence Program Overview:**
+- **Background**: The FDA's RWE program was established to evaluate the potential use of real-world data (RWD) for new drug indications and to meet post-approval study requirements.
+- **Regulatory Framework**: Despite the integration of RWE, the standard for substantial evidence in drug approvals remains unchanged. This ensures that drug efficacy and safety must be demonstrated with the same rigor as in traditional settings.
+
+**Key Elements of the RWE Program:**
+- **Draft Framework**: Introduced in December 2018 as part of the 21st Century Cures Act initiatives, this framework outlines the conditions under which RWE might support regulatory decisions.
+- **Guidance Documents**: A series of draft guidances were issued covering various aspects of RWE, from data considerations (EHRs, claims data, registry data) to design considerations like externally controlled trials and RCTs in clinical practice settings.
+
+**Regulatory Considerations for External Controls:**
+- **Guidance Overview**: The recent guidance discusses whether an Investigational New Drug (IND) application is needed for non-interventional studies and other legal requirements.
+- **Early Engagement**: Sponsors are encouraged to engage with the FDA early in the development process if they plan to use non-interventional studies to support marketing applications.
+- **Documentation Requirements**: Detailed documentation of protocols, statistical analysis plans (SAP), and all analyses performed on the data, including feasibility evaluations and exploratory analyses, is crucial.
+- **Data Submission**: Sponsors must ensure that patient-level data can be submitted as part of the marketing application when required.
+
+**Advancing RWE Program:**
+- **New Program Announcement**: Announced in October 2022 as part of the FDA's commitment under the Prescription Drug User Fee Act (PDUFA) VII.
+- **Program Details**: Provides sponsors selected into the program up to four meetings with the FDA to discuss the use of RWE. Key design elements may also be presented as case studies.
+- **Continued Engagement**: The existing procedures for sponsors to engage with the FDA remain available, ensuring that traditional pathways for interaction are still viable.
+
+**Additional Resources and Support:**
+- The FDA has set up specific resources and contact points for questions regarding the RWE program, ensuring that sponsors have access to necessary information and guidance throughout their drug development processes.
+
+In summary, the presentation highlighted the FDA’s ongoing efforts to integrate RWE into regulatory decision-making while maintaining rigorous standards for evidence. It underscored the importance of careful planning, detailed documentation, and early engagement with regulatory bodies when using external controls and RWE in drug development.
+
+
+## External control for approval and labeling: Two case studies trying to figure out when it is worth it
+
+**Talk 3: Emmanuel Zuber (Novartis)**
+
+Emmanuel Zuber from Novartis discussed the use of external controls for regulatory approval and labeling, focusing on two case studies. Here's a detailed overview of the key points he covered:
+
+**Overview of External Controls:**
+- External controls are utilized in non-randomized controlled trial (RCT) decision-making settings to enhance the robustness and efficiency of the evaluation. Though not new, their application in approval and labeling processes poses unique challenges.
+- Zuber emphasized the need for clear regulatory guidance to maintain high standards of evidence in decisions involving external controls.
+
+**Case Study 1: Kymriah in Follicular Lymphoma**
+- **Background**: Kymriah, a CAR-T cell therapy, was evaluated for use in patients with relapsed/refractory follicular lymphoma after at least two lines of therapy.
+- **Trial Design**: A single-arm trial (SAT) named ELARA was conducted. The EMA and FDA gave parallel scientific advice, acknowledging the unmet medical need and the potential basis of a SAT for licensure due to the promising, albeit limited, data.
+- **Regulatory Feedback**: Questions from EMA rapporteurs during protocol review emphasized the need for a compelling level of efficacy to justify the use of external controls. The FDA’s feedback highlighted the potential insufficiency of real-world data (RWD) for traditional approval.
+
+**Case Study 2: Promacta in Severe Aplastic Anemia**
+- **Background**: Promacta, aimed at treating patients with severe aplastic anemia, especially those unsuitable for hematopoietic stem cell transplantation.
+- **Trial Design**: The trial examined the efficacy of Promacta combined with standard immunosuppressive therapy. The single-arm study design faced scrutiny regarding its ability to isolate the treatment effect without a comparator.
+- **Regulatory Feedback**: The FDA and EMA both stressed the necessity of a comparator to robustly assess efficacy. External controls were suggested as a means to supplement the SAT, providing a historical comparison but requiring careful selection and analysis to ensure validity.
+
+**General Considerations and Recommendations:**
+- **Learning from Interactions**: Both case studies provided insights into navigating regulatory interactions, emphasizing the importance of understanding and addressing regulatory expectations clearly and early in the drug development process.
+- **Challenges with External Controls**: External controls must convincingly demonstrate treatment effects when RCTs are not feasible. This involves ensuring the external data are of high quality and appropriately matched to the trial population.
+- **Regulatory Outcomes**: The discussions around external controls revealed their potential to support approval when RCTs are not feasible but also highlighted the complexities and uncertainties involved in using these controls effectively.
+
+**Conclusion:**
+- The application of external controls in regulatory approval and labeling is still evolving, with a learning curve for all stakeholders. Early guidance and clear communication with regulatory bodies are crucial to ensure that submissions using external controls are complete, focused, and adequately address areas of uncertainty.
+
+In essence, Zuber's presentation underscored the nuanced considerations necessary when integrating external controls into the regulatory approval process, stressing the importance of strategic planning and regulatory dialogue to optimize the use of these controls.
+
+
+## HTA view on the EMA draft reflection paper and the FDA guidance 
+
+**Talk 4: PD Dr Med Stefan Lange (IQWiG)**
+
+Dr. Stefan Lange provided an HTA perspective on the EMA draft reflection paper and the FDA guidance regarding the use of single-arm trials (SATs) and external controls. Here's a detailed overview of his presentation:
+
+**HTA Approach to Drug Assessment:**
+- HTAs focus on a broader set of outcomes than typical regulatory evaluations, including comparative effectiveness and cost-effectiveness. The HTA perspective emphasizes the need for direct comparison with standard care, including non-drug interventions and best supportive care.
+
+**EMA Reflection Paper on SATs:**
+- The EMA paper stresses that it's the responsibility of the applicant to justify the use of an SAT when it deviates from the standard RCT approach. SATs must convincingly demonstrate efficacy to be considered as pivotal evidence.
+- The paper notes the importance of selecting primary endpoints that can isolate treatment effects, indicating that these should be outcomes unlikely to occur without active treatment. This stringent requirement typically applies to more than one endpoint in HTA evaluations.
+
+**FDA Guidance on Externally Controlled Trials:**
+- The FDA guidance discusses the need to pre-specify plans for measuring and analyzing data on important confounding factors and biases, highlighting the complexity of using external controls in regulatory submissions.
+- The guidance also addresses the challenges of documenting data in routine clinical care, which may lack comprehensive details required for robust trial comparisons.
+
+**HTA's View on Regulatory Guidelines:**
+- Dr. Lange highlighted that while both the EMA and FDA provide frameworks for considering SATs and external controls, these are typically viewed by HTAs as suitable only in rare exceptional cases due to the high risk of bias and the difficulty in ensuring comparable populations.
+- The HTA perspective is particularly cautious about the ability of non-randomized data to provide convincing evidence of comparative effectiveness, stressing the need for high-quality data and rigorous confounder adjustment.
+
+**Challenges Highlighted by HTA:**
+- The inherent biases and data quality issues in SATs and studies using external controls make it challenging to meet the HTA requirements for clear, unbiased evidence of effectiveness.
+- HTAs require that the data used in analyses have the same level of rigor as that expected in randomized pivotal trials, which is often not achievable with external controls.
+
+**Concluding Thoughts:**
+- Dr. Lange emphasized that using non-randomized trial data as compelling evidence for comparative effectiveness is often resource-intensive and potentially resource-wasting. He suggests that in many situations, the likelihood of credibly demonstrating effectiveness with an external control is low, and sponsors should consider more suitable trial designs.
+
+In summary, the HTA perspective, as presented by Dr. Lange, is one of caution and skepticism regarding the sufficiency of SATs and external controls for providing the level of evidence needed to support comparative effectiveness claims, particularly in the context of health technology assessments.
+
+
+```
+{r , echo=FALSE, fig.align="center", out.width = '75%'}
+knitr::include_graphics("./02_Plots/ChinaReg_SSC.png") 
+```
+
+ 
+

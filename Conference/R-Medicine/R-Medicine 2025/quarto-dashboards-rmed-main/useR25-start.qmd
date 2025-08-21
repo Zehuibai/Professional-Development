@@ -1,0 +1,259 @@
+---
+title: "useR! 2025"
+format: html
+toc: true
+execute:
+  warning: false
+---
+
+```{r}
+#| label: load-packages
+library(tidyverse)
+library(scales)
+library(ggwordcloud)
+library(gt)
+```
+
+```{r}
+#| label: load-data
+program <- read_csv("data/program.csv")
+```
+
+```{r}
+#| label: colors
+
+# yellow
+keynote_color <- "#FFD960"
+
+# blue
+blue <- "#2165B6"
+tutorial_color <- paste0(blue, "80")
+talk_color <- paste0(blue, "60")
+lightning_talk_color <- paste0(blue, "20")
+light_blue <- "#A0b9E2"
+
+# grey
+poster_color <- "#E2E6ED50"
+dark_grey <- "#323232"
+
+# green
+green <- "#65B621"
+virtual_talk_color <- paste0(green, "60")
+virtual_lightning_talk_color <- paste0(green, "20")
+light_green <- "#C0ED9B"
+```
+
+```{r}
+#| label: helper-make-schedule
+make_schedule <- function(x, color){
+  
+  fill_color <- paste0(color, "50")
+
+  x |>
+  gt(rowname_col = "time", groupname_col = "session") |>
+  fmt_markdown(columns = c(info, speakers)) |>
+  tab_style(
+    style = list(
+      cell_fill(color = fill_color), 
+      cell_text(weight = "bold", size = "120%")
+    ),
+    cells_row_groups()
+  ) |>
+  cols_width(
+    info ~ px(800),
+    speakers ~ px(300)
+  ) |>
+  cols_align(align = "left", columns = everything()) |>
+  cols_label(
+    room = "Room",
+    time = "Time",
+    info = "Title, abstract, and more info",
+    speakers = "Presenter(s)"
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"), 
+    locations = cells_column_labels(everything())
+  )
+}
+```
+
+# Overview
+
+## In-person program
+
+### Counts
+
+```{r}
+#| label: valuebox-values-inperson
+program_inperson <- program |> 
+  filter(date != "2025-08-01") |>
+  mutate(
+    session_simplified = case_when(
+      str_detect(session, "tutorial") ~ "Tutorial",
+      str_detect(session, "Keynote") ~ "Keynote",
+      session == "Poster" ~ "Poster",
+      session == "Lightning" ~ "Lightning talk",
+      .default = "Talk"
+    ),
+    .after = session ,
+    session_simplified = fct_relevel(session_simplified, "Keynote", "Tutorial", "Talk", "Lightning talk", "Poster")
+  )
+
+program_inperson_counts <- program_inperson |>
+  count(session_simplified)
+
+program_inperson_counts
+```
+
+### Daily counts
+
+```{r}
+#| label: session-counts-per-day-inperson
+session_counts_per_day_inperson_plot <- program_inperson |>
+  count(date, session_simplified) |>
+  mutate(
+    date = case_when(
+      date == "2025-08-08" ~ "Day 1 - August 8, 2025",
+      date == "2025-08-09" ~ "Day 2 - August 9, 2025",
+      date == "2025-08-10" ~ "Day 3 - August 10, 2025",
+    )
+  ) |>
+  ggplot(aes(y = fct_rev(session_simplified), x = n, fill = session_simplified)) +
+  geom_col(show.legend = FALSE, color = blue) +
+  facet_wrap(~date, ncol = 3) +
+  labs(x = NULL, y = NULL) +
+  scale_fill_manual(
+    values = c(
+      "Keynote" = keynote_color,
+      "Tutorial" = tutorial_color,
+      "Talk" = talk_color,
+      "Lightning talk" = lightning_talk_color,
+      "Poster" = poster_color
+    )
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid.major.y = element_blank(),
+    strip.background = element_rect(fill = poster_color, color = "white")
+  )
+
+session_counts_per_day_inperson_plot
+```
+
+### Themes
+
+```{r}
+#| label: keyword-wordcloud-inperson
+program_inperson_themes <- program_inperson |>
+  separate_longer_delim(keywords, delim = ", ") |>
+  mutate(keywords = str_trim(keywords)) |>
+  filter(!is.na(keywords)) |>
+  count(keywords, sort = TRUE) |>
+  filter(n > 1) # instances of more than 1 appearance only
+
+keyword_wordcloud_inperson_plot <- ggplot(program_inperson_themes, aes(label = keywords, size = n, color = n)) +
+  geom_text_wordcloud_area(rm_outside = TRUE, seed = 123) +
+  scale_size_area(max_size = 30) +
+  theme_void()
+
+keyword_wordcloud_inperson_plot +
+  scale_color_gradient(low = light_blue, high = blue)
+```
+
+## Virtual program
+
+### Counts
+
+```{r}
+#| label: valuebox-values-virtual
+program_virtual <- program |> 
+  filter(date == "2025-08-01")
+
+program_virtual_counts <- program_virtual |>
+  count(session)
+
+program_virtual_counts
+```
+
+### Themes
+
+```{r}
+#| label: keyword-wordcloud-virtual
+program_virtual_themes <- program_virtual |>
+  separate_longer_delim(keywords, delim = ", ") |>
+  mutate(keywords = str_trim(keywords)) |>
+  filter(!is.na(keywords)) |>
+  count(keywords, sort = TRUE) |>
+  filter(n > 1)
+
+keyword_wordcloud_virtual_plot <- ggplot(program_virtual_themes, aes(label = keywords, size = n, color = n)) +
+  geom_text_wordcloud_area(rm_outside = TRUE, seed = 123) +
+  scale_size_area(max_size = 50) +
+  theme_minimal()
+
+keyword_wordcloud_virtual_plot +
+  scale_color_gradient(low = light_green, high = green)
+```
+
+# Schedule
+
+Please note that all session times are listed below in EDT and the schedule is subject to change.
+
+```{r}
+#| label: split-days
+virtual <- program |> filter(date == "2025-08-01") |> select(!c(date, keywords))
+day_1   <- program |> filter(date == "2025-08-08") |> select(!c(date, keywords))
+day_2   <- program |> filter(date == "2025-08-09") |> select(!c(date, keywords))
+day_3   <- program |> filter(date == "2025-08-10") |> select(!c(date, keywords))
+```
+
+## Virtual - August 1, 2025
+
+The following talks are virtual and will be streamed on YouTube Live.
+
+```{r}
+#| label: virtual-schedule
+#| html-table-processing: none
+
+virtual |>
+  make_schedule(color = green) |>
+  cols_hide(columns = room)
+```
+
+## Day 1 - August 8, 2025
+
+The following tutorials and posters will be presented in person at Duke University, Durham, NC.
+
+```{r}
+#| label: day1-schedule
+#| html-table-processing: none
+day_1_updated <- bind_rows(
+  day_1 |> filter(session == "Morning tutorial"),
+  day_1 |> filter(session == "Afternoon tutorial"),
+  day_1 |> filter(session == "Keynote #1"),
+  day_1 |> filter(session == "Poster")
+) |>
+  mutate(room = if_else(session == "Keynote #1", "Gross Hall 270", room))
+
+make_schedule(day_1_updated, color = blue)
+```
+
+## Day 2 - August 9, 2025
+
+The following tutorials and posters will be presented in person at Duke University, Durham, NC.
+
+```{r}
+#| label: day2-schedule
+#| html-table-processing: none
+make_schedule(day_2, color = blue)
+```
+
+## Day 3 - August 10, 2025
+
+The following tutorials and posters will be presented in person at Duke University, Durham, NC.
+
+```{r}
+#| label: day3-schedule
+#| html-table-processing: none
+make_schedule(day_3, color = blue)
+```

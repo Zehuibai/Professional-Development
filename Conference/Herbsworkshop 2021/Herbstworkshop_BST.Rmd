@@ -1,0 +1,169 @@
+---
+title: "Herbstworkshop Survival Analysis"
+author: https://github.com/mangothecat/rmdshower
+output:
+  rmdshower::shower_presentation:
+    self_contained: false
+    katex: true
+    ratio: 16x10
+---
+
+```{r setup, include=FALSE}
+swjpg <- system.file('examples', 'sw.jpg', package = 'rmdshower')
+scifi <- system.file('examples', 'scifi.jpg', package = 'rmdshower')
+```
+
+
+# Competing risks analysis for discrete time-to-event data
+
+## Discrete time
+ 
+<!-- A record of event occurs (relative to some “beginning”) for each individual in a sample, e.g., time of death, grade of school drop-out, age of first alcohol use in school-aged children, etc. -->
+
+**Time-scales**
+
+* Continuous: The “exact” time of an event for each subject is known, e.g., time of death
+* Discrete: 
+    + The timing of an event is continuous but is only recorded for an intervalof time, e.g., grade of school drop-out.
+    + The timing of an event is itself discrete, e.g., grade retention
+
+
+
+## Discrete time
+
+**Scenario 1:**
+
+* Values of $t$ represent a set of fixed follow-up intervals $\left[a_{t-1}, a_{t}\right)$ with continuous boundaries $a_{0}=0<a_{1}<\ldots<a_{q}=\infty$
+* Examples: clinical and epidemiological studies, panel studies, 
+
+## Discrete time
+
+**Scenario 2:**
+
+* Intrinsically discrete time scale
+* Examples: time to pregnancy (observation time defined by number of menstrual cycles), university outcomes in educational research (observation time defined by number of semesters),
+
+## Discrete time
+
+```{r , echo=FALSE, fig.align="center", out.width = '100%'}
+knitr::include_graphics("C:/Users/zbai/Documents/GitHub/As-a-Statistician/02_Plots/DisTime.png")
+
+
+```
+
+
+ 
+
+## Discrete Cox Regression
+
+**Modeling**
+
+$$\quad \frac{\lambda_{i j}}{1-\lambda_{i j}}=\frac{\lambda_{0 j}}{1-\lambda_{0 j}} \exp \left(x_{i}^{T} \beta\right), $$
+
+## Logit model for Discrete time
+
+$$
+\log \left(\frac{P_{it}}{1-P_{it}}\right)=\alpha_{t}+\beta_{1} x_{i 1}+\ldots+\beta_{k} x_ {ik}
+$$
+
+## Complementary log-log model for continuous time process
+
+$$
+\log \left[-\log \left(1-P_{i t}\right)\right]=\alpha_{t}+\beta_{1} x_{i t 1}+\ldots+\beta_{k} x_{i t k}
+$$
+
+
+
+## Competing Risk
+
+If there is a risk of competition, the **condition of "censoring independence"** is not met at this time, and there are two models:
+
+* Subdistribution hazard function (CIF regression model, Fine-Gray model)
+    + Represents the instantaneous probability intensity of the occurrence of the $k$ event of the observed individual without  the $k$ event at the time $t$
+* Cause-specific hazard 
+    + Represents the instantaneous probability intensity of the occurrence of the $k$ event of the observed individual without any event at the time $t$
+
+
+## Discrete Cause-Specific Hazards Model
+
+Relates the cumulative incidence functions $F_{j}\left(t \mid \mathbf{x}_{i}\right)$ to a set of covariate values $\mathbf{x}_{i}$ by specifying a multivariate regression model for the cause-specific hazards $\lambda_{j}\left(t \mid \mathbf{x}_{i}\right) .$
+
+$$
+\begin{array}{c}
+\lambda_{j}\left(t \mid \mathbf{x}_{i}\right)=\frac{\exp \left(\gamma_{0 t j}+\mathbf{x}_{i}^{\top} \gamma_{j}\right)}{1+\sum_{j=1}^{J} \exp \left(\gamma_{0 t j}+\mathbf{x}_{i}^{\top} \gamma_{j}\right)} \\
+j=1, \ldots, J, t=1, \ldots, q-1
+\end{array}
+$$
+
+## Discrete Cause-Specific Hazards Model
+
+- $\gamma_{01 j}, \ldots, \gamma_{0(q-1) j}$ : cause-specific baseline coefficients (factor variables)
+- $\gamma_{j}:=\left(\gamma_{j 1}, \ldots, \gamma_{j p}\right)^{\top}:$ cause-specific vector of regression coefficients
+- Define conditional survival beyond $t$ by
+$$
+\lambda_{0}\left(t \mid \mathbf{x}_{i}\right):=P\left(T_{i}>t \mid T_{i} \geq t, \mathbf{x}_{i}\right)
+$$
+- Then $\lambda_{j}\left(t \mid \mathbf{x}_{i}\right) / \lambda_{0}\left(t \mid \mathbf{x}_{i}\right)=\exp \left(\gamma_{0 t j}\right) \cdot \exp \left(\gamma_{j 1}\right)^{x_{1}} \cdots \exp \left(\gamma_{j p}\right)^{x_{p}}$
+$\Rightarrow$ Increase of covariate $x_{k}, k \in\{1, \ldots, p\}$, by one unit increases the cause-specific odds by the factor $\exp \left(\gamma_{j k}\right)$
+
+
+
+## Discrete Subdistribution Hazard Model  
+
+- Disadvantage of the discrete cause-specific hazards model: no one-to-one relationship between $\lambda_{j}\left(t \mid \mathbf{x}_{i}\right)$ and $F_{j}\left(t \mid \mathbf{x}_{i}\right)$
+- $\Rightarrow$ All $J$ cause-specific hazard functions are needed to model $F_{j}\left(t \mid \mathbf{x}_{i}\right)$
+
+$$
+F_{j}\left(t \mid \mathbf{x}_{i}\right):=P\left(T_{i} \leq t, \epsilon_{i}=j \mid \mathbf{x}_{i}\right)
+$$
+
+## Discrete Subdistribution Hazard Model  
+
+Alternative: discrete subdistribution hazard model
+
+
+- Direct modeling approach for the cumulative incidence function of a specific event of interest
+- Only one model needs to be considered for interpretation of the covariate effects on event occurrence
+
+
+$$
+\vartheta_{i}:=\left\{\begin{array}{l}
+T_{i}, \text { if } \epsilon_{i}=1 \\
+\infty, \text { if } \epsilon_{i} \neq 1
+\end{array}\right.
+$$
+
+- $\vartheta_{i}$ : time to the occurrence of the type- 1 event
+
+## Discrete Subdistribution Hazard Model 
+
+Discrete subdistribution hazard is defined by
+
+$$
+\xi_{1}\left(t \mid \mathbf{x}_{i}\right) =P\left(T_{i}=t, \epsilon_{i}=1 \mid\left(T_{i} \geq t\right) \cup\left(T_{i} \leq t-1, \epsilon_{i} \neq 1\right), \mathbf{x}_{i}\right)
+$$
+
+ 
+$$
+\xi_{1}\left(t \mid \mathbf{x}_{i}\right)=P\left(\vartheta_{i}=t \mid \vartheta_{i} \geq t, \mathbf{x}_{i}\right), \quad t=1, \ldots, q
+$$
+
+
+$$
+\xi_{1}\left(t \mid \mathbf{x}_{i}\right)=\frac{\exp \left(\beta_{0 t 1}+\mathbf{x}_{i}^{\top} \beta_{1}\right)}{1+\exp \left(\beta_{0 t 1}+\mathbf{x}_{i}^{\top} \beta_{1}\right)}
+$$
+
+
+
+# Other Thema
+
+* Time-to-event analysis with competing risks accounting for cluster structures
+    + marginal proportional hazards model 
+    + likelihood-based random effects (frailty) model
+* Accelerated failure time models for semi-competing risk data with recurrent events 
+    * Accelerated failure time (AFT) model
+    * $T=t * e^{\theta \cdot x}, t=e^{\mu+\sigma * W}$
+* GAMLSS for censored data_: Multi-parameter regression $T \sim D(\mu, \sigma, \nu, \tau)$
+
+ 
+  

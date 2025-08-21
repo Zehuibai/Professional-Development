@@ -1,0 +1,466 @@
+---
+# title: "Presentation Ninja"
+# subtitle: "⚔<br/>with xaringan"
+# author: "Yihui Xie"
+# institute: "RStudio, PBC"
+# date: "2016/12/12 (updated: `r Sys.Date()`)"
+# output:
+#   xaringan::moon_reader:
+#     lib_dir: libs
+#     nature:
+#       highlightStyle: github
+#       highlightLines: true
+#       countIncrementalSlides: false
+title: ''
+author: "Zehui Bai"
+date: 'Stand: `r format(Sys.time(), "%F %H:%M Uhr")`'
+output:
+  html_document:
+    df_print: paged
+    number_sections: no
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: yes
+  pdf_document:
+    toc: yes
+fontsize: 10pt
+editor_options:
+  chunk_output_type: console
+colorlinks: yes
+---
+ 
+
+# Herbstworkshop 
+
+
+* Welcome
+•	10:25 – 11:05 | Matthias Schmid (Bonn): Competing risks analysis for discrete time-to-event data
+•	11:05 – 11:30 | Sabrina Schmitt (Koblenz): Time-to-event analysis with competing risks accounting for cluster structures
+•	11:30 – 11:55 | Ann-Kathrin Ozga (Hamburg): Accelerated failure time models for semi-competing risk data with recurrent events
+•	11:55 – 13:00 | Lunch break
+•	13:00 – 13:25 | Marc Ditzhaus (Dortmund): How to deal with nonproportional hazards in factorial survival designs?
+•	13:25 – 13:50 | Alexander Seipp (Oldenburg): Accelerated failure time models for crossing survival curves
+•	13:50 – 14:15 | Christoph Wies (Darmstadt): Testing VIMPs for dependencies in random forest analyses
+•	14:15 – 14:30 | Coffee break
+•	14:30 – 15:10 | Andreas Wienke (Halle): Correlated random-effects models for clustered time-to-event data
+
+•	09:00 – 09:55 | AG session and elections
+•	10:00 – 10:40 | Niel Hens (Hasselt/Antwerp): Time-varying frailty models and the estimation of heterogeneities in transmission of infectious diseases
+•	10:40 – 11:05 | Maximilian Bardo (Göttingen): The Addams family of discrete frailty distributions for multivariate survival data
+•	11:05 – 11:30 | Markus Schepers (Mainz): How to model the spreading of infectious diseases using networks embedded into hyperbolic space?
+
+
+
+
+ 
+
+--- 
+
+
+
+
+
+
+
+
+
+
+
+# Competing risks analysis for discrete time-to-event data
+
+--- 
+
+## Introduction
+
+---
+
+### Source
+
+Joint work with Moritz Berger, Jan Beyersmann, Gerhard Tutz and Thomas Welchowski
+Based on
+
+(Schmid M, Berger M (2021): Competing risks analysis for discrete time-to-event data. WIREs Computational Statistics 13:e1529.)[https://sci-hub.se/10.1002/wics.1529]
+
+
+(discSurv: Discrete Time Survival Analysis)[https://cran.r-project.org/web/packages/discSurv/index.html]
+
+---
+
+### General Setting
+
+Observation times measured on a discrete time scale $t=1,2, \ldots, q$ (apply to both scenarios)
+
+
+**Scenario 1:**
+
+* Values of $t$ represent a set of fixed follow-up intervals $\left[a_{t-1}, a_{t}\right)$ with continuous boundaries $a_{0}=0<a_{1}<\ldots<a_{q}=\infty$
+* Examples: clinical and epidemiological studies, panel studies, 
+
+**Scenario 2:**
+
+* Intrinsically discrete time scale
+* Examples: time to pregnancy (observation time defined by number of menstrual cycles), university outcomes in educational research (observation time defined by number of semesters),
+
+---
+
+
+### Notation
+
+* $n$ independent individuals, $J$ possible target events
+* $\mathbf{x}_{i}=\left(x_{i 1}, \ldots, x_{i p}\right)^{\top}, i=1, \ldots, n:$ covariate vectors
+* $\rightarrow T_{i} \in\{1,2, \ldots, q\}:$ event time of individual $i$
+* $C_{i} \in\{1,2, \ldots, q\}:$ censoring time of individual $i$
+
+- Assumptions:
+    - $T_{i}$ and $C_{i}$ are independent ("random censoring")
+    - Censoring process does not depend on any parameters used to model the event times ( "non-informative censoring")
+    - In Scenario $1, T_{i}$ always precedes $C_{i}$ if both $T_{i}$ and $C_{i}$ occur in the same interval ("censoring at the end of the interval")
+
+* $\tilde{T}_{i}=\min \left(T_{i}, C_{i}\right)$ and $\Delta_{i}:=I\left(T_{i} \leq C_{i}\right):$ observation time and status indicator, respectively, of individual $i$
+* $\rightarrow \epsilon_{i} \in\{1, \ldots, J\}:$ event type of individual $i$ at $T_{i}$
+
+---
+
+## Definitions
+
+- Cumulative incidence function (CIF):
+$F_{j}\left(t \mid \mathbf{x}_{i}\right):=P\left(T_{i} \leq t, \epsilon_{i}=j \mid \mathbf{x}_{i}\right)$
+
+    * Defined for each $j \in\{1, \ldots, J\}$
+    * Bounded between 0 and $F_{j}\left(q \mid \mathbf{x}_{i}\right)=P\left(\epsilon_{i}=j \mid \mathbf{x}_{i}\right) \leq 1$
+
+- Cause-specific hazard function:
+$$
+\lambda_{j}\left(t \mid \mathbf{x}_{i}\right):=P\left(T_{i}=t, \epsilon_{i}=j \mid T_{i} \geq t, \mathbf{x}_{i}\right)
+$$
+
+    * Defined in terms of a probability
+ 
+
+- Overall hazard function:
+
+$$
+\lambda\left(t \mid \mathbf{x}_{i}\right):=P\left(T_{i}=t \mid T_{i} \geq t, \mathbf{x}_{i}\right)=\sum_{j=1}^{J} \lambda_{j}\left(t \mid \mathbf{x}_{i}\right)
+$$
+
+* Conditional probability of experiencing any of the $J$ events at $t$
+
+- (Overall) survival function: $S\left(t \mid \mathbf{x}_{i}\right):=P\left(T_{i}>t \mid \mathbf{x}_{i}\right)=\prod_{t=1}^{q}\left(1-\lambda\left(t \mid \mathbf{x}_{i}\right)\right)$
+
+---
+
+
+## Discrete Cause-Specific Hazards Model
+
+### Difination
+
+- Model that relates the cause-specific hazard function to covariates
+- Parametric discrete cause-specific hazards model:
+
+$$
+\begin{array}{c}
+\lambda_{j}\left(t \mid \mathbf{x}_{i}\right)=\frac{\exp \left(\gamma_{0 t j}+\mathbf{x}_{i}^{\top} \gamma_{j}\right)}{1+\sum_{j=1}^{J} \exp \left(\gamma_{0 t j}+\mathbf{x}_{i}^{\top} \gamma_{j}\right)} \\
+j=1, \ldots, J, t=1, \ldots, q-1
+\end{array}
+$$
+- $\gamma_{01 j}, \ldots, \gamma_{0(q-1) j}$ : cause-specific baseline coefficients (factor variables)
+$\rightarrow \gamma_{j}:=\left(\gamma_{j 1}, \ldots, \gamma_{j p}\right)^{\top}:$ cause-specific vector of regression coefficients
+
+
+--- 
+
+
+### Interpretation
+
+Define conditional survival beyond $t$ by
+$$
+\lambda_{0}\left(t \mid \mathbf{x}_{i}\right):=P\left(T_{i}>t \mid T_{i} \geq t, \mathbf{x}_{i}\right)
+$$
+
+Then $\lambda_{j}\left(t \mid \mathbf{x}_{i}\right) / \lambda_{0}\left(t \mid \mathbf{x}_{i}\right)=\exp \left(\gamma_{0 t j}\right) \cdot \exp \left(\gamma_{j 1}\right)^{x_{1}} \cdots \exp \left(\gamma_{j p}\right)^{x_{p}}$
+$\Rightarrow$ Increase of covariate $x_{k}, k \in\{1, \ldots, p\}$, by one unit increases the cause-specific odds by the factor $\exp \left(\gamma_{j k}\right)$
+
+Equivalent to a multinomial logistic regression model with $J+1$ outcome categories and reference category "survival beyond $t$ "
+
+---
+
+### Likelihood Construction
+
+- Define binary variables
+$$
+\begin{aligned}
+\mathbf{y}_{i t}^{\top}=&\left\lfloor\left(y_{i t 0}, y_{i t 1}, \ldots, y_{i} \tilde{T}_{i} \epsilon_{i}, \ldots, y_{i t}\right)\right.\\
+&:=\left\{\begin{array}{ll}
+(1,0, \ldots, 0, \ldots, 0), & \text { if } t<\tilde{T}_{i} \\
+(0,0, \ldots, 1, \ldots, 0), & \text { if } t=\tilde{T}_{i}, \Delta_{i}=1 \\
+(1,0, \ldots, 0, \ldots, 0), & \text { if } t=\tilde{T}_{i}, \Delta_{i}=0
+\end{array}\right.
+\end{aligned}
+$$
+
+- Log-likelihood of the discrete cause-specific hazards model can be written as
+$$
+I=\sum_{i=1}^{n} \sum_{t=1}^{\tilde{T}_{i}}\left\{\sum_{j=1}^{J} y_{i t j} \cdot \log \left(\lambda_{j}\left(t \mid \mathbf{x}_{i}\right)\right)+y_{i t 0} \cdot \log \left(1-\lambda\left(t \mid \mathbf{x}_{i}\right)\right)\right\}
+$$
+
+--- 
+
+### Consequences:
+
+- Log-likelihood cannot be decomposed into separate terms for each target event
+- Log-likelihood is equivalent to the log-likelihood of $\sum_{i} \tilde{T}_{i}$ independent observations $\mathbf{y}_{i t}, i=1, \ldots, n, t=1, \ldots, \tilde{T}_{i}$, in a multinomial logistic regression model with $J+1$ outcome categories
+- $\Rightarrow$ Optimization using software for multinomial logistic regression
+- Maximum likelihood estimators are consistent and asymptotically normal under the above assumptions $(\Rightarrow$ Wald confidence intervals, likelihood ratio tests, ...)
+
+---
+
+### Data structure
+
+```{r , echo=FALSE, fig.align="center", out.width = '100%'}
+knitr::include_graphics("./Plot/1.png")
+```
+
+---
+
+## Discrete Subdistribution Hazard Model  
+
+### Motivation
+
+- Disadvantage of the discrete cause-specific hazards model: no one-to-one relationship between $\lambda_{j}\left(t \mid \mathbf{x}_{i}\right)$ and $F_{j}\left(t \mid \mathbf{x}_{i}\right)$
+$\Rightarrow$ All $J$ cause-specific hazard functions are needed to model $F_{j}\left(t \mid \mathbf{x}_{i}\right)$
+$\Rightarrow$ Difficult to infer the effects of the covariates on $F_{j}\left(t \mid \mathbf{x}_{i}\right)$
+
+- Alternative: discrete subdistribution hazard model
+	- Direct modeling approach for the cumulative incidence function of a specific event of interest
+	- Extension of the respective modeling approach for continuous event times
+	- Only one model needs to be considered for interpretation of the covariate effects on event occurrence
+	
+---
+
+### Assumptions and Definitions
+
+Assume w.l.o.g. that the event of interest is defined by $j=1$
+- Consider subdistribution time
+$$
+\vartheta_{i}:=\left\{\begin{array}{l}
+T_{i}, \text { if } \epsilon_{i}=1 \\
+\infty, \text { if } \epsilon_{i} \neq 1
+\end{array}\right.
+$$
+- $\vartheta_{i}$ : time to the occurrence of the type- 1 event
+- Discrete subdistribution hazard is defined by
+$$
+\begin{aligned}
+\xi_{1}\left(t \mid \mathbf{x}_{i}\right) &:=P\left(T_{i}=t, \epsilon_{i}=1 \mid\left(T_{i} \geq t\right) \cup\left(T_{i} \leq t-1, \epsilon_{i} \neq 1\right), \mathbf{x}_{i}\right) \\
+&=P\left(\vartheta_{i}=t \mid \vartheta_{i} \geq t, \mathbf{x}_{i}\right), \quad t=1, \ldots, q
+\end{aligned}
+$$
+
+---
+
+## Calibration
+
+- Aim: assess the calibration of a fitted cause-specific hazards or subdistribution hazard model
+- Here, we assume that model performance is assessed using an ingejependent i.i.d. validation sample containing data $\left(\tilde{T}_{m}, \Delta_{m}, \epsilon_{m}, \mathbf{x}_{m}^{\top}\right), m=1, \ldots, N$, collected from $N$ individuals
+- Individual-specific predictions of the discrete cause-specific or subdistribution hazards are obtained by applying the fitted model to the validation data
+- Calibration can be investigated graphically by checking how well the predicted discrete cause-specific hazard values agree with their corresponding observed proportions in the validation data
+
+
+<!-- 1. 目的：评估拟合的特定原因危害或子分布危害模型的校准 -->
+<!-- 2. 通过将拟合模型应用于验证数据，可以获得离散原因特定或子分布危害的个体特定预测 -->
+<!-- 3. 可以通过检查预测的离散原因特定危险值与其在验证数据中相应观察到的比例一致的程度，以图形方式调查校准 -->
+
+
+## Other Modeling Approaches
+
+    Landmarking
+    Tree-based modeling
+    Machine learning, for example:
+        Random forests
+        Deep learning
+        
+
+ 
+* Janitza S and Tutz G (2015): Prediction models for time discrete competing risks. Technical Report 177, Department of Statistics, University of Munich.
+* Heyard R, Timsit JF, Essaied WI, Held L, COMBACTE-MAGNET consortium (2019): Dynamic clinical prediction models for discrete time-to-event data with competing risks. Biometrical Journal $61,514-534 .$
+* Berger M, Welchowski T, Schmitz-Valckenberg S, Schmid M (2019): A classification tree approach for the modeling of competing risks in discrete time. Advances in Data Analysis and Classification 13, 965-990.
+* Lee C, Yoon J, van der Schaar M (2020): Dynamic-DeepHit: A deep learning approach for dynamic survival analysis with competing risks based on longitudinal data. IEEE Transactions on Biomedical Engineering $67,122-133$.
+* Gorgi Zadeh S, Schmid M (2021): Bias in cross-entropy-based training of deep survival networks. IEEE Transactions on Pattern Analvsis and Machine Intelligence 43 . 3126-3137
+
+
+
+
+
+# Time-to-event analysis with competing risks accounting for cluster structures
+
+
+Two methods to analyzing survival data with clustered events are presented.
+
+1. The first method is a proportional hazards model which adopts a marginal approach with a working independence assumption. This model can be fitted by SAS PROC PHREG with the robust sandwich estimate option. In the marginal model, WLW (Wei, Lin, and Weissfeld, hereafter WLW) adopts a pseudolikelihood approach with a working independence assumption. They estimated the covariate effect assuming independence among correlated failure times, while adjusting for the correlation by sandwich estimate in estimating the covariance matrix.
+2. The second method is a likelihood-based random effects (frailty) model. In the second model, the baseline hazard could be either a priori determined (e.g., Weibull) or approximated by piecewise constant counterpart. The estimation could be carried out by adaptive Gaussian quadrature method which is implemented in SAS PROC NLMIXED. Frailty model is a random effects proportional hazards model. The random effects could be used to capture the relation of the correlated observations in the clustered or recurrent events data.
+
+
+
+### Proportional hazards model which adopts a marginal 
+
+Calculate robust sandwich covariance estimates in the PROC PHREG call. The PHREG process uses ODS graphics to create graphics as part of its output. For example, the ASSESS statement uses a graphics method that uses ODS Graphics to check the model suitability of the model. PROC PHREG (version 9.2) also provides many important enhancements. The most notable features are the CLASS statement used to specify categorical variables; the CONTRAST statement used to estimate and test linear contrast; the BAYES statement used to perform Bayesian analysis; and the HAZARDRATIO statement used to estimate custom hazard ratios.
+
+The option COVS(AGGREGATE) is specified in the PROC statement to obtain the robust sandwich estimate of the covariance matrix, and the score residuals used in computing the middle part of the sandwich estimate are aggregated over identical ID values. Then, the model is defined including Treat covariate, JR covariate, and interaction term between Treat and JR. The TEST statements can be included in the PROC PHREG code to test various linear hypotheses of the regression parameters based on the robust sandwich covariance matrix estimate. This method is most appropriate when the main purpose is to estimate the marginal (population) covariate effects.
+
+
+The marginal Cox model for the $\mathrm{j}^{\text {th }}$ event and the $\hat{t}^{\text {th }}$ cluster is given by
+$$
+\lambda_{j}\left(t ; Z_{i j}\right)=\lambda_{0 j} e^{\beta_{j}^{\prime} Z_{i j}(t)}, j=1, \ldots, J ; i=1, \ldots, n
+$$
+and the $j^{\text {th }}$ event-specific partial likelihood is
+$$
+\mathrm{L}_{\mathrm{j}}(\beta)=\prod_{\mathrm{i}=1}^{\mathrm{n}}\left[\frac{\exp \left\{\beta^{\prime} Z_{i j}\left(X_{i j}\right)\right\}}{\sum_{l \in R_{j}\left(X_{i j}\right)} \exp \left\{\beta^{\prime} Z_{i l}\left(X_{i j}\right)\right\}}\right]^{\Delta_{\mathrm{i}}}
+$$
+
+- Where $\lambda_{0 j}(t)$ is an arbitrary baseline hazard function for the $\mathrm{j}^{\text {th }}$ event
+- $\beta_{j}$ is the (event-specific) column vector of regression coefficients for $\mathrm{j}^{\text {th }}$ event.
+- WLW estimates $\beta_{1}, \ldots, \beta_{J}$ by the maximum partial likelihood estimates $\hat{\beta} 1, \ldots, \hat{\beta} J$, respectively, and uses a robust sandwich covariance matrix estimate for $\left(\hat{\beta} 1^{\prime}, \ldots, \hat{\beta} J^{\prime}\right)^{\prime}$ to account for the dependence of the multiple failure times.
+
+
+```
+proc phreg data=diabetes covs(aggregate);
+ model Time*Status(0)=Treat JR Interaction;
+ Interaction= Treat * JR;
+ id ID;
+run;
+```
+
+
+### Frailty model
+
+**Analysis of clustered data with known distribution using proc nlmixed**
+
+
+
+
+# Accelerated failure time models for semi-competing risk data with recurrent events
+
+## Introduction
+
+
+
+### Data structure
+
+```{r , echo=FALSE, fig.align="center", out.width = '100%'}
+knitr::include_graphics("./Plot/2.png")
+knitr::include_graphics("./Plot/3.png")
+```
+
+### Event senarios
+
+
+```{r , echo=FALSE, fig.align="center", out.width = '100%'}
+knitr::include_graphics("./Plot/4.png")
+```
+
+
+### The statistical model 
+
+$$
+\begin{array}{c}
+\log \left(Y_{i, r e c}\right)=x_{i, r e c}^{\top} \beta_{r e c}+\phi_{r e c} \epsilon_{r e c}+u_{i, r e c} \\
+\log \left(Y_{i, t e r m}\right)=x_{i, t e r m}^{\top} \beta_{t e r m}+\phi_{t e r m} \epsilon_{t e r m}+u_{i, t e r m}
+\end{array}
+$$
+and
+$$
+\left(\begin{array}{c}
+u_{i, r e c} \\
+u_{i, t e r m}
+\end{array}\right) \sim N\left(\left(\begin{array}{l}
+0 \\
+0
+\end{array}\right),\left(\begin{array}{cc}
+\sigma_{\text {rec }}^{2} & \rho \sigma_{\text {rec }} \sigma_{\text {term }} \\
+\rho \sigma_{\text {rec }} \sigma_{\text {term }} & \sigma_{\text {term }}^{2}
+\end{array}\right)\right)
+$$
+with
+- outcomes $Y_{\text {rec }}$ (time to recurrent event), $Y_{\text {term }}$ (time to terminal event),
+- covariates $x_{\text {rec }}, x_{\text {term }}$ with regression coefficients $\beta_{\text {rec }}, \beta_{\text {term }}$,
+- error terms $\epsilon_{\text {rec }}$ and $\epsilon_{\text {term }}$ of $\log \left(Y_{i, \text { rec }}\right)$ and $\log \left(Y_{i \text { term }}\right)$, respectively, with scale parameters $\phi_{\text {rec }}, \phi_{\text {term }}$, and
+- random intercepts $u_{i, \text { rec }}$ and $u_{i, \text { term }}$ which are assumed bivariate normally distributed with variances $\sigma_{\text {rec }}^{2}, \sigma_{\text {term }}^{2}$, and correlation coefficient $\rho$.
+
+### AFT Properties
+
+- The model constitutes a bivariate AFT (Accelerated Failure Time) model in its log-linear form.
+- Results can be communicated on the time scale.
+- Several parametric distributions (e.g., Weibull, Log-Logistic, Log-Normal, Gompertz) of $\log \left(Y_{i, \text { rec }}\right)$ and $\log \left(Y_{i, \text { term }}\right)$ can be fitted, and BICs compared.
+- Others would call this model a bivariate log-normal joint frailty model (CAVE: in our model "Log-Normal" refers to the survival distribution, and not to the distribution of the random effect as in the frailty model!).
+
+
+
+
+
+# Accelerated failure time models for crossing survival curves
+
+Rahman, R., Fell, G., Ventz, S., Arfé, A., Vanderbeek, M., A., Trippa, L., Alexander, B. M. (2019). Deviation from the proportional hazards ass in randomized phase 3 clinical trials in oncology: prevalence, associa factors, and implications. Clinical Cancer Research, 25(21):6339-63
+
+Stasinopoulos, M. D., Rigby, R. A., Heller, G. Z., Voudouris, V., and De B (2017). Flexible regression and smoothing: using GAMLSS in R. CR - Press,
+
+
+(flexsurv: A Platform for Parametric Survival Modeling in R)[https://www.jstatsoft.org/article/view/v070i08]
+
+
+
+## GAMLSS for censored data
+
+Generalised Additive Models for Location Scale and Shape
+
+- Multi-parameter regression
+- Parametric model
+- Generalizes GAMs (and AFT models)
+
+### Multi-parameter regression
+
+$$
+\begin{array}{ll}
+T \sim D(\mu, \sigma, \nu, \tau) & \\
+g_{1}(\mu)=\boldsymbol{x}_{1}^{T} \boldsymbol{\alpha} & g_{3}(\nu)=\boldsymbol{x}_{3}^{T} \gamma \\
+g_{2}(\sigma)=\boldsymbol{x}_{2}^{T} \beta & g_{4}(\tau)=\boldsymbol{x}_{4}^{T} \zeta
+\end{array}
+$$
+
+**Likelihood**
+
+$$
+\begin{array}{l}
+L(\boldsymbol{\theta})=\prod_{i=1}^{n} f(t \mid \boldsymbol{\theta})^{\delta_{i}} S(t \mid \boldsymbol{\theta})^{1-\delta_{i}} \\
+\boldsymbol{\theta}=(\boldsymbol{\alpha}, \boldsymbol{\beta}, \boldsymbol{\gamma}, \boldsymbol{\zeta})
+\end{array}
+$$
+
+
+### Weibull GAMLSS
+
+$$
+\begin{array}{l}
+T_{i} \sim \text { Weib }\left(\mu_{i}, \sigma_{i}\right) \\
+f(t \mid \mu, \sigma)=\sigma \mu t^{\sigma-1} \exp \left(-\mu t^{\sigma}\right) \\
+\log \left(\mu_{i}\right)=\alpha_{1} C T X_{i}+\alpha_{0} \\
+\log \left(\sigma_{i}\right)=\beta_{1} C T X_{i}+\beta_{0}
+\end{array}
+$$
+### Generalized GAMMA GAMLSS
+
+$$
+\begin{array}{l}
+T_{i} \sim G G\left(\mu_{i}, \sigma_{i}, \nu_{i}\right) \\
+\log \left(\mu_{i}\right)=\alpha_{1} C T X_{i}+\alpha_{0} \\
+\log \left(\sigma_{i}\right)=\beta_{1} C T X_{i}+\beta_{0} \\
+\nu_{i}=\gamma_{1} C T X_{i}+\gamma_{0}
+\end{array}
+$$
+
+
+# Correlated random-effects models for clustered time-to-event data
+
+## Univariate frailty models
+
+

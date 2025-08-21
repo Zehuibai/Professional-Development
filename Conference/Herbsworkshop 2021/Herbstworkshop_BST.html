@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Herbstworkshop Survival Analysis</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="Herbstworkshop_BST_files/shower-ribbon/package/styles/screen-16x10.css">
+  <link rel="stylesheet" href="Herbstworkshop_BST_files\rmdshower/style-common.css">
+  <link rel="stylesheet" href="Herbstworkshop_BST_files\rmdshower/style-ribbon.css">
+  <link rel="stylesheet" href="Herbstworkshop_BST_files/shower-ribbon/style-override.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="Herbstworkshop_BST_files\rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+  
+  
+      <script src="Herbstworkshop_BST_files/header-attrs-2.8/header-attrs.js"></script>
+  
+</head>
+
+<body class="shower list">
+
+  <header class="caption">
+    <h1>Herbstworkshop Survival Analysis</h1>
+    <p><a href="https://github.com/mangothecat/rmdshower" class="uri">https://github.com/mangothecat/rmdshower</a></p>
+  </header>
+
+  
+  
+<section>
+<section id="competing-risks-analysis-for-discrete-time-to-event-data" class="title-slide slide level1">
+<h2>Competing risks analysis for discrete time-to-event data</h2>
+
+</section>
+<section id="discrete-time" class="slide level2">
+<h2>Discrete time</h2>
+<!-- A record of event occurs (relative to some “beginning”) for each individual in a sample, e.g., time of death, grade of school drop-out, age of first alcohol use in school-aged children, etc. -->
+<p><strong>Time-scales</strong></p>
+<ul>
+<li>Continuous: The “exact” time of an event for each subject is known, e.g., time of death</li>
+<li>Discrete:
+<ul>
+<li>The timing of an event is continuous but is only recorded for an intervalof time, e.g., grade of school drop-out.</li>
+<li>The timing of an event is itself discrete, e.g., grade retention</li>
+</ul></li>
+</ul>
+</section>
+<section id="discrete-time-1" class="slide level2">
+<h2>Discrete time</h2>
+<p><strong>Scenario 1:</strong></p>
+<ul>
+<li>Values of <span class="math inline">\(t\)</span> represent a set of fixed follow-up intervals <span class="math inline">\(\left[a_{t-1}, a_{t}\right)\)</span> with continuous boundaries <span class="math inline">\(a_{0}=0&lt;a_{1}&lt;\ldots&lt;a_{q}=\infty\)</span></li>
+<li>Examples: clinical and epidemiological studies, panel studies,</li>
+</ul>
+</section>
+<section id="discrete-time-2" class="slide level2">
+<h2>Discrete time</h2>
+<p><strong>Scenario 2:</strong></p>
+<ul>
+<li>Intrinsically discrete time scale</li>
+<li>Examples: time to pregnancy (observation time defined by number of menstrual cycles), university outcomes in educational research (observation time defined by number of semesters),</li>
+</ul>
+</section>
+<section id="discrete-time-3" class="slide level2">
+<h2>Discrete time</h2>
+<p><img src="C:/Users/zbai/Documents/GitHub/As-a-Statistician/02_Plots/DisTime.PNG" width="100%" style="display: block; margin: auto;" /></p>
+</section>
+<section id="discrete-cox-regression" class="slide level2">
+<h2>Discrete Cox Regression</h2>
+<p><strong>Modeling</strong></p>
+<p><span class="math display">\[\quad \frac{\lambda_{i j}}{1-\lambda_{i j}}=\frac{\lambda_{0 j}}{1-\lambda_{0 j}} \exp \left(x_{i}^{T} \beta\right), \]</span></p>
+</section>
+<section id="logit-model-for-discrete-time" class="slide level2">
+<h2>Logit model for Discrete time</h2>
+<p><span class="math display">\[
+\log \left(\frac{P_{it}}{1-P_{it}}\right)=\alpha_{t}+\beta_{1} x_{i 1}+\ldots+\beta_{k} x_ {ik}
+\]</span></p>
+</section>
+<section id="complementary-log-log-model-for-continuous-time-process" class="slide level2">
+<h2>Complementary log-log model for continuous time process</h2>
+<p><span class="math display">\[
+\log \left[-\log \left(1-P_{i t}\right)\right]=\alpha_{t}+\beta_{1} x_{i t 1}+\ldots+\beta_{k} x_{i t k}
+\]</span></p>
+</section>
+<section id="competing-risk" class="slide level2">
+<h2>Competing Risk</h2>
+<p>If there is a risk of competition, the <strong>condition of “censoring independence”</strong> is not met at this time, and there are two models:</p>
+<ul>
+<li>Subdistribution hazard function (CIF regression model, Fine-Gray model)
+<ul>
+<li>Represents the instantaneous probability intensity of the occurrence of the <span class="math inline">\(k\)</span> event of the observed individual without the <span class="math inline">\(k\)</span> event at the time <span class="math inline">\(t\)</span></li>
+</ul></li>
+<li>Cause-specific hazard
+<ul>
+<li>Represents the instantaneous probability intensity of the occurrence of the <span class="math inline">\(k\)</span> event of the observed individual without any event at the time <span class="math inline">\(t\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="discrete-cause-specific-hazards-model" class="slide level2">
+<h2>Discrete Cause-Specific Hazards Model</h2>
+<p>Relates the cumulative incidence functions <span class="math inline">\(F_{j}\left(t \mid \mathbf{x}_{i}\right)\)</span> to a set of covariate values <span class="math inline">\(\mathbf{x}_{i}\)</span> by specifying a multivariate regression model for the cause-specific hazards <span class="math inline">\(\lambda_{j}\left(t \mid \mathbf{x}_{i}\right) .\)</span></p>
+<p><span class="math display">\[
+\begin{array}{c}
+\lambda_{j}\left(t \mid \mathbf{x}_{i}\right)=\frac{\exp \left(\gamma_{0 t j}+\mathbf{x}_{i}^{\top} \gamma_{j}\right)}{1+\sum_{j=1}^{J} \exp \left(\gamma_{0 t j}+\mathbf{x}_{i}^{\top} \gamma_{j}\right)} \\
+j=1, \ldots, J, t=1, \ldots, q-1
+\end{array}
+\]</span></p>
+</section>
+<section id="discrete-cause-specific-hazards-model-1" class="slide level2">
+<h2>Discrete Cause-Specific Hazards Model</h2>
+<ul>
+<li><span class="math inline">\(\gamma_{01 j}, \ldots, \gamma_{0(q-1) j}\)</span> : cause-specific baseline coefficients (factor variables)</li>
+<li><span class="math inline">\(\gamma_{j}:=\left(\gamma_{j 1}, \ldots, \gamma_{j p}\right)^{\top}:\)</span> cause-specific vector of regression coefficients</li>
+<li>Define conditional survival beyond <span class="math inline">\(t\)</span> by <span class="math display">\[
+\lambda_{0}\left(t \mid \mathbf{x}_{i}\right):=P\left(T_{i}&gt;t \mid T_{i} \geq t, \mathbf{x}_{i}\right)
+\]</span></li>
+<li>Then <span class="math inline">\(\lambda_{j}\left(t \mid \mathbf{x}_{i}\right) / \lambda_{0}\left(t \mid \mathbf{x}_{i}\right)=\exp \left(\gamma_{0 t j}\right) \cdot \exp \left(\gamma_{j 1}\right)^{x_{1}} \cdots \exp \left(\gamma_{j p}\right)^{x_{p}}\)</span> <span class="math inline">\(\Rightarrow\)</span> Increase of covariate <span class="math inline">\(x_{k}, k \in\{1, \ldots, p\}\)</span>, by one unit increases the cause-specific odds by the factor <span class="math inline">\(\exp \left(\gamma_{j k}\right)\)</span></li>
+</ul>
+</section>
+<section id="discrete-subdistribution-hazard-model" class="slide level2">
+<h2>Discrete Subdistribution Hazard Model</h2>
+<ul>
+<li>Disadvantage of the discrete cause-specific hazards model: no one-to-one relationship between <span class="math inline">\(\lambda_{j}\left(t \mid \mathbf{x}_{i}\right)\)</span> and <span class="math inline">\(F_{j}\left(t \mid \mathbf{x}_{i}\right)\)</span></li>
+<li><span class="math inline">\(\Rightarrow\)</span> All <span class="math inline">\(J\)</span> cause-specific hazard functions are needed to model <span class="math inline">\(F_{j}\left(t \mid \mathbf{x}_{i}\right)\)</span></li>
+</ul>
+<p><span class="math display">\[
+F_{j}\left(t \mid \mathbf{x}_{i}\right):=P\left(T_{i} \leq t, \epsilon_{i}=j \mid \mathbf{x}_{i}\right)
+\]</span></p>
+</section>
+<section id="discrete-subdistribution-hazard-model-1" class="slide level2">
+<h2>Discrete Subdistribution Hazard Model</h2>
+<p>Alternative: discrete subdistribution hazard model</p>
+<ul>
+<li>Direct modeling approach for the cumulative incidence function of a specific event of interest</li>
+<li>Only one model needs to be considered for interpretation of the covariate effects on event occurrence</li>
+</ul>
+<p><span class="math display">\[
+\vartheta_{i}:=\left\{\begin{array}{l}
+T_{i}, \text { if } \epsilon_{i}=1 \\
+\infty, \text { if } \epsilon_{i} \neq 1
+\end{array}\right.
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\vartheta_{i}\)</span> : time to the occurrence of the type- 1 event</li>
+</ul>
+</section>
+<section id="discrete-subdistribution-hazard-model-2" class="slide level2">
+<h2>Discrete Subdistribution Hazard Model</h2>
+<p>Discrete subdistribution hazard is defined by</p>
+<p><span class="math display">\[
+\xi_{1}\left(t \mid \mathbf{x}_{i}\right) =P\left(T_{i}=t, \epsilon_{i}=1 \mid\left(T_{i} \geq t\right) \cup\left(T_{i} \leq t-1, \epsilon_{i} \neq 1\right), \mathbf{x}_{i}\right)
+\]</span></p>
+<p><span class="math display">\[
+\xi_{1}\left(t \mid \mathbf{x}_{i}\right)=P\left(\vartheta_{i}=t \mid \vartheta_{i} \geq t, \mathbf{x}_{i}\right), \quad t=1, \ldots, q
+\]</span></p>
+<p><span class="math display">\[
+\xi_{1}\left(t \mid \mathbf{x}_{i}\right)=\frac{\exp \left(\beta_{0 t 1}+\mathbf{x}_{i}^{\top} \beta_{1}\right)}{1+\exp \left(\beta_{0 t 1}+\mathbf{x}_{i}^{\top} \beta_{1}\right)}
+\]</span></p>
+</section>
+<section id="other-thema" class="title-slide slide level1">
+<h2>Other Thema</h2>
+<ul>
+<li>Time-to-event analysis with competing risks accounting for cluster structures
+<ul>
+<li>marginal proportional hazards model</li>
+<li>likelihood-based random effects (frailty) model</li>
+</ul></li>
+<li>Accelerated failure time models for semi-competing risk data with recurrent events
+<ul>
+<li>Accelerated failure time (AFT) model</li>
+<li><span class="math inline">\(T=t * e^{\theta \cdot x}, t=e^{\mu+\sigma * W}\)</span></li>
+</ul></li>
+<li>GAMLSS for censored data_: Multi-parameter regression <span class="math inline">\(T \sim D(\mu, \sigma, \nu, \tau)\)</span></li>
+</ul>
+</section>
+
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="Herbstworkshop_BST_files\rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
+</body>
+</html>

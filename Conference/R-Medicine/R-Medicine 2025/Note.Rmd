@@ -1,0 +1,414 @@
+---
+title: |
+  ![](logo.png){width=1in}
+  Note
+author: "Zehui Bai"
+date: '`r format(Sys.time())`'
+output:
+  html_document:
+    df_print: paged
+    number_sections: no
+    toc: yes
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+    theme: flatly # <!-- https://bootswatch.com/3/  -->
+    highlight: tango
+    code_folding: "hide" 
+  word_document:
+    toc: yes
+  pdf_document:
+    toc: yes
+fontsize: 10pt
+editor_options:
+  chunk_output_type: console
+colorlinks: yes
+---
+
+
+```{r setup, include=FALSE, echo = FALSE,message = FALSE, error = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 10, fig.height = 6)
+ 
+# <!-- ---------------------------------------------------------------------- -->
+# <!--                        2. Basic system settings                        -->
+# <!-- ---------------------------------------------------------------------- -->
+
+## get the R Version
+cat("R Version:\n")
+paste(R.Version()[c("major", "minor")], collapse = ".")
+
+## get the file path
+rstudioapi::getSourceEditorContext()$path
+
+## get the wd path
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+getwd()
+
+## Open the wd folder
+open_folder <-function(dir){
+	if (.Platform['OS.type'] == "windows"){
+	shell.exec(dir)  
+	} else {
+	system(paste(Sys.getenv("R_BROWSER"), dir))
+  }
+}
+open_folder(getwd())
+
+## Set language
+suppressWarnings(
+  Sys.setlocale("LC_ALL","English")
+)
+ 
+### convert backslash to forward slash 
+# scan("clipboard",what="string")
+# gsub('"', "", gsub("\\\\", "/", readClipboard())) 
+
+
+# <!-- ---------------------------------------------------------------------- -->
+# <!--                    2. load the required packages                       -->
+# <!-- ---------------------------------------------------------------------- --> 
+
+## if(!require(psych)){install.packages("psych")}
+packages<-c("tidyverse", "pharmaverse","tidymodels",
+            "aorsf", "censored", "glmnet", "partykit", "pec", "rpart",
+            "pharmaverseadam", "pharmaversesdtm")
+
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+ipak(packages)
+ 
+cat("\nPackage Versions:\n")
+sapply(packages, function(pkg) {
+  packageVersion(pkg)
+})
+
+## Load all r functions
+## The directory where all source code files are saved.
+# source_code_dir <- "C:/Users/baiz/Downloads/Data-Analyst-with-R/00 R Function/ZB Function/"
+# file_path_vec <- list.files(source_code_dir, full.names = T)
+# for(f_path in file_path_vec){source(f_path)}
+ 
+```
+
+# rix
+
+The phrase **“A new approach to Shiny development & deployment with Nix and `{rix}`”** refers to using **Nix** (a functional package manager) and the **{rix} R package** to manage, develop, and deploy Shiny applications in a **reproducible, isolated, and declarative environment**.
+
+
+https://rpodcast.github.io/rixshiny-rmed2025/#/title-slide
+
+---
+
+## 🌟 1. Why a New Approach Is Needed for Shiny Development & Deployment
+
+Shiny is great for creating web applications with R. However, **Shiny app development and deployment** can face challenges:
+
+* ❌ Dependency hell: Installing exact versions of R packages can be a nightmare.
+* ❌ Environment mismatch: Code that runs on your machine might break on the server.
+* ❌ Deployment complexity: Reproducing the dev environment on a server is often non-trivial.
+
+---
+
+## 🛠 2. What Is **Nix**?
+
+**Nix** is a **purely functional package manager** that provides:
+
+* **Reproducibility**: All dependencies are defined and locked, ensuring identical environments.
+* **Isolation**: It builds environments in isolation, avoiding pollution from your system.
+* **Declarative builds**: You write a configuration file (`default.nix`, `shell.nix`, etc.) that describes exactly what you need.
+
+For R/Shiny, this means:
+
+* You can define your full R environment, including the R version, packages, system dependencies (e.g., `libxml2`, `curl`), and tools (e.g., `pandoc`, `shiny-server`) in one place.
+* You can recreate that exact environment anywhere (dev, test, prod).
+
+---
+
+## 📦 3. What Is `{rix}`?
+
+`{rix}` is a modern **R package** developed to bridge R development with Nix infrastructure. It aims to simplify:
+
+* **Writing and managing Nix expressions** for R environments.
+* **Creating reproducible environments** for R and Shiny apps.
+* **Exporting R project metadata** to Nix (like `renv.lock`, `DESCRIPTION`, etc.)
+
+Key features include:
+
+| Feature         | Description                                              |
+| --------------- | -------------------------------------------------------- |
+| `rix::init()`   | Initializes a Nix environment for your R project         |
+| `rix::build()`  | Builds a fully reproducible R environment using Nix      |
+| `rix::run()`    | Launches the app inside a Nix shell                      |
+| `rix::deploy()` | Deploys the Shiny app to a target server, also using Nix |
+
+---
+
+## 🚀 4. Shiny Deployment Workflow with Nix + `{rix}`
+
+### 🔧 Step 1: Set Up Your Project
+
+Your Shiny project directory should include:
+
+* `app.R` or `ui.R`/`server.R`
+* `DESCRIPTION` (optional, or inferred)
+* R package dependencies
+* Optional: `renv.lock` or `packrat.lock`
+
+### 📦 Step 2: Use `{rix}` to Generate Nix Configs
+
+```r
+rix::init()
+```
+
+* Creates `default.nix`, `shell.nix` files.
+* Defines the R version, packages, and system libraries.
+
+### 🧪 Step 3: Run the App in a Nix Shell
+
+```bash
+nix develop
+Rscript app.R
+```
+
+Or from R:
+
+```r
+rix::run()
+```
+
+This ensures the app runs inside the isolated environment defined by Nix.
+
+### 📤 Step 4: Deploy the App (Optional)
+
+```r
+rix::deploy(target = "nix-server")
+```
+
+* Deploys your app to a Nix-compatible server.
+* Ensures the exact same versions and setup as in development.
+
+---
+
+## 🧠 5. Benefits of Using Nix + `{rix}` for Shiny
+
+| Benefit                     | Description                                                    |
+| --------------------------- | -------------------------------------------------------------- |
+| 🔁 Reproducibility          | Same environment across machines, CI, and servers              |
+| 🧼 Isolation                | Prevents conflicts between projects or system libraries        |
+| 🔄 Version control          | Fully versioned environment with rollback ability              |
+| 📦 Full-stack               | Handles system libraries, R versions, and package dependencies |
+| 🖥️ Infrastructure agnostic | Can run on macOS, Linux, Docker, servers                       |
+
+---
+
+## 📚 6. Comparison With Other Tools
+
+| Tool          | Dependency Isolation | System-Level Control | Server Reproducibility       |
+| ------------- | -------------------- | -------------------- | ---------------------------- |
+| `renv`        | ✅ (R packages)       | ❌                    | ⚠️ (manual for server setup) |
+| Docker        | ✅                    | ✅                    | ✅                            |
+| Nix + `{rix}` | ✅                    | ✅                    | ✅✅✅                          |
+
+---
+
+## 📎 7. Example: Minimal Nix Expression via `{rix}`
+
+```nix
+{ pkgs ? import <nixpkgs> {} }:
+
+pkgs.mkShell {
+  buildInputs = [
+    pkgs.rWrapper.override {
+      packages = with pkgs.rPackages; [
+        shiny
+        dplyr
+        ggplot2
+      ];
+    }
+  ];
+}
+```
+
+This file lets you launch a shell where R has all needed packages and libraries available.
+
+---
+
+## 📌 Final Thoughts
+
+Using **Nix + `{rix}`** offers a powerful, reproducible, and modern approach to **Shiny app development and deployment**, especially for teams that:
+
+* Value reproducibility (e.g., pharma, data science teams),
+* Work across environments (local dev, CI/CD, production),
+* Need to avoid “it works on my machine” scenarios.
+
+
+# R package development with GitHub Pages and pkgdown
+
+
+https://rconsortium.github.io/RMedicine_website/files/R%20package%20development%20with%20GitHub%20Pages%20and%20pkgdown.pdf
+
+https://ggnot2.site/slides.html
+https://ggnot2.site/
+https://github.com/melissavanbussel/rmedicine/tree/main
+
+R package development with GitHub Pages and pkgdown
+https://ggnot2.site/slides.html#/title-slide
+
+# Survival analysis with tidymodels
+
+https://github.com/hfrick/tidymodels-survival-workshop
+
+https://hfrick.github.io/tidymodels-survival-workshop/
+
+**The initial split**
+
+```{r,echo = F,message = FALSE, error = FALSE, warning = FALSE}
+cat_adoption <- cat_adoption |> 
+  mutate(event_time = Surv(time, event), .keep = "unused", .before = everything()) 
+
+set.seed(123)
+cat_split <- initial_split(cat_adoption, prop = 0.8)
+cat_train <- training(cat_split)
+cat_test <- testing(cat_split)
+
+nrow(cat_train) 
+nrow(cat_test)
+
+set.seed(27)
+in_demo <- sample.int(nrow(cat_adoption), 50)
+demo_cats <- cat_adoption |> slice(in_demo)
+
+set.seed(123)
+cat_split <- initial_split(cat_adoption |> slice(-in_demo), prop = 0.8)
+cat_train <- training(cat_split)
+cat_test <- testing(cat_split)
+```
+
+**Exploratory data analysis**
+
+```{r,echo = F,message = FALSE, error = FALSE, warning = FALSE}
+library(ggsurvfit)
+survfit(event_time ~ 1, data = cat_adoption) |> ggsurvfit()
+
+survfit(event_time ~ neutered, data = cat_train) |> ggsurvfit()
+survfit(event_time ~ brown_tabby, data = cat_train) |> ggsurvfit()
+survfit(event_time ~ gray, data = cat_train) |> ggsurvfit()
+
+```
+ 
+
+**To specify a model**
+
+```{r,echo = F,message = FALSE, error = FALSE, warning = FALSE}
+proportional_hazards() |>
+  set_engine("glmnet")
+#> Proportional Hazards Model Specification (censored regression)
+#> 
+#> Computational engine: glmnet
+
+decision_tree() |> 
+  set_mode("censored regression")
+#> Decision Tree Model Specification (censored regression)
+#> 
+#> Computational engine: rpart
+```
+
+
+## Proportional hazards (PH) model
+
+1. **Model Formula**
+
+$$
+\lambda(t \mid x_i) = \lambda_0(t) \cdot \exp(x_i^T \beta)
+$$
+
+* **λ(t | xᵢ)**: The hazard (instantaneous risk of event — here, adoption) at time *t* for subject *i*.
+* **λ₀(t)**: The **baseline hazard function** — this is shared across all individuals and describes the hazard when all covariates are zero.
+* **xᵢᵀβ**: The linear combination of covariates (intake conditions, etc.) and their coefficients.
+* **exp(xᵢᵀβ)**: A positive scaling factor adjusting the baseline hazard depending on the individual's characteristics.
+
+So the total hazard is just the baseline hazard scaled by a person-specific factor.
+
+2. **Proportionality Concept**
+
+* Hazards for individuals are **proportional** over time — the ratio of hazards between any two individuals is constant over time.
+* As a result, **survival curves don't cross**, and differences in risk are consistent regardless of the specific time point.
+
+
+## Decision tree
+
+
+```{r,echo = F,message = FALSE, error = FALSE, warning = FALSE}
+## Fit a model spec
+tree_spec <-
+  decision_tree() |> 
+  set_mode("censored regression")
+
+tree_spec |> 
+  fit(event_time ~ ., data = cat_train) 
+ 
+## Fit a model workflow
+workflow() |>
+  add_formula(event_time ~ .) |>
+  add_model(tree_spec) |>
+  fit(data = cat_train) 
+
+## Fit a model workflow
+tree_fit <-
+  workflow(event_time ~ ., tree_spec) |> 
+  fit(data = cat_train) 
+
+## Predict with your model
+predict(tree_fit, new_data = demo_cats, type = "time")
+
+preds <- predict(tree_fit, new_data = demo_cats, type = "survival", 
+                 eval_time = seq(0, 365, by = 5))
+preds
+preds$.pred[[1]]
+
+augment(tree_fit, new_data = demo_cats,
+eval_time = seq(0, 365, by = 5))
+```
+
+
+## Evaluating models
+
+For our demo data set of n = 50 cats, we’ll make predictions every 30 days for roughly the first 10 months:
+
+```{r,echo = F,message = FALSE, error = FALSE, warning = FALSE}
+demo_cat_preds <- augment(tree_fit, demo_cats, eval_time = ((1:10) * 30))
+demo_cat_preds |> select(1:3)
+```
+
+**Concordance**
+
+The concordance statistic (“c-index”, Harrell et al (1996)) is a metric that quantifies that the rank order of the times is consistent with the model score.
+
+It takes into account censoring and does not depend on a specific evaluation time. The range of values is [-1,1].
+
+```{r,echo = F,message = FALSE, error = FALSE, warning = FALSE}
+demo_cat_preds |> 
+  concordance_survival(event_time, estimate = .pred_time)
+```
+
+
+# Quarto
+
+**Materials**
+
+Slides for this intro: mine.quarto.pub/quarto-dashboards-rmed
+
+Source code for slides: github.com/mine-cetinkaya-rundel/quarto-dashboards-rmed/blob/main/index.qmd
+
+
+
+# teal
+
+* Create Posit Cloud account: https://posit.cloud/
+* Open the repo: https://github.com/pharmaverse/tealworkshop-rmedicine2025
+
+ 

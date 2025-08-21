@@ -1,0 +1,3 @@
+https://bristolmyerssquibb.github.io/blockr.workshop/
+
+pak::pak("BristolMyersSquibb/blockr")
